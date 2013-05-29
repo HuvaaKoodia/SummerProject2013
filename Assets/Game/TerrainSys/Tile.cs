@@ -16,11 +16,11 @@ public class Tile : MonoBehaviour {
 		
 		moving_up=Subs.RandomBool();
 		start_pos=transform.position;
-		
-		move_speed=Vector3.up;
-		
+
 		max_move_target_up=0.5f;
 		max_move_target_down=0.5f;
+		
+		timer.Active=false;
 	}
 	
 	// Update is called once per frame
@@ -42,9 +42,6 @@ public class Tile : MonoBehaviour {
 		move_speed=Vector3.down;
 	}
 	
-	
-	
-	//
 	void OnTimer(){
 		moving_up=!moving_up;
 		if (moving_up)

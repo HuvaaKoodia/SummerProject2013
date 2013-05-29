@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using NotificationSys;
 
 public class EngineController : MonoBehaviour {
 
@@ -9,14 +10,13 @@ public class EngineController : MonoBehaviour {
 		NotificationCenter.resetInstance();
 	}
 	
-	// Update is called once per frame
+	//Update is called once per frame
 	void Update (){
 		Timer.UpdateTimers();
 		
 		if (Input.GetKeyDown(KeyCode.R)){
 			Application.LoadLevel(0);
 		}
-		
 		Debug.Log("amount: "+Timer.timers.Count);
 	}
 }

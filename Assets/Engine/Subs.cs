@@ -39,4 +39,9 @@ public class Subs{
 			SendMessageRecursive(t,message);
 		}
 	}
+
+	public static Vector3 LengthDir(Transform transform,Vector3 dir)
+	{
+		return transform.position+transform.TransformDirection(dir);
+	}
 }
