@@ -17,6 +17,5 @@ public class EngineController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.R)){
 			Application.LoadLevel(0);
 		}
-		Debug.Log("amount: "+Timer.timers.Count);
 	}
 }

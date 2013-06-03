@@ -14,7 +14,7 @@ public class TerrainController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start (){
-		terrain=new Transform[10,10];
+		terrain=new Transform[10,30];
 		
 		var pos=Vector3.zero;
 		float tile_width=1;//ground_prefab.transform.localScale.x

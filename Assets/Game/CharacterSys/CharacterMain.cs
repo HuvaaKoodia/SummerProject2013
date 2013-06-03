@@ -7,12 +7,17 @@ public class CharacterMain : MonoBehaviour {
 	
 	bool onGround,canJump;	
 	float acceleration=50,
-		jump_speed=1000,jump_speed_max=10,
-		speed_max=10;
-
+		jump_speed=100,jump_speed_max=10,
+		speed_max=2;
+	
+	float l_axis_x,l_axis_y,r_axis_x,r_axis_y;
+	
 	Transform graphics,aim_dir;
 	
 	Timer jump_timer;
+	
+	public int controllerNumber=1;
+	public Color color;
 	
 	// Use this for initialization
 	void Start () {
@@ -25,31 +30,45 @@ public class CharacterMain : MonoBehaviour {
 	
 	void Update(){
 		
-		aim_dir.LookAt(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+		l_axis_x=Input.GetAxis("L_XAxis_"+controllerNumber);
+		l_axis_y=Input.GetAxis("L_YAxis_"+controllerNumber);
 		
-		var mpos=Input.mousePosition+Vector3.up*4;
-		var mouse_pos_dif=mpos-Camera.main.WorldToScreenPoint(transform.position);
-		
-		var angle=Vector3.Angle(Input.mousePosition,Camera.main.WorldToScreenPoint(transform.position));
-		Vector2 mpos2=new Vector2(Input.mousePosition.x,Input.mousePosition.y);
-		Vector2 wpos2=new Vector2(Input.mousePosition.x,Input.mousePosition.y);
-		//Vector2.Angle(
-		
-		//Mathf.Atan2(mouse_pos_dif.x,mouse_pos_dif.z)
-		
-		mouse_pos_dif=Vector3.ClampMagnitude(mouse_pos_dif,1);	
-		mouse_pos_dif.z=mouse_pos_dif.y;
-		mouse_pos_dif.y=0;
-		
-		//ability usage
-		if (Input.GetMouseButtonDown(0)){
-			var forward=transform.TransformDirection(mouse_pos_dif);
+		r_axis_x=Input.GetAxis("R_XAxis_"+controllerNumber);
+		r_axis_y=Input.GetAxis("R_YAxis_"+controllerNumber);
+
+		if (Input.GetButtonDown("LB_"+controllerNumber)){
+
+			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
 			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
 			var pro=obj.GetComponent<ProjectileMain>();
-			pro.setDirection(forward,10);
+			pro.setDirection(forward.normalized,10);
 		}
 		
-		Debug.Log("dir: "+mouse_pos_dif+" angle: "+aim_dir.rotation.eulerAngles);
+		if (Input.GetButtonDown("RB_"+controllerNumber)){
+
+			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
+			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
+			var pro=obj.GetComponent<ProjectileMain>();
+			pro.setDirection(forward.normalized,10);
+		}
+		
+		if (Input.GetAxis("LT_"+controllerNumber)>0){
+
+			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
+			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
+			var pro=obj.GetComponent<ProjectileMain>();
+			pro.setDirection(forward.normalized,10);
+		}
+		
+		if (Input.GetAxis("RT_"+controllerNumber)>0){
+
+			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
+			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
+			var pro=obj.GetComponent<ProjectileMain>();
+			pro.setDirection(forward.normalized,10);
+		}
+		
+		
 	}
 	
 	// Update is called once per frame
@@ -58,24 +77,25 @@ public class CharacterMain : MonoBehaviour {
 		
 		if (onGround){
 		
-			if (Input.GetKey(KeyCode.A)){
+
+			if (l_axis_x<0){
 				rigidbody.AddForce(Vector3.left*acceleration);
 			}
 			
-			if (Input.GetKey(KeyCode.D)){
+			if (l_axis_x>0){
 				rigidbody.AddForce(Vector3.right*acceleration);
 			}
 			
-			if (Input.GetKey(KeyCode.W)){
+			if (l_axis_y<0){
 				rigidbody.AddForce(Vector3.forward*acceleration);
 			}
 			
-			if (Input.GetKey(KeyCode.S)){
+			if (l_axis_y>0){
 				rigidbody.AddForce(Vector3.back*acceleration);
 			}
 			
 			//jump
-			if (Input.GetKeyDown(KeyCode.Space)){
+			if (Input.GetButton("A_"+controllerNumber)){
 				if (canJump){
 					rigidbody.AddForce(Vector3.up*jump_speed);
 					canJump=false;
@@ -95,9 +115,9 @@ public class CharacterMain : MonoBehaviour {
 			xz_vec.y
 			);
 		
-		graphics.renderer.material.color=Color.red;
-		if (onGround)
-			graphics.renderer.material.color=Color.green;
+		graphics.renderer.material.color=color;
+		//if (onGround)
+		//	graphics.renderer.material.color=Color.green;
 
 		jump_timer.Active=true;
 		canJump=true;
@@ -121,3 +141,54 @@ public class CharacterMain : MonoBehaviour {
 		jump_timer.Destroy();
 	}
 }
+
+
+
+
+		
+		/*DEV. mouse 
+		var mpos=Input.mousePosition+Vector3.up*4;
+		var mouse_pos_dif=mpos-Camera.main.WorldToScreenPoint(transform.position);
+		mouse_pos_dif=Vector3.ClampMagnitude(mouse_pos_dif,1);	
+		mouse_pos_dif.z=mouse_pos_dif.y;
+		mouse_pos_dif.y=0;
+
+		//ability usage
+		if (Input.GetMouseButtonDown(0)){
+			
+			var forward=transform.TransformDirection(mouse_pos_dif);
+			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
+			var pro=obj.GetComponent<ProjectileMain>();
+			pro.setDirection(forward,10);
+			
+			//Debug.Log("f: "+forward);
+		}
+		*/
+
+
+			/* DEV. keyboard
+			if (Input.GetKey(KeyCode.A)){
+				rigidbody.AddForce(Vector3.left*acceleration);
+			}
+			
+			if (Input.GetKey(KeyCode.D)){
+				rigidbody.AddForce(Vector3.right*acceleration);
+			}
+			
+			if (Input.GetKey(KeyCode.W)){
+				rigidbody.AddForce(Vector3.forward*acceleration);
+			}
+			
+			if (Input.GetKey(KeyCode.S)){
+				rigidbody.AddForce(Vector3.back*acceleration);
+			}
+			
+			//jump
+			if (Input.GetKeyDown(KeyCode.Space)){
+				if (canJump){
+					rigidbody.AddForce(Vector3.up*jump_speed);
+					canJump=false;
+				}
+			}
+			*/
+			

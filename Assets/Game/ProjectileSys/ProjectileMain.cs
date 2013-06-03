@@ -16,7 +16,9 @@ public class ProjectileMain : MonoBehaviour {
 	void Update () {
 	
 	}
-	
+	/// <summary>
+	///Does not normalize.
+	/// </param>
 	public void setDirection(Vector3 direction,float speed){
 		rigidbody.velocity=direction*speed;
 	}
@@ -27,5 +29,10 @@ public class ProjectileMain : MonoBehaviour {
 			if (DestroyOnGround)
 				Destroy(this);
 		}
+	}
+	
+	//DEV.
+	public void changeMaterialColor(){
+		
 	}
 }
