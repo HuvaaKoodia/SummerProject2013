@@ -7,7 +7,7 @@ public class CharacterMain : MonoBehaviour {
 	
 	bool onGround,canJump;	
 	float acceleration=50,
-		jump_speed=100,jump_speed_max=10,
+		jump_speed=50,jump_speed_max=10,
 		speed_max=2;
 	
 	float l_axis_x,l_axis_y,r_axis_x,r_axis_y;
@@ -19,13 +19,36 @@ public class CharacterMain : MonoBehaviour {
 	public int controllerNumber=1;
 	public Color color;
 	
+	Vector3 last_used_aim_direction;
+	
 	// Use this for initialization
 	void Start () {
+		
+				
 		graphics=transform.Find("Graphics").Find ("temp") as Transform;
 		
 		jump_timer=new Timer(400,OnJumpTimer);
 		
 		aim_dir=transform.Find("aim_direction") as Transform;
+		
+		
+		/*
+		var isPlugged=true;
+		/*
+		foreach (var s in Input.){
+			Debug.Log("controller name: "+s);
+			if (s==controllerNumber.ToString()){
+				isPlugged=true;
+				break;
+			}
+		}
+		
+		Debug.Log("asd "+Input.GetJoystickNames().Length);
+		if (Input.GetJoystickNames().Length<controllerNumber)
+			isPlugged=false;
+		if (!isPlugged)
+			Destroy(gameObject);
+		*/
 	}
 	
 	void Update(){
@@ -35,15 +58,28 @@ public class CharacterMain : MonoBehaviour {
 		
 		r_axis_x=Input.GetAxis("R_XAxis_"+controllerNumber);
 		r_axis_y=Input.GetAxis("R_YAxis_"+controllerNumber);
-
-		if (Input.GetButtonDown("LB_"+controllerNumber)){
+		
+		if (Input.GetButton("RB_"+controllerNumber)){
 
 			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
-			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
+
+			
+			forward.Normalize();
+			
+			if (forward==Vector3.zero){
+				if (last_used_aim_direction==Vector3.zero)
+					last_used_aim_direction=Vector3.up;
+			}
+			else{
+				last_used_aim_direction=forward;
+			}
+			
+			var obj=Instantiate(projectile_prefab,transform.position+last_used_aim_direction*0.8f,Quaternion.identity) as Transform;
 			var pro=obj.GetComponent<ProjectileMain>();
-			pro.setDirection(forward.normalized,10);
+			
+			pro.setDirection(last_used_aim_direction,10);
 		}
-		
+		/*
 		if (Input.GetButtonDown("RB_"+controllerNumber)){
 
 			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
@@ -67,17 +103,14 @@ public class CharacterMain : MonoBehaviour {
 			var pro=obj.GetComponent<ProjectileMain>();
 			pro.setDirection(forward.normalized,10);
 		}
-		
-		
+		*/	
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		rigidbody.WakeUp();
-		
-		if (onGround){
-		
 
+		if (onGround){
 			if (l_axis_x<0){
 				rigidbody.AddForce(Vector3.left*acceleration);
 			}

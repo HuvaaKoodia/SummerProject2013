@@ -14,15 +14,18 @@ public class TerrainController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start (){
-		terrain=new Transform[10,30];
+		
+		var hexa_size=Tile.mesh_bounds.size;
+		
+		terrain=new Transform[14,14];
 		
 		var pos=Vector3.zero;
-		float tile_width=1;//ground_prefab.transform.localScale.x
+		float tile_w=hexa_size.x,tile_h=hexa_size.z;//ground_prefab.transform.localScale.x
 		
 		for (int i=0;i<terrain.GetLength(0);i++)
 		{
 			if (i%2!=0)
-				pos.x=tile_width/2;
+				pos.x=tile_w*(3f/4f);
 			else
 				pos.x=0;
 			
@@ -31,12 +34,12 @@ public class TerrainController : MonoBehaviour {
 				var tile=Instantiate(ground_prefab,pos,Quaternion.identity) as Transform;
 				terrain[i,j]=tile;
 				tiles.Add(tile);
-				pos.x+=tile_width;
+				pos.x+=tile_w+(tile_w*0.5f);
 			}
 			
-			pos.z+=tile_width;
+			pos.z+=tile_h/2;
 		}
-		terrain_timer=new Timer(10000,OnTerrainTrigger);
+		terrain_timer=new Timer(1000,OnTerrainTrigger);
 	}
 	
 	// Update is called once per frame

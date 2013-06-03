@@ -3,24 +3,36 @@ using System.Collections;
 
 public class Tile : MonoBehaviour {
 	
+	public static Bounds mesh_bounds;
+	
 	Timer timer;
 	
 	Vector3 start_pos,move_target,move_speed;
 	bool moving_up;
 	float max_move_target_up,max_move_target_down;
+	int time_min,time_max;
 	
 	// Use this for initialization
 	void Start () {
 		timer=new Timer(0,OnTimer);
-		randomizeDelay();
+		
+		time_min=5000;
+		time_max=20000;
+		randomizeDelay(0,time_max/2);
 		
 		moving_up=Subs.RandomBool();
 		start_pos=transform.position;
 
-		max_move_target_up=0.5f;
-		max_move_target_down=0.5f;
+		max_move_target_up=2f;
+		max_move_target_down=1f;
 		
 		timer.Active=false;
+		if(Subs.RandomPercent()<80)
+			timer.Active=true;
+	}
+	
+	void Awake(){
+		mesh_bounds=GameObject.Find("graphics").renderer.bounds;
 	}
 	
 	// Update is called once per frame
@@ -53,7 +65,12 @@ public class Tile : MonoBehaviour {
 	}
 	
 	void randomizeDelay(){
-		timer.Delay=Random.Range(2500,5000);
+		timer.Delay=Random.Range(time_min,time_max);
+		timer.Reset();
+	}
+	
+	void randomizeDelay(int min,int max){
+		timer.Delay=Random.Range(min,max);
 		timer.Reset();
 	}
 	
