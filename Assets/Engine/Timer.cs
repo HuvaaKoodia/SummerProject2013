@@ -20,6 +20,8 @@ public class Timer{
 			}
 			timers_destroyed.Clear();
 		}
+		
+		Debug.Log("Timers: "+timers.Count);
 	}
 	
 	public static void clearTimers(){

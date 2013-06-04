@@ -7,7 +7,7 @@ public class CharacterMain : MonoBehaviour {
 	
 	bool onGround,canJump;	
 	float acceleration=50,
-		jump_speed=50,jump_speed_max=10,
+		jump_speed=200,jump_speed_max=2000,
 		speed_max=2;
 	
 	float l_axis_x,l_axis_y,r_axis_x,r_axis_y;
@@ -23,32 +23,12 @@ public class CharacterMain : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
-				
 		graphics=transform.Find("Graphics").Find ("temp") as Transform;
 		
 		jump_timer=new Timer(400,OnJumpTimer);
 		
 		aim_dir=transform.Find("aim_direction") as Transform;
 		
-		
-		/*
-		var isPlugged=true;
-		/*
-		foreach (var s in Input.){
-			Debug.Log("controller name: "+s);
-			if (s==controllerNumber.ToString()){
-				isPlugged=true;
-				break;
-			}
-		}
-		
-		Debug.Log("asd "+Input.GetJoystickNames().Length);
-		if (Input.GetJoystickNames().Length<controllerNumber)
-			isPlugged=false;
-		if (!isPlugged)
-			Destroy(gameObject);
-		*/
 	}
 	
 	void Update(){
@@ -63,7 +43,6 @@ public class CharacterMain : MonoBehaviour {
 
 			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
 
-			
 			forward.Normalize();
 			
 			if (forward==Vector3.zero){
@@ -105,11 +84,12 @@ public class CharacterMain : MonoBehaviour {
 		}
 		*/	
 	}
-	
+	private int temp_jump_counter=0;
 	// Update is called once per frame
 	void FixedUpdate () {
 		rigidbody.WakeUp();
-
+		
+		//Debug.Log("onground?: "+onGround+" "+l_axis_x);
 		if (onGround){
 			if (l_axis_x<0){
 				rigidbody.AddForce(Vector3.left*acceleration);
@@ -130,11 +110,14 @@ public class CharacterMain : MonoBehaviour {
 			//jump
 			if (Input.GetButton("A_"+controllerNumber)){
 				if (canJump){
-					rigidbody.AddForce(Vector3.up*jump_speed);
+					//rigidbody.AddForce(Vector3.up*jump_speed);
+					rigidbody.velocity=new Vector3(rigidbody.velocity.x,10,rigidbody.velocity.z);
 					canJump=false;
+					temp_jump_counter++;
 				}
 			}
 		}
+		Debug.Log("jump counter: "+temp_jump_counter);
 		//restrict movement speed
 		var xz_vec=new Vector2(rigidbody.velocity.x,rigidbody.velocity.z);
 		
@@ -151,23 +134,22 @@ public class CharacterMain : MonoBehaviour {
 		graphics.renderer.material.color=color;
 		//if (onGround)
 		//	graphics.renderer.material.color=Color.green;
-
 		jump_timer.Active=true;
-		canJump=true;
 	}
 	
-	
 	void OnCollisionStay(Collision other){
-		if (other.gameObject.tag=="Ground"){
-			onGround=true;
-			
-			jump_timer.Active=false;
-			jump_timer.Reset();
+		foreach (var c in other.contacts){
+			if (Vector3.Angle(c.normal,transform.up)<10){
+				onGround=true;
+				break;
+			}
 		}
 	}
 	
 	void OnJumpTimer(){
 		onGround=false;
+		temp_jump_counter=0;
+		canJump=true;
 	}
 	
 	void OnDestroy(){
