@@ -84,7 +84,7 @@ public class CharacterMain : MonoBehaviour {
 		}
 		*/	
 	}
-	private int temp_jump_counter=0;
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		rigidbody.WakeUp();
@@ -113,11 +113,9 @@ public class CharacterMain : MonoBehaviour {
 					//rigidbody.AddForce(Vector3.up*jump_speed);
 					rigidbody.velocity=new Vector3(rigidbody.velocity.x,10,rigidbody.velocity.z);
 					canJump=false;
-					temp_jump_counter++;
 				}
 			}
 		}
-		Debug.Log("jump counter: "+temp_jump_counter);
 		//restrict movement speed
 		var xz_vec=new Vector2(rigidbody.velocity.x,rigidbody.velocity.z);
 		
@@ -148,7 +146,6 @@ public class CharacterMain : MonoBehaviour {
 	
 	void OnJumpTimer(){
 		onGround=false;
-		temp_jump_counter=0;
 		canJump=true;
 	}
 	

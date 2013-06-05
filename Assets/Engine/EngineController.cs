@@ -18,4 +18,16 @@ public class EngineController : MonoBehaviour {
 			Application.LoadLevel(0);
 		}
 	}
+	
+	void OnGUI(){
+		
+		int a=0;
+		foreach (var t in Timer.timers)
+		{
+			if(t.Active)
+				a++;
+		}
+		
+		GUI.Box (new Rect(10,10,100,50),"Timers: "+Timer.timers.Count+"\nActive: "+a);
+	}
 }

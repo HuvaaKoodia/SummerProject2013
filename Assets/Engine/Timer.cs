@@ -20,8 +20,6 @@ public class Timer{
 			}
 			timers_destroyed.Clear();
 		}
-		
-		Debug.Log("Timers: "+timers.Count);
 	}
 	
 	public static void clearTimers(){
@@ -34,13 +32,13 @@ public class Timer{
 	public bool Destroyed{get;private set;}
 	
 	float time,tick;
-	TimerEvent timer_event;
+	public TimerEvent Timer_Event{get;set;}
 	
 	public Timer(int millis,TimerEvent te){
 		timers.Add(this);
 		
 		time=tick=millis/1000f;
-		timer_event=te;
+		Timer_Event=te;
 		
 		Active=true;
 	}
@@ -50,8 +48,8 @@ public class Timer{
 		tick-=Time.deltaTime;
 		
 		if (tick<=0){
-			if (timer_event!=null)
-				timer_event();
+			if (Timer_Event!=null)
+				Timer_Event();
 			Reset();
 		}
 	}

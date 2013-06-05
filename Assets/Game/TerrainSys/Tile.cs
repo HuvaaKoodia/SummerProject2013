@@ -9,96 +9,38 @@ public class Tile : MonoBehaviour {
 		mesh_bounds=GameObject.Find("graphics").renderer.bounds;
 	}
 	
-	
-	TileData tile_group;
-	
-	/*
-	Timer timer;
-	
-	
-	Vector3 start_pos,move_target,move_speed;
-	bool moving_up;
-	float max_move_target_up,max_move_target_down;
-	int time_min,time_max;
-	*/
+	Vector3 coor;
+	public TileData Tile_Group{get;private set;}
+	public TileData Tile_Data{get;private set;}
 	
 	// Use this for initialization
 	void Start () {
-		/*
-		timer=new Timer(0,OnTimer);
-		
-		time_min=20000;
-		time_max=200000;
-		randomizeDelay(0,time_max/2);
-		
-		moving_up=Subs.RandomBool();
-		start_pos=transform.position;
-
-		max_move_target_up=2f;
-		max_move_target_down=1f;
-		
-		timer.Active=false;
-		if(Subs.RandomPercent()<80)
-			timer.Active=true;
-			*/
+		Tile_Data=new TileData(Vector3.zero,0,true);
+		Tile_Data.setMovementBounds(1,0);
+		Tile_Data.setTimeBounds(20000,200000,true);
 	}
 
 	// Update is called once per frame
-	void Update () {
-		/*
-		if (moving_up&&(transform.position.y<move_target.y))
-			transform.position+=move_speed*Time.deltaTime;
-		if (!moving_up&&(transform.position.y>move_target.y))
-			transform.position+=move_speed*Time.deltaTime;
-			*/
-		if (tile_group!=null){
-			transform.position=new Vector3(transform.position.x,tile_group.Position.y,transform.position.z);
+	void Update (){
+		Tile_Data.Update();
+		
+		var pos_y=0f;
+		if (Tile_Group!=null){
+			pos_y+=Tile_Group.Position.y;
 		}
+		if (Tile_Data!=null){
+			pos_y+=Tile_Data.Position.y;
+		}
+		
+		transform.position=new Vector3(transform.position.x,pos_y,transform.position.z);
 	}
 	
 	//subs
 	
 	public void setTileGroup(TileData data){
-		tile_group=data;
-		//timer.Active=false;
+		Tile_Group=data;
 	}
-	/*
-	public void MoveUp(){
-		move_target=start_pos+Vector3.up*max_move_target_up;
-		move_speed=Vector3.up;
-	}
-	
-	public void MoveDown(){
-		move_target=start_pos+Vector3.down*max_move_target_down;
-		move_speed=Vector3.down;
-	}
-	
-	void OnTimer(){
-		moving_up=!moving_up;
-		if (moving_up)
-			MoveUp();
-		else
-			MoveDown();
-		
-		randomizeDelay();
-	}
-	
-	void randomizeDelay(){
-		timer.Delay=Random.Range(time_min,time_max);
-		timer.Reset();
-	}
-	
-	void randomizeDelay(int min,int max){
-		timer.Delay=Random.Range(min,max);
-		timer.Reset();
-	}
-		void OnDestroy(){	
-		timer.Destroy();
-	}
-	*/
 
-	Vector3 coor;
-	
 	public void setCoordinate(Vector3 coordinate){
 		coor=coordinate;
 	}
@@ -107,14 +49,10 @@ public class Tile : MonoBehaviour {
 		return coor;
 	}
 	
-	/*
-	void OnGUI(){
-		if (coor.y==0){
-			var pos=Camera.main.WorldToScreenPoint(transform.position);
-			GUI.Box(new Rect(pos.x,pos.y,150,20),"Coor: "+coor);
-		}
+	void OnDestroy(){
+		if (Tile_Data!=null)
+			Tile_Data.Destroy();
 	}
-	*/
 }
 
 
@@ -135,22 +73,15 @@ public class TileData{
 	public TileData(Vector3 startpos, int tileGroup,bool random){
 		tile_group=tileGroup;
 		
-		max_move_target_up=2f;
-		max_move_target_down=200f;
+		setMovementBounds(0,200);
 		
 		Position=start_pos=startpos;
 		
+		timer=new Timer(0,OnTimerRandom);
+		timer.Active=false;
+		
 		if (random){
-			timer=new Timer(0,OnTimer);
-			
-			time_min=20;
-			time_max=2000;
-			randomizeDelay(0,time_max/2);
-			
-			moving_up=Subs.RandomBool();
-			
-
-			timer.Active=true;
+			setTimeBounds(20,2000,true);
 		}
 	}
 
@@ -163,24 +94,40 @@ public class TileData{
 	}
 	
 	//subs
+	
+	public void setMovementBounds(float up,float down){
+		max_move_target_up=up;
+		max_move_target_down=down;
+	}
+	public void setTimeBounds(int min,int max,bool random_start){
+		time_min=min;
+		time_max=max;
+		if (random_start){
+			randomizeDelay(0,time_max/2);
+			moving_up=Subs.RandomBool();
+			
+			timer.Active=true;
+		}
+	}
+	
 	public void MoveUp(){
-		move_target=start_pos+Vector3.up*max_move_target_up;
-		move_speed=Vector3.up;
+		MoveUp(max_move_target_up);
 	}
 	
 	public void MoveDown(){
-		move_target=start_pos+Vector3.down*max_move_target_down;
-		move_speed=Vector3.down;
+		MoveDown(max_move_target_down);
 	}
 	
-	void OnTimer(){
-		moving_up=!moving_up;
-		if (moving_up)
-			MoveUp();
-		else
-			MoveDown();
-		
-		randomizeDelay();
+	public void MoveUp(float amount){
+		move_target=start_pos+Vector3.up*amount;
+		move_speed=Vector3.up;
+		moving_up=true;
+	}
+	
+	public void MoveDown(float amount){
+		move_target=start_pos+Vector3.down*amount;
+		move_speed=Vector3.down;
+		moving_up=false;
 	}
 	
 	void randomizeDelay(){
@@ -197,7 +144,34 @@ public class TileData{
 		tile_group=tg;
 	}
 	
-	void Destroy(){	
+	public void RandomOn(bool on){
+		timer.Active=on;
+	}
+	
+	public void Destroy(){	
 		timer.Destroy();
+	}
+	//event primers
+	
+	public void SetOnTimerRandomDown(){
+		timer.Active=true;
+		randomizeDelay(0,2000);
+		timer.Timer_Event=OnTimerRandomDown;
+	}
+	
+	//events
+	public void OnTimerRandom(){
+		moving_up=!moving_up;
+		if (moving_up)
+			MoveUp();
+		else
+			MoveDown();
+		
+		randomizeDelay();
+	}
+	
+	public void OnTimerRandomDown(){
+		MoveDown(200f);
+		timer.Active=false;
 	}
 }
