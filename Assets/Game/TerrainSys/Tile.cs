@@ -3,18 +3,12 @@ using System.Collections;
 
 public class Tile : MonoBehaviour {
 	
-	public static Bounds mesh_bounds;
-		
-	void Awake(){
-		mesh_bounds=GameObject.Find("graphics").renderer.bounds;
-	}
-	
 	Vector3 coor;
 	public TileData Tile_Group{get;private set;}
 	public TileData Tile_Data{get;private set;}
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		Tile_Data=new TileData(Vector3.zero,0,true);
 		Tile_Data.setMovementBounds(1,0);
 		Tile_Data.setTimeBounds(20000,200000,true);
@@ -73,7 +67,7 @@ public class TileData{
 	public TileData(Vector3 startpos, int tileGroup,bool random){
 		tile_group=tileGroup;
 		
-		setMovementBounds(0,200);
+		setMovementBounds(1,1);
 		
 		Position=start_pos=startpos;
 		

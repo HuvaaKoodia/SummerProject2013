@@ -27,19 +27,25 @@ public class Timer{
 	}
 	
 	//object
-	public bool Active;
+	public bool Active=false;
 	public float Delay{get{return time;} set{time=value/1000;}}
 	public bool Destroyed{get;private set;}
 	
 	float time,tick;
 	public TimerEvent Timer_Event{get;set;}
 	
-	public Timer(int millis,TimerEvent te){
+	/// <summary>
+	/// Creates an inactive timer.
+	/// </param>
+	public Timer(TimerEvent te){
 		timers.Add(this);
-		
-		time=tick=millis/1000f;
 		Timer_Event=te;
-		
+	}
+	/// <summary>
+	/// Creates an active timer with a certain delay.
+	/// </param>
+	public Timer(int millis,TimerEvent te):this(te){
+		time=tick=millis/1000f;
 		Active=true;
 	}
 	

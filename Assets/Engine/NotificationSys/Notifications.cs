@@ -1,6 +1,14 @@
 using UnityEngine;
 
 namespace NotificationSys{
+	// Each notification type should gets its own enum
+	public enum NotificationType {
+		Explode,
+		DisengageParent,
+		CameraZoom
+	};
+	
+	
 // Standard notification class. For specific needs subclass
 	public class Explosion_note:Notification
 	{
@@ -27,6 +35,16 @@ namespace NotificationSys{
 	    public DisengageParent_note(Vector3 velocity):base(NotificationType.DisengageParent)
 	    {
 			Velocity=velocity;
+	    }
+	}
+	
+	public class CameraZoom_note:Notification
+	{
+	    public float Amount;
+		
+	    public CameraZoom_note(float amount):base(NotificationType.CameraZoom)
+	    {
+			Amount=amount;
 	    }
 	}
 }

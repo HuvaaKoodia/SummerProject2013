@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CharacterMain : MonoBehaviour {
 	
@@ -21,6 +22,9 @@ public class CharacterMain : MonoBehaviour {
 	
 	Vector3 last_used_aim_direction;
 	
+	
+	List<AbilityContainer> abilities;
+	
 	// Use this for initialization
 	void Start () {
 		graphics=transform.Find("Graphics").Find ("temp") as Transform;
@@ -29,60 +33,95 @@ public class CharacterMain : MonoBehaviour {
 		
 		aim_dir=transform.Find("aim_direction") as Transform;
 		
+		
+		abilities=new List<AbilityContainer>();
+		
+		var abb=new AbilityContainer();
+		abb._color=Color.red;
+		
+		abb._speed=33;
+		abb._cooldown_delay=800;
+		abb._size=0.5f;
+		abb._life_time=400;
+		
+		abb.projectile_prefab=projectile_prefab;
+		abilities.Add (abb);
+		
+		abb=new AbilityContainer();
+		abb._color=Color.blue;
+		
+		abb._speed=10;
+		abb._cooldown_delay=100;
+		abb._size=0.1f;
+		abb._drag=1f;
+		abb._life_time=1000;
+		
+		abb.projectile_prefab=projectile_prefab;
+		abilities.Add(abb);
+		
+		abb=new AbilityContainer();
+		abb._color=Color.green;
+		
+		abb._speed=0;
+		abb._cooldown_delay=5000;
+		abb._size=2;
+		abb._drag=100;
+		abb._life_time=2500;
+		
+		abb.projectile_prefab=projectile_prefab;
+		abilities.Add(abb);
+		
+		abb=new AbilityContainer();
+		abb._color=Color.magenta;
+		
+		abb._speed=100;
+		abb._cooldown_delay=2500;
+		abb._size=1f;
+		abb._life_time=10000;
+		
+		abb.projectile_prefab=projectile_prefab;
+		abilities.Add (abb);
+	}
+	
+	private void updateAimDir(){
+		var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
+
+		forward.Normalize();
+		
+		if (forward==Vector3.zero){
+			if (last_used_aim_direction==Vector3.zero)
+				last_used_aim_direction=Vector3.up;
+		}
+		else{
+			last_used_aim_direction=forward;
+		}
 	}
 	
 	void Update(){
-		
 		l_axis_x=Input.GetAxis("L_XAxis_"+controllerNumber);
 		l_axis_y=Input.GetAxis("L_YAxis_"+controllerNumber);
 		
 		r_axis_x=Input.GetAxis("R_XAxis_"+controllerNumber);
 		r_axis_y=Input.GetAxis("R_YAxis_"+controllerNumber);
 		
+		updateAimDir();
+		
 		if (Input.GetButton("RB_"+controllerNumber)){
-
-			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
-
-			forward.Normalize();
 			
-			if (forward==Vector3.zero){
-				if (last_used_aim_direction==Vector3.zero)
-					last_used_aim_direction=Vector3.up;
-			}
-			else{
-				last_used_aim_direction=forward;
-			}
-			
-			var obj=Instantiate(projectile_prefab,transform.position+last_used_aim_direction*0.8f,Quaternion.identity) as Transform;
-			var pro=obj.GetComponent<ProjectileMain>();
-			
-			pro.setDirection(last_used_aim_direction,10);
-		}
-		/*
-		if (Input.GetButtonDown("RB_"+controllerNumber)){
-
-			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
-			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
-			var pro=obj.GetComponent<ProjectileMain>();
-			pro.setDirection(forward.normalized,10);
+			abilities[0].UseAbility(transform.position,last_used_aim_direction);
 		}
 		
-		if (Input.GetAxis("LT_"+controllerNumber)>0){
-
-			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
-			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
-			var pro=obj.GetComponent<ProjectileMain>();
-			pro.setDirection(forward.normalized,10);
+		if (Input.GetButton("LB_"+controllerNumber)){
+			abilities[1].UseAbility(transform.position,last_used_aim_direction);
 		}
 		
-		if (Input.GetAxis("RT_"+controllerNumber)>0){
-
-			var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
-			var obj=Instantiate(projectile_prefab,transform.position+forward*2,Quaternion.identity) as Transform;
-			var pro=obj.GetComponent<ProjectileMain>();
-			pro.setDirection(forward.normalized,10);
+		if (Input.GetAxis("Triggers_"+controllerNumber)<0){
+			abilities[2].UseAbility(transform.position,last_used_aim_direction);
 		}
-		*/	
+		
+		if (Input.GetAxis("Triggers_"+controllerNumber)>0){
+			abilities[3].UseAbility(transform.position,last_used_aim_direction);
+		}
 	}
 
 	// Update is called once per frame
@@ -108,7 +147,7 @@ public class CharacterMain : MonoBehaviour {
 			}
 			
 			//jump
-			if (Input.GetButton("A_"+controllerNumber)){
+			if (Input.GetButton("A_"+controllerNumber)||Input.GetButton("RS_"+controllerNumber)||Input.GetButton("LS_"+controllerNumber)){
 				if (canJump){
 					//rigidbody.AddForce(Vector3.up*jump_speed);
 					rigidbody.velocity=new Vector3(rigidbody.velocity.x,10,rigidbody.velocity.z);

@@ -5,11 +5,11 @@ public class ProjectileMain : MonoBehaviour {
 	
 	//DEV.TEMP projectile type variables
 	public bool DestroyOnGround=false;
-	Timer life_time;
+	public Timer life_time;
 	Transform graphics;
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		life_time=new Timer(10000,OnDeath);
 		graphics=transform.Find("Graphics") as Transform;
 	}

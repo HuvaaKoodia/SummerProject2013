@@ -1,15 +1,20 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using NotificationSys;
 
 public class TerrainController : MonoBehaviour {
 		
 	public Transform ground_prefab;
+	public Transform tile_mesh;
+	public Bounds mesh_bounds;
 	
 	private Tile[,] terrain;
 	private List<Tile> tiles=new List<Tile>();
 	
 	private List<TileData> tile_groups=new List<TileData>();
+	
+	CameraScript main_camera;
 	
 #pragma warning disable
 	Timer terrain_timer;
@@ -18,8 +23,11 @@ public class TerrainController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start (){
+		mesh_bounds=tile_mesh.renderer.bounds;
 		
-		var hexa_size=Tile.mesh_bounds.size;
+		main_camera=GameObject.Find("Main Camera").GetComponent<CameraScript>();
+		
+		var hexa_size=mesh_bounds.size;
 		
 		terrain=new Tile[20,20];
 		
@@ -77,9 +85,10 @@ public class TerrainController : MonoBehaviour {
 		//group up
 		
 		int group_amount=radius+1;
-		for (int g=0;g<=group_amount;g++){
+		for (int g=0;g<group_amount;g++){
 			radius=(group_amount-g);
-			var data=new TileData(Vector3.zero,g,false);
+			var data=new TileData(Vector3.zero,g,true);
+			data.setMovementBounds(0.07f,0.07f);
 			tile_groups.Add(data);
 			
 			foreach (var ts in tiles){
@@ -89,6 +98,7 @@ public class TerrainController : MonoBehaviour {
 			}
 		}
 		terrain[xx,yy].setTileGroup(null);//center not moving
+		terrain[xx,yy].Tile_Data.RandomOn(false);
 		/*
 		foreach (var t in tiles){
 			if (Vector2.Distance(center_point,new Vector2(t.transform.position.x,t.transform.position.z))<radius){
@@ -96,7 +106,9 @@ public class TerrainController : MonoBehaviour {
 				tt.setTileGroup(data);
 			}
 		}*/
-		terrain_timer=new Timer(10000,OnTerrainTrigger);
+		terrain_timer=new Timer(8100,OnTerrainTrigger);
+		
+		main_camera.LookAt(terrain[xx,yy].transform.position);
 	}
 	
 	// Update is called once per frame
@@ -106,12 +118,13 @@ public class TerrainController : MonoBehaviour {
 		}
 	}
 	
-	private int current_group_to_go=0;
+	private int current_group_to_go=1;
 	private bool all_fall_on_once=false;
 	
 	private void OnTerrainTrigger(){
 		//var tile=tiles[Random.Range(0,tiles.Count)];
 		//tile.gameObject.SetActive(!tile.gameObject.activeSelf);
+		
 		if (current_group_to_go<tile_groups.Count)
 			{
 			if (all_fall_on_once){
@@ -128,7 +141,11 @@ public class TerrainController : MonoBehaviour {
 				}
 			}
 			current_group_to_go++;
+			//zoom camera
+			NotificationCenter.Instance.sendNotification(new CameraZoom_note(0.1f));
 		}
+
+		
 	}
 	
 	private bool HexaDistanceInside(Vector3 center,Vector3 tile,int distance){

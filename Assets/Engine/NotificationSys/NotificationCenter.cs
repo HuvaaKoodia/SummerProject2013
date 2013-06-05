@@ -3,11 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 namespace NotificationSys{
-	// Each notification type should gets its own enum
-	public enum NotificationType {
-		Explode,
-		DisengageParent,
-	};
 	
 	public delegate void OnNotificationDelegate( Notification note );
 	
