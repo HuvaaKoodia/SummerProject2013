@@ -19,16 +19,17 @@ public class ChangeColor : MonoBehaviour
 		uibutton = GetComponent<UIButton> ();
 		
 		presetColors = new List<Color> ();
-		presetColors.Add (new Color (256, 256, 256));
 		presetColors.Add (new Color (256, 0, 0));
 		presetColors.Add (new Color (0, 256, 0));
 		presetColors.Add (new Color (0, 0, 256));
 		presetColors.Add (new Color (256, 256, 0));
 		presetColors.Add (new Color (256, 0, 256));
 		presetColors.Add (new Color (0, 256, 256));
+		presetColors.Add (new Color (256, 256, 256));
 		
 		uibutton.pressed = presetColors [controller-1];
 		uibutton.UpdateColor (true, true);
+		
 		
 	}
 	
@@ -36,8 +37,27 @@ public class ChangeColor : MonoBehaviour
 	void Update ()
 	{
 		float input = Input.GetAxis ("L_XAxis_" + controller);
-			Debug.Log (input + " " + uibutton.name + " " + manager.players[controller-1].state);
-		if (input != 0 && !updatedOnce && !manager.gameStarting && manager.players[controller-1].state==PlayerManager.playerState.connected) {
+			//Debug.Log (uibutton.name + " " + manager.players[controller-1].state);
+		
+		Transform transformer,transformer2;
+			transformer=transform.FindChild("ReadyLabel");
+			transformer2=transform.FindChild("ColorLabel");
+		
+		if(manager.players[controller-1].state==PlayerManager.playerState.notConnected){
+			
+			NGUITools.SetActive(transformer.gameObject, false);
+			NGUITools.SetActive(transformer2.gameObject, false);
+			uibutton.OnPress(false);
+		}
+		if(manager.players[controller-1].state==PlayerManager.playerState.connected){
+			/*Transform transformer,transformer2;
+			transformer=transform.FindChild("ReadyLabel");
+			transformer2=transform.FindChild("ColorLabel");*/
+			NGUITools.SetActive(transformer.gameObject, false);
+			NGUITools.SetActive(transformer2.gameObject, true);
+		if (input != 0 && !updatedOnce && !manager.gameStarting) {
+			
+			
 			
 			updatedOnce = true;
 			if (input > 0) {
@@ -46,15 +66,17 @@ public class ChangeColor : MonoBehaviour
 				colorIndex--;
 			}
 			if(colorIndex<0){
-			colorIndex+=presetColors.Count;
+			colorIndex += presetColors.Count;
 			}
 			colorIndex = colorIndex % presetColors.Count;
-			//uibutton.defaultColor = presetColors [colorIndex];
+			uibutton.pressed=presetColors[colorIndex];
 			uibutton.UpdateColor (true, true);
 			uibutton.OnPress (true);
 		
 		} else if (input == 0) {
 			updatedOnce = false;
+		}
+			
 		}
 	}
 }

@@ -44,13 +44,22 @@ public class PlayerManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+				
 		playerCount=0;
 		for(int i=0; i<4; i++){
 		var player=players[i];
+		
 			if (Input.GetButtonDown ("Start_"+(i+1))) {
 				if(player.state!=playerState.ready)
 						player.state++;
+					if(player.state==playerState.ready){
 					
+					Transform transformer,transformer2;
+					transformer=player.button.transform.FindChild("ReadyLabel");
+					transformer2=player.button.transform.FindChild("ColorLabel");
+					NGUITools.SetActive(transformer.gameObject, true);
+					NGUITools.SetActive(transformer2.gameObject, false);
+					}
 				if(player.state==playerState.connected){
 					startCounter(true);
 					player.button.OnPress(true);
@@ -59,6 +68,10 @@ public class PlayerManager : MonoBehaviour
 					startCounter(false);
 					player.button.OnPress(true);
 						}
+			}else if(Input.GetButtonDown("B_"+(i+1))){
+				if(player.state>0){
+				player.state--;
+				}
 			}
 		
 		if(player.state>0){playerCount++;}
