@@ -88,7 +88,7 @@ public class TerrainController : MonoBehaviour {
 		for (int g=0;g<group_amount;g++){
 			radius=(group_amount-g);
 			var data=new TileData(Vector3.zero,g,true);
-			data.setMovementBounds(0.07f,0.07f);
+			data.setMovementBounds(0.01f,0.01f);
 			tile_groups.Add(data);
 			
 			foreach (var ts in tiles){

@@ -23,6 +23,7 @@ public class CharacterMain : MonoBehaviour {
 	Vector3 last_used_aim_direction;
 	
 	
+	public List<Transform> abis=new List<Transform>();
 	List<AbilityContainer> abilities;
 	
 	// Use this for initialization
@@ -37,17 +38,19 @@ public class CharacterMain : MonoBehaviour {
 		abilities=new List<AbilityContainer>();
 		
 		var abb=new AbilityContainer();
-		abb._color=Color.red;
+		/*abb._color=Color.red;
 		
 		abb._speed=33;
 		abb._cooldown_delay=800;
 		abb._size=0.5f;
 		abb._life_time=400;
-		
+		*/
 		abb.projectile_prefab=projectile_prefab;
+		abb.ability_prefab=abis[0];
 		abilities.Add (abb);
 		
 		abb=new AbilityContainer();
+		/*
 		abb._color=Color.blue;
 		
 		abb._speed=10;
@@ -55,11 +58,13 @@ public class CharacterMain : MonoBehaviour {
 		abb._size=0.1f;
 		abb._drag=1f;
 		abb._life_time=1000;
-		
+		*/
 		abb.projectile_prefab=projectile_prefab;
+		abb.ability_prefab=abis[1];
 		abilities.Add(abb);
 		
 		abb=new AbilityContainer();
+		/*
 		abb._color=Color.green;
 		
 		abb._speed=0;
@@ -67,19 +72,22 @@ public class CharacterMain : MonoBehaviour {
 		abb._size=2;
 		abb._drag=100;
 		abb._life_time=2500;
-		
+		*/
 		abb.projectile_prefab=projectile_prefab;
+		abb.ability_prefab=abis[2];
 		abilities.Add(abb);
 		
 		abb=new AbilityContainer();
+		/*
 		abb._color=Color.magenta;
 		
 		abb._speed=100;
 		abb._cooldown_delay=2500;
 		abb._size=1f;
 		abb._life_time=10000;
-		
+		*/
 		abb.projectile_prefab=projectile_prefab;
+		abb.ability_prefab=abis[3];
 		abilities.Add (abb);
 	}
 	

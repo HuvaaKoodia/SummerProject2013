@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections;
 
 public class AbilityData : MonoBehaviour {
-	public string name;
+	public string Name;
 	public float speed, size, damage;
 	public AbilityData(string name, float speed, float size, float damage){
-		this.name = name;
+		this.Name = name;
 		this.speed = speed;
 		this.size = size;
 		this.damage = damage;

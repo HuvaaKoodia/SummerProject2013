@@ -3,14 +3,12 @@ using System.Collections;
 
 public class ProjectileMain : MonoBehaviour {
 	
-	//DEV.TEMP projectile type variables
-	public bool DestroyOnGround=false;
 	public Timer life_time;
 	Transform graphics;
-	
+
 	// Use this for initialization
 	void Awake () {
-		life_time=new Timer(10000,OnDeath);
+		life_time=new Timer(1000,OnDeath);
 		graphics=transform.Find("Graphics") as Transform;
 	}
 	
@@ -25,14 +23,7 @@ public class ProjectileMain : MonoBehaviour {
 	public void setDirection(Vector3 direction,float speed){
 		rigidbody.velocity=direction*speed;
 	}
-	
-	public void OnCollision(Collision other){
-		if (other.gameObject.tag=="Ground"){
-			if (DestroyOnGround)
-				Destroy(this);
-		}
-	}
-	
+
 	//DEV.
 	public void changeMaterialColor(Color color){
 		graphics.renderer.material.color=color;
@@ -44,6 +35,5 @@ public class ProjectileMain : MonoBehaviour {
 	
 	public void OnDestroy(){
 		life_time.Destroy();
-		
 	}
 }

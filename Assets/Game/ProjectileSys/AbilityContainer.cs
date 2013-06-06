@@ -8,14 +8,16 @@ public class AbilityContainer{
 	Timer cooldown;
 	public float _cooldown_delay;
 	
+	public Transform ability_prefab;
+	
 	bool ability_ready=true;
 	
 	//DEV. stats
-	public Color _color;
+	/*public Color _color;
 	public float _speed;
 	public float _size;
 	public float _drag;
-	public float _life_time;
+	public float _life_time;*/
 	
 	// Use this for initialization
 	public AbilityContainer(){
@@ -34,18 +36,51 @@ public class AbilityContainer{
 	public void UseAbility(Vector3 pos,Vector3 direction){
 		if (!ability_ready) return;
 		
-		var obj=MonoBehaviour.Instantiate(projectile_prefab,pos+direction*Mathf.Max(_size,0.5f),Quaternion.identity) as Transform;
+		var ProStats=ability_prefab.GetComponent<IsProjectile>();
+		var abl=ability_prefab.GetComponent<AbilityMain>();
+		
+		var spawn_pos=pos+direction*(Mathf.Max(ProStats._size,0.5f)+0.1f);
+		//check if pos free
+		//if (Physics.RaycastAll(pos,)
+		
+		var obj=MonoBehaviour.Instantiate(projectile_prefab,spawn_pos,Quaternion.identity) as Transform;
+		
+		foreach (var scr in abl.Components){
+			if (scr!=null)
+				obj.gameObject.AddComponent(scr.name);
+			
+			/*
+			foreach (var f in old_c.GetType().GetFields()){
+				f.SetValue(new_c,f.GetValue(old_c));
+			}*/
+		}
+		
+		//add rigid body as the last component
+		obj.gameObject.AddComponent<Rigidbody>();
+		obj.rigidbody.useGravity=false;
+		
+		/*foreach (var old_c in ability_prefab.GetComponents<Component>()){
+			var old_t =old_c.GetType();
+			var new_c=obj.gameObject.AddComponent(old_t);
+			foreach (var f in old_t.GetFields()){
+				f.SetValue(new_c,f.GetValue(old_c));
+			}
+		}*/
+		
+		//set stats
 		var pro=obj.GetComponent<ProjectileMain>();
 		
-		pro.life_time.Delay=_life_time;
+		pro.life_time.Delay=ProStats._life_time;
 		pro.life_time.Reset();
-		pro.setDirection(direction,_speed);
-		pro.changeMaterialColor(_color);
+		pro.setDirection(direction,ProStats._speed);
+		pro.changeMaterialColor(ProStats._color);
 		
-		obj.localScale=Vector3.one*_size;
-		obj.rigidbody.mass=_size*10;
-		obj.rigidbody.drag=_drag;
-	
+		obj.localScale=Vector3.one*ProStats._size;
+		obj.rigidbody.mass=ProStats._size*10;
+		obj.rigidbody.drag=ProStats._drag;
+		obj.rigidbody.angularDrag=ProStats._drag;
+		
+		_cooldown_delay=ProStats._cooldown;
 		setOnCooldown();
 	}
 	
