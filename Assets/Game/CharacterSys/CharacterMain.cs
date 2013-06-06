@@ -6,7 +6,7 @@ public class CharacterMain : MonoBehaviour {
 	
 	public Transform projectile_prefab;
 	
-	bool onGround,canJump;	
+	bool onGround,canJump;
 	float acceleration=50,
 		jump_speed=200,jump_speed_max=2000,
 		speed_max=2;
@@ -22,9 +22,8 @@ public class CharacterMain : MonoBehaviour {
 	
 	Vector3 last_used_aim_direction;
 	
-	
-	public List<Transform> abis=new List<Transform>();
-	List<AbilityContainer> abilities;
+	public List<Transform> Abilities=new List<Transform>();
+	List<AbilityContainer> ability_containers;
 	
 	// Use this for initialization
 	void Start () {
@@ -34,77 +33,16 @@ public class CharacterMain : MonoBehaviour {
 		
 		aim_dir=transform.Find("aim_direction") as Transform;
 		
+		ability_containers=new List<AbilityContainer>();
 		
-		abilities=new List<AbilityContainer>();
-		
-		var abb=new AbilityContainer();
-		/*abb._color=Color.red;
-		
-		abb._speed=33;
-		abb._cooldown_delay=800;
-		abb._size=0.5f;
-		abb._life_time=400;
-		*/
-		abb.projectile_prefab=projectile_prefab;
-		abb.ability_prefab=abis[0];
-		abilities.Add (abb);
-		
-		abb=new AbilityContainer();
-		/*
-		abb._color=Color.blue;
-		
-		abb._speed=10;
-		abb._cooldown_delay=100;
-		abb._size=0.1f;
-		abb._drag=1f;
-		abb._life_time=1000;
-		*/
-		abb.projectile_prefab=projectile_prefab;
-		abb.ability_prefab=abis[1];
-		abilities.Add(abb);
-		
-		abb=new AbilityContainer();
-		/*
-		abb._color=Color.green;
-		
-		abb._speed=0;
-		abb._cooldown_delay=5000;
-		abb._size=2;
-		abb._drag=100;
-		abb._life_time=2500;
-		*/
-		abb.projectile_prefab=projectile_prefab;
-		abb.ability_prefab=abis[2];
-		abilities.Add(abb);
-		
-		abb=new AbilityContainer();
-		/*
-		abb._color=Color.magenta;
-		
-		abb._speed=100;
-		abb._cooldown_delay=2500;
-		abb._size=1f;
-		abb._life_time=10000;
-		*/
-		abb.projectile_prefab=projectile_prefab;
-		abb.ability_prefab=abis[3];
-		abilities.Add (abb);
+		for (int i=0;i<Abilities.Count;i++){
+			var abb=new AbilityContainer();	
+			abb.projectile_prefab=projectile_prefab;
+			abb.ability_prefab=Abilities[i];
+			ability_containers.Add(abb);
+		}
 	}
-	
-	private void updateAimDir(){
-		var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
 
-		forward.Normalize();
-		
-		if (forward==Vector3.zero){
-			if (last_used_aim_direction==Vector3.zero)
-				last_used_aim_direction=Vector3.up;
-		}
-		else{
-			last_used_aim_direction=forward;
-		}
-	}
-	
 	void Update(){
 		l_axis_x=Input.GetAxis("L_XAxis_"+controllerNumber);
 		l_axis_y=Input.GetAxis("L_YAxis_"+controllerNumber);
@@ -114,29 +52,27 @@ public class CharacterMain : MonoBehaviour {
 		
 		updateAimDir();
 		
-		if (Input.GetButton("RB_"+controllerNumber)){
-			
-			abilities[0].UseAbility(transform.position,last_used_aim_direction);
+		if (ability_containers.Count>0&&Input.GetButton("RB_"+controllerNumber)){
+			ability_containers[0].UseAbility(transform.position,last_used_aim_direction);
 		}
 		
-		if (Input.GetButton("LB_"+controllerNumber)){
-			abilities[1].UseAbility(transform.position,last_used_aim_direction);
+		if (ability_containers.Count>1&&Input.GetButton("LB_"+controllerNumber)){
+			ability_containers[1].UseAbility(transform.position,last_used_aim_direction);
 		}
 		
-		if (Input.GetAxis("Triggers_"+controllerNumber)<0){
-			abilities[2].UseAbility(transform.position,last_used_aim_direction);
+		if (ability_containers.Count>2&&Input.GetAxis("Triggers_"+controllerNumber)<0){
+			ability_containers[2].UseAbility(transform.position,last_used_aim_direction);
 		}
 		
-		if (Input.GetAxis("Triggers_"+controllerNumber)>0){
-			abilities[3].UseAbility(transform.position,last_used_aim_direction);
+		if (ability_containers.Count>3&&Input.GetAxis("Triggers_"+controllerNumber)>0){
+			ability_containers[3].UseAbility(transform.position,last_used_aim_direction);
 		}
 	}
 
 	// Update is called once per frame
 	void FixedUpdate () {
 		rigidbody.WakeUp();
-		
-		//Debug.Log("onground?: "+onGround+" "+l_axis_x);
+
 		if (onGround){
 			if (l_axis_x<0){
 				rigidbody.AddForce(Vector3.left*acceleration);
@@ -157,7 +93,6 @@ public class CharacterMain : MonoBehaviour {
 			//jump
 			if (Input.GetButton("A_"+controllerNumber)||Input.GetButton("RS_"+controllerNumber)||Input.GetButton("LS_"+controllerNumber)){
 				if (canJump){
-					//rigidbody.AddForce(Vector3.up*jump_speed);
 					rigidbody.velocity=new Vector3(rigidbody.velocity.x,10,rigidbody.velocity.z);
 					canJump=false;
 				}
@@ -199,6 +134,22 @@ public class CharacterMain : MonoBehaviour {
 	void OnDestroy(){
 		jump_timer.Destroy();
 	}
+	
+		
+	private void updateAimDir(){
+		var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
+
+		forward.Normalize();
+		
+		if (forward==Vector3.zero){
+			if (last_used_aim_direction==Vector3.zero)
+				last_used_aim_direction=Vector3.up;
+		}
+		else{
+			last_used_aim_direction=forward;
+		}
+	}
+	
 }
 
 

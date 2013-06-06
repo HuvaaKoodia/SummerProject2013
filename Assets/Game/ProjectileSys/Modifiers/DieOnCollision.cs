@@ -1,8 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlayerScript : MonoBehaviour {
-	public int controller;
+public class DieOnCollision : MonoBehaviour {
+
 	// Use this for initialization
 	void Start () {
 	
@@ -12,7 +12,8 @@ public class PlayerScript : MonoBehaviour {
 	void Update () {
 	
 	}
-	public int getControllerNumber() {
-		return controller;
+	
+	void OnCollisionEnter(Collision other){
+		Destroy(gameObject);
 	}
 }

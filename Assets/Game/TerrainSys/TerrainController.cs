@@ -56,6 +56,9 @@ public class TerrainController : MonoBehaviour {
 				tiles.Add(ts);
 				ts.setCoordinate(new Vector3(coor.x+j,coor.y,-((coor.x+j)+coor.y)));
 				
+				if (Subs.RandomPercent()<20)
+					ts.Tile_Data.setMovementBounds(2f,0f);
+				
 				pos.z+=tile_h;
 			}
 			
