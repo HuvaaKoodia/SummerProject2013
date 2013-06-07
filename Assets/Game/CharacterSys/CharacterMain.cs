@@ -11,6 +11,12 @@ public class CharacterMain : MonoBehaviour {
 		jump_speed=200,jump_speed_max=2000,
 		speed_max=2;
 	
+	float hp=100;
+	public float HP{
+		get{return hp;}
+		set{hp=value;}
+	}
+	
 	float l_axis_x,l_axis_y,r_axis_x,r_axis_y;
 	
 	Transform graphics,aim_dir;
@@ -67,6 +73,9 @@ public class CharacterMain : MonoBehaviour {
 		if (ability_containers.Count>3&&Input.GetAxis("Triggers_"+controllerNumber)>0){
 			ability_containers[3].UseAbility(transform.position,last_used_aim_direction);
 		}
+		
+		//dev!!!!
+		HP-=Time.deltaTime;
 	}
 
 	// Update is called once per frame

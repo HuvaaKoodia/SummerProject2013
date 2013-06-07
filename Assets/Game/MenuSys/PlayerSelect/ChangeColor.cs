@@ -14,7 +14,7 @@ public class ChangeColor : MonoBehaviour
 	{
 		manager = GameObject.Find ("PLAYERDATAS!").GetComponent<PlayerManager> ();
 		int.TryParse (name [3].ToString (), out controller);
-		colorIndex = controller;
+		colorIndex = controller-1;
 		
 		uibutton = GetComponent<UIButton> ();
 		
@@ -27,7 +27,7 @@ public class ChangeColor : MonoBehaviour
 		presetColors.Add (new Color (0, 256, 256));
 		presetColors.Add (new Color (256, 256, 256));
 		
-		uibutton.pressed = presetColors [controller-1];
+		uibutton.pressed = presetColors [colorIndex];
 		uibutton.UpdateColor (true, true);
 		
 		
@@ -36,6 +36,9 @@ public class ChangeColor : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		
+		manager.players[controller-1].color=presetColors[colorIndex];
+		
 		float input = Input.GetAxis ("L_XAxis_" + controller);
 			//Debug.Log (uibutton.name + " " + manager.players[controller-1].state);
 		
@@ -55,27 +58,29 @@ public class ChangeColor : MonoBehaviour
 			transformer2=transform.FindChild("ColorLabel");*/
 			NGUITools.SetActive(transformer.gameObject, false);
 			NGUITools.SetActive(transformer2.gameObject, true);
-		if (input != 0 && !updatedOnce && !manager.gameStarting) {
+			if (input != 0 && !updatedOnce && !manager.gameStarting) {
+				
+				
+				
+				updatedOnce = true;
+				if (input > 0) {
+					colorIndex++;
+				} else {
+					colorIndex--;
+				}
+				if(colorIndex<0){
+				colorIndex += presetColors.Count;
+				}
+				colorIndex = colorIndex % presetColors.Count;
+				uibutton.pressed=presetColors[colorIndex];
+				uibutton.UpdateColor (true, true);
+				uibutton.OnPress (true);
+				
+				
 			
-			
-			
-			updatedOnce = true;
-			if (input > 0) {
-				colorIndex++;
-			} else {
-				colorIndex--;
+			} else if (input == 0) {
+				updatedOnce = false;
 			}
-			if(colorIndex<0){
-			colorIndex += presetColors.Count;
-			}
-			colorIndex = colorIndex % presetColors.Count;
-			uibutton.pressed=presetColors[colorIndex];
-			uibutton.UpdateColor (true, true);
-			uibutton.OnPress (true);
-		
-		} else if (input == 0) {
-			updatedOnce = false;
-		}
 			
 		}
 	}

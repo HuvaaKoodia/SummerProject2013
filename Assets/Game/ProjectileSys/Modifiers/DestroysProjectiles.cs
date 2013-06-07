@@ -14,11 +14,11 @@ public class DestroysProjectiles : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter(Collision other){
-		if (other.gameObject.tag=="Projectile")
+		if (other.gameObject.tag=="Projectile"&&!other.collider.isTrigger)
 			Destroy(other.gameObject);
 	}
 	void OnTriggerEnter(Collider other){
-		if (other.gameObject.tag=="Projectile")
+		if (other.gameObject.tag=="Projectile"&&!other.collider.isTrigger)
 			Destroy(other.gameObject);
 	}
 }

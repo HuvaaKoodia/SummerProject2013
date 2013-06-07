@@ -5,6 +5,7 @@ using NotificationSys;
 
 public class TerrainController : MonoBehaviour {
 		
+	public Transform player_prefab;
 	public Transform ground_prefab;
 	public Transform tile_mesh;
 	public Bounds mesh_bounds;
@@ -23,6 +24,11 @@ public class TerrainController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start (){
+		
+		
+		
+		//var spawn_positions=new List<Tile>();
+		
 		mesh_bounds=tile_mesh.renderer.bounds;
 		
 		main_camera=GameObject.Find("Main Camera").GetComponent<CameraScript>();
@@ -58,12 +64,40 @@ public class TerrainController : MonoBehaviour {
 				
 				if (Subs.RandomPercent()<20)
 					ts.Tile_Data.setMovementBounds(2f,0f);
-				
+
 				pos.z+=tile_h;
 			}
 			
 			//pos.x+=tile_w+(tile_w*0.5f);
 			pos.x+=tile_w*(3f/4f);
+		}
+		
+				
+		//DEV. spawn pos!
+		/*foreach (var data in playerData.players){
+			spawn_positions.Add(tiles[Random.Range(0,tiles.Count)]);
+		}*/
+		
+		try{
+			var playerData=GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager>();
+			foreach (var data in playerData.players){
+				if (data.state==PlayerManager.playerState.ready){
+					
+					Tile tile;
+					do{
+						tile=tiles[Random.Range(0,tiles.Count)];	
+					}
+					while(!tile.gameObject.activeSelf);
+					
+					var player=Instantiate(player_prefab,tile.transform.position+Vector3.up*2,Quaternion.identity) as Transform;
+					var pscr=player.GetComponent<CharacterMain>();
+					pscr.color=data.color;
+					pscr.controllerNumber=data.controllerNumber;
+				}
+			}
+		}
+		catch(System.Exception e){
+			
 		}
 		
 		//terrain_timer.Active=false;

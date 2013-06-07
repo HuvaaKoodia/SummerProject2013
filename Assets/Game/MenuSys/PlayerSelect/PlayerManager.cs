@@ -8,11 +8,13 @@ public class PlayerManager : MonoBehaviour
 	public enum playerState{notConnected, connected, ready}
 	public class playerData{
 		
+		public int controllerNumber;
 		public playerState state = playerState.notConnected;
 		public Color color;
 		public UIButton button;
-	public playerData(UIButton button){
-		this.button=button;
+		public playerData(int controller,UIButton button){
+			this.button=button;
+			controllerNumber=controller;
 		}
 	}
 	
@@ -30,10 +32,10 @@ public class PlayerManager : MonoBehaviour
 	// Use this for initialization
 	void Awake() {
         DontDestroyOnLoad(transform.gameObject);
-		players.Add(new playerData(player1button));
-    	players.Add(new playerData(player2button));
-		players.Add(new playerData(player3button));
-		players.Add(new playerData(player4button));
+		players.Add(new playerData(1,player1button));
+    	players.Add(new playerData(2,player2button));
+		players.Add(new playerData(3,player3button));
+		players.Add(new playerData(4,player4button));
 	}
 	void Start ()
 	{
@@ -83,7 +85,8 @@ public class PlayerManager : MonoBehaviour
 						}
 			}else if(Input.GetButtonDown("B_"+(i+1))){
 				if(player.state>0){
-				player.state--;
+					startCounter(false);
+					player.state--;
 				}
 			}
 		

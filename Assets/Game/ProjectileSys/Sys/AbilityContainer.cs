@@ -37,8 +37,10 @@ public class AbilityContainer{
 		var ray_hits=Physics.RaycastAll(pos,direction,dis);
 		
 		foreach (var hit in ray_hits){
-			if (hit.collider.gameObject.tag=="Ground")
-				return;//don't spawn a projectile at all.
+			if (hit.collider.gameObject.tag=="Ground"){
+				return;
+			}
+			//don't spawn a projectile at all.
 		}
 		
 		var obj=MonoBehaviour.Instantiate(projectile_prefab,spawn_pos,Quaternion.identity) as Transform;
