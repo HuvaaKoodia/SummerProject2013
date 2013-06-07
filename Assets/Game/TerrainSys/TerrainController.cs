@@ -78,27 +78,7 @@ public class TerrainController : MonoBehaviour {
 			spawn_positions.Add(tiles[Random.Range(0,tiles.Count)]);
 		}*/
 		
-		try{
-			var playerData=GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager>();
-			foreach (var data in playerData.players){
-				if (data.state==PlayerManager.playerState.ready){
-					
-					Tile tile;
-					do{
-						tile=tiles[Random.Range(0,tiles.Count)];	
-					}
-					while(!tile.gameObject.activeSelf);
-					
-					var player=Instantiate(player_prefab,tile.transform.position+Vector3.up*2,Quaternion.identity) as Transform;
-					var pscr=player.GetComponent<CharacterMain>();
-					pscr.color=data.color;
-					pscr.controllerNumber=data.controllerNumber;
-				}
-			}
-		}
-		catch(System.Exception e){
-			
-		}
+		
 		
 		//terrain_timer.Active=false;
 		
@@ -120,12 +100,12 @@ public class TerrainController : MonoBehaviour {
 		}
 		
 		//group up
-		
 		int group_amount=radius+1;
 		for (int g=0;g<group_amount;g++){
 			radius=(group_amount-g);
-			var data=new TileData(Vector3.zero,g,true);
-			data.setMovementBounds(0.01f,0.01f);
+			var data=new TileData(Vector3.zero,g);
+			data.setMovementBounds(0.03f,0.03f);
+			data.setTimeBounds(20,2000,true);
 			tile_groups.Add(data);
 			
 			foreach (var ts in tiles){
@@ -146,6 +126,41 @@ public class TerrainController : MonoBehaviour {
 		terrain_timer=new Timer(8100,OnTerrainTrigger);
 		
 		main_camera.LookAt(terrain[xx,yy].transform.position);
+		
+		bool data_read_ok=false;
+		try{
+			var playerData=GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager>();
+			foreach (var data in playerData.players){
+				if (data.state==PlayerManager.playerState.ready){
+					
+					Tile tile;
+					do{
+						tile=tiles[Random.Range(0,tiles.Count)];	
+					}
+					while(!tile.gameObject.activeSelf);
+					
+					var player=Instantiate(player_prefab,tile.transform.position+Vector3.up*2,Quaternion.identity) as Transform;
+					var pscr=player.GetComponent<PlayerMain>();
+					pscr.color=data.color;
+					pscr.controllerNumber=data.controllerNumber;
+					
+					data.Player=pscr;
+				}
+			}
+			data_read_ok=true;
+		}
+		catch(System.Exception e){
+			
+		}
+		
+		if (data_read_ok){
+			//disable temp characters
+			for(int i=1;i<=4;i++){
+				var p=GameObject.Find("p"+i);
+				p.SetActive(false);
+				
+			}
+		}
 	}
 	
 	// Update is called once per frame

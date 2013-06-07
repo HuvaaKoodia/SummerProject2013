@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class RotateScr : MonoBehaviour {
+public class AutoRotate : MonoBehaviour {
 	
 	
 	public Vector3 speed;
@@ -12,6 +12,6 @@ public class RotateScr : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.eulerAngles=new Vector3(transform.eulerAngles.x+speed.x,transform.eulerAngles.y+speed.y,transform.eulerAngles.z+speed.z);
+		transform.Rotate(speed);
 	}
 }

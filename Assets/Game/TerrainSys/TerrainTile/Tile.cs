@@ -9,9 +9,9 @@ public class Tile : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake () {
-		Tile_Data=new TileData(Vector3.zero,0,true);
+		Tile_Data=new TileData(Vector3.zero,0);
 		Tile_Data.setMovementBounds(1,0);
-		Tile_Data.setTimeBounds(20000,200000,true);
+		Tile_Data.setTimeBounds(10000,80000,true);
 	}
 
 	// Update is called once per frame
@@ -64,27 +64,34 @@ public class TileData{
 	int time_min,time_max;
 	
 	// Use this for initialization
-	public TileData(Vector3 startpos, int tileGroup,bool random){
+	public TileData(Vector3 startpos, int tileGroup){
 		tile_group=tileGroup;
 		
 		setMovementBounds(1,1);
 		
-		Position=start_pos=startpos;
+		Position=start_pos=move_target=startpos;
 		
 		timer=new Timer(0,OnTimerRandom);
 		timer.Active=false;
 		
-		if (random){
-			setTimeBounds(20,2000,true);
-		}
+		moving_up=Subs.RandomBool();
 	}
 
 	// Update is called once per frame
 	public void Update () {
-		if (moving_up&&(Position.y<move_target.y))
+		if (moving_up&&(Position.y<move_target.y)){
 			Position+=move_speed*Time.deltaTime;
-		if (!moving_up&&(Position.y>move_target.y))
+			if (Position.y>move_target.y){
+				Position=new Vector3(Position.x,move_target.y,Position.z);
+			}
+		}
+		if (!moving_up&&(Position.y>move_target.y)){
 			Position+=move_speed*Time.deltaTime;
+			if (Position.y<move_target.y){
+				Position=new Vector3(Position.x,move_target.y,Position.z);
+			}
+		}
+
 	}
 	
 	//subs
@@ -97,11 +104,13 @@ public class TileData{
 		time_min=min;
 		time_max=max;
 		if (random_start){
-			randomizeDelay(0,time_max/2);
-			moving_up=Subs.RandomBool();
-			
-			timer.Active=true;
+			randomizeDelay(0,time_max-time_min);
 		}
+		else{
+			timer.Delay=time_max;
+			timer.Reset();
+		}
+		timer.Active=true;
 	}
 	
 	public void MoveUp(){
@@ -155,11 +164,10 @@ public class TileData{
 	
 	//events
 	public void OnTimerRandom(){
-		moving_up=!moving_up;
 		if (moving_up)
-			MoveUp();
-		else
 			MoveDown();
+		else
+			MoveUp();
 		
 		randomizeDelay();
 	}

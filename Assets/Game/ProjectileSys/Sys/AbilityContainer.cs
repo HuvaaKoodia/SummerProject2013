@@ -31,7 +31,7 @@ public class AbilityContainer{
 		var ProStats=ability_prefab.GetComponent<ProjectileStats>();
 		var abl=ability_prefab.GetComponent<AbilityMain>();
 		
-		var dis=Mathf.Max(ProStats._size,0.5f)+0.1f;
+		var dis=Mathf.Max(ProStats.Size,0.5f)+0.1f;
 		var spawn_pos=pos+direction*dis;
 		//check if pos free
 		var ray_hits=Physics.RaycastAll(pos,direction,dis);
@@ -53,22 +53,25 @@ public class AbilityContainer{
 		
 		//add rigid body as the last component
 		obj.gameObject.AddComponent<Rigidbody>();
-		obj.rigidbody.useGravity=ProStats._gravity_on;
+		obj.rigidbody.useGravity=ProStats.Gravity_on;
+		obj.rigidbody.collisionDetectionMode=CollisionDetectionMode.ContinuousDynamic;
 
 		//set stats
 		var pro=obj.GetComponent<ProjectileMain>();
 		
-		pro.life_time.Delay=ProStats._life_time;
+		pro.stats=ProStats;
+		
+		pro.life_time.Delay=ProStats.Life_time;
 		pro.life_time.Reset();
-		pro.setDirection(direction,ProStats._speed);
-		pro.changeMaterialColor(ProStats._color);
+		pro.setDirection(direction,ProStats.Speed);
+		pro.changeMaterialColor(ProStats.Colour);
 		
-		obj.localScale=Vector3.one*ProStats._size;
-		obj.rigidbody.mass=ProStats._size*10;
-		obj.rigidbody.drag=ProStats._drag;
-		obj.rigidbody.angularDrag=ProStats._drag;
+		obj.localScale=Vector3.one*ProStats.Size;
+		obj.rigidbody.mass=ProStats.Size*10;
+		obj.rigidbody.drag=ProStats.Drag;
+		obj.rigidbody.angularDrag=ProStats.Drag;
 		
-		_cooldown_delay=ProStats._cooldown;
+		_cooldown_delay=ProStats.Cooldown;
 		setOnCooldown();
 	}
 	

@@ -10,6 +10,8 @@ public class Shrink : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update (){
-		transform.localScale-=Vector3.one*Time.deltaTime/2;
+		transform.localScale-=Vector3.one*Time.deltaTime/10;
+		if (transform.localScale.x<=0)
+			Destroy(gameObject);
 	}
 }

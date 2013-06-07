@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour
 		public playerState state = playerState.notConnected;
 		public Color color;
 		public UIButton button;
+		public PlayerMain Player;
+		
 		public playerData(int controller,UIButton button){
 			this.button=button;
 			controllerNumber=controller;

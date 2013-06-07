@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class CharacterMain : MonoBehaviour {
+public class PlayerMain : MonoBehaviour {
 	
 	public Transform projectile_prefab;
 	
@@ -15,6 +15,12 @@ public class CharacterMain : MonoBehaviour {
 	public float HP{
 		get{return hp;}
 		set{hp=value;}
+	}
+	
+	float mp=100;
+	public float MP{
+		get{return mp;}
+		set{mp=value;}
 	}
 	
 	float l_axis_x,l_axis_y,r_axis_x,r_axis_y;
@@ -34,10 +40,9 @@ public class CharacterMain : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		graphics=transform.Find("Graphics").Find ("temp") as Transform;
+		aim_dir=transform.Find("Graphics").Find("dir") as Transform;
 		
 		jump_timer=new Timer(400,OnJumpTimer);
-		
-		aim_dir=transform.Find("aim_direction") as Transform;
 		
 		ability_containers=new List<AbilityContainer>();
 		
@@ -73,9 +78,6 @@ public class CharacterMain : MonoBehaviour {
 		if (ability_containers.Count>3&&Input.GetAxis("Triggers_"+controllerNumber)>0){
 			ability_containers[3].UseAbility(transform.position,last_used_aim_direction);
 		}
-		
-		//dev!!!!
-		HP-=Time.deltaTime;
 	}
 
 	// Update is called once per frame
@@ -157,6 +159,9 @@ public class CharacterMain : MonoBehaviour {
 		else{
 			last_used_aim_direction=forward;
 		}
+		
+		//DEV. temp dir
+		aim_dir.transform.position=transform.position+forward;
 	}
 	
 }
