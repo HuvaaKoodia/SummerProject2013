@@ -45,10 +45,19 @@ public class PlayerManager : MonoBehaviour
 	void Update ()
 	{
 				
-		playerCount=0;
+		
 		for(int i=0; i<4; i++){
 		var player=players[i];
 		
+			playerCount=0;
+			foreach(playerData pata in players){
+			if(pata.state > 0){
+				
+			playerCount++;
+					
+			}
+				
+			}
 			if (Input.GetButtonDown ("Start_"+(i+1))) {
 				if(player.state!=playerState.ready)
 						player.state++;
@@ -57,6 +66,7 @@ public class PlayerManager : MonoBehaviour
 					Transform transformer,transformer2;
 					transformer=player.button.transform.FindChild("ReadyLabel");
 					transformer2=player.button.transform.FindChild("ColorLabel");
+					
 					NGUITools.SetActive(transformer.gameObject, true);
 					NGUITools.SetActive(transformer2.gameObject, false);
 					}
@@ -64,6 +74,9 @@ public class PlayerManager : MonoBehaviour
 					startCounter(true);
 					player.button.OnPress(true);
 					}
+				else if(player.state==playerState.ready){
+					startCounter(true);
+				}
 				else{
 					startCounter(false);
 					player.button.OnPress(true);
@@ -74,7 +87,8 @@ public class PlayerManager : MonoBehaviour
 				}
 			}
 		
-		if(player.state>0){playerCount++;}
+			
+		
 		}
 		
 		if(gameStarting){
@@ -101,7 +115,8 @@ public class PlayerManager : MonoBehaviour
 				readyCount++;
 				}
 			}
-		if(readyCount==playerCount&&playerCount>=2&&!gameStarting){
+			Debug.Log(readyCount + " " + playerCount + " " + gameStarting);
+		if(readyCount == playerCount && playerCount >= 2 &&!gameStarting){
 			gameStarting=start;
 			totalTime=timerMax;
 			}

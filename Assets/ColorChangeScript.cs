@@ -25,8 +25,9 @@ public class ColorChangeScript : MonoBehaviour {
 		{
 		timer+=Time.deltaTime;
 		//Debug.Log(Mathf.Sin(timer));
-			float temp =Mathf.Abs(Mathf.Sin(timer));
-		label.color = new Color(0.5f*temp,0.3f*temp,temp);
+			float temp = Mathf.Abs(Mathf.Sin(timer));
+			
+		label.color = new Color(uibutton.pressed.r/256*temp,uibutton.pressed.g/256*temp,uibutton.pressed.b/256*temp);
 		}
 	}
 }
