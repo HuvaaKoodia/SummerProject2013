@@ -5,20 +5,8 @@ using System.Collections.Generic;
 public enum playerState{notConnected, connected, ready}
 public class PlayerManager : MonoBehaviour
 {
-	public enum playerState{notConnected, connected, ready}
-	public class playerData{
-		
-		public int controllerNumber;
-		public playerState state = playerState.notConnected;
-		public Color color;
-		public UIButton button;
-		public PlayerMain Player;
-		
-		public playerData(int controller,UIButton button){
-			this.button=button;
-			controllerNumber=controller;
-		}
-	}
+	
+	
 	
 	public List<playerData> players= new List<playerData>();
 	
@@ -48,7 +36,7 @@ public class PlayerManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-				
+		/*		
 		
 		for(int i=0; i<4; i++){
 		var player=players[i];
@@ -80,7 +68,8 @@ public class PlayerManager : MonoBehaviour
 					}
 				else if(player.state==playerState.ready){
 					startCounter(true);
-				}
+				player.button.OnPress(true);
+					}
 				else{
 					startCounter(false);
 					player.button.OnPress(true);
@@ -89,13 +78,16 @@ public class PlayerManager : MonoBehaviour
 				if(player.state>0){
 					startCounter(false);
 					player.state--;
+					player.button.OnPress(true);
 				}
+				else
+					player.button.OnPress(false);
 			}
 		
 			
 		
 		}
-		
+		*/
 		if(gameStarting){
 			
 			totalTime -= Time.deltaTime;
@@ -112,6 +104,10 @@ public class PlayerManager : MonoBehaviour
 		}
 		
 	}
+	/*public Color defColor(){
+	return new UnityEngine.Color(0f,0f,0f);
+	}*/
+	
 	public void startCounter(bool start){
 		if(start){
 			int readyCount=0;
@@ -132,4 +128,17 @@ public class PlayerManager : MonoBehaviour
 			
 		}
 	}
-}
+}public class playerData{
+		
+		public int controllerNumber;
+		public playerState state = playerState.notConnected;
+		public Color color;
+		public UIButton button;
+		public PlayerMain Player;
+		
+		public playerData(int controller,UIButton button){
+			this.button=button;
+			controllerNumber=controller;
+		color = Color.white;
+		}
+	}

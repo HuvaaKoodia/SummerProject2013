@@ -128,7 +128,7 @@ public class TerrainController : MonoBehaviour {
 		try{
 			var playerData=GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager>();
 			foreach (var data in playerData.players){
-				if (data.state==PlayerManager.playerState.ready){
+				if (data.state==playerState.ready){
 					
 					Tile tile;
 					do{

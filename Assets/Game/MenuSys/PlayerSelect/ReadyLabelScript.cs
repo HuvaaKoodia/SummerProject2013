@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ColorChangeScript : MonoBehaviour {
+public class ReadyLabelScript : MonoBehaviour {
 	public UILabel label;
 	float timer=0;
 	int controller=0;
@@ -21,7 +21,7 @@ public class ColorChangeScript : MonoBehaviour {
 	void Update () {
 		
 		//Debug.Log("State: " + manager.players[controller-1].state + " " + PlayerManager.playerState.ready);
-		if(manager.players[controller-1].state == PlayerManager.playerState.ready)
+		if(manager.players[controller-1].state == playerState.ready)
 		{
 		timer+=Time.deltaTime;
 		//Debug.Log(Mathf.Sin(timer));
