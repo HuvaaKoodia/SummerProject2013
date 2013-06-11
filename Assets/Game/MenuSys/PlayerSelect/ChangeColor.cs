@@ -26,7 +26,14 @@ public class ChangeColor : MonoBehaviour
 		presetColors.Add (new Color (256, 0, 256));
 		presetColors.Add (new Color (0, 256, 256));
 		presetColors.Add (new Color (256, 256, 256));
+		foreach(Transform t in transform){
+			
+			if(t.name=="SideIcons"){
+						
+			t.GetComponent<UISprite>().color=presetColors[colorIndex];
+			}
 		
+		}
 		uibutton.pressed = presetColors [colorIndex];
 		uibutton.UpdateColor (true, true);
 		
@@ -45,17 +52,34 @@ public class ChangeColor : MonoBehaviour
 		Transform transformer,transformer2;
 			transformer=transform.FindChild("ReadyLabel");
 			transformer2=transform.FindChild("ColorLabel");
+		//List<Transform> sideFormers = new List<Transform>();
+		
+		
 		
 		if(manager.players[controller-1].state==PlayerManager.playerState.notConnected){
 			
 			NGUITools.SetActive(transformer.gameObject, false);
 			NGUITools.SetActive(transformer2.gameObject, false);
+		
+			foreach(Transform t in transform){
+			
+			if(t.name=="SideIcons"){
+			NGUITools.SetActive(t.gameObject,false);
+			}
+		
+		}
+		
 			uibutton.OnPress(false);
 		}
 		if(manager.players[controller-1].state==PlayerManager.playerState.connected){
-			/*Transform transformer,transformer2;
-			transformer=transform.FindChild("ReadyLabel");
-			transformer2=transform.FindChild("ColorLabel");*/
+			
+			foreach(Transform t in transform){
+			
+			if(t.name=="SideIcons"){
+			NGUITools.SetActive(t.gameObject,true);
+			}
+		
+		}
 			NGUITools.SetActive(transformer.gameObject, false);
 			NGUITools.SetActive(transformer2.gameObject, true);
 			if (input != 0 && !updatedOnce && !manager.gameStarting) {
@@ -73,6 +97,15 @@ public class ChangeColor : MonoBehaviour
 				}
 				colorIndex = colorIndex % presetColors.Count;
 				uibutton.pressed=presetColors[colorIndex];
+				foreach(Transform t in transform){
+			
+			if(t.name=="SideIcons"){
+						
+			t.GetComponent<UISprite>().color=presetColors[colorIndex];
+			}
+		
+		}
+				
 				uibutton.UpdateColor (true, true);
 				uibutton.OnPress (true);
 				
