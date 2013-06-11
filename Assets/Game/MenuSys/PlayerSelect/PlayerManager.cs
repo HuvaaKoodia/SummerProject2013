@@ -3,22 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 
 public enum playerState{notConnected, connected, ready}
+
 public class PlayerManager : MonoBehaviour
 {
-	
-	
-	
 	public List<playerData> players= new List<playerData>();
-	
-	int playerCount=0;
-	//bool player1in = false, player2in = false, player3in = false, player4in = false;
 	public bool gameStarting = false;
-	//bool player1ready=false, player2ready=false, player3ready=false, player4ready=false;
 	public UIButton player1button,player2button,player3button, player4button;
 	public UILabel counter;
 	public string defaultMessage;
 	public float timer=5,timerMax=5;
 	float totalTime=0f;
+	
 	// Use this for initialization
 	void Awake() {
         DontDestroyOnLoad(transform.gameObject);
@@ -110,13 +105,15 @@ public class PlayerManager : MonoBehaviour
 	
 	public void startCounter(bool start){
 		if(start){
-			int readyCount=0;
+			int readyCount=0,playerCount=0;
 			foreach(playerData pata in players){
-			if(pata.state==playerState.ready){
-				readyCount++;
+				if(pata.state!=playerState.notConnected){
+					playerCount++;
+				}
+				if(pata.state==playerState.ready){
+					readyCount++;
 				}
 			}
-			Debug.Log(readyCount + " " + playerCount + " " + gameStarting);
 		if(readyCount == playerCount && playerCount >= 2 &&!gameStarting){
 			gameStarting=start;
 			totalTime=timerMax;

@@ -5,8 +5,6 @@ public class AbilityGridSys : MonoBehaviour {
 
 	public GameObject container;
 	public PlayerHudMain playerPanel;
-	
-	int selected_item=0,max_items=25;
 		
 	public ItemContainerMain[,] Grid{get;private set;}
 	

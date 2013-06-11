@@ -5,6 +5,8 @@ using NotificationSys;
 
 public class TerrainController : MonoBehaviour {
 		
+	public PlayerMain[] Players;
+	
 	public Transform player_prefab;
 	public Transform ground_prefab;
 	public Transform tile_mesh;
@@ -124,40 +126,37 @@ public class TerrainController : MonoBehaviour {
 		
 		main_camera.LookAtCenter(terrain[xx,yy].transform.position);
 		
-		bool data_read_ok=false;
-		try{
+		
+		//players
+		
+		
+		if (GameObject.Find("PLAYERDATAS!")!=null){
 			var playerData=GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager>();
-			foreach (var data in playerData.players){
+			int c_p=0;
+			
+			foreach (var p in Players){
+				var data=playerData.players[c_p];
+				c_p++;
 				if (data.state==playerState.ready){
-					
-					Tile tile;
-					do{
-						tile=tiles[Random.Range(0,tiles.Count)];	
-					}
-					while(!tile.gameObject.activeSelf);
-					
-					var player=Instantiate(player_prefab,tile.transform.position+Vector3.up*2,Quaternion.identity) as Transform;
-					var pscr=player.GetComponent<PlayerMain>();
-					pscr.color=data.color;
-					pscr.controllerNumber=data.controllerNumber;
-					
-					data.Player=pscr;
+					p.color=data.color;
+					p.controllerNumber=data.controllerNumber;
+				}
+				else{
+					p.gameObject.SetActive(false);
 				}
 			}
-			data_read_ok=true;
-		}
-		catch(System.Exception e){
-			
 		}
 		
-		if (data_read_ok){
-			//disable temp characters
-			for(int i=1;i<=4;i++){
-				var p=GameObject.Find("p"+i);
-				p.SetActive(false);
-				
-			}
+					
+		//random pos
+		/*Tile tile;
+		do{
+			tile=tiles[Random.Range(0,tiles.Count)];	
 		}
+		while(!tile.gameObject.activeSelf);
+		
+		var player=Instantiate(player_prefab,tile.transform.position+Vector3.up*2,Quaternion.identity) as Transform;
+		*/
 	}
 	
 	// Update is called once per frame

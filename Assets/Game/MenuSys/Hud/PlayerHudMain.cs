@@ -63,7 +63,11 @@ public class PlayerHudMain : MonoBehaviour {
 		}
 		
 		if (Input.GetButtonDown("Start_"+Player.controllerNumber)){
-			changeState(AbilityMenuState.Ready);
+			if (state==AbilityMenuState.Ready){
+				changeState(AbilityMenuState.Bar);
+			}
+			else
+				changeState(AbilityMenuState.Ready);
 		}
 	}
 	
@@ -94,11 +98,17 @@ public class PlayerHudMain : MonoBehaviour {
 			
 		}
 		
-		if (state==AbilityMenuState.Ready){
+				
+		if (this.state==AbilityMenuState.Ready){//Coming from ready
+			ShopPanel.SetActive(true);
+		}
+		
+		if (state==AbilityMenuState.Ready){//going to ready
 			_Camera.selectedObjectInput=null;
 			_Camera.selectedObjectHighlight=null;
 			ShopPanel.SetActive(false);
 		}
+
 		
 		this.state=state;
 	}

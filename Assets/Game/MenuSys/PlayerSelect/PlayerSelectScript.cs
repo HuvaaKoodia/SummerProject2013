@@ -64,18 +64,16 @@ public class PlayerSelectScript : MonoBehaviour
 		
 		
 	}
-	 void setActives(bool sideIcons, bool ready, bool color, bool startCounter){
-	foreach (Transform t in transform) {
-			
-				if (t.name == "SideIcons") {
-					NGUITools.SetActive (t.gameObject, sideIcons);
-					
-				}
-		
+	void setActives(bool sideIcons, bool ready, bool color, bool startCounter){
+		foreach (Transform t in transform) {
+			if (t.name == "SideIcons") {
+				NGUITools.SetActive (t.gameObject, sideIcons);
+				
 			}
-			NGUITools.SetActive (readyLabel.gameObject, ready);
-			NGUITools.SetActive (colorLabel.gameObject, color);
-			manager.startCounter (startCounter);
+		}
+		NGUITools.SetActive (readyLabel.gameObject, ready);
+		NGUITools.SetActive (colorLabel.gameObject, color);
+		manager.startCounter(startCounter);
 	}
 	
 	void Update ()
