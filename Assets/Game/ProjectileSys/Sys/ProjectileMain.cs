@@ -60,7 +60,8 @@ public class ProjectileMain : MonoBehaviour {
 	}
 	
 	public void OnDeath(){
-		Destroy(gameObject);
+		if (gameObject!=null)
+			Destroy(gameObject);
 	}
 	
 	public void OnDestroy(){

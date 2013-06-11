@@ -3,12 +3,18 @@ using System.Collections;
 
 public class ItemContainerMain : MonoBehaviour {
 	
-	public AbilityStats ability;
+	Transform ability;
+	public Transform Ability{
+		get {return ability;}
+		set	{setAbility(value);}
+	}
+	
 	UISprite spr;
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		spr=transform.Find("Background").GetComponent<UISprite>();
+		spr.spriteName="Empty";
 	}
 	
 	// Update is called once per frame
@@ -16,9 +22,9 @@ public class ItemContainerMain : MonoBehaviour {
 	
 	}
 	
-	public void setAbility(AbilityStats stats){
-		ability=stats;
-		
-		
+	void setAbility(Transform ability){
+		this.ability=ability;
+		var sts=ability.GetComponent<AbilityStats>();
+		spr.spriteName=sts.spriteName;
 	}
 }

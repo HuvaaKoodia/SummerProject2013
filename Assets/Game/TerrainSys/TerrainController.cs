@@ -23,10 +23,7 @@ public class TerrainController : MonoBehaviour {
 	Vector3 center_point;
 	
 	// Use this for initialization
-	void Start (){
-		
-		
-		
+	void Awake (){
 		//var spawn_positions=new List<Tile>();
 		
 		mesh_bounds=tile_mesh.renderer.bounds;

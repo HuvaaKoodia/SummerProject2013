@@ -27,7 +27,7 @@ public class EngineController : MonoBehaviour {
 			Application.LoadLevel(Application.loadedLevel);
 		}
 	}
-	
+	/*DEV.TIMER
 	void OnGUI(){
 		
 		int a=0;
@@ -38,5 +38,5 @@ public class EngineController : MonoBehaviour {
 		}
 		
 		GUI.Box (new Rect(10,10,100,50),"Timers: "+Timer.timers.Count+"\nActive: "+a);
-	}
+	}*/
 }

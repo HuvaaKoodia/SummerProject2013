@@ -2,166 +2,175 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerMain : MonoBehaviour {
+public class PlayerMain : MonoBehaviour
+{
 	
 	public Transform projectile_prefab;
-	
-	bool onGround,canJump;
-	float acceleration=50,
-		jump_speed=200,jump_speed_max=2000,
-		speed_max=2;
-	
-	float hp=100;
-	public float HP{
-		get{return hp;}
-		set{hp=value;}
+	bool onGround, canJump;
+	float acceleration = 50,
+		jump_speed = 200, jump_speed_max = 2000,
+		speed_max = 2;
+	float hp = 100;
+
+	public float HP {
+		get{ return hp;}
+		set{ hp = value;}
 	}
 	
-	float mp=100;
-	public float MP{
-		get{return mp;}
-		set{mp=value;}
+	float mp = 100;
+
+	public float MP {
+		get{ return mp;}
+		set{ mp = value;}
 	}
 	
-	float l_axis_x,l_axis_y,r_axis_x,r_axis_y;
-	
-	Transform graphics,aim_dir;
-	
+	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
+	Transform graphics, aim_dir;
 	Timer jump_timer;
-	
-	public int controllerNumber=1;
+	public int controllerNumber = 1;
 	public Color color;
-	
 	Vector3 last_used_aim_direction;
-	
-	public List<Transform> Abilities=new List<Transform>();
-	List<AbilityContainer> ability_containers;
+	public List<Transform> Abilities = new List<Transform> ();
+	public List<AbilityContainer> ability_containers;
 	
 	// Use this for initialization
-	void Start () {
-		graphics=transform.Find("Graphics").Find ("temp") as Transform;
-		aim_dir=transform.Find("Graphics").Find("dir") as Transform;
+	
+	void Awake ()
+	{
 		
-		jump_timer=new Timer(400,OnJumpTimer);
+		graphics = transform.Find ("Graphics").Find ("temp") as Transform;
+		aim_dir = transform.Find ("Graphics").Find ("dir") as Transform;
 		
-		ability_containers=new List<AbilityContainer>();
+		jump_timer = new Timer (400, OnJumpTimer);
 		
-		for (int i=0;i<Abilities.Count;i++){
-			var abb=new AbilityContainer();	
-			abb.projectile_prefab=projectile_prefab;
-			abb.ability_prefab=Abilities[i];
-			ability_containers.Add(abb);
+		ability_containers = new List<AbilityContainer> ();
+		
+		for (int i=0; i<Abilities.Count; i++){
+			var abb = new AbilityContainer ();	
+			abb.projectile_prefab = projectile_prefab;
+			abb.ability_prefab = Abilities [i];
+			ability_containers.Add (abb);
 		}
+		
+	}
+	
+	void Start ()
+	{
+
 	}
 
-	void Update(){
-		l_axis_x=Input.GetAxis("L_XAxis_"+controllerNumber);
-		l_axis_y=Input.GetAxis("L_YAxis_"+controllerNumber);
+	void Update ()
+	{
+		l_axis_x = Input.GetAxis ("L_XAxis_" + controllerNumber);
+		l_axis_y = Input.GetAxis ("L_YAxis_" + controllerNumber);
 		
-		r_axis_x=Input.GetAxis("R_XAxis_"+controllerNumber);
-		r_axis_y=Input.GetAxis("R_YAxis_"+controllerNumber);
+		r_axis_x = Input.GetAxis ("R_XAxis_" + controllerNumber);
+		r_axis_y = Input.GetAxis ("R_YAxis_" + controllerNumber);
 		
-		updateAimDir();
+		updateAimDir ();
 		
-		if (ability_containers.Count>0&&Input.GetButton("RB_"+controllerNumber)){
-			ability_containers[0].UseAbility(transform.position,last_used_aim_direction);
+		if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)) {
+			ability_containers [0].UseAbility (transform.position, last_used_aim_direction);
 		}
 		
-		if (ability_containers.Count>1&&Input.GetButton("LB_"+controllerNumber)){
-			ability_containers[1].UseAbility(transform.position,last_used_aim_direction);
+		if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)) {
+			ability_containers [1].UseAbility (transform.position, last_used_aim_direction);
 		}
 		
-		if (ability_containers.Count>2&&Input.GetAxis("Triggers_"+controllerNumber)<0){
-			ability_containers[2].UseAbility(transform.position,last_used_aim_direction);
+		if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
+			ability_containers [2].UseAbility (transform.position, last_used_aim_direction);
 		}
 		
-		if (ability_containers.Count>3&&Input.GetAxis("Triggers_"+controllerNumber)>0){
-			ability_containers[3].UseAbility(transform.position,last_used_aim_direction);
+		if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
+			ability_containers [3].UseAbility (transform.position, last_used_aim_direction);
 		}
 	}
 
 	// Update is called once per frame
-	void FixedUpdate () {
-		rigidbody.WakeUp();
+	void FixedUpdate ()
+	{
+		rigidbody.WakeUp ();
 
-		if (onGround){
-			if (l_axis_x<0){
-				rigidbody.AddForce(Vector3.left*acceleration);
+		if (onGround) {
+			if (l_axis_x < 0) {
+				rigidbody.AddForce (Vector3.left * acceleration);
 			}
 			
-			if (l_axis_x>0){
-				rigidbody.AddForce(Vector3.right*acceleration);
+			if (l_axis_x > 0) {
+				rigidbody.AddForce (Vector3.right * acceleration);
 			}
 			
-			if (l_axis_y<0){
-				rigidbody.AddForce(Vector3.forward*acceleration);
+			if (l_axis_y < 0) {
+				rigidbody.AddForce (Vector3.forward * acceleration);
 			}
 			
-			if (l_axis_y>0){
-				rigidbody.AddForce(Vector3.back*acceleration);
+			if (l_axis_y > 0) {
+				rigidbody.AddForce (Vector3.back * acceleration);
 			}
 			
 			//jump
-			if (Input.GetButton("A_"+controllerNumber)||Input.GetButton("RS_"+controllerNumber)||Input.GetButton("LS_"+controllerNumber)){
-				if (canJump){
-					rigidbody.velocity=new Vector3(rigidbody.velocity.x,10,rigidbody.velocity.z);
-					canJump=false;
+			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("RS_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
+				if (canJump) {
+					rigidbody.velocity = new Vector3 (rigidbody.velocity.x, 10, rigidbody.velocity.z);
+					canJump = false;
 				}
 			}
 		}
 		//restrict movement speed
-		var xz_vec=new Vector2(rigidbody.velocity.x,rigidbody.velocity.z);
+		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
 		
-		if (xz_vec.magnitude>speed_max){
-			xz_vec=Vector2.ClampMagnitude(xz_vec,speed_max);
+		if (xz_vec.magnitude > speed_max) {
+			xz_vec = Vector2.ClampMagnitude (xz_vec, speed_max);
 		}
 		
-		rigidbody.velocity=new Vector3(
+		rigidbody.velocity = new Vector3 (
 			xz_vec.x,
-			Mathf.Clamp(rigidbody.velocity.y,-jump_speed,jump_speed_max),
+			Mathf.Clamp (rigidbody.velocity.y, -jump_speed, jump_speed_max),
 			xz_vec.y
 			);
 		
-		graphics.renderer.material.color=color;
+		graphics.renderer.material.color = color;
 		//if (onGround)
 		//	graphics.renderer.material.color=Color.green;
-		jump_timer.Active=true;
+		jump_timer.Active = true;
 	}
 	
-	void OnCollisionStay(Collision other){
-		foreach (var c in other.contacts){
-			if (Vector3.Angle(c.normal,transform.up)<10){
-				onGround=true;
+	void OnCollisionStay (Collision other)
+	{
+		foreach (var c in other.contacts) {
+			if (Vector3.Angle (c.normal, transform.up) < 10) {
+				onGround = true;
 				break;
 			}
 		}
 	}
 	
-	void OnJumpTimer(){
-		onGround=false;
-		canJump=true;
+	void OnJumpTimer ()
+	{
+		onGround = false;
+		canJump = true;
 	}
 	
-	void OnDestroy(){
-		jump_timer.Destroy();
+	void OnDestroy ()
+	{
+		jump_timer.Destroy ();
 	}
-	
 		
-	private void updateAimDir(){
-		var forward=transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
+	private void updateAimDir ()
+	{
+		var forward = transform.TransformDirection (new Vector3 (r_axis_x, 0, -r_axis_y));
 
-		forward.Normalize();
+		forward.Normalize ();
 		
-		if (forward==Vector3.zero){
-			if (last_used_aim_direction==Vector3.zero)
-				last_used_aim_direction=Vector3.up;
-		}
-		else{
-			last_used_aim_direction=forward;
+		if (forward == Vector3.zero) {
+			if (last_used_aim_direction == Vector3.zero)
+				last_used_aim_direction = Vector3.up;
+		} else {
+			last_used_aim_direction = forward;
 		}
 		
 		//DEV. temp dir
-		aim_dir.transform.position=transform.position+forward;
+		aim_dir.transform.position = transform.position + forward;
 	}
 	
 }
@@ -170,7 +179,7 @@ public class PlayerMain : MonoBehaviour {
 
 
 		
-		/*DEV. mouse 
+/*DEV. mouse 
 		var mpos=Input.mousePosition+Vector3.up*4;
 		var mouse_pos_dif=mpos-Camera.main.WorldToScreenPoint(transform.position);
 		mouse_pos_dif=Vector3.ClampMagnitude(mouse_pos_dif,1);	
@@ -190,7 +199,7 @@ public class PlayerMain : MonoBehaviour {
 		*/
 
 
-			/* DEV. keyboard
+/* DEV. keyboard
 			if (Input.GetKey(KeyCode.A)){
 				rigidbody.AddForce(Vector3.left*acceleration);
 			}

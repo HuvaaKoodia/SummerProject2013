@@ -4,36 +4,63 @@ using System.Collections;
 public class AbilityGridSys : MonoBehaviour {
 
 	public GameObject container;
-	public UICamera _Camera;
+	public PlayerHudMain playerPanel;
 	
-	public int grid_width,grid_height;
+	int selected_item=0,max_items=25;
 		
-	public UIButton[,] Grid{get;private set;}
+	public ItemContainerMain[,] Grid{get;private set;}
 	
 	// Use this for initialization
 	void Start () {
-		Grid=new UIButton[grid_width,grid_height];
+		
+		var database=GameObject.Find("GameController").GetComponent<AbilitiesDatabase>();
+		var data=database.abilities;
+		int d_i=0;
+				
+		foreach (Transform t in transform){
+			var item_c=t.GetComponent<ItemContainerMain>();
+
+			if (d_i<data.Length){
+				item_c.Ability=data[d_i];
+				d_i++;
+			}
+		}
+		
+		/*
+		Grid=new ItemContainerMain[grid_width,grid_height];
 		
 		for (int y=0;y<Grid.GetLength(1);y++){
 			for (int x=0;x<Grid.GetLength(0);x++){
 				var go=NGUITools.AddChild(gameObject,container);
-				Grid[x,y]=go.GetComponent<UIButton>();
+				Grid[x,y]=go.GetComponent<ItemContainerMain>();
+				var item_c=go.GetComponent<ItemContainerMain>();
+				if (d_i<data.Length){
+					item_c.setAbility(data[d_i]);
+					d_i++;
+				}
 			}
 		}
-		_Camera.selectedObjectInput=gameObject;
-		
-		var g=GetComponent<UIGrid>();
-		g.maxPerLine=grid_width;
-		g.Reposition();
-		
-		var gi=GetComponent<GridInput>();
-		gi.Grid=Grid;
-		gi._Camera=_Camera;
-		gi.SelectFirst();
-	}
+		*/
+		//var item_conts=
+		//for (int i=0;i<max_items;i++){
+			
+		/*
+		for (int i=0;i<max_items;i++){
+				var go=NGUITools.AddChild(gameObject,container);
+				var item_c=go.GetComponent<ItemContainerMain>();
 	
-	// Update is called once per frame
-	void Update () {
-	
+				if (d_i<data.Length){
+					item_c.setAbility(data[d_i]);
+					d_i++;
+				}
+		}*/
+		
+
+		//playerPanel._Camera.selectedObjectInput=gameObject;
+		
+		//var g=GetComponent<UIGrid>();
+//		g.maxPerLine=grid_width;
+		//g.Reposition();
+
 	}
 }
