@@ -197,6 +197,7 @@ public class UICamera : MonoBehaviour
 	public KeyCode submitKey1 = KeyCode.JoystickButton0;
 	public KeyCode cancelKey0 = KeyCode.Escape;
 	public KeyCode cancelKey1 = KeyCode.JoystickButton1;
+	public string submitController ="",cancelController ="";
 
 	public delegate void OnCustomInput ();
 
@@ -276,6 +277,11 @@ public class UICamera : MonoBehaviour
 
 	// Selected widget (for input)
 	static GameObject mSel = null;
+	
+	// DEV. Selected widget FAKE (for input.) NB. instance field
+	GameObject mSelInput = null;
+	// DEV. Selected widget to be for highlighted NB. instance field
+	GameObject mSelHigh = null;
 
 	// Mouse events
 	static MouseOrTouch[] mMouse = new MouseOrTouch[] { new MouseOrTouch(), new MouseOrTouch(), new MouseOrTouch() };
@@ -287,7 +293,7 @@ public class UICamera : MonoBehaviour
 	static MouseOrTouch mController = new MouseOrTouch();
 
 	// Used to ensure that joystick-based controls don't trigger that often
-	static float mNextEvent = 0f;
+	float mNextEvent = 0f;
 
 	// List of currently active touches
 	static Dictionary<int, MouseOrTouch> mTouches = new Dictionary<int, MouseOrTouch>();
@@ -328,7 +334,7 @@ public class UICamera : MonoBehaviour
 	/// <summary>
 	/// Option to manually set the selected game object.
 	/// </summary>
-
+	
 	static public GameObject selectedObject
 	{
 		get
@@ -366,6 +372,80 @@ public class UICamera : MonoBehaviour
 						if (uicam.useController || uicam.useKeyboard) Highlight(mSel, true);
 						Notify(mSel, "OnSelect", true);
 						current = null;
+					}
+				}
+			}
+		}
+	}
+	
+	///<summary>
+	///DEV.
+	///Just selects the object. No input selection.
+	///</summary>
+	public GameObject selectedObjectInput
+	{
+		get
+		{
+			return  mSelInput;
+		}
+		set
+		{
+			if ( mSelInput!= value)
+			{
+				if (mSelInput != null)
+				{
+					UICamera uicam = FindCameraForLayer(mSelInput.layer);
+					if (uicam!=null){
+						Notify( mSelInput, "OnSelect", false);
+						if (uicam.useController || uicam.useKeyboard) Highlight(mSelInput, false);
+					}
+				}
+
+				mSelInput = value;
+
+				if ( mSelInput != null)
+				{
+					UICamera uicam = FindCameraForLayer(mSelInput.layer);
+					if (uicam!=null){
+						Notify(mSelInput, "OnSelect", true);
+						if (uicam.useController || uicam.useKeyboard) Highlight(mSelInput, true);
+					}
+				}
+			}
+		}
+	}
+	
+	///<summary>
+	///DEV.
+	///Just selects the object. No input selection.
+	///</summary>
+	public GameObject selectedObjectHighlight
+	{
+		get
+		{
+			return  mSelHigh;
+		}
+		set
+		{
+			if ( mSelHigh!= value)
+			{
+				if (mSelHigh != null)
+				{
+					UICamera uicam = FindCameraForLayer(mSelHigh.layer);
+					if (uicam!=null){
+						Notify( mSelHigh, "OnSelect", false);
+						if (uicam.useController || uicam.useKeyboard) Highlight(mSelHigh, false);
+					}
+				}
+
+				mSelHigh = value;
+
+				if ( mSelHigh != null)
+				{
+					UICamera uicam = FindCameraForLayer(mSelHigh.layer);
+					if (uicam!=null){
+						Notify(mSelHigh, "OnSelect", true);
+						if (uicam.useController || uicam.useKeyboard) Highlight(mSelHigh, true);
 					}
 				}
 			}
@@ -557,7 +637,7 @@ public class UICamera : MonoBehaviour
 	/// Using the joystick to move the UI results in 1 or -1 if the threshold has been passed, mimicking up/down keys.
 	/// </summary>
 
-	static int GetDirection (string axis)
+	int GetDirection (string axis)
 	{
 		float time = Time.realtimeSinceStartup;
 
@@ -756,7 +836,7 @@ public class UICamera : MonoBehaviour
 	void Update ()
 	{
 		// Only the first UI layer should be processing events
-		if (!Application.isPlaying || !handlesEvents) return;
+		if (!Application.isPlaying) return; //DEV. removed  || !handlesEvents) return;
 
 		current = this;
 
@@ -790,7 +870,10 @@ public class UICamera : MonoBehaviour
 		else inputHasFocus = false;
 
 		// Update the keyboard and joystick events
-		if (mSel != null) ProcessOthers();
+		
+		//DEV. removed
+		//if (mSel != null) 
+		ProcessOthers();
 
 		// If it's time to show a tooltip, inform the object we're hovering over
 		if (useMouse && mHover != null)
@@ -1013,18 +1096,27 @@ public class UICamera : MonoBehaviour
 
 		if (useController)
 		{
-			if (!string.IsNullOrEmpty(verticalAxisName)) vertical += GetDirection(verticalAxisName);
+			if (!string.IsNullOrEmpty(verticalAxisName)) vertical -= GetDirection(verticalAxisName);//DEV. Changed + -> -
 			if (!string.IsNullOrEmpty(horizontalAxisName)) horizontal += GetDirection(horizontalAxisName);
+			
+			if (Input.GetButtonDown(submitController)){
+				Notify(mSelInput, "OnKey",KeyCode.A);
+			}
+			
+			
+			if (Input.GetButtonDown(cancelController)){
+				Notify(mSelInput, "OnKey",KeyCode.B);
+			}
 		}
 
 		// Send out key notifications
-		if (vertical != 0) Notify(mSel, "OnKey", vertical > 0 ? KeyCode.UpArrow : KeyCode.DownArrow);
-		if (horizontal != 0) Notify(mSel, "OnKey", horizontal > 0 ? KeyCode.RightArrow : KeyCode.LeftArrow);
-		if (useKeyboard && Input.GetKeyDown(KeyCode.Tab)) Notify(mSel, "OnKey", KeyCode.Tab);
+		if (vertical != 0) Notify(mSelInput, "OnKey", vertical > 0 ? KeyCode.UpArrow : KeyCode.DownArrow);
+		if (horizontal != 0) Notify(mSelInput, "OnKey", horizontal > 0 ? KeyCode.RightArrow : KeyCode.LeftArrow);
+		if (useKeyboard && Input.GetKeyDown(KeyCode.Tab)) Notify(mSelInput, "OnKey", KeyCode.Tab);
 
 		// Send out the cancel key notification
-		if (cancelKey0 != KeyCode.None && Input.GetKeyDown(cancelKey0)) Notify(mSel, "OnKey", KeyCode.Escape);
-		if (cancelKey1 != KeyCode.None && Input.GetKeyDown(cancelKey1)) Notify(mSel, "OnKey", KeyCode.Escape);
+		if (cancelKey0 != KeyCode.None && Input.GetKeyDown(cancelKey0)) Notify(mSelInput, "OnKey", KeyCode.Escape);
+		if (cancelKey1 != KeyCode.None && Input.GetKeyDown(cancelKey1)) Notify(mSelInput, "OnKey", KeyCode.Escape);
 
 		currentTouch = null;
 	}

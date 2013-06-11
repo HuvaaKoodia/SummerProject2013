@@ -9,8 +9,6 @@ public class GameHudController : MonoBehaviour {
 	void Start () {
 		//var playerdata=GameObject.Find("PLAYERDATA!").GetComponent<PlayerManager>();
 		
-		UIAnchor.Side[] sides={UIAnchor.Side.TopLeft,UIAnchor.Side.TopRight,UIAnchor.Side.BottomLeft,UIAnchor.Side.BottomRight};
-		
 		var players=GameObject.FindGameObjectsWithTag("Player");
 		
 		for (int i=0;i<4;i++){
@@ -22,6 +20,8 @@ public class GameHudController : MonoBehaviour {
 				playerHuds[i].gameObject.SetActive(false);
 			}
 			/*
+			 * UIAnchor.Side[] sides={UIAnchor.Side.TopLeft,UIAnchor.Side.TopRight,UIAnchor.Side.BottomLeft,UIAnchor.Side.BottomRight};
+			 * 
 			var obj=Instantiate(playerHud) as Transform;
 			var scr=obj.GetComponent<PlayerHudPanel>();
 			var pp=p.GetComponent<PlayerMain>();

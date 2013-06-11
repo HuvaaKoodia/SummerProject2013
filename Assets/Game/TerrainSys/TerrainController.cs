@@ -125,7 +125,7 @@ public class TerrainController : MonoBehaviour {
 		}*/
 		terrain_timer=new Timer(8100,OnTerrainTrigger);
 		
-		main_camera.LookAt(terrain[xx,yy].transform.position);
+		main_camera.LookAtCenter(terrain[xx,yy].transform.position);
 		
 		bool data_read_ok=false;
 		try{

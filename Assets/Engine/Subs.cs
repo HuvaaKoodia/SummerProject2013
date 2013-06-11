@@ -44,4 +44,17 @@ public class Subs{
 	{
 		return transform.position+transform.TransformDirection(dir);
 	}
+	
+	/// <summary>
+	/// Wraps the specified number according to min and max.
+	/// Doesn't take multiple revolutions into account.
+	/// </summary>
+	public static int Wrap (int number, int min, int max)
+	{
+		if (number<min)
+			return max+number;
+		if (number>=max)
+			return min+(number-max);
+		return number;
+	}
 }

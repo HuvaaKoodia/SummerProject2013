@@ -5,7 +5,7 @@ public class DieOnCollision : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		rigidbody.collisionDetectionMode=CollisionDetectionMode.Discrete;
 	}
 	
 	// Update is called once per frame
