@@ -7,7 +7,7 @@ public class Blinker : MonoBehaviour
 	public Transform componentToBlink;
 	PlayerManager manager;
 	int controller = 1;
-	public PlayerManager.playerState neededState;
+	public playerState neededState;
 	public bool needsAState=false;
 	
 	// Use this for initialization
