@@ -6,40 +6,53 @@ public class PlayerMain : MonoBehaviour
 {
 	
 	public Transform projectile_prefab;
+	public PlayerGraphicsScr graphics;
+	public List<Transform> Abilities = new List<Transform> ();
+	public List<AbilityContainer> ability_containers;
+	public int controllerNumber = 1;
+
+	float hp = 100;
+	public float HP {
+		get{ return hp;}
+		set{ hp = Mathf.Clamp(value,0,100); 
+			if(hp==0) Destroy(gameObject);
+		}
+	}
+	
+	float mp = 100;
+	public float MP {
+		get{ return mp;}
+		set{ mp = Mathf.Clamp(value,0,100);}
+	}
+	
+	
+	//private 
+		
 	bool onGround, canJump;
 	float acceleration = 50,
 		jump_speed = 200, jump_speed_max = 2000,
 		speed_max = 2;
-	float hp = 100;
-
-	public float HP {
-		get{ return hp;}
-		set{ hp = value;}
-	}
-	
-	float mp = 100;
-
-	public float MP {
-		get{ return mp;}
-		set{ mp = value;}
-	}
-	
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
-	Transform graphics, aim_dir;
-	Timer jump_timer;
-	public int controllerNumber = 1;
-	public Color color;
-	Vector3 last_used_aim_direction;
-	public List<Transform> Abilities = new List<Transform> ();
-	public List<AbilityContainer> ability_containers;
+	Transform u_torso,l_torso;
 	
-	// Use this for initialization
+	Timer jump_timer;
+	Vector3 last_aim_point,last_aim_direction,last_move_point,last_move_direction;
+	
+	//DEV.temp color sys
+	public Color _color=Color.white;
+	
+	public Color _Color{
+		set{
+			 graphics.setColor(value);
+		}
+	}
 	
 	void Awake ()
 	{
+		last_aim_direction=last_move_direction=Vector3.forward;
 		
-		graphics = transform.Find ("Graphics").Find ("temp") as Transform;
-		aim_dir = transform.Find ("Graphics").Find ("dir") as Transform;
+		u_torso=graphics.UpperTorso;
+		l_torso=graphics.LowerTorso;
 		
 		jump_timer = new Timer (400, OnJumpTimer);
 		
@@ -49,14 +62,15 @@ public class PlayerMain : MonoBehaviour
 			var abb = new AbilityContainer ();	
 			abb.projectile_prefab = projectile_prefab;
 			abb.ability_prefab = Abilities [i];
+			
+			abb.player=this;
 			ability_containers.Add (abb);
 		}
-		
+		_Color=_color;
 	}
 	
 	void Start ()
 	{
-
 	}
 
 	void Update ()
@@ -69,21 +83,34 @@ public class PlayerMain : MonoBehaviour
 		
 		updateAimDir ();
 		
-		if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)) {
-			ability_containers [0].UseAbility (transform.position, last_used_aim_direction);
+		if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
+			ability_containers [0].UseAbility (transform.position, last_aim_direction);
 		}
 		
-		if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)) {
-			ability_containers [1].UseAbility (transform.position, last_used_aim_direction);
+		if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
+			ability_containers [1].UseAbility (transform.position, last_aim_direction);
 		}
 		
 		if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
-			ability_containers [2].UseAbility (transform.position, last_used_aim_direction);
+			ability_containers [2].UseAbility (transform.position, last_aim_direction);
 		}
 		
 		if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
-			ability_containers [3].UseAbility (transform.position, last_used_aim_direction);
+			ability_containers [3].UseAbility (transform.position, last_aim_direction);
 		}
+		
+		//mp regen
+		MP+=Time.deltaTime*5;
+		
+		//graphics rotation
+		var newRotation = Quaternion.LookRotation(-(graphics.transform.position - last_aim_point)).eulerAngles;
+        newRotation.x = newRotation.z = 0;
+        u_torso.rotation = Quaternion.Euler(newRotation);//*Quaternion.AngleAxis(270,Vector3.right)
+		
+		newRotation = Quaternion.LookRotation(-(graphics.transform.position - last_move_point)).eulerAngles;
+        newRotation.x = newRotation.z = 0;
+        l_torso.rotation = Quaternion.Euler(newRotation);//*Quaternion.AngleAxis(270,Vector3.right)
+		
 	}
 
 	// Update is called once per frame
@@ -129,7 +156,6 @@ public class PlayerMain : MonoBehaviour
 			xz_vec.y
 			);
 		
-		graphics.renderer.material.color = color;
 		//if (onGround)
 		//	graphics.renderer.material.color=Color.green;
 		jump_timer.Active = true;
@@ -153,32 +179,29 @@ public class PlayerMain : MonoBehaviour
 	
 	void OnDestroy ()
 	{
-		jump_timer.Destroy ();
+		jump_timer.Destroy();
 	}
 		
 	private void updateAimDir ()
 	{
-		var forward = transform.TransformDirection (new Vector3 (r_axis_x, 0, -r_axis_y));
-
-		forward.Normalize ();
+		//aim
+		var forward = transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
 		
-		if (forward == Vector3.zero) {
-			if (last_used_aim_direction == Vector3.zero)
-				last_used_aim_direction = Vector3.up;
-		} else {
-			last_used_aim_direction = forward;
+		if (forward.magnitude>0.5f) {
+			last_aim_direction = forward.normalized;
 		}
+		last_aim_point = transform.position + last_aim_direction;
 		
-		//DEV. temp dir
-		aim_dir.transform.position = transform.position + forward;
+		//movement
+		forward=transform.TransformDirection(new Vector3(l_axis_x, 0, -l_axis_y));
+		
+		if (forward.magnitude>0.5f){
+			last_move_direction = forward.normalized;
+		}
+		last_move_point=transform.position + last_move_direction;
 	}
-	
 }
 
-
-
-
-		
 /*DEV. mouse 
 		var mpos=Input.mousePosition+Vector3.up*4;
 		var mouse_pos_dif=mpos-Camera.main.WorldToScreenPoint(transform.position);

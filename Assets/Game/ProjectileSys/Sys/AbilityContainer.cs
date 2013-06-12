@@ -12,6 +12,8 @@ public class AbilityContainer{
 	
 	bool ability_ready=true;
 	
+	public PlayerMain player;
+	
 	// Use this for initialization
 	public AbilityContainer(){
 		cooldown=new Timer(1000,OnTimer);
@@ -29,6 +31,12 @@ public class AbilityContainer{
 		if (!ability_ready) return;
 		
 		var ProStats=ability_prefab.GetComponent<ProjectileStats>();
+		
+		if (player.MP<ProStats.EnergyCost){
+			return;
+		}
+		
+		
 		var abl=ability_prefab.GetComponent<AbilityMain>();
 		
 		var dis=Mathf.Max(ProStats.Size,0.5f)+0.1f;
@@ -73,6 +81,8 @@ public class AbilityContainer{
 		
 		_cooldown_delay=ProStats.Cooldown;
 		setOnCooldown();
+		
+		player.MP-=ProStats.EnergyCost;
 	}
 	
 	void setOnCooldown(){

@@ -1,19 +1,20 @@
 using UnityEngine;
 using System.Collections;
 
+public enum AbilityMenuState{Bar,Panel,Upgrade,Ready}
+
 public class PlayerHudMain : MonoBehaviour {
-	
-	enum AbilityMenuState{Bar,Panel,Upgrade,Ready}
 	
 	public PlayerMain Player;
 	public UICamera _Camera;
-	AbilityMenuState state;
+	public AbilityMenuState state;
 	
-	public GameObject ShopPanel;
-	public GridInput AbilityBarGrid,AbilityPanelGrid;
+	public GameObject ShopPanel,UpgradePanel;
+	public GridInput AbilityBarGrid,AbilityPanelGrid,UpgradeGrid;
 	
 	UIAnchor anchor;
 	UISlider hp_slider,mp_slider;
+	ItemContainerMain swap_item;
 	
 	// Use this for initialization
 	public void Awake() {
@@ -50,6 +51,11 @@ public class PlayerHudMain : MonoBehaviour {
 			changeState(AbilityMenuState.Bar);
 		}
 		
+		if (Input.GetButtonDown("Y_"+Player.controllerNumber)){
+			if (state!=AbilityMenuState.Upgrade)
+				changeState(AbilityMenuState.Upgrade);
+		}
+		
 		if (Input.GetButtonDown("X_"+Player.controllerNumber)){
 			if (swap_item==null){
 				swap_item=GetSelectedBar();
@@ -71,8 +77,6 @@ public class PlayerHudMain : MonoBehaviour {
 		}
 	}
 	
-	ItemContainerMain swap_item;
-	
 	ItemContainerMain GetSelectedBar(){
 		return AbilityBarGrid.SelectedItem().GetComponent<ItemContainerMain>();
 	} 
@@ -82,31 +86,52 @@ public class PlayerHudMain : MonoBehaviour {
 	} 
 	
 	void changeState(AbilityMenuState state){
+		Player.gameObject.SetActive(false);
 		
+		ShopPanel.SetActive(false);
+		UpgradePanel.SetActive(false);
+		
+		hp_slider.gameObject.SetActive(false);
+		mp_slider.gameObject.SetActive(false);
 		
 		if (state==AbilityMenuState.Bar){
 			_Camera.selectedObjectInput=AbilityBarGrid.gameObject;
-			AbilityBarGrid.SelectCurrent();
+			AbilityBarGrid.HighlightCurrent();
 		}
 		
 		if (state==AbilityMenuState.Panel){
+			ShopPanel.SetActive(true);
 			_Camera.selectedObjectInput=AbilityPanelGrid.gameObject;
-			AbilityPanelGrid.SelectCurrent();
+			AbilityPanelGrid.HighlightCurrent();
 		}
 		
 		if (state==AbilityMenuState.Upgrade){
-			
+			UpgradePanel.SetActive(true);
+			_Camera.selectedObjectInput=UpgradeGrid.gameObject;
+			UpgradeGrid.HighlightCurrent();
 		}
 		
-				
+		/*
 		if (this.state==AbilityMenuState.Ready){//Coming from ready
-			ShopPanel.SetActive(true);
+
 		}
+		*/
 		
-		if (state==AbilityMenuState.Ready){//going to ready
+		if (state==AbilityMenuState.Ready){//Going to ready
 			_Camera.selectedObjectInput=null;
 			_Camera.selectedObjectHighlight=null;
-			ShopPanel.SetActive(false);
+			
+			hp_slider.gameObject.SetActive(true);
+			mp_slider.gameObject.SetActive(true);
+			
+			Player.gameObject.SetActive(true);
+			
+			//save selected abilities.
+			int i=0;
+			foreach (var con in Player.ability_containers){
+				con.ability_prefab=AbilityBarGrid.Grid[i,0].GetComponent<ItemContainerMain>().Ability;
+				i++;
+			}
 		}
 
 		

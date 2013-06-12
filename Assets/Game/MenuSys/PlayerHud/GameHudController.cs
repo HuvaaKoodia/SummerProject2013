@@ -13,8 +13,8 @@ public class GameHudController : MonoBehaviour {
 		
 		for (int i=0;i<4;i++){
 			if (players.Length>i){
-				var p =players[i].GetComponent<PlayerMain>();
-				playerHuds[i].Player=p;
+				//var p =players[i].GetComponent<PlayerMain>();
+				//playerHuds[i].Player=p;
 			}
 			else{
 				playerHuds[i].gameObject.SetActive(false);
@@ -40,5 +40,19 @@ public class GameHudController : MonoBehaviour {
 	// Update is called once per frame
 	void Update (){
 	
+		bool allready=true;
+		foreach (var ph in playerHuds){
+			if (!ph.gameObject.activeSelf) continue;
+			
+			if (ph.state!=AbilityMenuState.Ready){
+				allready=false;
+				break;
+			}
+		}
+		if (allready){
+			
+			///start game
+			GameObject.Find("LevelController").GetComponent<TerrainController>().Activate(true);
+		}
 	}
 }

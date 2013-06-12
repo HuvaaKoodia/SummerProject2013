@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour {
 	Vector3 coor;
 	public TileData Tile_Group{get;private set;}
 	public TileData Tile_Data{get;private set;}
-	
+
 	// Use this for initialization
 	void Awake () {
 		Tile_Data=new TileData(Vector3.zero,0);
@@ -46,6 +46,10 @@ public class Tile : MonoBehaviour {
 	void OnDestroy(){
 		if (Tile_Data!=null)
 			Tile_Data.Destroy();
+	}
+	
+	public void Activate(bool active){
+		Tile_Data.Activate(active);
 	}
 }
 
@@ -91,7 +95,6 @@ public class TileData{
 				Position=new Vector3(Position.x,move_target.y,Position.z);
 			}
 		}
-
 	}
 	
 	//subs
@@ -147,7 +150,7 @@ public class TileData{
 		tile_group=tg;
 	}
 	
-	public void RandomOn(bool on){
+	public void Activate(bool on){
 		timer.Active=on;
 	}
 	

@@ -15,7 +15,7 @@ public class ProjectileMain : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		life_time=new Timer(1000,OnDeath);
+		life_time=new Timer(1000,OnDeath,false);
 		graphics=transform.Find("Graphics") as Transform;
 		SpeedMulti=oldSpeedMulti=1f;
 	}
@@ -37,9 +37,12 @@ public class ProjectileMain : MonoBehaviour {
 			}
 		}
 		
-			
 		oldSpeedMulti=SpeedMulti;
 		SpeedMulti=1;
+	}
+	
+	void Update(){
+		life_time.Update();
 	}
 	
 	float oldSpeedMulti=1f;
@@ -65,7 +68,7 @@ public class ProjectileMain : MonoBehaviour {
 	}
 	
 	public void OnDestroy(){
-		life_time.Destroy();
+		//life_time.Destroy();
 	}
 	
 	void OnCollisionEnter(Collision other){

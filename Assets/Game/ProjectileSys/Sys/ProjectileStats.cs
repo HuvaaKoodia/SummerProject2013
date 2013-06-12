@@ -12,6 +12,14 @@ public class ProjectileStats : MonoBehaviour {
 		Life_time,
 		Cooldown,
 		Damage,
+		Knockback,
 		EnergyCost;
 	
+	public float 
+		Speed_multi,
+		Life_time_multi,
+		Cooldown_multi,
+		Damage_multi,
+		Knockback_multi,
+		EnergyCost_multi;
 }

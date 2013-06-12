@@ -24,7 +24,12 @@ public class ItemContainerMain : MonoBehaviour {
 	
 	void setAbility(Transform ability){
 		this.ability=ability;
-		var sts=ability.GetComponent<AbilityStats>();
-		spr.spriteName=sts.spriteName;
+		
+		string spr_name="Empty";
+		if (ability!=null){
+			var sts=ability.GetComponent<AbilityStats>();
+			spr_name=sts.spriteName;
+		}
+		spr.spriteName=spr_name;
 	}
 }

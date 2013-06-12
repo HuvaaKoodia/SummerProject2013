@@ -68,7 +68,7 @@ public class GridInput : MonoBehaviour
 		_Camera.selectedObjectHighlight=Grid[s_x,s_y].gameObject;
 	}
 	
-	public void SelectCurrent(){
+	public void HighlightCurrent(){
 		OnKey(KeyCode.None);
 	}
 	

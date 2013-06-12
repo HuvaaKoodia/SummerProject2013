@@ -37,14 +37,22 @@ public class Timer{
 	/// <summary>
 	/// Creates an inactive timer.
 	/// </param>
-	public Timer(TimerEvent te){
-		timers.Add(this);
+	public Timer(TimerEvent te,bool addthis){
+		if (addthis) timers.Add(this);
 		Timer_Event=te;
 	}
 	/// <summary>
 	/// Creates an active timer with a certain delay.
 	/// </param>
-	public Timer(int millis,TimerEvent te):this(te){
+	public Timer(int millis,TimerEvent te,bool addthis):this(te,addthis){
+		time=tick=millis/1000f;
+		Active=true;
+	}
+	
+	/// <summary>
+	/// Creates an active timer with a certain delay.
+	/// </param>
+	public Timer(int millis,TimerEvent te):this(te,true){
 		time=tick=millis/1000f;
 		Active=true;
 	}

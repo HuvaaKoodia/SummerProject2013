@@ -29,7 +29,6 @@ public class TerrainController : MonoBehaviour {
 		//var spawn_positions=new List<Tile>();
 		
 		mesh_bounds=tile_mesh.renderer.bounds;
-		
 		main_camera=GameObject.Find("Main Camera").GetComponent<CameraScript>();
 		
 		var hexa_size=mesh_bounds.size;
@@ -39,6 +38,7 @@ public class TerrainController : MonoBehaviour {
 		var pos=Vector3.zero;
 		float tile_w=hexa_size.x,tile_h=hexa_size.z;//ground_prefab.transform.localScale.x
 		
+		//creating tiles
 		Vector3 coor=new Vector3(0,0,0);
 		
 		for (int i=0;i<terrain.GetLength(0);i++)
@@ -56,6 +56,7 @@ public class TerrainController : MonoBehaviour {
 			for (int j=0;j<terrain.GetLength(1);j++)
 			{
 				var tile=Instantiate(ground_prefab,pos,Quaternion.identity) as Transform;
+				tile.transform.parent=transform;
 				var ts=tile.GetComponent("Tile") as Tile;
 				terrain[i,j]=ts;
 				tiles.Add(ts);
@@ -81,7 +82,7 @@ public class TerrainController : MonoBehaviour {
 		
 		//terrain_timer.Active=false;
 		
-		//create land shape DEV. cicle
+		//create land shape DEV. circle
 		
 		int xx=terrain.GetLength(0)/2,yy=terrain.GetLength(1)/2;
 		center_point=terrain[xx,yy].getCoordinate();
@@ -98,7 +99,7 @@ public class TerrainController : MonoBehaviour {
 			}
 		}
 		
-		//group up
+		//group up tiles
 		int group_amount=radius+1;
 		for (int g=0;g<group_amount;g++){
 			radius=(group_amount-g);
@@ -114,7 +115,7 @@ public class TerrainController : MonoBehaviour {
 			}
 		}
 		terrain[xx,yy].setTileGroup(null);//center not moving
-		terrain[xx,yy].Tile_Data.RandomOn(false);
+		terrain[xx,yy].Tile_Data.Activate(false);
 		/*
 		foreach (var t in tiles){
 			if (Vector2.Distance(center_point,new Vector2(t.transform.position.x,t.transform.position.z))<radius){
@@ -126,9 +127,7 @@ public class TerrainController : MonoBehaviour {
 		
 		main_camera.LookAtCenter(terrain[xx,yy].transform.position);
 		
-		
 		//players
-		
 		
 		if (GameObject.Find("PLAYERDATAS!")!=null){
 			var playerData=GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager>();
@@ -138,7 +137,7 @@ public class TerrainController : MonoBehaviour {
 				var data=playerData.players[c_p];
 				c_p++;
 				if (data.state==playerState.ready){
-					p.color=data.color;
+					p._Color=data.color;
 					p.controllerNumber=data.controllerNumber;
 				}
 				else{
@@ -147,7 +146,14 @@ public class TerrainController : MonoBehaviour {
 			}
 		}
 		
-					
+		
+		//pause level
+		Activate(false);
+		
+		foreach (var t in tile_groups){
+			t.Activate(false);
+		}
+		
 		//random pos
 		/*Tile tile;
 		do{
@@ -159,14 +165,30 @@ public class TerrainController : MonoBehaviour {
 		*/
 	}
 	
+	public void Activate(bool active){
+		foreach (var t in tiles){
+			t.Activate(active);
+		}
+		/*
+		foreach (var t in tile_groups){
+			t.Activate(active);
+		}*/
+		terrain_timer.Active=active;
+	}
+	
 	// Update is called once per frame
 	void Update (){
 		foreach (var tg in tile_groups){
 			tg.Update();
 		}
+		
+		//DEV!!!
+		if (Input.GetKeyDown(KeyCode.Space)){
+			Activate(true);
+		}
 	}
 	
-	private int current_group_to_go=1;
+	private int current_group_to_go=0;
 	private bool all_fall_on_once=false;
 	
 	private void OnTerrainTrigger(){
@@ -175,6 +197,12 @@ public class TerrainController : MonoBehaviour {
 		
 		if (current_group_to_go<tile_groups.Count)
 			{
+			//jitter
+			if (current_group_to_go+1<tile_groups.Count){
+				tile_groups[current_group_to_go+1].Activate(true);
+			}
+			
+			
 			if (all_fall_on_once){
 				tile_groups[current_group_to_go].MoveDown();
 				}
@@ -188,9 +216,12 @@ public class TerrainController : MonoBehaviour {
 					}
 				}
 			}
-			current_group_to_go++;
+		
 			//zoom camera
-			NotificationCenter.Instance.sendNotification(new CameraZoom_note(0.1f));
+			if (current_group_to_go>0)
+				NotificationCenter.Instance.sendNotification(new CameraZoom_note(0.1f));
+			
+			current_group_to_go++;
 		}
 
 		
