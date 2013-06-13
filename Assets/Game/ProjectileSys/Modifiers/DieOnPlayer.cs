@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class DieOnCollisionPlayer : MonoBehaviour {
+public class DieOnPlayer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
