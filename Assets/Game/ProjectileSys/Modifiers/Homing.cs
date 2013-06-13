@@ -6,6 +6,7 @@ public class Homing : MonoBehaviour {
 	ProjectileMain projectile;
 	BoxCollider boxCollider;
 	GameObject ConeCollider;
+	float time = 0f,traceTime = 1f;
 	// Use this for initialization
 	void Start () {
 		projectile = GetComponent<ProjectileMain>();
@@ -19,7 +20,7 @@ public class Homing : MonoBehaviour {
 		ConeCollider=Instantiate(cc_pre,transform.position,Quaternion.identity) as GameObject;
 		ConeCollider.transform.parent=transform;
 		ConeCollider.GetComponent<RotateToProjectileScr>().pro=projectile;
-		
+		time=traceTime;
 		/*var mc=gameObject.AddComponent("MeshCollider") as MeshCollider;
 		mc.isTrigger=true;
 		mc.convex=true;
@@ -32,9 +33,14 @@ public class Homing : MonoBehaviour {
 	if(target!=null){
 		projectile.setDirection(Vector3.Slerp(projectile.MoveDirection, (target.position-projectile.transform.position), Time.deltaTime*4));
 			Debug.Log(projectile.MoveDirection + " " + target.position + " " + projectile.transform.position);
+		time-=Time.deltaTime;
+	if(time<=0){
+				target=null;
+			time=traceTime;
+			}
 		}
 	}
-	void OnTriggerEnter(Collider other){
+	void OnTriggerStay(Collider other){
 		if(target!=null){
 			return;
 		}
