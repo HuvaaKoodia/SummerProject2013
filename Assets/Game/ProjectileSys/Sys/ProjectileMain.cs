@@ -4,6 +4,7 @@ using System.Collections;
 public class ProjectileMain : MonoBehaviour {
 	
 	public ProjectileStats stats;
+	public PlayerMain Creator;
 	
 	public Timer life_time;
 	Transform graphics;

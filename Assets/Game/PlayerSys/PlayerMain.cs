@@ -4,18 +4,16 @@ using System.Collections.Generic;
 
 public class PlayerMain : MonoBehaviour
 {
-	
-	public Transform projectile_prefab;
 	public PlayerGraphicsScr graphics;
 	public List<Transform> Abilities = new List<Transform> ();
 	public List<AbilityContainer> ability_containers;
-	public int controllerNumber = 1;
+	public int controllerNumber = 0;
 
 	float hp = 100;
 	public float HP {
 		get{ return hp;}
 		set{ hp = Mathf.Clamp(value,0,100); 
-			if(hp==0) Destroy(gameObject);
+			if(hp==0) Die();
 		}
 	}
 	
@@ -24,7 +22,6 @@ public class PlayerMain : MonoBehaviour
 		get{ return mp;}
 		set{ mp = Mathf.Clamp(value,0,100);}
 	}
-	
 	
 	//private 
 	bool onGround, canJump;
@@ -48,6 +45,12 @@ public class PlayerMain : MonoBehaviour
 	
 	void Awake ()
 	{
+		//mass increase
+		acceleration*=rigidbody.mass;
+		jump_speed*=rigidbody.mass;
+
+		
+		
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
 		u_torso=graphics.UpperTorso;
@@ -58,8 +61,7 @@ public class PlayerMain : MonoBehaviour
 		ability_containers = new List<AbilityContainer> ();
 		
 		for (int i=0; i<Abilities.Count; i++){
-			var abb = new AbilityContainer ();	
-			abb.projectile_prefab = projectile_prefab;
+			var abb = new AbilityContainer ();
 			abb.ability_prefab = Abilities [i];
 			
 			abb.player=this;
@@ -102,11 +104,11 @@ public class PlayerMain : MonoBehaviour
 		MP+=Time.deltaTime*5;
 		
 		//graphics rotation
-		var newRotation = Quaternion.LookRotation(-(graphics.transform.position - last_aim_point)).eulerAngles;
+		var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
         newRotation.x = newRotation.z = 0;
         u_torso.rotation = Quaternion.Slerp(u_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
 		
-		newRotation = Quaternion.LookRotation(-(graphics.transform.position - last_move_point)).eulerAngles;
+		newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
         newRotation.x = newRotation.z = 0;
         l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
 	}
@@ -143,11 +145,11 @@ public class PlayerMain : MonoBehaviour
 
 		}
 					
-			//DEV.destroy
-			if (Input.GetButton ("B_" + controllerNumber)) {
-				graphics.DisengageParts();
-			}
-		
+		//DEV.destroy
+		if (Input.GetButtonDown("B_" + controllerNumber)){
+			Die();
+		}
+	
 		
 		//restrict movement speed
 		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
@@ -169,8 +171,12 @@ public class PlayerMain : MonoBehaviour
 	
 	void OnCollisionStay (Collision other)
 	{
+		int angle=10;
+		if (other.gameObject.tag=="Gib")
+			angle=30;
+		
 		foreach (var c in other.contacts) {
-			if (Vector3.Angle (c.normal, transform.up) < 10) {
+			if (Vector3.Angle (c.normal, transform.up) < angle){
 				onGround = true;
 				break;
 			}
@@ -183,9 +189,17 @@ public class PlayerMain : MonoBehaviour
 		canJump = true;
 	}
 	
+	void Die(){
+		
+		graphics.DisengageParts();
+		
+		Destroy(gameObject);
+	}
+	
 	void OnDestroy ()
 	{
 		jump_timer.Destroy();
+		
 	}
 		
 	private void updateAimDir ()

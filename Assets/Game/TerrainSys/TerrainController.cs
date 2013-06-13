@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using NotificationSys;
 
 public class TerrainController : MonoBehaviour {
-		
+	
+	public int LevelWidth,LevelHeight;
+	
 	public PlayerMain[] Players;
 	
 	public Transform player_prefab;
@@ -33,7 +35,7 @@ public class TerrainController : MonoBehaviour {
 		
 		var hexa_size=mesh_bounds.size;
 		
-		terrain=new Tile[20,20];
+		terrain=new Tile[LevelWidth,LevelHeight];
 		
 		var pos=Vector3.zero;
 		float tile_w=hexa_size.x,tile_h=hexa_size.z;//ground_prefab.transform.localScale.x
@@ -65,7 +67,7 @@ public class TerrainController : MonoBehaviour {
 				if (Subs.RandomPercent()<20)
 					ts.Tile_Data.setMovementBounds(2f,0f);
 
-				pos.z+=tile_h;
+				pos.z+=tile_h+0.01f;
 			}
 			
 			//pos.x+=tile_w+(tile_w*0.5f);
@@ -125,8 +127,9 @@ public class TerrainController : MonoBehaviour {
 		}*/
 		terrain_timer=new Timer(8100,OnTerrainTrigger);
 		
+		main_camera.transform.position=new Vector3(terrain[xx,yy].transform.position.x,main_camera.transform.position.y,main_camera.transform.position.z);
 		main_camera.LookAtCenter(terrain[xx,yy].transform.position);
-		
+		main_camera.DetachPlane();
 		//players
 		
 		if (GameObject.Find("PLAYERDATAS!")!=null){

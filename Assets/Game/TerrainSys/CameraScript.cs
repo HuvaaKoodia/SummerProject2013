@@ -17,10 +17,6 @@ public class CameraScript : MonoBehaviour {
 		move_to_pos=transform.position;
 		
 		//look_at_pos=Vector3.up*initial_y_offset;
-		
-		//DEV. detach plane
-		var plane=transform.Find("Plane");
-		plane.transform.parent=null;
 	}
 	
 	// Update is called once per frame
@@ -49,6 +45,7 @@ public class CameraScript : MonoBehaviour {
 	
 	public void LookAtCenter(Vector3 center){
 		look_at_pos=center+Vector3.up*initial_y_offset;
+		transform.LookAt(look_at_pos);
 	}
 	
 	void LookAt(Vector3 pos){
@@ -61,4 +58,10 @@ public class CameraScript : MonoBehaviour {
 		move_to_pos+=transform.rotation*Vector3.forward*Vector3.Distance(look_pos,transform.position)*n.Amount;
 		
 	} 
+	
+	public void DetachPlane(){
+		//DEV. detach plane
+		var plane=transform.Find("Plane");
+		plane.transform.parent=null;
+	}
 }

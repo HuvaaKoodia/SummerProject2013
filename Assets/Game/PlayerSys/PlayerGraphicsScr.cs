@@ -20,12 +20,14 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	}
 	
 	public void DisengageParts(){
-		foreach (Rigidbody t in Mecha.GetComponentsInChildren(rigidbody.GetType())){
-			t.transform.parent=null;
-			t.isKinematic=false;
-			var col=t.transform.Find("Collider");
-			if (col!=null)
-				col.collider.enabled=true;
+		foreach (Rigidbody r in Mecha.GetComponentsInChildren(rigidbody.GetType())){
+			r.transform.parent=null;
+			r.isKinematic=false;
+			foreach (Transform t in r.transform){
+				var col=t.collider;
+				if (col!=null)
+					col.collider.enabled=true;
+				}
 		}
 	}
 }

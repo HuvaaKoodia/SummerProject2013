@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class Ricochet : MonoBehaviour {
-
-	
 	ProjectileMain projectile;
 	// Use this for initialization
 	void Start () {

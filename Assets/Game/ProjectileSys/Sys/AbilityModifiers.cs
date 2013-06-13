@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using UnityEditor;
 
-public class AbilityMain : MonoBehaviour{
+public class AbilityModifiers : MonoBehaviour{
 	public List<MonoScript> Components=new List<MonoScript>();
 }
 

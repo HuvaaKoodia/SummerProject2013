@@ -2,9 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class AbilityContainer{
-	
-	public Transform projectile_prefab;
-	
 	Timer cooldown;
 	public float _cooldown_delay;
 	
@@ -18,8 +15,6 @@ public class AbilityContainer{
 	public AbilityContainer(){
 		cooldown=new Timer(1000,OnTimer);
 		cooldown.Active=false;
-		
-		//projectile_prefab=Resources.Load("Projectile") as GameObject;
 	}
 	
 	// Update is called once per frame
@@ -36,49 +31,55 @@ public class AbilityContainer{
 			return;
 		}
 		
+		var projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
 		
-		var abl=ability_prefab.GetComponent<AbilityMain>();
-		
-		var dis=Mathf.Max(ProStats.Size,0.5f)+0.1f;
-		var spawn_pos=pos+direction*dis;
-		//check if pos free
-		var ray_hits=Physics.RaycastAll(pos,direction,dis);
-		
-		foreach (var hit in ray_hits){
-			if (hit.collider.gameObject.tag=="Ground"){
-				return;
+		if (projectile_prefab!=null){//is projectile
+			var abl=ability_prefab.GetComponent<AbilityModifiers>();
+			
+			var dis=Mathf.Max(ProStats.Size,0.5f)+0.2f+player.rigidbody.velocity.magnitude/10;
+			var spawn_pos=pos+direction*dis;
+			//check if pos free
+			var ray_hits=Physics.RaycastAll(pos,direction,dis);
+			
+			foreach (var hit in ray_hits){
+				if (hit.collider.gameObject.tag=="Ground"){
+					return;
+					//don't spawn a projectile at all.
+				}
 			}
-			//don't spawn a projectile at all.
-		}
-		
-		var obj=MonoBehaviour.Instantiate(projectile_prefab,spawn_pos,Quaternion.identity) as Transform;
-		
-		foreach (var scr in abl.Components){
-			if (scr!=null){
-				obj.gameObject.AddComponent(scr.name);
+			
+			var obj=MonoBehaviour.Instantiate(projectile_prefab,spawn_pos,Quaternion.identity) as Transform;
+			
+			foreach (var scr in abl.Components){
+				if (scr!=null){
+					obj.gameObject.AddComponent(scr.name);
+				}
 			}
+			
+			//add rigid body as the last component
+			obj.gameObject.AddComponent<Rigidbody>();
+			obj.rigidbody.useGravity=ProStats.Gravity_on;
+			obj.rigidbody.collisionDetectionMode=CollisionDetectionMode.ContinuousDynamic;
+	
+			//set stats
+			var pro=obj.GetComponent<ProjectileMain>();
+			
+			pro.Creator=player;
+			pro.stats=ProStats;
+			
+			pro.life_time.Delay=ProStats.Life_time;
+			pro.life_time.Reset();
+			pro.setDirection(direction,ProStats.Speed);
+			pro.changeMaterialColor(ProStats.Colour);
+			
+			obj.localScale=Vector3.one*ProStats.Size;
+			obj.rigidbody.mass=ProStats.Size*10;
+			obj.rigidbody.drag=ProStats.Drag;
+			obj.rigidbody.angularDrag=ProStats.Drag;
 		}
-		
-		//add rigid body as the last component
-		obj.gameObject.AddComponent<Rigidbody>();
-		obj.rigidbody.useGravity=ProStats.Gravity_on;
-		obj.rigidbody.collisionDetectionMode=CollisionDetectionMode.ContinuousDynamic;
-
-		//set stats
-		var pro=obj.GetComponent<ProjectileMain>();
-		
-		pro.stats=ProStats;
-		
-		pro.life_time.Delay=ProStats.Life_time;
-		pro.life_time.Reset();
-		pro.setDirection(direction,ProStats.Speed);
-		pro.changeMaterialColor(ProStats.Colour);
-		
-		obj.localScale=Vector3.one*ProStats.Size;
-		obj.rigidbody.mass=ProStats.Size*10;
-		obj.rigidbody.drag=ProStats.Drag;
-		obj.rigidbody.angularDrag=ProStats.Drag;
-		
+		else{
+			//do soming else
+		}
 		_cooldown_delay=ProStats.Cooldown;
 		setOnCooldown();
 		
