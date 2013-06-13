@@ -14,8 +14,18 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	}
 	
 	public void setColor(Color color){
-		foreach (Renderer t in Mecha.transform.GetComponentsInChildren(renderer.GetType())){
+		foreach (Renderer t in Mecha.GetComponentsInChildren(renderer.GetType())){
 			t.material.color=color;
+		}
+	}
+	
+	public void DisengageParts(){
+		foreach (Rigidbody t in Mecha.GetComponentsInChildren(rigidbody.GetType())){
+			t.transform.parent=null;
+			t.isKinematic=false;
+			var col=t.transform.Find("Collider");
+			if (col!=null)
+				col.collider.enabled=true;
 		}
 	}
 }

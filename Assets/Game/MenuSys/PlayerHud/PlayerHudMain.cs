@@ -35,36 +35,38 @@ public class PlayerHudMain : MonoBehaviour {
 		mp_slider.sliderValue=Player.MP/100f;
 		
 		//input
-		if (Input.GetButtonDown("A_"+Player.controllerNumber)){
-			if (state==AbilityMenuState.Bar){
-				changeState(AbilityMenuState.Panel);
+		if (state!=AbilityMenuState.Ready){
+			if (Input.GetButtonDown("A_"+Player.controllerNumber)){
+				if (state==AbilityMenuState.Bar){
+					changeState(AbilityMenuState.Panel);
+				}
+				else
+				if (state==AbilityMenuState.Panel){
+					//select item and change to current slot
+					GetSelectedBar().Ability=GetSelectedPanel().Ability;
+					changeState(AbilityMenuState.Bar);
+				}
 			}
-			else
-			if (state==AbilityMenuState.Panel){
-				//select item and change to current slot
-				GetSelectedBar().Ability=GetSelectedPanel().Ability;
+			
+			if (Input.GetButtonDown("B_"+Player.controllerNumber)){
 				changeState(AbilityMenuState.Bar);
 			}
-		}
-		
-		if (Input.GetButtonDown("B_"+Player.controllerNumber)){
-			changeState(AbilityMenuState.Bar);
-		}
-		
-		if (Input.GetButtonDown("Y_"+Player.controllerNumber)){
-			if (state!=AbilityMenuState.Upgrade)
-				changeState(AbilityMenuState.Upgrade);
-		}
-		
-		if (Input.GetButtonDown("X_"+Player.controllerNumber)){
-			if (swap_item==null){
-				swap_item=GetSelectedBar();
+			
+			if (Input.GetButtonDown("Y_"+Player.controllerNumber)){
+				if (state!=AbilityMenuState.Upgrade)
+					changeState(AbilityMenuState.Upgrade);
 			}
-			else{
-				var s_ab=GetSelectedBar().Ability;
-				GetSelectedBar().Ability=swap_item.Ability;
-				swap_item.Ability=s_ab;
-				swap_item=null;
+			
+			if (Input.GetButtonDown("X_"+Player.controllerNumber)){
+				if (swap_item==null){
+					swap_item=GetSelectedBar();
+				}
+				else{
+					var s_ab=GetSelectedBar().Ability;
+					GetSelectedBar().Ability=swap_item.Ability;
+					swap_item.Ability=s_ab;
+					swap_item=null;
+				}
 			}
 		}
 		

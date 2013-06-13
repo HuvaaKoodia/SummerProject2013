@@ -28,12 +28,14 @@ public class ProjectileMain : MonoBehaviour {
 		
 		if (SpeedMulti!=1){
 			if (oldSpeedMulti==1){
-				rigidbody.velocity*=SpeedMulti;
+				MoveDirection*=SpeedMulti;
+				rigidbody.velocity=MoveDirection;
 			}	
 		}
 		else{
 			if (oldSpeedMulti!=1){
-				rigidbody.velocity/=oldSpeedMulti;
+				MoveDirection/=oldSpeedMulti;
+				rigidbody.velocity=MoveDirection;
 			}
 		}
 		

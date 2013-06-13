@@ -8,7 +8,7 @@ public class GridInput : MonoBehaviour
 	public UICamera _Camera;
 	public Transform[,] Grid;
 	public int grid_width,grid_height;
-	
+	public bool ForwardToItem;
 	
 	int s_x,s_y;
 	public ButtonAction AcceptEvent,CancelEvent;
@@ -66,6 +66,9 @@ public class GridInput : MonoBehaviour
 		}
 		
 		_Camera.selectedObjectHighlight=Grid[s_x,s_y].gameObject;
+		if (ForwardToItem){
+			Grid[s_x,s_y].SendMessage("OnKey",key,SendMessageOptions.DontRequireReceiver);
+		}
 	}
 	
 	public void HighlightCurrent(){

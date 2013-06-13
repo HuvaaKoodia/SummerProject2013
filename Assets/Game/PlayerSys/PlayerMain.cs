@@ -27,7 +27,6 @@ public class PlayerMain : MonoBehaviour
 	
 	
 	//private 
-		
 	bool onGround, canJump;
 	float acceleration = 50,
 		jump_speed = 200, jump_speed_max = 2000,
@@ -105,12 +104,11 @@ public class PlayerMain : MonoBehaviour
 		//graphics rotation
 		var newRotation = Quaternion.LookRotation(-(graphics.transform.position - last_aim_point)).eulerAngles;
         newRotation.x = newRotation.z = 0;
-        u_torso.rotation = Quaternion.Euler(newRotation);//*Quaternion.AngleAxis(270,Vector3.right)
+        u_torso.rotation = Quaternion.Slerp(u_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
 		
 		newRotation = Quaternion.LookRotation(-(graphics.transform.position - last_move_point)).eulerAngles;
         newRotation.x = newRotation.z = 0;
-        l_torso.rotation = Quaternion.Euler(newRotation);//*Quaternion.AngleAxis(270,Vector3.right)
-		
+        l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
 	}
 
 	// Update is called once per frame
@@ -136,13 +134,21 @@ public class PlayerMain : MonoBehaviour
 			}
 			
 			//jump
-			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("RS_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
+			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
 				if (canJump) {
 					rigidbody.velocity = new Vector3 (rigidbody.velocity.x, 10, rigidbody.velocity.z);
 					canJump = false;
 				}
 			}
+
 		}
+					
+			//DEV.destroy
+			if (Input.GetButton ("B_" + controllerNumber)) {
+				graphics.DisengageParts();
+			}
+		
+		
 		//restrict movement speed
 		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
 		
