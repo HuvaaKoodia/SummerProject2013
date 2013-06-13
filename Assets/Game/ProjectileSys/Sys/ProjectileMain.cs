@@ -42,7 +42,10 @@ public class ProjectileMain : MonoBehaviour {
 		oldSpeedMulti=SpeedMulti;
 		SpeedMulti=1;
 	}
-	
+	public void setDirection(Vector3 newDir){
+		MoveDirection=newDir.normalized*MoveDirection.magnitude;
+		rigidbody.velocity=MoveDirection;
+	}
 	void Update(){
 		life_time.Update();
 	}
