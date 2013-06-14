@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using NotificationSys;
 
 public class PlayerMain : MonoBehaviour
 {
@@ -68,8 +69,17 @@ public class PlayerMain : MonoBehaviour
 			ability_containers.Add (abb);
 		}
 		_Color=_color;
+		
+		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
 	}
 	
+	void OnExplosion(Notification note){
+		var exp=(Explosion_note)note;
+		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
+
+		Debug.Log("BOOM!");
+	}
+		
 	void Start ()
 	{
 	}
@@ -142,14 +152,16 @@ public class PlayerMain : MonoBehaviour
 					canJump = false;
 				}
 			}
-
 		}
-					
-		//DEV.destroy
+		
+		//DEV.input <
 		if (Input.GetButtonDown("B_" + controllerNumber)){
 			Die();
 		}
-	
+		if (Input.GetButtonDown("Y_" + controllerNumber)){
+			NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
+		}
+		//>
 		
 		//restrict movement speed
 		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
@@ -192,6 +204,8 @@ public class PlayerMain : MonoBehaviour
 	void Die(){
 		
 		graphics.DisengageParts();
+		
+		NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
 		
 		Destroy(gameObject);
 	}

@@ -4,7 +4,6 @@ namespace NotificationSys{
 	// Each notification type should gets its own enum
 	public enum NotificationType {
 		Explode,
-		DisengageParent,
 		CameraZoom
 	};
 	
@@ -26,16 +25,6 @@ namespace NotificationSys{
 			
 			rbody.AddExplosionForce(Force,Position,Radius);
 		}
-	}
-	
-	public class DisengageParent_note:Notification
-	{
-	    public Vector3 Velocity;
-		
-	    public DisengageParent_note(Vector3 velocity):base(NotificationType.DisengageParent)
-	    {
-			Velocity=velocity;
-	    }
 	}
 	
 	public class CameraZoom_note:Notification
