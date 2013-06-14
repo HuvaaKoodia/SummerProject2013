@@ -24,6 +24,9 @@ public class PlayerMain : MonoBehaviour
 		set{ mp = Mathf.Clamp(value,0,100);}
 	}
 	
+	public Vector3 UpperTorsoDir{get{return last_aim_direction;}}
+	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
+	
 	//private 
 	bool onGround, canJump;
 	float acceleration = 50,
