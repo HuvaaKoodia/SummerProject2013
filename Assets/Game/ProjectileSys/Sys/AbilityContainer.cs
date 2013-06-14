@@ -1,25 +1,21 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class AbilityContainer{
-	Timer cooldown;
-	public float _cooldown_delay;
-	
-	public Transform ability_prefab;
-	
-	bool ability_ready=true;
 	
 	public PlayerMain player;
+	public Transform ability_prefab;
 	
-	// Use this for initialization
+	public float _cooldown_delay;
+	
+	
+	Timer cooldown;
+	bool ability_ready=true;
+	
 	public AbilityContainer(){
 		cooldown=new Timer(1000,OnTimer);
 		cooldown.Active=false;
-	}
-	
-	// Update is called once per frame
-	void Update (){
-	
 	}
 	
 	public void UseAbility(Vector3 pos,Vector3 direction){
@@ -32,9 +28,10 @@ public class AbilityContainer{
 		}
 		
 		var projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
+		var modifiers=ability_prefab.GetComponent<AbilityModifiers>();
 		
 		if (projectile_prefab!=null){//is projectile
-			var abl=ability_prefab.GetComponent<AbilityModifiers>();
+			
 			
 			var dis=Mathf.Max(ProStats.Size,0.5f)+0.2f+player.rigidbody.velocity.magnitude/10;
 			var spawn_pos=pos+direction*dis;
@@ -47,10 +44,8 @@ public class AbilityContainer{
 					//don't spawn a projectile at all.
 				}
 			}
-			
 			var obj=MonoBehaviour.Instantiate(projectile_prefab,spawn_pos,Quaternion.identity) as Transform;
-			
-			foreach (var scr in abl.Components){
+			foreach (var scr in modifiers.Components){
 				if (scr!=null){
 					obj.gameObject.AddComponent(scr.name);
 				}
@@ -78,7 +73,18 @@ public class AbilityContainer{
 			obj.rigidbody.angularDrag=ProStats.Drag;
 		}
 		else{
-			//do soming else
+			//use skill
+			
+			foreach (SkillScript scr in ability_prefab.GetComponents(typeof(SkillScript))){
+				scr.UseSkill(player);
+			}
+			
+			/*foreach (var scr in modifiers.SkillScripts){
+				if (scr!=null){
+					var skill=(scr as SkillScript);
+					skill.UseSkill(player);
+				}
+			}*/
 		}
 		_cooldown_delay=ProStats.Cooldown;
 		setOnCooldown();
@@ -93,7 +99,7 @@ public class AbilityContainer{
 		ability_ready=false;
 	}
 	
-	public void OnTimer(){
+	void OnTimer(){
 		cooldown.Active=false;
 		ability_ready=true;
 	}

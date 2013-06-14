@@ -6,10 +6,12 @@ using UnityEditor;
 
 public class AbilityModifiers : MonoBehaviour{
 	public List<MonoScript> Components=new List<MonoScript>();
+	
+	public List<SkillScript> SkillScripts= new List<SkillScript>();
 }
 
 
-public enum AbilityStat{speed,power,drag,lifetime,color}
-public class AbilityStatContainer{
+//public enum AbilityStat{speed,power,drag,lifetime,color}
+//public class AbilityStatContainer{
 
-}
+//}
