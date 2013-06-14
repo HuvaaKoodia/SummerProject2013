@@ -34,6 +34,7 @@ public class PlayerMain : MonoBehaviour
 	
 	Timer jump_timer;
 	Vector3 last_aim_point,last_aim_direction,last_move_point,last_move_direction;
+	bool destroyed=false;
 	
 	//DEV.temp color sys
 	public Color _color=Color.white;
@@ -74,10 +75,9 @@ public class PlayerMain : MonoBehaviour
 	}
 	
 	void OnExplosion(Notification note){
+		if (destroyed) return;
 		var exp=(Explosion_note)note;
 		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
-
-		Debug.Log("BOOM!");
 	}
 		
 	void Start ()
@@ -202,7 +202,7 @@ public class PlayerMain : MonoBehaviour
 	}
 	
 	void Die(){
-		
+		destroyed=true;
 		graphics.DisengageParts();
 		
 		NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
@@ -213,7 +213,6 @@ public class PlayerMain : MonoBehaviour
 	void OnDestroy ()
 	{
 		jump_timer.Destroy();
-		
 	}
 		
 	private void updateAimDir ()
