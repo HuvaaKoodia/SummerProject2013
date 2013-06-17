@@ -1,31 +1,25 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
-public class AbilityContainer
-{
-	Timer cooldown;
-	public float _cooldown_delay;
-	public Transform ability_prefab;
-	bool ability_ready = true;
+public class AbilityContainer{
+	
 	public PlayerMain player;
+	public Transform ability_prefab;
+	public UpgradeStatContainer upgrade_stats;
 	
-	// Use this for initialization
-	public AbilityContainer ()
-	{
-		cooldown = new Timer (1000, OnTimer);
-		cooldown.Active = false;
+	public float _cooldown_delay;
+	
+	Timer cooldown;
+	bool ability_ready=true;
+	
+	public AbilityContainer(){
+		cooldown=new Timer(1000,OnTimer);
+		cooldown.Active=false;
 	}
 	
-	// Update is called once per frame
-	void Update ()
-	{
-	
-	}
-	
-	public void UseAbility (Vector3 pos, Vector3 direction)
-	{
-		if (!ability_ready)
-			return;
+	public void UseAbility(Vector3 pos,Vector3 direction){
+		if (!ability_ready) return;
 		
 		var ProStats = ability_prefab.GetComponent<ProjectileStats> ();
 		
@@ -33,10 +27,11 @@ public class AbilityContainer
 			return;
 		}
 		
-		var projectile_prefab = ability_prefab.GetComponent<AbilityStats> ().ProjectilePrefab;
+
+		var projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
+		var modifiers=ability_prefab.GetComponent<AbilityModifiers>();
 		
-		if (projectile_prefab != null) {//is projectile
-			var abl = ability_prefab.GetComponent<AbilityModifiers> ();
+		if (projectile_prefab!=null){//is projectile
 			
 			var dis = Mathf.Max (ProStats.Size, 0.5f) + 0.2f + player.rigidbody.velocity.magnitude / 10;
 			var spawn_pos = pos + direction * dis;
@@ -49,12 +44,12 @@ public class AbilityContainer
 					//don't spawn a projectile at all.
 				}
 			}
-			
-			var obj = MonoBehaviour.Instantiate (projectile_prefab, spawn_pos, Quaternion.identity) as Transform;
-			
-			foreach (var scr in abl.Components) {
-				if (scr != null) {
-					obj.gameObject.AddComponent (scr.name);
+
+			var obj=MonoBehaviour.Instantiate(projectile_prefab,spawn_pos,Quaternion.identity) as Transform;
+			foreach (var scr in modifiers.Components){
+				if (scr!=null){
+					obj.gameObject.AddComponent(scr.name);
+
 				}
 			}
 			
@@ -63,6 +58,22 @@ public class AbilityContainer
 			obj.rigidbody.useGravity = ProStats.Gravity_on;
 			obj.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 	
+			//calculate stats based on upgrades DEV.RELOC
+			
+			float lt_s=0,spd_s=0,rng_s=0,pwn_s=0,kck_s=0;
+			
+			int temp=0;
+			upgrade_stats.Data.TryGetValue(UpgradeStat.Lifetime,out temp);
+			lt_s=temp*ProStats.Life_time_multi;
+			upgrade_stats.Data.TryGetValue(UpgradeStat.Speed,out temp);
+			spd_s=temp*ProStats.Speed_multi;
+			//upgrade_stats.Data.TryGetValue(UpgradeStat.Range,out temp);
+			//rng_s=temp*ProStats._multi;
+			upgrade_stats.Data.TryGetValue(UpgradeStat.Power,out temp);
+			pwn_s=temp*ProStats.Damage_multi;
+			upgrade_stats.Data.TryGetValue(UpgradeStat.Knockback,out temp);
+			spd_s=temp*ProStats.Knockback_multi;
+			
 			//set stats
 			var pro = obj.GetComponent<ProjectileMain> ();
 			
@@ -72,18 +83,30 @@ public class AbilityContainer
 			if (ProStats.Life_time < 0)
 				pro.life_time.Active = false;
 			else {
-				pro.life_time.Delay = ProStats.Life_time;
-				pro.life_time.Reset ();
+				pro.life_time.Delay=ProStats.Life_time+lt_s;
+				pro.life_time.Reset();
 			}
-			pro.setDirection (direction, ProStats.Speed);
-			pro.changeMaterialColor (ProStats.Colour);
+			pro.setDirection(direction,ProStats.Speed+spd_s);
+			pro.changeMaterialColor(ProStats.Colour);
 			
-			obj.localScale = Vector3.one * ProStats.Size;
-			obj.rigidbody.mass = ProStats.Size * 10;
-			obj.rigidbody.drag = ProStats.Drag;
-			obj.rigidbody.angularDrag = ProStats.Drag;
-		} else {
-			//do soming else
+			obj.localScale=Vector3.one*ProStats.Size;
+			obj.rigidbody.mass=ProStats.Size*10;
+			obj.rigidbody.drag=ProStats.Drag;
+			obj.rigidbody.angularDrag=ProStats.Drag;
+		}
+		else{
+			//use skill
+			
+			foreach (SkillScript scr in ability_prefab.GetComponents(typeof(SkillScript))){
+				scr.UseSkill(player);
+			}
+			
+			/*foreach (var scr in modifiers.SkillScripts){
+				if (scr!=null){
+					var skill=(scr as SkillScript);
+					skill.UseSkill(player);
+				}
+			}*/
 		}
 		_cooldown_delay = ProStats.Cooldown;
 		setOnCooldown ();
@@ -99,10 +122,9 @@ public class AbilityContainer
 		ability_ready = false;
 	}
 	
-	public void OnTimer ()
-	{
-		cooldown.Active = false;
-		ability_ready = true;
+	void OnTimer(){
+		cooldown.Active=false;
+		ability_ready=true;
 	}
 }
 

@@ -15,25 +15,7 @@ public class GridInput : MonoBehaviour
 	
 	void Start ()
 	{
-		Grid=new Transform[grid_width,grid_height];
-		List<Transform> list = new List<Transform>();
-
-		foreach (Transform t in transform)
-		{
-			list.Add(t);
-		}
-		
-		int i=0;
-		for (int y=0;y<grid_height;y++){
-			for (int x=0;x<grid_width;x++){
-				if (i<list.Count){
-					Grid[x,y]=list[i];
-					i++;
-				}
-				else
-					Grid[x,y]=null;
-			}
-		}
+		UpdateGrid();
 	}
 	
 	void OnKey (KeyCode key)
@@ -77,5 +59,28 @@ public class GridInput : MonoBehaviour
 	
 	public Transform SelectedItem(){
 		return Grid[s_x,s_y];
+	}
+
+	public void UpdateGrid()
+	{
+		Grid=new Transform[grid_width,grid_height];
+		List<Transform> list = new List<Transform>();
+
+		foreach (Transform t in transform)
+		{
+			list.Add(t);
+		}
+		
+		int i=0;
+		for (int y=0;y<grid_height;y++){
+			for (int x=0;x<grid_width;x++){
+				if (i<list.Count){
+					Grid[x,y]=list[i];
+					i++;
+				}
+				else
+					Grid[x,y]=null;
+			}
+		}
 	}
 }

@@ -24,6 +24,9 @@ public class PlayerMain : MonoBehaviour
 		set{ mp = Mathf.Clamp(value,0,100);}
 	}
 	
+	public Vector3 UpperTorsoDir{get{return last_aim_direction;}}
+	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
+	
 	//private 
 	bool onGround, canJump;
 	float acceleration = 50,
@@ -33,7 +36,8 @@ public class PlayerMain : MonoBehaviour
 	Transform u_torso,l_torso;
 	
 	Timer jump_timer;
-	Vector3 last_aim_point,last_aim_direction,last_move_point,last_move_direction;
+	Vector3 last_aim_direction,last_move_direction;
+	//Vector3 last_aim_point,last_move_point;
 	bool destroyed=false;
 	
 	//DEV.temp color sys
@@ -223,7 +227,7 @@ public class PlayerMain : MonoBehaviour
 		if (forward.magnitude>0.5f) {
 			last_aim_direction = forward.normalized;
 		}
-		last_aim_point = transform.position + last_aim_direction;
+		//last_aim_point = transform.position + last_aim_direction;
 		
 		//movement
 		forward=transform.TransformDirection(new Vector3(l_axis_x, 0, -l_axis_y));
@@ -231,7 +235,7 @@ public class PlayerMain : MonoBehaviour
 		if (forward.magnitude>0.5f){
 			last_move_direction = forward.normalized;
 		}
-		last_move_point=transform.position + last_move_direction;
+		//last_move_point=transform.position + last_move_direction;
 	}
 }
 
