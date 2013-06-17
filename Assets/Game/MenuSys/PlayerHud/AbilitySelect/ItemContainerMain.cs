@@ -10,11 +10,16 @@ public class ItemContainerMain : MonoBehaviour {
 	}
 	
 	UISprite spr;
+	UpgradeStatContainer abilityStats;
+	
+	public UpgradeStatContainer Stats{get{return abilityStats;}}
 	
 	// Use this for initialization
 	void Awake () {
 		spr=transform.Find("Background").GetComponent<UISprite>();
 		spr.spriteName="Empty";
+	
+		abilityStats=new UpgradeStatContainer();
 	}
 	
 	// Update is called once per frame

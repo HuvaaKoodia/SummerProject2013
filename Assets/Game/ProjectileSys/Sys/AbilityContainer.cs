@@ -6,9 +6,9 @@ public class AbilityContainer{
 	
 	public PlayerMain player;
 	public Transform ability_prefab;
+	public UpgradeStatContainer upgrade_stats;
 	
 	public float _cooldown_delay;
-	
 	
 	Timer cooldown;
 	bool ability_ready=true;
@@ -31,7 +31,6 @@ public class AbilityContainer{
 		var modifiers=ability_prefab.GetComponent<AbilityModifiers>();
 		
 		if (projectile_prefab!=null){//is projectile
-			
 			
 			var dis=Mathf.Max(ProStats.Size,0.5f)+0.2f+player.rigidbody.velocity.magnitude/10;
 			var spawn_pos=pos+direction*dis;
@@ -56,15 +55,31 @@ public class AbilityContainer{
 			obj.rigidbody.useGravity=ProStats.Gravity_on;
 			obj.rigidbody.collisionDetectionMode=CollisionDetectionMode.ContinuousDynamic;
 	
+			//calculate stats based on upgrades DEV.RELOC
+			
+			float lt_s=0,spd_s=0,rng_s=0,pwn_s=0,kck_s=0;
+			
+			int temp=0;
+			upgrade_stats.Data.TryGetValue(UpgradeStat.Lifetime,out temp);
+			lt_s=temp*ProStats.Life_time_multi;
+			upgrade_stats.Data.TryGetValue(UpgradeStat.Speed,out temp);
+			spd_s=temp*ProStats.Speed_multi;
+			//upgrade_stats.Data.TryGetValue(UpgradeStat.Range,out temp);
+			//rng_s=temp*ProStats._multi;
+			upgrade_stats.Data.TryGetValue(UpgradeStat.Power,out temp);
+			pwn_s=temp*ProStats.Damage_multi;
+			upgrade_stats.Data.TryGetValue(UpgradeStat.Knockback,out temp);
+			spd_s=temp*ProStats.Knockback_multi;
+			
 			//set stats
 			var pro=obj.GetComponent<ProjectileMain>();
 			
 			pro.Creator=player;
 			pro.stats=ProStats;
 			
-			pro.life_time.Delay=ProStats.Life_time;
+			pro.life_time.Delay=ProStats.Life_time+lt_s;
 			pro.life_time.Reset();
-			pro.setDirection(direction,ProStats.Speed);
+			pro.setDirection(direction,ProStats.Speed+spd_s);
 			pro.changeMaterialColor(ProStats.Colour);
 			
 			obj.localScale=Vector3.one*ProStats.Size;

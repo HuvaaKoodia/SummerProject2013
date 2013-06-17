@@ -9,7 +9,8 @@ public class PlayerHudMain : MonoBehaviour {
 	public UICamera _Camera;
 	public AbilityMenuState state;
 	
-	public GameObject ShopPanel,UpgradePanel;
+	public UpgradePanelScr UpgradePanel;
+	public GameObject ShopPanel;
 	public GridInput AbilityBarGrid,AbilityPanelGrid,UpgradeGrid;
 	
 	UIAnchor anchor;
@@ -91,7 +92,7 @@ public class PlayerHudMain : MonoBehaviour {
 		Player.gameObject.SetActive(false);
 		
 		ShopPanel.SetActive(false);
-		UpgradePanel.SetActive(false);
+		UpgradePanel.gameObject.SetActive(false);
 		
 		hp_slider.gameObject.SetActive(false);
 		mp_slider.gameObject.SetActive(false);
@@ -108,7 +109,8 @@ public class PlayerHudMain : MonoBehaviour {
 		}
 		
 		if (state==AbilityMenuState.Upgrade){
-			UpgradePanel.SetActive(true);
+			UpgradePanel.gameObject.SetActive(true);
+			UpgradePanel.setAbility(GetSelectedBar().Ability,GetSelectedBar().Stats);
 			_Camera.selectedObjectInput=UpgradeGrid.gameObject;
 			UpgradeGrid.HighlightCurrent();
 		}

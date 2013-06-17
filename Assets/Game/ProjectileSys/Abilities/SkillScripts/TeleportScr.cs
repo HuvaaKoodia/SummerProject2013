@@ -15,7 +15,7 @@ public class TeleportScr :MonoBehaviour, SkillScript {
 		//player.transform.position=end_pos;
 		//return;
 		
-		Debug.Log("COLLISION CHECK::: DIS: "+Vector3.Distance(start_pos,end_pos));
+		//Debug.Log("COLLISION CHECK::: DIS: "+Vector3.Distance(start_pos,end_pos));
 		
 		var hits=Physics.RaycastAll(start_pos,dir,dis_extra).OrderBy(r=>Vector3.Distance(start_pos,end_pos)).ToArray();
 		
@@ -51,8 +51,8 @@ public class TeleportScr :MonoBehaviour, SkillScript {
 			
 			
 		}
-		
-		player.transform.position=ray.GetPoint(current_warp_dis);
+		if (jump)
+			player.transform.position=ray.GetPoint(current_warp_dis);
 		
 
 		/*
