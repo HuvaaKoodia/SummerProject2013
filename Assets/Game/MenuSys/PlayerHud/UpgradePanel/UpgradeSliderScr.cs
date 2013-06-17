@@ -6,13 +6,19 @@ public class UpgradeSliderScr : MonoBehaviour {
 	public UISlider Slider;
 	public UILabel NameLabel,PointsLabel;
 	
+	UpgradeStatContainer abilityStats;
+	UpgradeStat stat;
+	
 	// Use this for initialization
-	void Start () {}
+	void Start () {
+		Slider.onValueChange+=OnSliderValueChange;
+	}
 	
 	// Update is called once per frame
 	void Update () {
-		PointsLabel.text=(10*Slider.sliderValue).ToString();
+		PointsLabel.text="+ "+(10*Slider.sliderValue).ToString();
 		Slider.ForceUpdate();
+		
 	}
 	
 	public void OnHover(object val){
@@ -20,7 +26,6 @@ public class UpgradeSliderScr : MonoBehaviour {
 		bool v=(bool)val;
 		Slider.thumb.SendMessage("OnHover",v,SendMessageOptions.DontRequireReceiver);
 	}
-	
 	
 	void OnKey (KeyCode key)
 	{
@@ -36,5 +41,22 @@ public class UpgradeSliderScr : MonoBehaviour {
 				break;
 			}
 		}
+	}
+	
+	void OnSliderValueChange(float val){
+		if (abilityStats!=null){
+			abilityStats.Data[stat]=(int)Mathf.Ceil(Slider.sliderValue*10);
+		}
+		
+		foreach (var d in abilityStats.Data){
+			Debug.Log("SWTA!");
+			Debug.Log(d);
+		}
+	}
+	
+	public void setStat(UpgradeStat stat,UpgradeStatContainer stats){
+		this.stat=stat;
+		abilityStats=stats;
+		NameLabel.text=stat.ToString();
 	}
 }
