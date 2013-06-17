@@ -19,7 +19,7 @@ public class AbilityGridSys : MonoBehaviour {
 			var item_c=t.GetComponent<ItemContainerMain>();
 
 			if (d_i<data.Length){
-				item_c.Ability=data[d_i];
+				item_c.Ability.Ability=data[d_i];
 				d_i++;
 			}
 		}

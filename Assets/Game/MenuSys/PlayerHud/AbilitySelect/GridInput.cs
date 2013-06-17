@@ -83,4 +83,19 @@ public class GridInput : MonoBehaviour
 			}
 		}
 	}
+	
+	public void ClearGrid(){
+		foreach (var i in Grid){
+			if (i!=null){
+				DestroyImmediate(i.gameObject);
+			}
+		}
+		s_x=s_y=0;
+		Grid=new Transform[grid_width,grid_height];
+	}
+
+	public void ChangeSelectedItem (Transform swap_item)
+	{
+		Grid[s_x,s_y]=swap_item;
+	}
 }

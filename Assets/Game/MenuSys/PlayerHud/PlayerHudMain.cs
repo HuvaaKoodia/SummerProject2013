@@ -44,7 +44,8 @@ public class PlayerHudMain : MonoBehaviour {
 				else
 				if (state==AbilityMenuState.Panel){
 					//select item and change to current slot
-					GetSelectedBar().Ability=GetSelectedPanel().Ability;
+					GetSelectedBar().Ability.Ability=GetSelectedPanel().Ability.Ability;
+					GetSelectedBar().Ability.Stats.Clear();
 					changeState(AbilityMenuState.Bar);
 				}
 			}
@@ -82,7 +83,7 @@ public class PlayerHudMain : MonoBehaviour {
 	
 	ItemContainerMain GetSelectedBar(){
 		return AbilityBarGrid.SelectedItem().GetComponent<ItemContainerMain>();
-	} 
+	}
 	
 	ItemContainerMain GetSelectedPanel(){
 		return AbilityPanelGrid.SelectedItem().GetComponent<ItemContainerMain>();
@@ -110,7 +111,7 @@ public class PlayerHudMain : MonoBehaviour {
 		
 		if (state==AbilityMenuState.Upgrade){
 			UpgradePanel.gameObject.SetActive(true);
-			UpgradePanel.setAbility(GetSelectedBar().Ability,GetSelectedBar().Stats);
+			UpgradePanel.setAbility(GetSelectedBar().Ability);
 			_Camera.selectedObjectInput=UpgradeGrid.gameObject;
 			UpgradeGrid.HighlightCurrent();
 		}
@@ -133,12 +134,10 @@ public class PlayerHudMain : MonoBehaviour {
 			//save selected abilities.
 			int i=0;
 			foreach (var con in Player.ability_containers){
-				con.ability_prefab=AbilityBarGrid.Grid[i,0].GetComponent<ItemContainerMain>().Ability;
+				con.Ability=AbilityBarGrid.Grid[i,0].GetComponent<ItemContainerMain>().Ability;
 				i++;
 			}
 		}
-
-		
 		this.state=state;
 	}
 	

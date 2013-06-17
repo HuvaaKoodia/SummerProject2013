@@ -5,8 +5,7 @@ using System.Linq;
 public class AbilityContainer{
 	
 	public PlayerMain player;
-	public Transform ability_prefab;
-	public UpgradeStatContainer upgrade_stats;
+	public AbilityItem Ability;
 	
 	public float _cooldown_delay;
 	
@@ -16,10 +15,15 @@ public class AbilityContainer{
 	public AbilityContainer(){
 		cooldown=new Timer(1000,OnTimer);
 		cooldown.Active=false;
+		
+		Ability=new AbilityItem();
 	}
 	
 	public void UseAbility(Vector3 pos,Vector3 direction){
 		if (!ability_ready) return;
+		
+		var ability_prefab=Ability.Ability;
+		var upgrade_stats=Ability.Stats;
 		
 		var ProStats = ability_prefab.GetComponent<ProjectileStats> ();
 		
