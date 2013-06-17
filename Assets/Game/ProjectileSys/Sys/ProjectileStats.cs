@@ -13,7 +13,8 @@ public class ProjectileStats : MonoBehaviour {
 		Cooldown,
 		Damage,
 		Knockback,
-		EnergyCost;
+		EnergyCost,
+		Radius;
 	
 	public float 
 		Speed_multi,
@@ -21,5 +22,6 @@ public class ProjectileStats : MonoBehaviour {
 		Cooldown_multi,
 		Damage_multi,
 		Knockback_multi,
-		EnergyCost_multi;
+		EnergyCost_multi,
+		Radius_multi;
 }

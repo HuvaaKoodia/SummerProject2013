@@ -14,7 +14,7 @@ public class Explosion : MonoBehaviour {
 	}*/
 	// Use this for initialization
 	void Start () {
-		NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position, 1000000f, 3f));
+		NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position, force, radius));
 	}
 	
 	// Update is called once per frame

@@ -61,7 +61,7 @@ public class AbilityContainer{
 			//calculate stats based on upgrades DEV.RELOC
 			
 			float lt_s=0,spd_s=0,rng_s=0,pwn_s=0,kck_s=0;
-			
+			/*
 			int temp=0;
 			upgrade_stats.Data.TryGetValue(UpgradeStat.Lifetime,out temp);
 			lt_s=temp*ProStats.Life_time_multi;
@@ -73,7 +73,7 @@ public class AbilityContainer{
 			pwn_s=temp*ProStats.Damage_multi;
 			upgrade_stats.Data.TryGetValue(UpgradeStat.Knockback,out temp);
 			spd_s=temp*ProStats.Knockback_multi;
-			
+			*/
 			//set stats
 			var pro = obj.GetComponent<ProjectileMain> ();
 			
