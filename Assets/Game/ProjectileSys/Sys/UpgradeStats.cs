@@ -10,7 +10,19 @@ public class UpgradeStats : MonoBehaviour {
 }
 
 public class UpgradeStatContainer{
-	public Dictionary<UpgradeStat,int> Data=new Dictionary<UpgradeStat, int>();
+	public Dictionary<UpgradeStat,int> Data;
+	
+	public UpgradeStatContainer(){
+		 Clear();
+	}
+
+	public void Clear()
+	{
+		Data=new Dictionary<UpgradeStat, int>();
+		foreach(UpgradeStat s in System.Enum.GetValues(typeof(UpgradeStat))){
+			Data.Add(s,0);
+		}
+	}
 }
 
 public class UpgdadeStatData{

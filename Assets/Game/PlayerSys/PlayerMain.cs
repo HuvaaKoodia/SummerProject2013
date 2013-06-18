@@ -55,8 +55,6 @@ public class PlayerMain : MonoBehaviour
 		acceleration*=rigidbody.mass;
 		jump_speed*=rigidbody.mass;
 
-		
-		
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
 		u_torso=graphics.UpperTorso;
@@ -64,11 +62,13 @@ public class PlayerMain : MonoBehaviour
 		
 		jump_timer = new Timer (400, OnJumpTimer);
 		
+		
+		//DEV.temp!!
 		ability_containers = new List<AbilityContainer> ();
 		
 		for (int i=0; i<Abilities.Count; i++){
 			var abb = new AbilityContainer ();
-			abb.ability_prefab = Abilities [i];
+			abb.Ability.Ability = Abilities [i];
 			
 			abb.player=this;
 			ability_containers.Add (abb);
@@ -76,16 +76,15 @@ public class PlayerMain : MonoBehaviour
 		_Color=_color;
 		
 		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
-	}
-	
-	void OnExplosion(Notification note){
-		if (destroyed) return;
-		var exp=(Explosion_note)note;
-		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
-	}
 		
+
+		
+	}
+
 	void Start ()
 	{
+		l_torso.animation.Play();
+		u_torso.animation.Play();
 	}
 
 	void Update ()
@@ -126,27 +125,39 @@ public class PlayerMain : MonoBehaviour
         newRotation.x = newRotation.z = 0;
         l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
 	}
-
+	
+	void MoveAround(Vector3 force){
+		rigidbody.AddForce (force);
+		
+		//DEV. WEIRD.SIHT
+		l_torso.animation.Play();
+		u_torso.animation.Play();
+		l_torso.animation.enabled=u_torso.animation.enabled=true;
+			
+	}
+	
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
 		rigidbody.WakeUp ();
-
+		
+		l_torso.animation.enabled=false;
+		u_torso.animation.enabled=false;
 		if (onGround) {
 			if (l_axis_x < 0) {
-				rigidbody.AddForce (Vector3.left * acceleration);
+				MoveAround(Vector3.left * acceleration);
 			}
 			
 			if (l_axis_x > 0) {
-				rigidbody.AddForce (Vector3.right * acceleration);
+				MoveAround(Vector3.right * acceleration);
 			}
 			
 			if (l_axis_y < 0) {
-				rigidbody.AddForce (Vector3.forward * acceleration);
+				MoveAround(Vector3.forward * acceleration);
 			}
 			
 			if (l_axis_y > 0) {
-				rigidbody.AddForce (Vector3.back * acceleration);
+				MoveAround(Vector3.back * acceleration);
 			}
 			
 			//jump
@@ -156,6 +167,10 @@ public class PlayerMain : MonoBehaviour
 					canJump = false;
 				}
 			}
+		}
+		else{
+			
+			
 		}
 		
 		//DEV.input <
@@ -204,6 +219,14 @@ public class PlayerMain : MonoBehaviour
 		onGround = false;
 		canJump = true;
 	}
+	
+		
+	void OnExplosion(Notification note){
+		if (destroyed) return;
+		var exp=(Explosion_note)note;
+		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
+	}
+		
 	
 	void Die(){
 		destroyed=true;
