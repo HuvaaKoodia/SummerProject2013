@@ -83,8 +83,8 @@ public class PlayerMain : MonoBehaviour
 
 	void Start ()
 	{
-		l_torso.animation.Play();
-		u_torso.animation.Play();
+		//l_torso.animation.Play();
+		//u_torso.animation.Play();
 	}
 
 	void Update ()
@@ -130,10 +130,10 @@ public class PlayerMain : MonoBehaviour
 		rigidbody.AddForce (force);
 		
 		//DEV. WEIRD.SIHT
-		l_torso.animation.Play();
+		/*l_torso.animation.Play();
 		u_torso.animation.Play();
 		l_torso.animation.enabled=u_torso.animation.enabled=true;
-			
+		*/	
 	}
 	
 	// Update is called once per frame
@@ -141,8 +141,8 @@ public class PlayerMain : MonoBehaviour
 	{
 		rigidbody.WakeUp ();
 		
-		l_torso.animation.enabled=false;
-		u_torso.animation.enabled=false;
+		//l_torso.animation.enabled=false;
+		//u_torso.animation.enabled=false;
 		if (onGround) {
 			if (l_axis_x < 0) {
 				MoveAround(Vector3.left * acceleration);
