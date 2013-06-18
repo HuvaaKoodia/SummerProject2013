@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AbilityStats : MonoBehaviour {
 
-	public string spriteName;
+	public string Name,Sprite;
 	public Transform ProjectilePrefab;
 	public int Cost;
 	

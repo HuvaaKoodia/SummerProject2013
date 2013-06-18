@@ -31,7 +31,6 @@ public class AbilityContainer{
 			return;
 		}
 		
-
 		var projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
 		var modifiers=ability_prefab.GetComponent<AbilityModifiers>();
 		
@@ -64,23 +63,12 @@ public class AbilityContainer{
 	
 			//calculate stats based on upgrades DEV.RELOC
 			
-			float lt_s=0,spd_s=0,rng_s=0,pwr_s=0,kck_s=0;
+			float lt_s=0,spd_s=0,pwr_s=0,kck_s=0;
 			
-			int 
-			temp=0;
-			upgrade_stats.Data.TryGetValue(UpgradeStat.Lifetime,out temp);
-			lt_s=temp*ProStats.Life_time_multi;
-			temp=0;
-			upgrade_stats.Data.TryGetValue(UpgradeStat.Speed,out temp);
-			spd_s=temp*ProStats.Speed_multi;
-			//upgrade_stats.Data.TryGetValue(UpgradeStat.Range,out temp);
-			//rng_s=temp*ProStats._multi;
-			temp=0;
-			upgrade_stats.Data.TryGetValue(UpgradeStat.Power,out temp);
-			pwr_s=temp*ProStats.Damage_multi;
-			temp=0;
-			upgrade_stats.Data.TryGetValue(UpgradeStat.Knockback,out temp);
-			kck_s=temp*ProStats.Knockback_multi;
+			lt_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Lifetime,ProStats.Life_time_multi);
+			spd_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Speed,ProStats.Speed_multi);
+			pwr_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Power,ProStats.Power_multi);
+			kck_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Knockback,ProStats.Knockback_multi);
 			
 			//set stats
 			var pro = obj.GetComponent<ProjectileMain> ();
@@ -94,9 +82,10 @@ public class AbilityContainer{
 				pro.life_time.Delay=ProStats.Life_time+lt_s;
 				pro.life_time.Reset();
 			}
+			
 			pro.setDirection(direction,ProStats.Speed+spd_s);
 			pro.changeMaterialColor(ProStats.Colour);
-			pro.Power=ProStats.Damage+pwr_s;
+			pro.Power=ProStats.Power+pwr_s;
 			pro.Knockback=ProStats.Knockback+pwr_s;
 			
 			obj.localScale=Vector3.one*ProStats.Size;
@@ -106,22 +95,25 @@ public class AbilityContainer{
 		}
 		else{
 			//use skill
-			
 			foreach (SkillScript scr in ability_prefab.GetComponents(typeof(SkillScript))){
 				scr.UseSkill(player);
 			}
-			
-			/*foreach (var scr in modifiers.SkillScripts){
-				if (scr!=null){
-					var skill=(scr as SkillScript);
-					skill.UseSkill(player);
-				}
-			}*/
 		}
-		_cooldown_delay = ProStats.Cooldown;
+		
+		float cd_s=0,ec_s=0;
+		cd_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Cooldown,ProStats.Cooldown_multi);
+		ec_s=GetUpgradeStat(upgrade_stats,UpgradeStat.EnergyCost,ProStats.EnergyCost_multi);
+		
+		_cooldown_delay = ProStats.Cooldown-cd_s;
 		setOnCooldown ();
 		
-		player.MP -= ProStats.EnergyCost;
+		player.MP -= Mathf.Max(1,ProStats.EnergyCost-ec_s);
+	}
+	
+	float GetUpgradeStat(UpgradeStatContainer stats,UpgradeStat stat,float multi){
+		int temp=0;
+		stats.Data.TryGetValue(stat,out temp);
+		return temp*multi;
 	}
 	
 	void setOnCooldown ()

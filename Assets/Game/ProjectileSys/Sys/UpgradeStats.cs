@@ -25,9 +25,9 @@ public class UpgradeStatContainer{
 		Debug.Log("count: "+Data.Count);
 	}
 }
-
-public class UpgdadeStatData{
+/*
+public class UpgradeStatData{
 	public UpgradeStat stat;
 	int points;
 	public int Points{get{return points;} set{points=Mathf.Max(value,0,10);}}
-}
+}*/

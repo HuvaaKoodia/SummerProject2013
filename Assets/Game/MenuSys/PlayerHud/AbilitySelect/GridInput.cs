@@ -8,7 +8,7 @@ public class GridInput : MonoBehaviour
 	public UICamera _Camera;
 	public Transform[,] Grid;
 	public int grid_width,grid_height;
-	public bool ForwardToItem;
+	public bool ForwardToItem,WrapToNextLineHorizontal;
 	
 	int s_x,s_y;
 	public ButtonAction AcceptEvent,CancelEvent;
@@ -25,16 +25,22 @@ public class GridInput : MonoBehaviour
 			switch (key)
 			{
 			case KeyCode.LeftArrow:
-					s_x=Subs.Wrap(s_x-1,0,Grid.GetLength(0));
+					addX(-1);
+					if (WrapToNextLineHorizontal&&s_x==Grid.GetLength(0)-1){
+						addY(-1);
+					}
 				break;
 			case KeyCode.RightArrow:
-				s_x=Subs.Wrap(s_x+1,0,Grid.GetLength(0));
+				addX(1);
+				if (WrapToNextLineHorizontal&&s_x==0){
+					addY(1);
+				}
 				break;
 			case KeyCode.UpArrow:
-				s_y=Subs.Wrap(s_y-1,0,Grid.GetLength(1));
+				addY(-1);
 				break;
 			case KeyCode.DownArrow:
-				s_y=Subs.Wrap(s_y+1,0,Grid.GetLength(1));
+				addY(1);
 				break;
 			case KeyCode.A:
 				if (AcceptEvent!=null)
@@ -51,6 +57,14 @@ public class GridInput : MonoBehaviour
 		if (ForwardToItem){
 			Grid[s_x,s_y].SendMessage("OnKey",key,SendMessageOptions.DontRequireReceiver);
 		}
+	}
+	
+	void addX(int a){
+		s_x=Subs.Wrap(s_x+a,0,Grid.GetLength(0));
+	}
+	
+	void addY(int a){
+		s_y=Subs.Wrap(s_y+a,0,Grid.GetLength(1));
 	}
 	
 	public void HighlightCurrent(){

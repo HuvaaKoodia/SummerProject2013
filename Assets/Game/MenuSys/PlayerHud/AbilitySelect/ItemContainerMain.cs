@@ -9,6 +9,22 @@ public class AbilityItem{
 	}
 	UpgradeStatContainer abilityStats=new UpgradeStatContainer();
 	public UpgradeStatContainer Stats{get{return abilityStats;}}
+
+	public string GetName ()
+	{
+		return ability.GetComponent<AbilityStats>().Name;
+	}
+
+	public int GetCost ()
+	{
+		int cost=ability.GetComponent<AbilityStats>().Cost;
+		
+		foreach (var s in Stats.Data.Values){
+			cost+=s;
+		}
+		
+		return cost;
+	}
 }
 
 public class ItemContainerMain : MonoBehaviour {
@@ -36,7 +52,7 @@ public class ItemContainerMain : MonoBehaviour {
 		string spr_name="Empty";
 		if (ability!=null){
 			var sts=ability.GetComponent<AbilityStats>();
-			spr_name=sts.spriteName;
+			spr_name=sts.Sprite;
 		}
 		spr.spriteName=spr_name;
 	}

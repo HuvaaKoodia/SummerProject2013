@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public enum AbilityMenuState{Bar,Panel,Upgrade,Ready}
+public enum AbilityMenuState{Bar,Shop,Upgrade,Ready}
 
 public class PlayerHudMain : MonoBehaviour {
 	
@@ -40,13 +40,15 @@ public class PlayerHudMain : MonoBehaviour {
 		if (state!=AbilityMenuState.Ready){
 			if (Input.GetButtonDown("A_"+Player.controllerNumber)){
 				if (state==AbilityMenuState.Bar){
-					changeState(AbilityMenuState.Panel);
-				}
-				else
-				if (state==AbilityMenuState.Panel){
+					changeState(AbilityMenuState.Shop);
+				} else
+				if (state==AbilityMenuState.Shop){
 					//select item and change to current slot
-					GetSelectedBar().Ability.Ability=GetSelectedPanel().Ability.Ability;
+					GetSelectedBar().Ability.Ability=GetSelectedShop().Ability.Ability;
 					GetSelectedBar().Ability.Stats.Clear();
+					changeState(AbilityMenuState.Bar);
+				} else
+				if (state==AbilityMenuState.Upgrade){
 					changeState(AbilityMenuState.Bar);
 				}
 			}
@@ -83,13 +85,28 @@ public class PlayerHudMain : MonoBehaviour {
 		
 		
 		//update bg labels
+		
+		if (state==AbilityMenuState.Bar||state==AbilityMenuState.Upgrade){
+			menu_BG_panel.SetCost(GetSelectedBar().Ability.GetCost());
+			menu_BG_panel.SetName(GetSelectedBar().Ability.GetName());
+		}
+		if (state==AbilityMenuState.Shop){
+			if (GetSelectedShop().Ability.Ability!=null){
+				menu_BG_panel.SetCost(GetSelectedShop().Ability.GetCost());
+				menu_BG_panel.SetName(GetSelectedShop().Ability.GetName());
+			}
+			else{
+				menu_BG_panel.SetCost(0);
+				menu_BG_panel.SetName("");
+			}
+		}
 	}
 	
 	ItemContainerMain GetSelectedBar(){
 		return AbilityBarGrid.SelectedItem().GetComponent<ItemContainerMain>();
 	}
 	
-	ItemContainerMain GetSelectedPanel(){
+	ItemContainerMain GetSelectedShop(){
 		return AbilityPanelGrid.SelectedItem().GetComponent<ItemContainerMain>();
 	} 
 	
@@ -107,17 +124,23 @@ public class PlayerHudMain : MonoBehaviour {
 			AbilityBarGrid.HighlightCurrent();
 		}
 		
-		if (state==AbilityMenuState.Panel){
+		if (state==AbilityMenuState.Shop){
 			ShopPanel.SetActive(true);
 			_Camera.selectedObjectInput=AbilityPanelGrid.gameObject;
 			AbilityPanelGrid.HighlightCurrent();
 		}
 		
 		if (state==AbilityMenuState.Upgrade){
+			_Camera.AnalogHorizontalDelay=0.1f;
 			UpgradePanel.gameObject.SetActive(true);
 			UpgradePanel.setAbility(GetSelectedBar().Ability);
 			_Camera.selectedObjectInput=UpgradeGrid.gameObject;
 			UpgradeGrid.HighlightCurrent();
+		}
+		
+		if (this.state==AbilityMenuState.Upgrade){//Coming from upgrade
+			UpgradePanel.clearGrid();
+			_Camera.setAnalogStickDelaysDefault();
 		}
 		
 		if (this.state==AbilityMenuState.Ready){//Coming from ready

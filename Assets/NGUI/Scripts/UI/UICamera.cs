@@ -637,28 +637,39 @@ public class UICamera : MonoBehaviour
 	/// Using the joystick to move the UI results in 1 or -1 if the threshold has been passed, mimicking up/down keys.
 	/// </summary>
 
-	int GetDirection (string axis)
+	int GetDirection (string axis,bool horizontal)
 	{
 		float time = Time.realtimeSinceStartup;
 
 		if (mNextEvent < time)
 		{
 			float val = Input.GetAxis(axis);
-
 			if (val > 0.75f)
 			{
-				mNextEvent = time + 0.25f;
+				if (horizontal)
+					mNextEvent = time + analog_horizontal_delay;
+				else
+					mNextEvent = time + analog_vertical_delay;
 				return 1;
 			}
 
 			if (val < -0.75f)
 			{
-				mNextEvent = time + 0.25f;
+				if (horizontal)
+					mNextEvent = time + analog_horizontal_delay;
+				else
+					mNextEvent = time + analog_vertical_delay;
 				return -1;
 			}
 		}
 		return 0;
 	}
+	
+	//dev. add
+	float analog_vertical_delay=0.25f,analog_horizontal_delay=0.25f;
+	public float AnalogHorizontalDelay{get{return analog_horizontal_delay;} set{analog_horizontal_delay=Mathf.Max(0,value);}}
+	public float AnalogVerticalDelay{get{return analog_vertical_delay;} set{analog_vertical_delay=Mathf.Max(0,value);}}
+	public void setAnalogStickDelaysDefault(){analog_horizontal_delay=analog_vertical_delay=0.25f;}
 
 	/// <summary>
 	/// Returns whether the widget should be currently highlighted as far as the UICamera knows.
@@ -1096,8 +1107,8 @@ public class UICamera : MonoBehaviour
 
 		if (useController)
 		{
-			if (!string.IsNullOrEmpty(verticalAxisName)) vertical -= GetDirection(verticalAxisName);//DEV. Changed + -> -
-			if (!string.IsNullOrEmpty(horizontalAxisName)) horizontal += GetDirection(horizontalAxisName);
+			if (!string.IsNullOrEmpty(verticalAxisName)) vertical -= GetDirection(verticalAxisName,false);//DEV. Changed + -> -
+			if (!string.IsNullOrEmpty(horizontalAxisName)) horizontal += GetDirection(horizontalAxisName,true);
 			
 			if (Input.GetButtonDown(submitController)){
 				Notify(mSelInput, "OnKey",KeyCode.A);

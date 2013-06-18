@@ -3,15 +3,10 @@ using System.Collections;
 
 public class PlayerHudBGscr : MonoBehaviour {
 	
-	public UILabel cost_label,resource_label;
+	public UILabel cost_label,resource_label,name_label;
 	
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update() {
-	
+	public void SetName(string name){
+		name_label.text=name;
 	}
 	
 	public void SetCost(int cost){
