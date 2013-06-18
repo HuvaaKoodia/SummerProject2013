@@ -20,11 +20,9 @@ public class ImShootingMahLazer : MonoBehaviour {
 		
 		line_rend.SetPosition(0, plr_main.transform.position+new Vector3(0f,0.5f,0f));
 		if(hitInfo.collider!=null){
-		line_rend.SetPosition(1, hitInfo.point);
-		
-		Debug.Log(plr_main.transform.position +" " + plr_main.UpperTorsoDir + " " + collider.transform.position);
+			line_rend.SetPosition(1, hitInfo.point);
 		}
-			else{
+		else{
 			line_rend.SetPosition(1, plr_main.transform.position+(plr_main.UpperTorsoDir.normalized*10));
 		}
 			

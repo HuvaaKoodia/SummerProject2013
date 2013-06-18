@@ -22,67 +22,15 @@ public class PlayerManager : MonoBehaviour
 		players.Add(new playerData(3,player3button));
 		players.Add(new playerData(4,player4button));
 	}
+	
 	void Start ()
 	{
-	
-		defaultMessage=counter.text;
+		//defaultMessage=counter.text;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		/*		
-		
-		for(int i=0; i<4; i++){
-		var player=players[i];
-		
-			playerCount=0;
-			foreach(playerData pata in players){
-			if(pata.state > 0){
-				
-			playerCount++;
-					
-			}
-				
-			}
-			if (Input.GetButtonDown ("Start_"+(i+1))) {
-				if(player.state!=playerState.ready)
-						player.state++;
-					if(player.state==playerState.ready){
-					
-					Transform transformer,transformer2;
-					transformer=player.button.transform.FindChild("ReadyLabel");
-					transformer2=player.button.transform.FindChild("ColorLabel");
-					
-					NGUITools.SetActive(transformer.gameObject, true);
-					NGUITools.SetActive(transformer2.gameObject, false);
-					}
-				if(player.state==playerState.connected){
-					startCounter(true);
-					player.button.OnPress(true);
-					}
-				else if(player.state==playerState.ready){
-					startCounter(true);
-				player.button.OnPress(true);
-					}
-				else{
-					startCounter(false);
-					player.button.OnPress(true);
-						}
-			}else if(Input.GetButtonDown("B_"+(i+1))){
-				if(player.state>0){
-					startCounter(false);
-					player.state--;
-					player.button.OnPress(true);
-				}
-				else
-					player.button.OnPress(false);
-			}
-		
-			
-		
-		}
-		*/
 		if(gameStarting){
 			
 			totalTime -= Time.deltaTime;
@@ -95,9 +43,7 @@ public class PlayerManager : MonoBehaviour
 				Application.LoadLevel(1);
 				gameStarting=false;
 			}
-			
 		}
-		
 	}
 	/*public Color defColor(){
 	return new UnityEngine.Color(0f,0f,0f);
@@ -122,20 +68,21 @@ public class PlayerManager : MonoBehaviour
 		else{
 			gameStarting=false;
 			counter.text=defaultMessage;
-			
 		}
 	}
-}public class playerData{
-		
-		public int controllerNumber;
-		public playerState state = playerState.notConnected;
-		public Color color;
-		public UIButton button;
-		public PlayerMain Player;
-		
-		public playerData(int controller,UIButton button){
-			this.button=button;
-			controllerNumber=controller;
+}
+
+public class playerData{
+	public int controllerNumber;
+	public playerState state = playerState.notConnected;
+	public Color color;
+	public UIButton button;
+	
+	public int ResourceAmount=500;
+	
+	public playerData(int controller,UIButton button){
+		this.button=button;
+		controllerNumber=controller;
 		color = Color.white;
-		}
 	}
+}

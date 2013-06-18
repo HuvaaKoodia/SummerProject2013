@@ -31,7 +31,7 @@ public class PlayerMain : MonoBehaviour
 	bool onGround, canJump;
 	float acceleration = 50,
 		jump_speed = 200, jump_speed_max = 2000,
-		speed_max = 2;
+		speed_max = 1f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
 	Transform u_torso,l_torso;
 	
@@ -83,8 +83,7 @@ public class PlayerMain : MonoBehaviour
 
 	void Start ()
 	{
-		//l_torso.animation.Play();
-		//u_torso.animation.Play();
+
 	}
 
 	void Update ()
@@ -130,10 +129,11 @@ public class PlayerMain : MonoBehaviour
 		rigidbody.AddForce (force);
 		
 		//DEV. WEIRD.SIHT
-		/*l_torso.animation.Play();
-		u_torso.animation.Play();
-		l_torso.animation.enabled=u_torso.animation.enabled=true;
-		*/	
+		if (l_torso.animation!=null){
+			l_torso.animation.Play();
+			u_torso.animation.Play();
+			l_torso.animation.enabled=u_torso.animation.enabled=true;
+		}
 	}
 	
 	// Update is called once per frame
@@ -141,8 +141,10 @@ public class PlayerMain : MonoBehaviour
 	{
 		rigidbody.WakeUp ();
 		
-		//l_torso.animation.enabled=false;
-		//u_torso.animation.enabled=false;
+		if (l_torso.animation!=null){
+			l_torso.animation.enabled=false;
+			u_torso.animation.enabled=false;
+		}
 		if (onGround) {
 			if (l_axis_x < 0) {
 				MoveAround(Vector3.left * acceleration);

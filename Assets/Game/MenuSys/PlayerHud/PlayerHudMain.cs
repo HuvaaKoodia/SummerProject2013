@@ -12,6 +12,7 @@ public class PlayerHudMain : MonoBehaviour {
 	public UpgradePanelScr UpgradePanel;
 	public GameObject ShopPanel;
 	public GridInput AbilityBarGrid,AbilityPanelGrid,UpgradeGrid;
+	public PlayerHudBGscr menu_BG_panel;
 	
 	UIAnchor anchor;
 	UISlider hp_slider,mp_slider;
@@ -26,7 +27,7 @@ public class PlayerHudMain : MonoBehaviour {
 	}
 	
 	public void Start(){
-		changeState(AbilityMenuState.Bar);
+		changeState(state);
 	}
 	
 	// Update is called once per frame
@@ -79,6 +80,9 @@ public class PlayerHudMain : MonoBehaviour {
 			else
 				changeState(AbilityMenuState.Ready);
 		}
+		
+		
+		//update bg labels
 	}
 	
 	ItemContainerMain GetSelectedBar(){
@@ -116,13 +120,14 @@ public class PlayerHudMain : MonoBehaviour {
 			UpgradeGrid.HighlightCurrent();
 		}
 		
-		/*
 		if (this.state==AbilityMenuState.Ready){//Coming from ready
-
+			menu_BG_panel.gameObject.SetActive(true);
 		}
-		*/
 		
 		if (state==AbilityMenuState.Ready){//Going to ready
+			
+			menu_BG_panel.gameObject.SetActive(false);
+			
 			_Camera.selectedObjectInput=null;
 			_Camera.selectedObjectHighlight=null;
 			

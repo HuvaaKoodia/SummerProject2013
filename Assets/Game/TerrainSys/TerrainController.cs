@@ -74,13 +74,10 @@ public class TerrainController : MonoBehaviour {
 			pos.x+=tile_w*(3f/4f);
 		}
 		
-				
 		//DEV. spawn pos!
 		/*foreach (var data in playerData.players){
 			spawn_positions.Add(tiles[Random.Range(0,tiles.Count)]);
 		}*/
-		
-		
 		
 		//terrain_timer.Active=false;
 		
@@ -187,7 +184,7 @@ public class TerrainController : MonoBehaviour {
 		
 		//DEV!!!
 		if (Input.GetKeyDown(KeyCode.Space)){
-			Activate(true);
+			Activate(!terrain_timer.Active);
 		}
 	}
 	
