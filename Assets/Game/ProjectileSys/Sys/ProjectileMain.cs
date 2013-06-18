@@ -13,6 +13,8 @@ public class ProjectileMain : MonoBehaviour {
 	
 	public Vector3 MoveDirection {get;private set;}
 	public float MoveSpeed {get;private set;}
+	
+	public float Power,Knockback;
 
 	// Use this for initialization
 	void Awake () {
@@ -80,7 +82,8 @@ public class ProjectileMain : MonoBehaviour {
 	void OnCollisionEnter(Collision other){
 		if (other.gameObject.tag=="Player"){
 			var player=other.gameObject.transform.GetComponent<PlayerMain>();
-			player.HP-=stats.Damage;//other.impactForceSum.magnitude/10;
+			player.HP-=Power;//other.impactForceSum.magnitude/10;
+			Debug.Log("DMG: "+Power);
 		}
 		//MoveSpeed=rigidbody.velocity.magnitude;
 	}

@@ -5,5 +5,6 @@ public class AbilityStats : MonoBehaviour {
 
 	public string spriteName;
 	public Transform ProjectilePrefab;
+	public int Cost;
 	
 }
