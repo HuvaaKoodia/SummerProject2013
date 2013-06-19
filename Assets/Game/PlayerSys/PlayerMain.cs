@@ -28,9 +28,9 @@ public class PlayerMain : MonoBehaviour
 	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
 	
 	//private 
-	bool onGround, canJump;
-	float acceleration = 50,
-		jump_speed = 200, jump_speed_max = 2000,
+	bool onGround, canJump, jumped;
+	float acceleration = 10000,
+		jump_speed = 10, jump_speed_max = 2000,current_jump_y,
 		speed_max = 1f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
 	Transform u_torso,l_torso;
@@ -52,8 +52,8 @@ public class PlayerMain : MonoBehaviour
 	void Awake ()
 	{
 		//mass increase
-		acceleration*=rigidbody.mass;
-		jump_speed*=rigidbody.mass;
+		
+		//jump_speed*=rigidbody.mass;
 
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
@@ -97,26 +97,7 @@ public class PlayerMain : MonoBehaviour
 		
 		updateAimDir ();
 		
-		if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
-			ability_containers [0].UseAbility (transform.position, last_aim_direction);
-		}
-		
-		if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
-			ability_containers [1].UseAbility (transform.position, last_aim_direction);
-		}
-		
-		if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
-			ability_containers [2].UseAbility (transform.position, last_aim_direction);
-		}
-		
-		if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
-			ability_containers [3].UseAbility (transform.position, last_aim_direction);
-		}
-		
-		//mp regen
-		MP+=Time.deltaTime*5;
-		
-		//graphics rotation
+		//mecha rotation
 		var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
         newRotation.x = newRotation.z = 0;
         u_torso.rotation = Quaternion.Slerp(u_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
@@ -124,21 +105,47 @@ public class PlayerMain : MonoBehaviour
 		newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
         newRotation.x = newRotation.z = 0;
         l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+		
+		//shoot direction & shooting
+		newRotation=u_torso.rotation*Vector3.forward;
+		
+		if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
+			ability_containers [0].UseAbility (transform.position, newRotation);
+		}
+		
+		if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
+			ability_containers [1].UseAbility (transform.position, newRotation);
+		}
+		
+		if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
+			ability_containers [2].UseAbility (transform.position, newRotation);
+		}
+		
+		if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
+			ability_containers [3].UseAbility (transform.position, newRotation);
+		}
+		
+		//mp regen
+		MP+=Time.deltaTime*5;
 	}
 	
 	void MoveAround(Vector3 force){
 		
-		if(rigidbody.velocity.magnitude<speed_max)
+
+		
+		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<speed_max)
 			rigidbody.AddForce (force);
+		
+		//if (!onGround)//DEV:HAX!
+			//max=200000000;
 		
 		//DEV. WEIRD.SIHT
 		if (l_torso.animation!=null){
 			l_torso.animation.Play();
-			//su_torso.animation.Play();
-			
-
+			u_torso.animation.Play();
+		
 			l_torso.animation.enabled=true;
-			//u_torso.animation.enabled=true;
+			u_torso.animation.enabled=true;
 		}
 	}
 	
@@ -151,7 +158,7 @@ public class PlayerMain : MonoBehaviour
 			l_torso.animation.enabled=false;
 			u_torso.animation.enabled=false;
 		}
-		if (onGround) {
+		
 			if (l_axis_x < 0) {
 				MoveAround(Vector3.left * acceleration);
 			}
@@ -170,16 +177,21 @@ public class PlayerMain : MonoBehaviour
 			
 			//jump
 			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
-				if (canJump) {
-					rigidbody.velocity = new Vector3 (rigidbody.velocity.x, 10, rigidbody.velocity.z);
+				if (onGround&&canJump){
+					jumped=true;
 					canJump = false;
+					current_jump_y=jump_speed;
 				}
 			}
+		
+		
+		if (jumped){
+			rigidbody.velocity = new Vector3(rigidbody.velocity.x,current_jump_y, rigidbody.velocity.z);
+			current_jump_y+=Physics.gravity.y*Time.deltaTime;
 		}
-		else{
-			
-			
-		}
+		
+		//if (rigidbody.velocity.y<0)
+			//onGround=false;
 		
 		//DEV.input <
 		if (Input.GetButtonDown("B_" + controllerNumber)){
@@ -193,6 +205,8 @@ public class PlayerMain : MonoBehaviour
 		//if (onGround)
 		//	graphics.renderer.material.color=Color.green;
 		jump_timer.Active = true;
+		
+		onGround=false;
 	}
 	
 	void OnCollisionStay (Collision other)
@@ -204,6 +218,8 @@ public class PlayerMain : MonoBehaviour
 		foreach (var c in other.contacts) {
 			if (Vector3.Angle (c.normal, transform.up) < angle){
 				onGround = true;
+				canJump=true;		
+				jumped=false;
 				break;
 			}
 		}
@@ -212,8 +228,8 @@ public class PlayerMain : MonoBehaviour
 	
 	void OnJumpTimer ()
 	{
-		onGround = false;
-		canJump = true;
+		//onGround = false;
+		
 	}
 	
 		
@@ -233,7 +249,7 @@ public class PlayerMain : MonoBehaviour
 		
 		rigidbody.velocity = new Vector3 (
 			xz_vec.x,
-			Mathf.Clamp (rigidbody.velocity.y, -jump_speed, jump_speed_max),
+			rigidbody.velocity.y,//Mathf.Clamp (rigidbody.velocity.y, -jump_speed, jump_speed_max),
 			xz_vec.y
 			);
 	}
