@@ -127,7 +127,9 @@ public class PlayerMain : MonoBehaviour
 	}
 	
 	void MoveAround(Vector3 force){
-		rigidbody.AddForce (force);
+		
+		if(rigidbody.velocity.magnitude<speed_max)
+			rigidbody.AddForce (force);
 		
 		//DEV. WEIRD.SIHT
 		if (l_torso.animation!=null){
@@ -188,19 +190,6 @@ public class PlayerMain : MonoBehaviour
 		}
 		//>
 		
-		//restrict movement speed
-		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
-		
-		if (xz_vec.magnitude > speed_max) {
-			xz_vec = Vector2.ClampMagnitude (xz_vec, speed_max);
-		}
-		
-		rigidbody.velocity = new Vector3 (
-			xz_vec.x,
-			Mathf.Clamp (rigidbody.velocity.y, -jump_speed, jump_speed_max),
-			xz_vec.y
-			);
-		
 		//if (onGround)
 		//	graphics.renderer.material.color=Color.green;
 		jump_timer.Active = true;
@@ -220,6 +209,7 @@ public class PlayerMain : MonoBehaviour
 		}
 	}
 	
+	
 	void OnJumpTimer ()
 	{
 		onGround = false;
@@ -233,7 +223,20 @@ public class PlayerMain : MonoBehaviour
 		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
 	}
 		
+	void restrictMovement(){
 	
+		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
+		
+		if (xz_vec.magnitude > speed_max) {
+			xz_vec = Vector2.ClampMagnitude (xz_vec, speed_max);
+		}
+		
+		rigidbody.velocity = new Vector3 (
+			xz_vec.x,
+			Mathf.Clamp (rigidbody.velocity.y, -jump_speed, jump_speed_max),
+			xz_vec.y
+			);
+	}
 	void Die(){
 		destroyed=true;
 		graphics.DisengageParts();
