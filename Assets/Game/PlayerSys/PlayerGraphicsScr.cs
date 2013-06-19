@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerGraphicsScr : MonoBehaviour {
 	
-	public Transform Mecha,LowerTorso,UpperTorso;
+	public Transform Mecha,LowerTorso,UpperTorso,LowerPelvis;
 	
 	// Use this for initialization
 	void Start () {
@@ -11,6 +11,11 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (LowerPelvis!=null){
+			var pos=LowerPelvis.position;
+			pos.y-=0.5f;
+			UpperTorso.position=pos;
+		}
 	}
 	
 	public void setColor(Color color){

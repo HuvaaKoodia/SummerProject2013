@@ -29,6 +29,48 @@ ModelImporter:
     100046: R_thigh001
     100048: R_toe003
     100050: R_toe004
+    100052: L_arm001
+    100054: L_cannon001
+    100056: L_shoulder001
+    100058: Mech_Rig_Legs_
+    100060: Mech_Rig_Legs_LArm1
+    100062: Mech_Rig_Legs_LArm2
+    100064: Mech_Rig_Legs_LArmCollarbone
+    100066: Mech_Rig_Legs_LLegPlatform
+    100068: Mech_Rig_Legs_RArm1
+    100070: Mech_Rig_Legs_RArm2
+    100072: Mech_Rig_Legs_RArmCollarbone
+    100074: Mech_Rig_Legs_RLegPlatform
+    100076: Mech_Rig_Legs_Spine
+    100078: Mech_Rig_Legs_Torso
+    100080: Mech_Rig_Torso_
+    100082: Mech_Rig_Torso_LArm1
+    100084: Mech_Rig_Torso_LArm2
+    100086: Mech_Rig_Torso_LArmCollarbone
+    100088: Mech_Rig_Torso_LLeg1
+    100090: Mech_Rig_Torso_LLeg2
+    100092: Mech_Rig_Torso_LLeg3
+    100094: Mech_Rig_Torso_LLegAnkle
+    100096: Mech_Rig_Torso_LLegDigit11
+    100098: Mech_Rig_Torso_LLegPlatform
+    100100: Mech_Rig_Torso_Pelvis
+    100102: Mech_Rig_Torso_RArm1
+    100104: Mech_Rig_Torso_RArm2
+    100106: Mech_Rig_Torso_RArmCollarbone
+    100108: Mech_Rig_Torso_RLeg1
+    100110: Mech_Rig_Torso_RLeg2
+    100112: Mech_Rig_Torso_RLeg3
+    100114: Mech_Rig_Torso_RLegAnkle
+    100116: Mech_Rig_Torso_RLegDigit11
+    100118: Mech_Rig_Torso_RLegPlatform
+    100120: Mech_Rig_Torso_Spine
+    100122: Mech_Rig_Torso_Torso
+    100124: R_arm001
+    100126: R_cannon001
+    100128: R_shoulder001
+    100130: Spine001
+    100132: Torso001
+    100134: Torso_pelvis_hidden
     400000: L_ankle001
     400002: L_calf001
     400004: L_heel001
@@ -55,6 +97,48 @@ ModelImporter:
     400046: R_thigh001
     400048: R_toe003
     400050: R_toe004
+    400052: L_arm001
+    400054: L_cannon001
+    400056: L_shoulder001
+    400058: Mech_Rig_Legs_
+    400060: Mech_Rig_Legs_LArm1
+    400062: Mech_Rig_Legs_LArm2
+    400064: Mech_Rig_Legs_LArmCollarbone
+    400066: Mech_Rig_Legs_LLegPlatform
+    400068: Mech_Rig_Legs_RArm1
+    400070: Mech_Rig_Legs_RArm2
+    400072: Mech_Rig_Legs_RArmCollarbone
+    400074: Mech_Rig_Legs_RLegPlatform
+    400076: Mech_Rig_Legs_Spine
+    400078: Mech_Rig_Legs_Torso
+    400080: Mech_Rig_Torso_
+    400082: Mech_Rig_Torso_LArm1
+    400084: Mech_Rig_Torso_LArm2
+    400086: Mech_Rig_Torso_LArmCollarbone
+    400088: Mech_Rig_Torso_LLeg1
+    400090: Mech_Rig_Torso_LLeg2
+    400092: Mech_Rig_Torso_LLeg3
+    400094: Mech_Rig_Torso_LLegAnkle
+    400096: Mech_Rig_Torso_LLegDigit11
+    400098: Mech_Rig_Torso_LLegPlatform
+    400100: Mech_Rig_Torso_Pelvis
+    400102: Mech_Rig_Torso_RArm1
+    400104: Mech_Rig_Torso_RArm2
+    400106: Mech_Rig_Torso_RArmCollarbone
+    400108: Mech_Rig_Torso_RLeg1
+    400110: Mech_Rig_Torso_RLeg2
+    400112: Mech_Rig_Torso_RLeg3
+    400114: Mech_Rig_Torso_RLegAnkle
+    400116: Mech_Rig_Torso_RLegDigit11
+    400118: Mech_Rig_Torso_RLegPlatform
+    400120: Mech_Rig_Torso_Spine
+    400122: Mech_Rig_Torso_Torso
+    400124: R_arm001
+    400126: R_cannon001
+    400128: R_shoulder001
+    400130: Spine001
+    400132: Torso001
+    400134: Torso_pelvis_hidden
     4300000: L_calf001
     4300002: L_thigh001
     4300004: R_thigh001
@@ -69,6 +153,15 @@ ModelImporter:
     4300022: L_toe004
     4300024: R_toe004
     4300026: Left_calf001
+    4300028: Spine001
+    4300030: L_shoulder001
+    4300032: L_arm001
+    4300034: L_cannon001
+    4300036: R_shoulder001
+    4300038: R_arm001
+    4300040: Torso001
+    4300042: R_cannon001
+    4300044: Torso_pelvis_hidden
     7400000: Take 001
     9500000: //RootNode
     11100000: //RootNode
@@ -86,6 +179,15 @@ ModelImporter:
     13700022: R_thigh001
     13700024: R_toe003
     13700026: R_toe004
+    13700028: L_arm001
+    13700030: L_cannon001
+    13700032: L_shoulder001
+    13700034: R_arm001
+    13700036: R_cannon001
+    13700038: R_shoulder001
+    13700040: Spine001
+    13700042: Torso001
+    13700044: Torso_pelvis_hidden
   materials:
     importMaterials: 1
     materialName: 0

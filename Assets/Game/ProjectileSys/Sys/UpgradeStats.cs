@@ -22,7 +22,6 @@ public class UpgradeStatContainer{
 		foreach(UpgradeStat s in System.Enum.GetValues(typeof(UpgradeStat))){
 			Data.Add(s,0);
 		}
-		Debug.Log("count: "+Data.Count);
 	}
 }
 /*

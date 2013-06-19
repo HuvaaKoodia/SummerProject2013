@@ -5,8 +5,25 @@ using System.Linq;
 public class TeleportScr :MonoBehaviour, SkillScript {
 
 	public void UseSkill(PlayerMain player){
+		player.StartCoroutine(doJump(player));
+	}
+	
+	IEnumerator doJump(PlayerMain player){
+		int i=0;
+		while (i<5){
+			Debug.Log("JUMP! "+i);
+			//yield return jump(player);
+			player.StartCoroutine(Jump(player));
+			yield return new WaitForSeconds(0);
+			Debug.Log("JUMP DONE! "+i);
+			i++;
+		}
+		yield return null;
+	}
+	
+	IEnumerator Jump(PlayerMain player){
 		float 
-			dis=5,dis_extra=dis+2;
+			dis=0.5f,dis_extra=dis+2f;
 		Vector3 
 			dir=player.transform.TransformDirection(player.LowerTorsoDir),
 			start_pos=player.transform.position,
@@ -54,18 +71,6 @@ public class TeleportScr :MonoBehaviour, SkillScript {
 		if (jump)
 			player.transform.position=ray.GetPoint(current_warp_dis);
 		
-
-		/*
-		Ray ray=new Ray(start_pos,dir);
-		for (float i=dis_extra;i>0;i-=0.1f){
-			var pnt=ray.GetPoint(i);
-			if (!Physics.CheckSphere(pnt,0.3f)){
-				player.transform.position=pnt;
-				break;
-			}
-			else{
-				Debug.Log("collides at "+i);
-			}
-		}*/
+		yield return null;
 	}
 }

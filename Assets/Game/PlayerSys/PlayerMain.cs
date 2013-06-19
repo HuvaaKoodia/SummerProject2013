@@ -83,7 +83,8 @@ public class PlayerMain : MonoBehaviour
 
 	void Start ()
 	{
-
+		//u_torso.animation["Take 001"].speed=-1;
+		//u_torso.animation["Take 001"].time=u_torso.animation["Take 001"].length;
 	}
 
 	void Update ()
@@ -131,8 +132,11 @@ public class PlayerMain : MonoBehaviour
 		//DEV. WEIRD.SIHT
 		if (l_torso.animation!=null){
 			l_torso.animation.Play();
-			u_torso.animation.Play();
-			l_torso.animation.enabled=u_torso.animation.enabled=true;
+			//su_torso.animation.Play();
+			
+
+			l_torso.animation.enabled=true;
+			//u_torso.animation.enabled=true;
 		}
 	}
 	

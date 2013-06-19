@@ -40,7 +40,7 @@ public class GameHudController : MonoBehaviour {
 	// Update is called once per frame
 	
 	
-	bool not_started=true;
+	bool not_started=false;
 	void Update (){
 	
 		if (not_started){
