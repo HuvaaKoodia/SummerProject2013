@@ -18,10 +18,11 @@ public class Charge : MonoBehaviour {
 	// Update is called once per frame
  	void Update () {
 
-		Vector3 speedVector=heading;
+		Vector3 speedVector=heading*force / 2f;
  		speedVector.y=0;
 		
-		plr_main.rigidbody.velocity = speedVector*(force/2f);
+		
+		plr_main.rigidbody.velocity = new Vector3(speedVector.x,plr_main.rigidbody.velocity.y, speedVector.z);
 	}
 
 	

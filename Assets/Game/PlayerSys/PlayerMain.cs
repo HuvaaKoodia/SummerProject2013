@@ -27,6 +27,8 @@ public class PlayerMain : MonoBehaviour
 	public Vector3 UpperTorsoDir{get{return last_aim_direction;}}
 	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
 	
+	public bool ignoreExplosion=false;
+	
 	//private 
 	bool onGround, canJump;
 	float acceleration = 50,
@@ -220,7 +222,11 @@ public class PlayerMain : MonoBehaviour
 	void OnExplosion(Notification note){
 		if (destroyed) return;
 		var exp=(Explosion_note)note;
+		if(!ignoreExplosion){
 		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
+		
+		ignoreExplosion=false;
+		}
 	}
 		
 	void restrictMovement(){

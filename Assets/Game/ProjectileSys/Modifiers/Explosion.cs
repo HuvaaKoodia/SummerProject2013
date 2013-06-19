@@ -14,6 +14,7 @@ public class Explosion : MonoBehaviour {
 	}*/
 	// Use this for initialization
 	void Start () {
+		
 		NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position, force, radius));
 	}
 	

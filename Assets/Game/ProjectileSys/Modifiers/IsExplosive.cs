@@ -13,6 +13,9 @@ public class IsExplosive : MonoBehaviour {
 		boxCollider.transform.parent=transform;
 		
 		explosion=Resources.Load("Explosion") as GameObject;
+		Explosion expl = explosion.GetComponent<Explosion>();
+		expl.force=GetComponent<ProjectileMain>().stats.Knockback;
+		expl.radius=GetComponent<ProjectileMain>().stats.Radius;
 		time=new Timer(2000 ,activateMine);
 		rigidbody.collisionDetectionMode=CollisionDetectionMode.Discrete;
 	}
@@ -25,6 +28,7 @@ public class IsExplosive : MonoBehaviour {
 		
 	if (other.gameObject.tag=="Player"&&activated){
 			Instantiate(explosion,transform.position,Quaternion.identity);
+			
 		Destroy(gameObject);
 		}
 	}
