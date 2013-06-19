@@ -6,6 +6,7 @@ public class Charge : MonoBehaviour {
 	PlayerMain plr_main;
 	Vector3 heading;
 	float force;
+	
 	// Use this for initialization
 	void Start () {
 		pro_main=GetComponent<ProjectileMain>();
@@ -18,7 +19,10 @@ public class Charge : MonoBehaviour {
 	void Update () {
 		Vector3 speedVector=heading;
 		speedVector.y=0;
-		
-		plr_main.rigidbody.AddForce(speedVector.normalized*force);
+		plr_main.rigidbody.velocity = speedVector*(force/2f);
+	}
+	
+	void OnDestroy(){
+	
 	}
 }
