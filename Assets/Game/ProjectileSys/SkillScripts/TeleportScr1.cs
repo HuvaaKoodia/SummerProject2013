@@ -6,7 +6,7 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 
 	public void UseSkill(PlayerMain player){
 		float 
-			dis=0.5f,dis_extra=dis+2f;
+			dis=2.5f,dis_extra=dis+2f;
 		Vector3 
 			dir=player.transform.TransformDirection(player.LowerTorsoDir),
 			start_pos=player.transform.position,

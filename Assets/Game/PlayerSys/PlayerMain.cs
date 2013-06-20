@@ -240,9 +240,8 @@ public class PlayerMain : MonoBehaviour
 		var exp=(Explosion_note)note;
 		if(!ignoreExplosion){
 		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
-		
-		ignoreExplosion=false;
 		}
+		ignoreExplosion=false;
 	}
 		
 	void restrictMovement(){
