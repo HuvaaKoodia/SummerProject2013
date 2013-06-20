@@ -13,7 +13,7 @@ public class PlayerMain : MonoBehaviour
 	float hp = 100;
 	public float HP {
 		get{ return hp;}
-		set{ hp = Mathf.Clamp(value,0,100); 
+		set{ hp = Mathf.Clamp(value,0,100);
 			if(hp==0) Die();
 		}
 	}
@@ -24,7 +24,8 @@ public class PlayerMain : MonoBehaviour
 		set{ mp = Mathf.Clamp(value,0,100);}
 	}
 	
-	public Vector3 UpperTorsoDir{get{return last_aim_direction;}}
+	public Vector3 AimDir{get{return last_aim_direction;}}
+	public Vector3 UpperTorsoDir{get{return last_upper_direction;}}
 	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
 	
 	//private 
@@ -35,8 +36,8 @@ public class PlayerMain : MonoBehaviour
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
 	Transform u_torso,l_torso;
 	
-	Timer jump_timer;
-	Vector3 last_aim_direction,last_move_direction;
+	Timer jump_timer,onGround_timer;
+	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
 	//Vector3 last_aim_point,last_move_point;
 	bool destroyed=false;
 	
@@ -60,8 +61,8 @@ public class PlayerMain : MonoBehaviour
 		u_torso=graphics.UpperTorso;
 		l_torso=graphics.LowerTorso;
 		
-		jump_timer = new Timer (400, OnJumpTimer);
-		
+		jump_timer = new Timer(400, OnJumpTimer);
+		onGround_timer= new Timer(200, OnGroundTimer);
 		
 		//DEV.temp!!
 		ability_containers = new List<AbilityContainer> ();
@@ -71,21 +72,14 @@ public class PlayerMain : MonoBehaviour
 			abb.Ability.Ability = Abilities [i];
 			
 			abb.player=this;
-			ability_containers.Add (abb);
+			ability_containers.Add(abb);
 		}
 		_Color=_color;
 		
 		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
-		
-
-		
 	}
 
-	void Start ()
-	{
-		//u_torso.animation["Take 001"].speed=-1;
-		//u_torso.animation["Take 001"].time=u_torso.animation["Take 001"].length;
-	}
+	void Start () {}
 
 	void Update ()
 	{
@@ -95,49 +89,40 @@ public class PlayerMain : MonoBehaviour
 		r_axis_x = Input.GetAxis ("R_XAxis_" + controllerNumber);
 		r_axis_y = Input.GetAxis ("R_YAxis_" + controllerNumber);
 		
-		updateAimDir ();
-		
-		//mecha rotation
-		var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
-        newRotation.x = newRotation.z = 0;
-        u_torso.rotation = Quaternion.Slerp(u_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
-		
-		newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
-        newRotation.x = newRotation.z = 0;
-        l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
-		
-		//shoot direction & shooting
-		newRotation=u_torso.rotation*Vector3.forward;
-		
+		updateRotations();
+	
 		if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
-			ability_containers [0].UseAbility (transform.position, newRotation);
+			ability_containers [0].UseAbility (transform.position, last_upper_direction);
 		}
 		
 		if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
-			ability_containers [1].UseAbility (transform.position, newRotation);
+			ability_containers [1].UseAbility (transform.position,  last_upper_direction);
 		}
 		
 		if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
-			ability_containers [2].UseAbility (transform.position, newRotation);
+			ability_containers [2].UseAbility (transform.position,  last_upper_direction);
 		}
 		
 		if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
-			ability_containers [3].UseAbility (transform.position, newRotation);
+			ability_containers [3].UseAbility (transform.position,  last_upper_direction);
 		}
 		
 		//mp regen
 		MP+=Time.deltaTime*5;
+		
+		if (controllerNumber==1){
+			Debug.Log("OnGround= "+onGround+" CanJump= "+canJump+" jumped: "+jumped );
+		}
 	}
 	
+	
+	//DEV. bugs out a bit
 	void MoveAround(Vector3 force){
+		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=speed_max)
+			rigidbody.AddForce(force);
 		
-
-		
-		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<speed_max)
-			rigidbody.AddForce (force);
-		
-		//if (!onGround)//DEV:HAX!
-			//max=200000000;
+		if (!onGround)
+			restrictMovement();
 		
 		//DEV. WEIRD.SIHT
 		if (l_torso.animation!=null){
@@ -184,7 +169,6 @@ public class PlayerMain : MonoBehaviour
 				}
 			}
 		
-		
 		if (jumped){
 			rigidbody.velocity = new Vector3(rigidbody.velocity.x,current_jump_y, rigidbody.velocity.z);
 			current_jump_y+=Physics.gravity.y*Time.deltaTime;
@@ -200,13 +184,9 @@ public class PlayerMain : MonoBehaviour
 		if (Input.GetButtonDown("Y_" + controllerNumber)){
 			NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
 		}
-		//>
 		
-		//if (onGround)
-		//	graphics.renderer.material.color=Color.green;
-		jump_timer.Active = true;
 		
-		onGround=false;
+		
 	}
 	
 	void OnCollisionStay (Collision other)
@@ -217,9 +197,18 @@ public class PlayerMain : MonoBehaviour
 		
 		foreach (var c in other.contacts) {
 			if (Vector3.Angle (c.normal, transform.up) < angle){
-				onGround = true;
-				canJump=true;		
+				
 				jumped=false;
+				
+				onGround_timer.Reset();
+				onGround_timer.Active=true;
+				onGround = true;
+				
+				if (!jump_timer.Active){
+					jump_timer.Reset();
+					jump_timer.Active=true;
+				}
+				
 				break;
 			}
 		}
@@ -228,8 +217,14 @@ public class PlayerMain : MonoBehaviour
 	
 	void OnJumpTimer ()
 	{
-		//onGround = false;
-		
+		canJump=true;
+		jump_timer.Active = false;
+	}
+	void OnGroundTimer ()
+	{
+		onGround=false;
+		jump_timer.Active=false;
+		onGround_timer.Active=false;
 	}
 	
 		
@@ -243,8 +238,8 @@ public class PlayerMain : MonoBehaviour
 	
 		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
 		
-		if (xz_vec.magnitude > speed_max) {
-			xz_vec = Vector2.ClampMagnitude (xz_vec, speed_max);
+		if (xz_vec.magnitude > speed_max){
+			xz_vec = Vector2.ClampMagnitude(xz_vec, speed_max);
 		}
 		
 		rigidbody.velocity = new Vector3 (
@@ -267,7 +262,7 @@ public class PlayerMain : MonoBehaviour
 		jump_timer.Destroy();
 	}
 		
-	private void updateAimDir ()
+	private void updateRotations ()
 	{
 		//aim
 		var forward = transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
@@ -284,6 +279,18 @@ public class PlayerMain : MonoBehaviour
 			last_move_direction = forward.normalized;
 		}
 		//last_move_point=transform.position + last_move_direction;
+		
+		//mecha rotation
+		var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
+        newRotation.x = newRotation.z = 0;
+        u_torso.rotation = Quaternion.Slerp(u_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+		
+		newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
+        newRotation.x = newRotation.z = 0;
+        l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+		
+		//shoot direction
+		last_upper_direction=u_torso.rotation*Vector3.forward;
 	}
 }
 

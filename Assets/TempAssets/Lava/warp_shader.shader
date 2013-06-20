@@ -1,4 +1,4 @@
-Shader "Warper"
+Shader "Custom/Warper"
 {
 	Properties 
 	{
@@ -73,7 +73,6 @@ return c;
 			
 			struct Input {
 				float2 uv_main;
-float2 uv_noise;
 
 			};
 
@@ -98,14 +97,13 @@ float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
 				
 float4 Multiply0=_Time * float4( 0.1,0.1,0.1,0.1 );
 float4 Add1=(IN.uv_main.xyxy) + Multiply0;
-float4 Normalize0=normalize(Add1);
+float4 Tex2D1=tex2D(_noise,Add1.xy);
+float4 Normalize0=normalize(Tex2D1);
 float4 Multiply1=Normalize0 * float4( 2,2,2,2 );
 float4 Subtract0=Multiply1 - float4( 1,1,1,1 );
 float4 Multiply2=Subtract0 * float4( 0.035,0.035,0.035,0.035 );
-float4 Add2=(IN.uv_noise.xyxy) + Multiply2;
+float4 Add2=(IN.uv_main.xyxy) + Multiply2;
 float4 Tex2D0=tex2D(_main,Add2.xy);
-float4 Add0_1_NoInput = float4(0,0,0,0);
-float4 Add0=Tex2D0 + Add0_1_NoInput;
 float4 Master0_1_NoInput = float4(0,0,1,1);
 float4 Master0_2_NoInput = float4(0,0,0,0);
 float4 Master0_3_NoInput = float4(0,0,0,0);
@@ -113,7 +111,7 @@ float4 Master0_4_NoInput = float4(0,0,0,0);
 float4 Master0_5_NoInput = float4(1,1,1,1);
 float4 Master0_7_NoInput = float4(0,0,0,0);
 float4 Master0_6_NoInput = float4(1,1,1,1);
-o.Albedo = Add0;
+o.Albedo = Tex2D0;
 
 				o.Normal = normalize(o.Normal);
 			}

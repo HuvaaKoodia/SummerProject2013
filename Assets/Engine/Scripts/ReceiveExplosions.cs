@@ -18,7 +18,5 @@ public class ReceiveExplosions : MonoBehaviour {
 	void OnExplosion(Notification note){
 		var exp=(Explosion_note)note;
 		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
-		if (onExplosion!=null)
-			onExplosion(note);
 	}
 }
