@@ -32,7 +32,8 @@ public class CameraScript : MonoBehaviour {
 		
 		move_dir_r=move_dir;
 		//move_dir_r=Vector3.Lerp(move_dir_r,move_dir,Time.deltaTime);
-		look_pos_r=Vector3.Lerp(look_pos_r,look_pos,Time.deltaTime);
+		if (Vector3.Angle(look_pos,look_pos_r)>0.01f)
+			look_pos_r=Vector3.Lerp(look_pos_r,look_pos,Time.deltaTime);
 		
 		dis=Vector3.Distance(transform.position,move_to_pos);
 		speed=Time.deltaTime;

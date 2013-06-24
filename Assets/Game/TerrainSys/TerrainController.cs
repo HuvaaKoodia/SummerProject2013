@@ -7,7 +7,7 @@ public class TerrainController : MonoBehaviour {
 	
 	public int LevelWidth,LevelHeight;
 	
-	public PlayerMain[] Players;
+	//public PlayerMain[] Players;
 	
 	public Transform player_prefab;
 	public Transform ground_prefab;
@@ -129,7 +129,7 @@ public class TerrainController : MonoBehaviour {
 		main_camera.DetachPlane();
 		//players
 		
-		if (GameObject.Find("PLAYERDATAS!")!=null){
+		/*if (GameObject.Find("PLAYERDATAS!")!=null){
 			var playerData=GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager>();
 			int c_p=0;
 			
@@ -144,7 +144,7 @@ public class TerrainController : MonoBehaviour {
 					p.gameObject.SetActive(false);
 				}
 			}
-		}
+		}*/
 		
 		
 		//pause level
@@ -237,7 +237,6 @@ public class TerrainController : MonoBehaviour {
 		return dis<=distance;
 	}
 	
-	
 	/*
 	void OnGUI(){
 		for (int i=0;i<terrain.GetLength(0);i++)
@@ -254,5 +253,4 @@ public class TerrainController : MonoBehaviour {
 			}
 		}
 	}*/
-	
 }

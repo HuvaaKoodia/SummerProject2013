@@ -6,9 +6,13 @@ public enum playerState{notConnected, connected, ready}
 
 public class PlayerManager : MonoBehaviour
 {
+	public GameHudController gamehudcontroller;
+	
+	public GameObject player_prefab;
 	public List<playerData> players= new List<playerData>();
 	public bool gameStarting = false;
 	public UIButton player1button,player2button,player3button, player4button;
+	public Transform spawner1,spawner2,spawner3,spawner4;
 	public UILabel counter;
 	public string defaultMessage;
 	public float timer=5,timerMax=5;
@@ -17,15 +21,25 @@ public class PlayerManager : MonoBehaviour
 	// Use this for initialization
 	void Awake() {
         DontDestroyOnLoad(transform.gameObject);
-		players.Add(new playerData(1,player1button));
-    	players.Add(new playerData(2,player2button));
-		players.Add(new playerData(3,player3button));
-		players.Add(new playerData(4,player4button));
-	}
-	
-	void Start ()
-	{
+		players.Add(new playerData(1,player1button,spawner1));
+    	players.Add(new playerData(2,player2button,spawner2));
+		players.Add(new playerData(3,player3button,spawner3));
+		players.Add(new playerData(4,player4button,spawner4));
+
+		//create players
+		foreach (var p in players){
+			var po=MonoBehaviour.Instantiate(player_prefab,p.Spawner.position,Quaternion.identity) as GameObject;
+			var player=po.GetComponent<PlayerMain>();
+			
+			player.Data=p;
+			player._Color=p.color;
+			player.controllerNumber=p.controllerNumber;
+		}
+		
 		//defaultMessage=counter.text;
+		
+		if (gamehudcontroller!=null)
+			gamehudcontroller.setPlayerMenus();
 	}
 	
 	// Update is called once per frame
@@ -74,15 +88,17 @@ public class PlayerManager : MonoBehaviour
 
 public class playerData{
 	public int controllerNumber;
-	public playerState state = playerState.notConnected;
+	public playerState state = playerState.ready;
 	public Color color;
 	public UIButton button;
+	public Transform Spawner;
 	
 	public int ResourceAmount=500;
 	
-	public playerData(int controller,UIButton button){
+	public playerData(int controller,UIButton button,Transform spawner){
 		this.button=button;
 		controllerNumber=controller;
 		color = Color.white;
+		Spawner=spawner;
 	}
 }
