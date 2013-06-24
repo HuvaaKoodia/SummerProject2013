@@ -1107,19 +1107,20 @@ public class UICamera : MonoBehaviour
 
 		if (useController)
 		{
+			if (mSel!=null) mSelInput=mSel;
 			if (!string.IsNullOrEmpty(verticalAxisName)) vertical -= GetDirection(verticalAxisName,false);//DEV. Changed + -> -
 			if (!string.IsNullOrEmpty(horizontalAxisName)) horizontal += GetDirection(horizontalAxisName,true);
 			
-			if (Input.GetButtonDown(submitController)){
+			if (submitController!="" && Input.GetButtonDown(submitController)){
 				Notify(mSelInput, "OnKey",KeyCode.A);
 			}
 			
-			
-			if (Input.GetButtonDown(cancelController)){
+			if (cancelController!="" && Input.GetButtonDown(cancelController)){
 				Notify(mSelInput, "OnKey",KeyCode.B);
 			}
 		}
-
+		if (vertical!=0)
+			Debug.Log("vert "+vertical);
 		// Send out key notifications
 		if (vertical != 0) Notify(mSelInput, "OnKey", vertical > 0 ? KeyCode.UpArrow : KeyCode.DownArrow);
 		if (horizontal != 0) Notify(mSelInput, "OnKey", horizontal > 0 ? KeyCode.RightArrow : KeyCode.LeftArrow);
