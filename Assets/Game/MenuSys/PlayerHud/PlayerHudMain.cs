@@ -27,6 +27,8 @@ public class PlayerHudMain : MonoBehaviour {
 	}
 	
 	public void Start(){
+		AbilityBarGrid.UpdateGrid();
+		//AbilityPanelGrid.UpdateGrid();
 		changeState(state);
 	}
 	
@@ -35,6 +37,13 @@ public class PlayerHudMain : MonoBehaviour {
 		//game
 		hp_slider.sliderValue=Player.HP/100f;
 		mp_slider.sliderValue=Player.MP/100f;
+		
+		int current_cost=0;
+		foreach (var abi in AbilityBarGrid.Grid){
+			current_cost+=abi.GetComponent<ItemContainerMain>().Ability.GetCost();
+		}
+		
+		int resources=Player.Data.ResourceAmount-current_cost;
 		
 		//input
 		if (state!=AbilityMenuState.Ready){
@@ -65,6 +74,7 @@ public class PlayerHudMain : MonoBehaviour {
 			if (Input.GetButtonDown("X_"+Player.controllerNumber)){
 				if (swap_item==null){
 					swap_item=GetSelectedBar();
+					_Camera.selectedObjectHighlight=AbilityBarGrid.SelectedItem().gameObject;
 				}
 				else{
 					var s_ab=GetSelectedBar().Ability;
@@ -75,7 +85,7 @@ public class PlayerHudMain : MonoBehaviour {
 			}
 		}
 		
-		if (Input.GetButtonDown("Start_"+Player.controllerNumber)){
+		if (resources>0&&Input.GetButtonDown("Start_"+Player.controllerNumber)){
 			if (state==AbilityMenuState.Ready){
 				changeState(AbilityMenuState.Bar);
 			}
@@ -85,6 +95,8 @@ public class PlayerHudMain : MonoBehaviour {
 		
 		
 		//update bg labels
+		
+		menu_BG_panel.SetResources(resources);
 		
 		if (state==AbilityMenuState.Bar||state==AbilityMenuState.Upgrade){
 			menu_BG_panel.SetCost(GetSelectedBar().Ability.GetCost());

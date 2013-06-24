@@ -14,7 +14,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 1
     externalNormalMap: 1
-    heightScale: .25
+    heightScale: .0439999998
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -23,8 +23,8 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 1024
   textureSettings:
-    filterMode: -1
-    aniso: -1
+    filterMode: 0
+    aniso: 0
     mipBias: -1
     wrapMode: -1
   nPOTScale: 1

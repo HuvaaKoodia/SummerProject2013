@@ -5,6 +5,7 @@ using NotificationSys;
 
 public class PlayerMain : MonoBehaviour
 {
+	public playerData Data;
 	public PlayerGraphicsScr graphics;
 	public List<Transform> Abilities = new List<Transform> ();
 	public List<AbilityContainer> ability_containers;
@@ -52,10 +53,6 @@ public class PlayerMain : MonoBehaviour
 	
 	void Awake ()
 	{
-		//mass increase
-		
-		//jump_speed*=rigidbody.mass;
-
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
 		u_torso=graphics.UpperTorso;
@@ -110,19 +107,18 @@ public class PlayerMain : MonoBehaviour
 		//mp regen
 		MP+=Time.deltaTime*5;
 		
+		//DEV.temp
 		if (controllerNumber==1){
-			Debug.Log("OnGround= "+onGround+" CanJump= "+canJump+" jumped: "+jumped );
+			//Debug.Log("OnGround= "+onGround+" CanJump= "+canJump+" jumped: "+jumped );
 		}
 	}
 	
 	
 	//DEV. bugs out a bit
 	void MoveAround(Vector3 force){
+		
 		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=speed_max)
 			rigidbody.AddForce(force);
-		
-		if (!onGround)
-			restrictMovement();
 		
 		//DEV. WEIRD.SIHT
 		if (l_torso.animation!=null){
@@ -144,34 +140,42 @@ public class PlayerMain : MonoBehaviour
 			u_torso.animation.enabled=false;
 		}
 		
-			if (l_axis_x < 0) {
-				MoveAround(Vector3.left * acceleration);
-			}
-			
-			if (l_axis_x > 0) {
-				MoveAround(Vector3.right * acceleration);
-			}
-			
-			if (l_axis_y < 0) {
-				MoveAround(Vector3.forward * acceleration);
-			}
-			
-			if (l_axis_y > 0) {
-				MoveAround(Vector3.back * acceleration);
-			}
-			
-			//jump
-			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
-				if (onGround&&canJump){
-					jumped=true;
-					canJump = false;
-					current_jump_y=jump_speed;
-				}
-			}
+		if (jumped||!onGround)
+			restrictMovement();
 		
-		if (jumped){
+		if (l_axis_x < 0) {
+			MoveAround(Vector3.left * acceleration);
+		}
+		
+		if (l_axis_x > 0) {
+			MoveAround(Vector3.right * acceleration);
+		}
+		
+		if (l_axis_y < 0) {
+			MoveAround(Vector3.forward * acceleration);
+		}
+		
+		if (l_axis_y > 0) {
+			MoveAround(Vector3.back * acceleration);
+		}
+		
+		//jump
+		if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
+			if (onGround&&canJump){
+				jumped=true;
+				canJump = false;
+				
+				current_jump_y=jump_speed;
+				//rigidbody.velocity= new Vector3(rigidbody.velocity.x,jump_speed, rigidbody.velocity.z);
+			}
+		}
+		
+		if (jumped||!onGround){
 			rigidbody.velocity = new Vector3(rigidbody.velocity.x,current_jump_y, rigidbody.velocity.z);
 			current_jump_y+=Physics.gravity.y*Time.deltaTime;
+		}
+		else{
+			current_jump_y=rigidbody.velocity.y;
 		}
 		
 		//if (rigidbody.velocity.y<0)
@@ -184,21 +188,21 @@ public class PlayerMain : MonoBehaviour
 		if (Input.GetButtonDown("Y_" + controllerNumber)){
 			NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
 		}
-		
-		
-		
 	}
-	
-	void OnCollisionStay (Collision other)
-	{
+	int ong=0;
+	void OnCollisionStay(Collision other)
+	{	
+		if (other.gameObject.tag=="Hurt"){
+			HP-=Time.deltaTime*2;
+
+		}
+		
 		int angle=10;
 		if (other.gameObject.tag=="Gib")
 			angle=30;
 		
 		foreach (var c in other.contacts) {
 			if (Vector3.Angle (c.normal, transform.up) < angle){
-				
-				jumped=false;
 				
 				onGround_timer.Reset();
 				onGround_timer.Active=true;
@@ -214,7 +218,6 @@ public class PlayerMain : MonoBehaviour
 		}
 	}
 	
-	
 	void OnJumpTimer ()
 	{
 		canJump=true;
@@ -223,6 +226,7 @@ public class PlayerMain : MonoBehaviour
 	void OnGroundTimer ()
 	{
 		onGround=false;
+		jumped=false;
 		jump_timer.Active=false;
 		onGround_timer.Active=false;
 	}
