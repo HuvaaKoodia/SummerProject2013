@@ -82,7 +82,9 @@ public class ProjectileMain : MonoBehaviour {
 	}
 	
 	public void OnDestroy(){
-		
+		if(sound!=null){
+			sound.detach();
+		}
 		//life_time.Destroy();
 	}
 	
