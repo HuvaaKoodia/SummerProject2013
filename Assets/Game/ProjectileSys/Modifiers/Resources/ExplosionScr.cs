@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using NotificationSys;
 
-public class Explosion : MonoBehaviour {
+public class ExplosionScr : MonoBehaviour {
 	public float radius, force;
 	public Vector3 pos;
 	//Explosion newExp;

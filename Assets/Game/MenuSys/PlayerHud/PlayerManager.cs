@@ -25,7 +25,13 @@ public class PlayerManager : MonoBehaviour
     	players.Add(new playerData(2,player2button,spawner2));
 		players.Add(new playerData(3,player3button,spawner3));
 		players.Add(new playerData(4,player4button,spawner4));
-
+		
+		//DEV.temp
+		players[0].color=Color.blue;
+		players[1].color=Color.red;
+		players[2].color=Color.green;
+		players[3].color=Color.yellow;
+		
 		//create players
 		foreach (var p in players){
 			var po=MonoBehaviour.Instantiate(player_prefab,p.Spawner.position,Quaternion.identity) as GameObject;

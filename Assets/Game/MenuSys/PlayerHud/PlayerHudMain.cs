@@ -35,6 +35,7 @@ public class PlayerHudMain : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//game
+		
 		hp_slider.sliderValue=Player.HP/100f;
 		mp_slider.sliderValue=Player.MP/100f;
 		

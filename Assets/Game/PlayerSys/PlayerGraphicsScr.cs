@@ -20,12 +20,12 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	
 	//DEV.TEMP
 	public void setColor(Color color){
-		foreach (Renderer t in Mecha.GetComponentsInChildren(renderer.GetType())){
+		foreach (Renderer t in Mecha.GetComponentsInChildren(typeof(Renderer))){
 			t.material.color=color;
 		}
 		
 		ExplosionDummy.gameObject.SetActive(true);
-		foreach (Renderer t in ExplosionDummy.GetComponentsInChildren(renderer.GetType())){
+		foreach (Renderer t in ExplosionDummy.GetComponentsInChildren(typeof(Renderer))){
 			t.material.color=color;
 		}
 		ExplosionDummy.gameObject.SetActive(false);
@@ -34,7 +34,7 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	public void DisengageParts(){
 		ExplosionDummy.gameObject.SetActive(true);
 		
-		foreach (Rigidbody r in ExplosionDummy.GetComponentsInChildren(rigidbody.GetType())){
+		foreach (Rigidbody r in ExplosionDummy.GetComponentsInChildren(typeof(Rigidbody))){
 			r.transform.parent=null;
 		}
 	}

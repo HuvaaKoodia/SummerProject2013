@@ -30,6 +30,7 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 			
 			if (Mathf.Abs(dis_dif)>min_dif){
 				//good pos jump
+				current_warp_dis=dis_dif;
 				break;
 			}
 			else{

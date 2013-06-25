@@ -73,7 +73,7 @@ public class PlayerMain : MonoBehaviour
 			abb.player=this;
 			ability_containers.Add(abb);
 		}
-		_Color=_color;
+		//_Color=_color;
 		
 		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
 	}

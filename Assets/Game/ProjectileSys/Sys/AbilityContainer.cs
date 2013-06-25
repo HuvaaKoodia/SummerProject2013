@@ -95,7 +95,7 @@ public class AbilityContainer{
 			pro.setDirection(direction,ProStats.Speed+spd_s);
 			pro.changeMaterialColor(ProStats.Colour);
 			pro.Power=ProStats.Power+pwr_s;
-			pro.Knockback=ProStats.Knockback+pwr_s;
+			pro.Knockback=ProStats.Knockback+kck_s;
 			
 			
 			obj.localScale=Vector3.one*ProStats.Size;

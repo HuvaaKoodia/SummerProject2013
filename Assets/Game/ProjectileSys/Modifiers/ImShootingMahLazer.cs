@@ -19,7 +19,7 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 	Physics.Raycast(new Ray(plr_main.transform.position,plr_main.UpperTorsoDir),out hitInfo , 10f);
 		
 		line_rend.SetPosition(0, plr_main.transform.position+new Vector3(0f,0.5f,0f));
-		if(hitInfo.collider!=null){
+		if(hitInfo.collider!=null&&hitInfo.collider.gameObject.tag!="Gib"){
 			line_rend.SetPosition(1, hitInfo.point);
 			if (hitInfo.collider.gameObject.tag=="Player"){
 				var player=hitInfo.collider.gameObject.GetComponent<PlayerMain>();

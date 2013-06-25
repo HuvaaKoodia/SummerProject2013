@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class ExplodesOnContact : MonoBehaviour,ProjectileModifier {
+public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 	GameObject explosion;
 	ProjectileMain proj_main;
 	Timer time,startTime;
@@ -22,7 +22,7 @@ public class ExplodesOnContact : MonoBehaviour,ProjectileModifier {
 	void OnDestroy(){
 		
 		GameObject obj = Instantiate(explosion,transform.position,Quaternion.identity) as GameObject;
-		Explosion expl = obj.GetComponent<Explosion>();
+		var expl = obj.GetComponent<ExplosionScr>();
 		
 		expl.radius = proj_main.stats.Radius;
 		expl.force = proj_main.stats.Knockback;
