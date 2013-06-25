@@ -26,7 +26,7 @@ public class AbilityContainer{
 		var upgrade_stats=Ability.Stats;
 		
 		var ProStats = ability_prefab.GetComponent<ProjectileStats> ();
-		
+		var sfx = ability_prefab.GetComponent<StoreSounds>();
 		if (player.MP < ProStats.EnergyCost) {
 			return;
 		}
@@ -75,6 +75,7 @@ public class AbilityContainer{
 			
 			pro.Creator = player;
 			pro.stats = ProStats;
+			pro.sfx=sfx;
 			
 			if (ProStats.Life_time < 0)
 				pro.life_time.Active = false;
@@ -87,6 +88,7 @@ public class AbilityContainer{
 			pro.changeMaterialColor(ProStats.Colour);
 			pro.Power=ProStats.Power+pwr_s;
 			pro.Knockback=ProStats.Knockback+pwr_s;
+			
 			
 			obj.localScale=Vector3.one*ProStats.Size;
 			obj.rigidbody.mass=ProStats.Size*10;
