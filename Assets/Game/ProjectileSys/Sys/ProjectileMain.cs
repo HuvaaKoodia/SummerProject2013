@@ -8,6 +8,8 @@ public class ProjectileMain : MonoBehaviour {
 	
 	public Timer life_time;
 	Transform graphics;
+	public SoundMain sound;
+	public StoreSounds sfx;
 	
 	public float SpeedMulti;
 	
@@ -15,14 +17,18 @@ public class ProjectileMain : MonoBehaviour {
 	public float MoveSpeed {get;private set;}
 	
 	public float Power,Knockback;
-
+	
+	
 	// Use this for initialization
 	void Awake () {
 		life_time=new Timer(1000,OnDeath,false);
 		graphics=transform.Find("Graphics") as Transform;
 		SpeedMulti=oldSpeedMulti=1f;
 	}
-	
+	void Start(){
+		if(sound!=null)
+		sound.sfx=sfx;
+	}
 	// Update is called once per frame
 	void FixedUpdate () {
 		//rigidbody.isKinematic=true;
@@ -76,6 +82,7 @@ public class ProjectileMain : MonoBehaviour {
 	}
 	
 	public void OnDestroy(){
+		
 		//life_time.Destroy();
 	}
 	
