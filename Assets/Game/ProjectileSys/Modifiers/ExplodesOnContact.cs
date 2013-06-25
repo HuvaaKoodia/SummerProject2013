@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class ExplodesOnContact : MonoBehaviour {
+public class ExplodesOnContact : MonoBehaviour,ProjectileModifier {
 	GameObject explosion;
 	ProjectileMain proj_main;
 	Timer time,startTime;

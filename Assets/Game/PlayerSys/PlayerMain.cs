@@ -34,7 +34,7 @@ public class PlayerMain : MonoBehaviour
 	//private 
 	bool onGround, canJump, jumped;
 	float acceleration = 10000,
-		jump_speed = 10, jump_speed_max = 2000,current_jump_y,
+		jump_speed = 10,current_jump_y,
 		speed_max = 1f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
 	Transform u_torso,l_torso;
@@ -191,7 +191,7 @@ public class PlayerMain : MonoBehaviour
 			NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
 		}
 	}
-	int ong=0;
+
 	void OnCollisionStay(Collision other)
 	{	
 		if (other.gameObject.tag=="Hurt"){

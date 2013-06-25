@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Hook : MonoBehaviour
+public class Hook : MonoBehaviour,ProjectileModifier
 {
 	ProjectileMain pro_main;
 	PlayerMain plr_main;

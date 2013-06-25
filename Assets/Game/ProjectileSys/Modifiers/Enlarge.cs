@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Enlarge : MonoBehaviour {
+public class Enlarge : MonoBehaviour,ProjectileModifier {
 
 	// Use this for initialization
 	void Start () {

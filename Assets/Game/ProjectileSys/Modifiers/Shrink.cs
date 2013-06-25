@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Shrink : MonoBehaviour {
+public class Shrink : MonoBehaviour,ProjectileModifier {
 
 	// Use this for initialization
 	void Start () {

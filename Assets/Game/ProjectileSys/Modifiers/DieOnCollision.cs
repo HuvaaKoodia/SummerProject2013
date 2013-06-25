@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class DieOnCollision : MonoBehaviour {
-
+public class DieOnCollision : MonoBehaviour,ProjectileModifier {
+	
+	
 	// Use this for initialization
 	void Start () {
 		rigidbody.collisionDetectionMode=CollisionDetectionMode.Discrete;

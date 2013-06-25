@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Homing : MonoBehaviour {
+public class Homing : MonoBehaviour,ProjectileModifier {
 	Transform target;
 	ProjectileMain projectile;
 	BoxCollider boxCollider;

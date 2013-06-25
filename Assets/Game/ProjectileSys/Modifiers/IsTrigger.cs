@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class IsTrigger : MonoBehaviour {
+public class IsTrigger : MonoBehaviour,ProjectileModifier {
 
 	// Use this for initialization
 	void Start () {

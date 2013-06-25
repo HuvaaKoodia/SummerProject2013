@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class DestroysProjectiles : MonoBehaviour {
+public class DestroysProjectiles : MonoBehaviour,ProjectileModifier {
 
 	// Use this for initialization
 	void Start () {

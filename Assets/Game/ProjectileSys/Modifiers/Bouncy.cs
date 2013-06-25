@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Bouncy : MonoBehaviour {
+public class Bouncy : MonoBehaviour,ProjectileModifier {
 
 	// Use this for initialization
 	void Start () {

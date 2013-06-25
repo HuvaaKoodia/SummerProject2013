@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using NotificationSys;
 
-public class AoePush : MonoBehaviour {
+public class AoePush : MonoBehaviour,ProjectileModifier {
 	GameObject explosion;
 	PlayerMain plr;
 	float radius, force;

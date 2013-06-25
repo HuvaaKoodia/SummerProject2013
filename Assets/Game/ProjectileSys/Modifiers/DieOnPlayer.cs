@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class DieOnPlayer : MonoBehaviour {
+public class DieOnPlayer : MonoBehaviour,ProjectileModifier {
 
 	// Use this for initialization
 	void Start () {

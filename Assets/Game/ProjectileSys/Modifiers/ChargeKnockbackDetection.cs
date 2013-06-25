@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ChargeKnockbackDetection : MonoBehaviour {
+public class ChargeKnockbackDetection : MonoBehaviour,ProjectileModifier {
 	PlayerMain player;
 	// Use this for initialization
 	void Start () {

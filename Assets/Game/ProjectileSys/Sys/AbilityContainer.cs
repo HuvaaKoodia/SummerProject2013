@@ -32,7 +32,7 @@ public class AbilityContainer{
 		}
 		
 		var projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
-		var modifiers=ability_prefab.GetComponent<AbilityModifiers>();
+		//var modifiers=ability_prefab.GetComponent<AbilityModifiers>();
 		
 		if (projectile_prefab!=null){//is projectile
 			
@@ -49,12 +49,20 @@ public class AbilityContainer{
 			}
 
 			var obj=MonoBehaviour.Instantiate(projectile_prefab,spawn_pos,Quaternion.identity) as Transform;
-			foreach (var scr in modifiers.Components){
-				if (scr!=null){
-					obj.gameObject.AddComponent(scr.name);
-
+			
+			//copy projectile modifiers.
+			foreach (ProjectileModifier scr in ability_prefab.GetComponents(typeof(ProjectileModifier))){
+				var comp=obj.gameObject.AddComponent(scr.GetType());
+				foreach (var f in scr.GetType().GetFields()){
+					f.SetValue(comp,f.GetValue(scr));
 				}
 			}
+			
+			/*foreach (var scr in modifiers.Components){
+				if (scr!=null){
+					obj.gameObject.AddComponent(scr.name);
+				}
+			}*/
 			
 			//add rigid body as the last component
 			obj.gameObject.AddComponent<Rigidbody> ();

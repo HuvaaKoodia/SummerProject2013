@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class IsExplosive : MonoBehaviour {
+public class IsExplosive : MonoBehaviour,ProjectileModifier {
 	GameObject explosion;
 	Timer time;
 	bool activated=false;

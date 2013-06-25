@@ -93,7 +93,7 @@ public class playerData{
 	public UIButton button;
 	public Transform Spawner;
 	
-	public int ResourceAmount=500;
+	public int ResourceAmount=100;
 	
 	public playerData(int controller,UIButton button,Transform spawner){
 		this.button=button;

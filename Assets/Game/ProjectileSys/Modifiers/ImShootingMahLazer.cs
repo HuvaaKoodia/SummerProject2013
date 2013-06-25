@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ImShootingMahLazer : MonoBehaviour {
+public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 	ProjectileMain pro_main;
 	PlayerMain plr_main;
 	RaycastHit hitInfo;
