@@ -144,11 +144,13 @@ public class PlayerHudMain : MonoBehaviour {
 		}
 		
 		if (state==AbilityMenuState.Upgrade){
-			_Camera.AnalogHorizontalDelay=0.1f;
-			UpgradePanel.gameObject.SetActive(true);
-			UpgradePanel.setAbility(GetSelectedBar().Ability);
-			_Camera.selectedObjectInput=UpgradeGrid.gameObject;
-			UpgradeGrid.HighlightCurrent();
+			if (GetSelectedBar().Ability.Ability.GetComponent<UpgradeStats>().AvailableUpgrades.Length>0){
+				_Camera.AnalogHorizontalDelay=0.1f;
+				UpgradePanel.gameObject.SetActive(true);
+				UpgradePanel.setAbility(GetSelectedBar().Ability);
+				_Camera.selectedObjectInput=UpgradeGrid.gameObject;
+				UpgradeGrid.HighlightCurrent();
+			}
 		}
 		
 		if (this.state==AbilityMenuState.Upgrade){//Coming from upgrade

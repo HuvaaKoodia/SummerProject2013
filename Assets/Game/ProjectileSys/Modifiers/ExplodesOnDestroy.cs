@@ -26,5 +26,5 @@ public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 		
 		expl.radius = proj_main.stats.Radius;
 		expl.force = proj_main.stats.Knockback;
-			}
+	}
 }

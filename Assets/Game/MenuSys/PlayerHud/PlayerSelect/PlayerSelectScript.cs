@@ -16,7 +16,7 @@ public class PlayerSelectScript : MonoBehaviour
 	{
 		manager = GameObject.Find ("PLAYERDATAS!").GetComponent<PlayerManager> ();
 		int.TryParse (name [3].ToString (), out controller);
-		player = manager.players [controller - 1];
+		player = manager.pDB.players [controller - 1];
 		
 		
 		uibutton = GetComponent<UIButton> ();
@@ -43,8 +43,8 @@ public class PlayerSelectScript : MonoBehaviour
 		
 		player.color=presetColors[colorIndex];
 		
-		readyLabel = player.button.transform.Find("ReadyLabel");
-		colorLabel = player.button.transform.Find("ColorLabel");
+		//readyLabel = player.button.transform.Find("ReadyLabel");
+		//colorLabel = player.button.transform.Find("ColorLabel");
 		stateUpdate(0);
 	}
 	

@@ -21,7 +21,7 @@ public class ReadyLabelScript : MonoBehaviour {
 	void Update () {
 		
 		//Debug.Log("State: " + manager.players[controller-1].state + " " + PlayerManager.playerState.ready);
-		if(manager.players[controller-1].state == playerState.ready)
+		if(manager.pDB.players[controller-1].state == playerState.ready)
 		{
 		timer+=Time.deltaTime;
 		//Debug.Log(Mathf.Sin(timer));

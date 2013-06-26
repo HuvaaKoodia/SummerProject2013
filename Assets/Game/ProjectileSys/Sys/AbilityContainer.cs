@@ -66,14 +66,14 @@ public class AbilityContainer{
 			
 			//add rigid body as the last component
 			obj.gameObject.AddComponent<Rigidbody> ();
-			obj.rigidbody.useGravity = ProStats.Gravity_on;
 			obj.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+			obj.rigidbody.useGravity=false;
 	
 			//calculate stats based on upgrades DEV.RELOC
 			
 			float lt_s=0,spd_s=0,pwr_s=0,kck_s=0;
 			
-			lt_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Lifetime,ProStats.Life_time_multi);
+			lt_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Lifetime,ProStats.Life_time_multi)*100;
 			spd_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Speed,ProStats.Speed_multi);
 			pwr_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Power,ProStats.Power_multi);
 			kck_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Knockback,ProStats.Knockback_multi);
@@ -84,6 +84,7 @@ public class AbilityContainer{
 			pro.Creator = player;
 			pro.stats = ProStats;
 			pro.sfx=sfx;
+			pro.GravityOn=ProStats.Gravity_on;
 			
 			if (ProStats.Life_time < 0)
 				pro.life_time.Active = false;
@@ -96,7 +97,6 @@ public class AbilityContainer{
 			pro.changeMaterialColor(ProStats.Colour);
 			pro.Power=ProStats.Power+pwr_s;
 			pro.Knockback=ProStats.Knockback+kck_s;
-			
 			
 			obj.localScale=Vector3.one*ProStats.Size;
 			obj.rigidbody.mass=ProStats.Size*10;

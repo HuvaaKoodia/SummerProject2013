@@ -10,8 +10,8 @@ public class UpgradePanelScr : MonoBehaviour {
 	
 	Transform current_ability;
 	
-	public void setAbility(AbilityItem ability){
-		current_ability=ability.Ability;
+	public void setAbility(AbilityItem item){
+		current_ability=item.Ability;
 		
 		var u_stats=current_ability.GetComponent<UpgradeStats>();
 		grid_in.grid_height=u_stats.AvailableUpgrades.Length;
@@ -22,7 +22,7 @@ public class UpgradePanelScr : MonoBehaviour {
 			var o=NGUITools.AddChild(UpgradeSliderGrid.gameObject, UpgradeSliderPrefab);
 			var slider=o.GetComponent<UpgradeSliderScr>();
 			slider._camera=playerHud._Camera;
-			slider.setStat(u_stats.AvailableUpgrades[i],ability.Stats);
+			slider.setStat(u_stats.AvailableUpgrades[i],item.Stats);
 		}
 		UpgradeSliderGrid.Reposition();
 		grid_in.UpdateGrid();

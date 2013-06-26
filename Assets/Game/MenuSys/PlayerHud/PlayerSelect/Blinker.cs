@@ -26,7 +26,7 @@ public class Blinker : MonoBehaviour
 
 	void iBlink ()
 	{	if(needsAState){
-		if(manager.players [controller - 1].state == neededState){
+		if(manager.pDB.players [controller - 1].state == neededState){
 			doIt();	
 			}	
 		}else{doIt();}

@@ -52,7 +52,6 @@ public class GridInput : MonoBehaviour
 				break;
 			}
 		}
-		
 		_Camera.selectedObjectHighlight=Grid[s_x,s_y].gameObject;
 		if (ForwardToItem){
 			Grid[s_x,s_y].SendMessage("OnKey",key,SendMessageOptions.DontRequireReceiver);

@@ -1119,8 +1119,6 @@ public class UICamera : MonoBehaviour
 				Notify(mSelInput, "OnKey",KeyCode.B);
 			}
 		}
-		if (vertical!=0)
-			Debug.Log("vert "+vertical);
 		// Send out key notifications
 		if (vertical != 0) Notify(mSelInput, "OnKey", vertical > 0 ? KeyCode.UpArrow : KeyCode.DownArrow);
 		if (horizontal != 0) Notify(mSelInput, "OnKey", horizontal > 0 ? KeyCode.RightArrow : KeyCode.LeftArrow);

@@ -20,9 +20,14 @@ public class PlayerMain : MonoBehaviour
 	}
 	
 	float mp = 100;
+	float MP_regen_multi=5f,MP_regen_multi_normal=5f,MP_regen_add=5.5f;
 	public float MP {
 		get{ return mp;}
-		set{ mp = Mathf.Clamp(value,0,100);}
+		set{ 
+			if (mp>value)
+				MP_regen_multi=MP_regen_multi_normal;
+			mp = Mathf.Clamp(value,0,100);
+		}
 	}
 	
 	public Vector3 AimDir{get{return last_aim_direction;}}
@@ -43,6 +48,7 @@ public class PlayerMain : MonoBehaviour
 	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
 	//Vector3 last_aim_point,last_move_point;
 	bool destroyed=false;
+
 	
 	//DEV.temp color sys
 	public Color _color=Color.white;
@@ -75,10 +81,12 @@ public class PlayerMain : MonoBehaviour
 		}
 		//_Color=_color;
 		
-		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
+		
 	}
 
-	void Start () {}
+	void Start () {
+		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
+	}
 
 	void Update ()
 	{
@@ -107,7 +115,8 @@ public class PlayerMain : MonoBehaviour
 		}
 		
 		//mp regen
-		MP+=Time.deltaTime*5;
+		MP+=Time.deltaTime*MP_regen_multi;
+		MP_regen_multi+=Time.deltaTime*MP_regen_add;
 		
 		//DEV.temp
 		if (controllerNumber==1){
@@ -117,7 +126,9 @@ public class PlayerMain : MonoBehaviour
 	
 	
 	//DEV. bugs out a bit
-	void MoveAround(Vector3 force){
+	void MoveAround(Vector3 force){	
+		if (jumped||!onGround)
+			restrictMovement();
 		
 		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=speed_max)
 			rigidbody.AddForce(force);
@@ -141,9 +152,6 @@ public class PlayerMain : MonoBehaviour
 			l_torso.animation.enabled=false;
 			u_torso.animation.enabled=false;
 		}
-		
-		if (jumped||!onGround)
-			restrictMovement();
 		
 		if (l_axis_x < 0) {
 			MoveAround(Vector3.left * acceleration);
@@ -238,7 +246,7 @@ public class PlayerMain : MonoBehaviour
 		if (destroyed) return;
 		var exp=(Explosion_note)note;
 		if(!ignoreExplosion){
-		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
+			rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
 		}
 		ignoreExplosion=false;
 	}
