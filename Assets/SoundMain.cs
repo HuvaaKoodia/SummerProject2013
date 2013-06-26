@@ -5,7 +5,7 @@ public class SoundMain : MonoBehaviour
 {
 	
 	public StoreSounds sfx;
-	AudioSource onAwake, onAlive, onDeath;
+	AudioSource onAwake, onAlive, onDeath, onCollision;
 	bool isDetached = false;
 	// Use this for initialization
 	void Start ()
@@ -45,6 +45,15 @@ public class SoundMain : MonoBehaviour
 				onDeath = gameObject.AddComponent<AudioSource> ();
 				onDeath.clip = sfx.onDeath;
 				onDeath.Play ();	
+			}
+		}
+	}
+	public void playCollisionSound(){
+		if (sfx != null) {
+			if (sfx.onCollision != null) {
+				onCollision = gameObject.AddComponent<AudioSource> ();
+				onCollision.clip = sfx.onCollision;
+				onCollision.Play ();	
 			}
 		}
 	}

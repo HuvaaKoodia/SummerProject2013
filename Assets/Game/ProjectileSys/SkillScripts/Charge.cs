@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class Charge : MonoBehaviour {
+public class Charge : MonoBehaviour, ProjectileModifier {
 	ProjectileMain pro_main;
 	PlayerMain plr_main;
 	Vector3 heading;
 	float force;
+	Vector3 speedVector;
 	
 	// Use this for initialization
 	void Start () {
@@ -17,9 +18,9 @@ public class Charge : MonoBehaviour {
 	
 	// Update is called once per frame
  	void Update () {
-
-		Vector3 speedVector=heading*force / 2f;
- 		speedVector.y=0;
+		plr_main.restrictLegMovement(true);
+		speedVector=heading * (force / 2f);
+ 		speedVector.y = plr_main.rigidbody.velocity.y;
 		
 		
 		plr_main.rigidbody.velocity = new Vector3(speedVector.x,plr_main.rigidbody.velocity.y, speedVector.z);
@@ -27,6 +28,6 @@ public class Charge : MonoBehaviour {
 
 	
 	void OnDestroy(){
-	
+		plr_main.restrictLegMovement(false);
 	}
 }
