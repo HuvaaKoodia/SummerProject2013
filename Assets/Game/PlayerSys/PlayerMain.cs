@@ -10,7 +10,8 @@ public class PlayerMain : MonoBehaviour
 	public List<Transform> Abilities = new List<Transform> ();
 	public List<AbilityContainer> ability_containers;
 	public int controllerNumber = 0;
-
+	public bool restrictLegs = false;
+		
 	float hp = 100;
 	public float HP {
 		get{ return hp;}
@@ -130,6 +131,9 @@ public class PlayerMain : MonoBehaviour
 		if (jumped||!onGround)
 			restrictMovement();
 		
+		if (jumped||!onGround)
+			restrictMovement();
+		
 		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=speed_max)
 			rigidbody.AddForce(force);
 		
@@ -152,33 +156,35 @@ public class PlayerMain : MonoBehaviour
 			l_torso.animation.enabled=false;
 			u_torso.animation.enabled=false;
 		}
-		
-		if (l_axis_x < 0) {
-			MoveAround(Vector3.left * acceleration);
-		}
-		
-		if (l_axis_x > 0) {
-			MoveAround(Vector3.right * acceleration);
-		}
-		
-		if (l_axis_y < 0) {
-			MoveAround(Vector3.forward * acceleration);
-		}
-		
-		if (l_axis_y > 0) {
-			MoveAround(Vector3.back * acceleration);
-		}
-		
-		//jump
-		if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
-			if (onGround&&canJump){
-				jumped=true;
-				canJump = false;
-				
-				current_jump_y=jump_speed;
-				//rigidbody.velocity= new Vector3(rigidbody.velocity.x,jump_speed, rigidbody.velocity.z);
+	
+		if(!restrictLegs){
+			if (l_axis_x < 0) {
+				MoveAround(Vector3.left * acceleration);
 			}
+			
+			if (l_axis_x > 0) {
+				MoveAround(Vector3.right * acceleration);
+			}
+			
+			if (l_axis_y < 0) {
+				MoveAround(Vector3.forward * acceleration);
+			}
+			
+			if (l_axis_y > 0) {
+				MoveAround(Vector3.back * acceleration);
+			}
+
 		}
+		//jump
+			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
+				if (onGround&&canJump){
+					jumped=true;
+					canJump = false;
+					
+					current_jump_y=jump_speed;
+					//rigidbody.velocity= new Vector3(rigidbody.velocity.x,jump_speed, rigidbody.velocity.z);
+				}
+			}
 		
 		if (jumped||!onGround){
 			rigidbody.velocity = new Vector3(rigidbody.velocity.x,current_jump_y, rigidbody.velocity.z);
@@ -198,6 +204,7 @@ public class PlayerMain : MonoBehaviour
 		if (Input.GetButtonDown("Y_" + controllerNumber)){
 			NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
 		}
+		
 	}
 
 	void OnCollisionStay(Collision other)
@@ -250,6 +257,9 @@ public class PlayerMain : MonoBehaviour
 		}
 		ignoreExplosion=false;
 	}
+	public void restrictLegMovement(bool restrict){
+	restrictLegs=restrict;
+	}
 		
 	void restrictMovement(){
 	
@@ -301,11 +311,11 @@ public class PlayerMain : MonoBehaviour
 		var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
         newRotation.x = newRotation.z = 0;
         u_torso.rotation = Quaternion.Slerp(u_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
-		
+		if(!restrictLegs){
 		newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
         newRotation.x = newRotation.z = 0;
         l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
-		
+		}
 		//shoot direction
 		last_upper_direction=u_torso.rotation*Vector3.forward;
 	}

@@ -92,14 +92,22 @@ public class ProjectileMain : MonoBehaviour {
 	}
 	
 	public void OnDestroy(){
+
+		if(sound!=null){
+			sound.detach();
+		}
+
 		//life_time.Destroy();
 	}
 	
 	void OnCollisionEnter(Collision other){
-		if (other.gameObject.tag=="Player"){
-			var player=other.gameObject.transform.GetComponent<PlayerMain>();
-			player.HP-=Power;//other.impactForceSum.magnitude/10;
-			Debug.Log("DMG: "+Power);
+		if(sound!=null){
+			sound.playCollisionSound();
+			if (other.gameObject.tag=="Player"){
+				var player=other.gameObject.transform.GetComponent<PlayerMain>();
+				player.HP-=Power;//other.impactForceSum.magnitude/10;
+				Debug.Log("DMG: "+Power);
+			}
 		}
 		
 		//move_direction=MoveSpeed*(other..transform.position-transform.position);

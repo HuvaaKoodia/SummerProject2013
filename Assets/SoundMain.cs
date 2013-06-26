@@ -1,36 +1,60 @@
 using UnityEngine;
 using System.Collections;
 
-public class SoundMain : MonoBehaviour {
+public class SoundMain : MonoBehaviour
+{
 	
 	public StoreSounds sfx;
-	AudioSource onAwake, onAlive, onDeath;
+	AudioSource onAwake, onAlive, onDeath, onCollision;
+	bool isDetached = false;
 	// Use this for initialization
-	void Start () {
-	//Sound sources, play onAwake if !=null
-		if(sfx!=null){
-			if(sfx.onAwake!=null){
-				onAwake = gameObject.AddComponent<AudioSource>();
-				onAwake.clip=sfx.onAwake;
-				onAwake.volume=2.5f;
-				onAwake.Play();
+	void Start ()
+	{
+		//Sound sources, play onAwake if !=null
+		if (sfx != null) {
+			if (sfx.onAwake != null) {
+				onAwake = gameObject.AddComponent<AudioSource> ();
+				onAwake.clip = sfx.onAwake;
+				onAwake.Play ();
 			}
-			if(sfx.onAlive!=null){
-			onAlive = gameObject.AddComponent<AudioSource>();
-				onAlive.clip=sfx.onAlive;
-				onAlive.loop=true;
-				onAlive.volume=1f;
-				onAlive.Play();	
+			if (sfx.onAlive != null) {
+				onAlive = gameObject.AddComponent<AudioSource> ();
+				onAlive.clip = sfx.onAlive;
+				onAlive.loop = true;
+				onAlive.Play ();	
 			}
 		}
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+	{
+		if (isDetached) {
+			if (!onDeath.isPlaying) {
+				Destroy (gameObject);
+			}
+		}
 	}
 	
-	void OnDestroy(){
-		
+	public void detach ()
+	{
+		transform.parent = null;
+		isDetached = true;
+		if (sfx != null) {
+			if (sfx.onDeath != null) {
+				onDeath = gameObject.AddComponent<AudioSource> ();
+				onDeath.clip = sfx.onDeath;
+				onDeath.Play ();	
+			}
+		}
+	}
+	public void playCollisionSound(){
+		if (sfx != null) {
+			if (sfx.onCollision != null) {
+				onCollision = gameObject.AddComponent<AudioSource> ();
+				onCollision.clip = sfx.onCollision;
+				onCollision.Play ();	
+			}
+		}
 	}
 }
