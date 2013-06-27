@@ -12,14 +12,13 @@ public class PlayerManager : MonoBehaviour
 	
 	//timer and stuff
 	public bool gameStarting = false;
-	public UIButton player1button,player2button,player3button, player4button;
 	
 	public UILabel counter;
 	public string defaultMessage;
 	public float timer=5,timerMax=5;
 	float totalTime=0f;
 	
-	
+	public bool GAMEON{get;private set;}
 	
 	// Use this for initialization
 	void Awake() {
@@ -59,8 +58,8 @@ public class PlayerManager : MonoBehaviour
 			counter.text=timer.ToString();
 			if(timer<=0){
 				timer=0;
-				//exit level
-				Application.LoadLevel(1);
+				//ready to go
+				GAMEON=true;
 				gameStarting=false;
 			}
 		}
@@ -73,18 +72,18 @@ public class PlayerManager : MonoBehaviour
 		if(start){
 			int readyCount=0,playerCount=0;
 			
-			foreach(playerData pata in pDB.players){
-				if(pata.state!=playerState.notConnected){
+			foreach(var pata in pDB.players){
+				if(pata.state!=PlayerState.notConnected){
 					playerCount++;
 				}
-				if(pata.state==playerState.ready){
+				if(pata.state==PlayerState.ready){
 					readyCount++;
 				}
 			}
 			
-		if(readyCount == playerCount && playerCount >= 2 &&!gameStarting){
-			gameStarting=start;
-			totalTime=timerMax;
+			if(readyCount == playerCount && playerCount >= 2 &&!gameStarting){
+				gameStarting=true;
+				totalTime=timerMax;
 			}
 		}
 		else{

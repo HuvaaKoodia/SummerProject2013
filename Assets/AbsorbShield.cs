@@ -15,7 +15,8 @@ public class AbsorbShield : MonoBehaviour, ProjectileModifier {
 	
 	// Update is called once per frame
 	void Update () {
-		transform.position = plr_main.transform.position;
+		if (plr_main!=null)
+			transform.position = plr_main.transform.position;
 	}
 	
 	/*void OnCollisionEnter(Collision other){
@@ -23,6 +24,10 @@ public class AbsorbShield : MonoBehaviour, ProjectileModifier {
 			Destroy(other.gameObject);
 	}*/
 	void OnTriggerEnter(Collider other){
+		if (other.gameObject.tag=="Projectile"&&!other.collider.isTrigger)
+			Destroy(other.gameObject);
+	}
+	void OnTriggerStay(Collider other){
 		if (other.gameObject.tag=="Projectile"&&!other.collider.isTrigger)
 			Destroy(other.gameObject);
 	}

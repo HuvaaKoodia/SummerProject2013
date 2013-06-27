@@ -4,21 +4,18 @@ using System.Collections.Generic;
 
 public class PlayerSelectScript : MonoBehaviour
 {
+	public PlayerData player;
 	public UIButton uibutton;
 	public bool updatedOnce = false;
 	public int controller = 0, colorIndex = 0;
 	List<Color> presetColors;
-	public PlayerManager manager;
-	public playerData player;
-	Transform readyLabel, colorLabel;
+	public PlayerHudMain playerhud;
+	public UILabel textLabel;
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
-		manager = GameObject.Find ("PLAYERDATAS!").GetComponent<PlayerManager> ();
-		int.TryParse (name [3].ToString (), out controller);
-		player = manager.pDB.players [controller - 1];
-		
-		
+		//manager = GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager> ();
+
 		uibutton = GetComponent<UIButton> ();
 		
 		presetColors = new List<Color> ();
@@ -39,52 +36,63 @@ public class PlayerSelectScript : MonoBehaviour
 		}
 		uibutton.pressed = presetColors [colorIndex];
 		uibutton.UpdateColor (true, true);*/
-		colorIndex = controller - 1;
 		
-		player.color=presetColors[colorIndex];
-		
-		//readyLabel = player.button.transform.Find("ReadyLabel");
-		//colorLabel = player.button.transform.Find("ColorLabel");
-		stateUpdate(0);
+		NGUITools.SetActive (textLabel.gameObject, true);
 	}
 	
-	// Update is called once per frame
-	void stateUpdate(int addAmount){
-		player.state += addAmount;
-		if (player.state == playerState.notConnected) {
-			setActives(false,false,false, false);
+	public void setPlayer (PlayerData data)
+	{
+		player = data;
+		controller = player.controllerNumber;
+		
+		colorIndex = controller - 1;
+		player.color = presetColors [colorIndex];
+		stateUpdate (0);
+	}
+	
+	public void setState (PlayerState state)
+	{
+		player.state = state;
+		
+		if (state == PlayerState.notConnected) {
+			setActives (false, "Press start", false);
 		}
-		if (player.state == playerState.connected) {
-			setActives(true,false,true, false);
+		if (state == PlayerState.connected) {
+			setActives (true, "Choose color", false);
 				
 		}
-		if (player.state == playerState.ready) {
-			setActives(false,true,false, true);
+		if (state == PlayerState.ready) {
+			setActives (false, "", true);
 		}
-		
-		
 	}
-	void setActives(bool sideIcons, bool ready, bool color, bool startCounter){
+	
+	void stateUpdate (int addAmount)
+	{
+		player.state += addAmount;
+		setState (player.state);
+	}
+
+	void setActives (bool sideIcons, string text, bool startCounter)
+	{
 		foreach (Transform t in transform) {
 			if (t.name == "SideIcons") {
 				NGUITools.SetActive (t.gameObject, sideIcons);
-				
 			}
 		}
-		NGUITools.SetActive (readyLabel.gameObject, ready);
-		NGUITools.SetActive (colorLabel.gameObject, color);
-		manager.startCounter(startCounter);
+		
+		textLabel.text = text;
+		playerhud.playerManager.startCounter(startCounter);
 	}
 	
 	void Update ()
 	{
 		if (Input.GetButtonDown ("Start_" + (controller))) {
-			if (player.state != playerState.ready)
-				stateUpdate(1);
+			if (player.state != PlayerState.ready)
+				stateUpdate (1);
 			
 		} else if (Input.GetButtonDown ("B_" + (controller))) {
 			if (player.state > 0) {
-				stateUpdate(-1);
+				stateUpdate (-1);
 		
 			}
 		}
@@ -96,17 +104,13 @@ public class PlayerSelectScript : MonoBehaviour
 		//Transform transformer,transformer2;
 		//List<Transform> sideFormers = new List<Transform>();
 		
-		
-		
-		if (player.state == playerState.notConnected) {
-			player.color=Color.white;
-			
+		if (player.state == PlayerState.notConnected) {
+			player.color = Color.white;
 		}
-		if (player.state == playerState.connected) {
-			player.color=presetColors[colorIndex];
+		if (player.state == PlayerState.connected) {
+			player.color = presetColors [colorIndex];
 			
-			if (input != 0 && !updatedOnce && !manager.gameStarting) {
-			
+			if (input != 0 && !updatedOnce && !playerhud.playerManager.gameStarting) {
 				updatedOnce = true;
 				if (input > 0) {
 					colorIndex++;
@@ -121,7 +125,6 @@ public class PlayerSelectScript : MonoBehaviour
 			} else if (input == 0) {
 				updatedOnce = false;
 			}
-			
 		}
 	}
 }

@@ -11,7 +11,7 @@ public class AbilityGridSys : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		var database=GameObject.Find("GameController").GetComponent<AbilitiesDatabase>();
+		var database=GameObject.FindWithTag("EntityDatabase").GetComponent<AbilitiesDatabase>();
 		var data=database.abilities;
 		int d_i=0;
 				

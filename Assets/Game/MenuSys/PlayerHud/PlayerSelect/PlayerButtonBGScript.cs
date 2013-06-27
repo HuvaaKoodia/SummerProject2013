@@ -10,11 +10,11 @@ public class PlayerButtonBGScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	if(GetComponent<UISprite>()!=null){
+		if(GetComponent<UISprite>()!=null){
 			GetComponent<UISprite>().color=playerSelectScript.player.color;
-	}
-	if(GetComponent<UILabel>()!=null){
+		}
+		if(GetComponent<UILabel>()!=null){
 			GetComponent<UILabel>().color=playerSelectScript.player.color;
-	}	
+		}	
 	}
 }

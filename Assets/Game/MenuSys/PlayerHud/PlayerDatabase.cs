@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public enum playerState
+public enum PlayerState
 {
 	notConnected,
 	connected,
@@ -11,7 +11,7 @@ public enum playerState
 
 public class PlayerDatabase : MonoBehaviour
 {
-	public List<playerData> players = new List<playerData> ();
+	public List<PlayerData> players = new List<PlayerData> ();
 	
 	// Use this for initialization
 	void Awake ()
@@ -24,10 +24,10 @@ public class PlayerDatabase : MonoBehaviour
 	/// </summary>
 	public void CreatePlayers ()
 	{
-				players.Add (new playerData (1));
-		players.Add (new playerData (2));
-		players.Add (new playerData (3));
-		players.Add (new playerData (4));
+		players.Add (new PlayerData (1));
+		players.Add (new PlayerData (2));
+		players.Add (new PlayerData (3));
+		players.Add (new PlayerData (4));
 		
 		//DEV.temp
 		players [0].color = Color.blue;
@@ -37,14 +37,14 @@ public class PlayerDatabase : MonoBehaviour
 	}
 }
 
-public class playerData
+public class PlayerData
 {
 	public int controllerNumber;
-	public playerState state = playerState.ready;
+	public PlayerState state = PlayerState.notConnected;
 	public Color color;
 	public int ResourceAmount = 100;
 	
-	public playerData (int controller)
+	public PlayerData (int controller)
 	{
 		controllerNumber = controller;
 		color = Color.white;

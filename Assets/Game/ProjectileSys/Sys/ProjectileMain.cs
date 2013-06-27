@@ -103,12 +103,12 @@ public class ProjectileMain : MonoBehaviour {
 	void OnCollisionEnter(Collision other){
 		if(sound!=null){
 			sound.playCollisionSound();
-			if (other.gameObject.tag=="Player"){
-				var player=other.gameObject.transform.GetComponent<PlayerMain>();
-				player.HP-=Power;//other.impactForceSum.magnitude/10;
-				Debug.Log("DMG: "+Power);
-			}
 		}
+		if (other.gameObject.tag=="Player"){
+			var player=other.gameObject.transform.GetComponent<PlayerMain>();
+			player.HP-=Power;//other.impactForceSum.magnitude/10;
+		}
+	
 		
 		//move_direction=MoveSpeed*(other..transform.position-transform.position);
 		//move_direction=other.relativeVelocity;

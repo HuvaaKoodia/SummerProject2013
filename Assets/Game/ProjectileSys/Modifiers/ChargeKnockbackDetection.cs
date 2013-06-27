@@ -10,16 +10,15 @@ public class ChargeKnockbackDetection : MonoBehaviour,ProjectileModifier {
 	
 	// Update is called once per frame
 	void Update () {
-	transform.position = player.transform.position;
+		transform.position = player.transform.position;
 	}
 	
 	void OnTriggerEnter(Collider other){
-		Debug.Log("KNOCK KNOCK!");
-	if(other.gameObject.tag=="Player" && other.gameObject != player.gameObject){
+		if(other.gameObject.tag=="Player" && other.gameObject != player.gameObject){
 			Vector3 heading = other.gameObject.transform.position - player.transform.position;
 			heading.y=0f;
 			heading=heading.normalized;
-		other.gameObject.rigidbody.AddForce(heading*10000+new Vector3(0f,5f,0f));
+			other.gameObject.rigidbody.AddForce(heading*10000+new Vector3(0f,5f,0f));
 		}
 	}
 }

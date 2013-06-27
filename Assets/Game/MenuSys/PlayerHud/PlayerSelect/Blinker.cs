@@ -5,17 +5,20 @@ public class Blinker : MonoBehaviour
 {
 	Timer timer;
 	public Transform componentToBlink;
-	PlayerManager manager;
+	
+	
+	public PlayerHudMain playerHud;
+	
 	int controller = 1;
-	public playerState neededState;
+	public PlayerState neededState;
 	public bool needsAState=false;
 	
 	// Use this for initialization
 	void Start ()
 	{
-		manager = GameObject.Find ("PLAYERDATAS!").GetComponent<PlayerManager> ();
-		timer = new Timer (500, iBlink);
-		int.TryParse (name [3].ToString (), out controller);
+		//manager = GameObject.Find ("PLAYERDATAS!").GetComponent<PlayerManager> ();
+		timer = new Timer (500, iBlink,false);
+		//int.TryParse (name [3].ToString (), out controller);
 	}
 
 	// Update is called once per frame
@@ -25,15 +28,16 @@ public class Blinker : MonoBehaviour
 	}
 
 	void iBlink ()
-	{	if(needsAState){
-		if(manager.pDB.players [controller - 1].state == neededState){
-			doIt();	
+	{	
+		if(needsAState){
+			if(playerHud.playerManager.pDB.players [controller - 1].state == neededState){
+				doIt();	
 			}	
 		}else{doIt();}
 		
 	}
 	void doIt(){
-		if (!manager.gameStarting) {
+		if (!playerHud.playerManager.gameStarting) {
 			componentToBlink.gameObject.SetActive (!componentToBlink.gameObject.activeSelf);
 		}
 	}

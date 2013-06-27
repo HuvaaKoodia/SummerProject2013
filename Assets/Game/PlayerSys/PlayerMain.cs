@@ -5,7 +5,7 @@ using NotificationSys;
 
 public class PlayerMain : MonoBehaviour
 {
-	public playerData Data;
+	public PlayerData Data;
 	public PlayerGraphicsScr graphics;
 	public List<Transform> Abilities = new List<Transform> ();
 	public List<AbilityContainer> ability_containers;
