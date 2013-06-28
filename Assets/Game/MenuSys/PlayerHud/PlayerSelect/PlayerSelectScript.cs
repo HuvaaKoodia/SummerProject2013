@@ -81,28 +81,22 @@ public class PlayerSelectScript : MonoBehaviour
 		}
 		
 		textLabel.text = text;
-		playerhud.playerManager.startCounter(startCounter);
 	}
 	
 	void Update ()
 	{
-		if (Input.GetButtonDown ("Start_" + (controller))) {
+		if (Input.GetButtonDown ("Start_" + (controller))||Input.GetButtonDown ("A_" + (controller))) {
 			if (player.state != PlayerState.ready)
 				stateUpdate (1);
 			
-		} else if (Input.GetButtonDown ("B_" + (controller))) {
+		} else 
+		if (Input.GetButtonDown ("Back_" + (controller))||Input.GetButtonDown ("B_" + (controller))) {
 			if (player.state > 0) {
 				stateUpdate (-1);
-		
 			}
 		}
 		
-			
 		float input = Input.GetAxis ("L_XAxis_" + controller);
-		//Debug.Log (uibutton.name + " " + manager.players[controller-1].state);
-		
-		//Transform transformer,transformer2;
-		//List<Transform> sideFormers = new List<Transform>();
 		
 		if (player.state == PlayerState.notConnected) {
 			player.color = Color.white;

@@ -7,7 +7,6 @@ public class PlayerMain : MonoBehaviour
 {
 	public PlayerData Data;
 	public PlayerGraphicsScr graphics;
-	public List<Transform> Abilities = new List<Transform> ();
 	public List<AbilityContainer> ability_containers;
 	public int controllerNumber = 0;
 	public bool restrictLegs = false;
@@ -40,7 +39,7 @@ public class PlayerMain : MonoBehaviour
 	//private 
 	bool onGround, canJump, jumped;
 	float acceleration = 10000,
-		jump_speed = 10,current_jump_y,
+		jump_speed = 7,current_jump_y,
 		speed_max = 1f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
 	Transform u_torso,l_torso;
@@ -52,7 +51,7 @@ public class PlayerMain : MonoBehaviour
 
 	
 	//DEV.temp color sys
-	public Color _color=Color.white;
+	//public Color _color=Color.white;
 	
 	public Color _Color{
 		set{
@@ -69,23 +68,22 @@ public class PlayerMain : MonoBehaviour
 		
 		jump_timer = new Timer(400, OnJumpTimer);
 		onGround_timer= new Timer(200, OnGroundTimer);
-		
-		//DEV.temp!!
+	}
+
+	void Start () {
+		//Data set
 		ability_containers = new List<AbilityContainer> ();
 		
-		for (int i=0; i<Abilities.Count; i++){
+		for (int i=0; i<Data.Abilities.Count; i++){
 			var abb = new AbilityContainer ();
-			abb.Ability.Ability = Abilities [i];
+			abb.Ability.Ability = Data.Abilities [i];
 			
 			abb.player=this;
 			ability_containers.Add(abb);
 		}
-		//_Color=_color;
+		_Color=Data.color;
+		controllerNumber=Data.controllerNumber;
 		
-		
-	}
-
-	void Start () {
 		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
 	}
 
@@ -258,7 +256,7 @@ public class PlayerMain : MonoBehaviour
 		ignoreExplosion=false;
 	}
 	public void restrictLegMovement(bool restrict){
-	restrictLegs=restrict;
+		restrictLegs=restrict;
 	}
 		
 	void restrictMovement(){
@@ -287,6 +285,8 @@ public class PlayerMain : MonoBehaviour
 	void OnDestroy ()
 	{
 		jump_timer.Destroy();
+		Data.Player=null;
+		NotificationCenter.Instance.removeListener(OnExplosion,NotificationType.Explode);
 	}
 		
 	private void updateRotations ()

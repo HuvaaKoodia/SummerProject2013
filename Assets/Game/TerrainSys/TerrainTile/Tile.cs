@@ -98,7 +98,6 @@ public class TileData{
 	}
 	
 	//subs
-	
 	public void setMovementBounds(float up,float down){
 		max_move_target_up=up;
 		max_move_target_down=down;

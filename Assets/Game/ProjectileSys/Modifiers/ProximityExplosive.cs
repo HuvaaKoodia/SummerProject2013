@@ -34,7 +34,7 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 	{
 		if (activated){
 			if (other.gameObject.tag == "Player") {
-				destroyMine();
+				Destroy (gameObject);
 			}
 		}
 	}
@@ -43,14 +43,13 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 	{
 		if (activated){
 			if (other.gameObject.tag == "Projectile") {
-				destroyMine();
+				Destroy (gameObject);
 			}
 		}
 	}
-	
-	void destroyMine(){
+
+	void OnDestroy(){
 		Instantiate (explosion, transform.position, Quaternion.identity);
-		Destroy (gameObject);
 	}
 
 	void activateMine ()

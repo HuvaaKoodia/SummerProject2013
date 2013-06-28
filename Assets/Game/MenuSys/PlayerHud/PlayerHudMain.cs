@@ -13,7 +13,7 @@ public enum AbilityMenuState
 public class PlayerHudMain : MonoBehaviour
 {
 	public GameObject GameMenu;
-	public PlayerMain Player;
+	public PlayerData playerData;
 	public UICamera _Camera;
 	public AbilityMenuState state;
 	public PlayerManager playerManager;
@@ -25,43 +25,34 @@ public class PlayerHudMain : MonoBehaviour
 	public UISlider hp_slider, mp_slider;
 	ItemContainerMain swap_item;
 	
-	// Use this for initialization
-	public void Awake ()
-	{
-	}
-	
 	public void Start ()
 	{
-		playerActivatorMenu.setPlayer (Player.Data);
+		playerActivatorMenu.setPlayer (playerData);
 		
 		AbilityBarGrid.UpdateGrid ();
 		AbilityPanelGrid.UpdateGrid ();
+		UpgradeGrid.UpdateGrid ();
 		changeState (state);
 	}
 	
-	// Update is called once per frame
 	void Update ()
 	{
-		
 		if (state == AbilityMenuState.Off) {//player select
-			if (Player.Data.state==PlayerState.ready){
-				changeState(AbilityMenuState.Bar);
+			if (playerData.state == PlayerState.ready) {
+				changeState (AbilityMenuState.Bar);
 			}
-		}
-		else{//game
-			hp_slider.sliderValue = Player.HP / 100f;
-			mp_slider.sliderValue = Player.MP / 100f;
-		
+		} else {//game huds
+			
 			int current_cost = 0;
 			foreach (var abi in AbilityBarGrid.Grid) {
 				current_cost += abi.GetComponent<ItemContainerMain> ().Ability.GetCost ();
 			}
 		
-			int resources = Player.Data.ResourceAmount - current_cost;
+			int resources = playerData.ResourceAmount - current_cost;
 		
 			//input
 			if (state != AbilityMenuState.Ready) {
-				if (Input.GetButtonDown ("A_" + Player.controllerNumber)) {
+				if (Input.GetButtonDown ("A_" + playerData.controllerNumber)) {
 					if (state == AbilityMenuState.Bar) {
 						changeState (AbilityMenuState.Shop);
 					} else if (state == AbilityMenuState.Shop) {
@@ -74,16 +65,16 @@ public class PlayerHudMain : MonoBehaviour
 					}
 				}
 			
-				if (Input.GetButtonDown ("B_" + Player.controllerNumber)) {
+				if (Input.GetButtonDown ("B_" + playerData.controllerNumber)) {
 					changeState (AbilityMenuState.Bar);
 				}
 			
-				if (Input.GetButtonDown ("Y_" + Player.controllerNumber)) {
+				if (Input.GetButtonDown ("Y_" + playerData.controllerNumber)) {
 					if (state != AbilityMenuState.Upgrade)
 						changeState (AbilityMenuState.Upgrade);
 				}
 			
-				if (Input.GetButtonDown ("X_" + Player.controllerNumber)) {
+				if (Input.GetButtonDown ("X_" + playerData.controllerNumber)) {
 					if (swap_item == null) {
 						swap_item = GetSelectedBar ();
 						_Camera.selectedObjectHighlight = AbilityBarGrid.SelectedItem ().gameObject;
@@ -96,16 +87,26 @@ public class PlayerHudMain : MonoBehaviour
 				}
 			}
 		
-			if (resources >= 0 && Input.GetButtonDown ("Start_" + Player.controllerNumber)) {
-				if (state == AbilityMenuState.Ready) {
-					changeState (AbilityMenuState.Bar);
-				} else
-					changeState (AbilityMenuState.Ready);
-			}
-			
-			if (Input.GetButtonDown ("Back_" + Player.controllerNumber)) {
-				if (state != AbilityMenuState.Ready&&state != AbilityMenuState.Off) {
-					changeState (AbilityMenuState.Off);
+			if (!playerManager.GAMEON) {
+				if (resources >= 0 && Input.GetButtonDown ("Start_" + playerData.controllerNumber)) {
+					if (state == AbilityMenuState.Ready) {
+						changeState (AbilityMenuState.Bar);
+						playerManager.startCounter (false);
+					} else {
+						changeState (AbilityMenuState.Ready);
+						playerManager.startCounter (true);
+					}
+				}
+				
+				//back to player activation
+				if (Input.GetButtonDown ("Back_" + playerData.controllerNumber)) {
+					if (state != AbilityMenuState.Ready && state != AbilityMenuState.Off) {
+						changeState (AbilityMenuState.Off);
+					}
+					if (state == AbilityMenuState.Ready) {
+						changeState (AbilityMenuState.Bar);
+						playerManager.startCounter (false);
+					}
 				}
 			}
 		
@@ -127,6 +128,21 @@ public class PlayerHudMain : MonoBehaviour
 					menu_BG_panel.SetName ("");
 				}
 			}
+			
+			//update MP & HP
+			
+			if (state == AbilityMenuState.Ready) {
+				if (playerData.Player != null) {
+					hp_slider.sliderValue = playerData.Player.HP / 100f;
+					mp_slider.sliderValue = playerData.Player.MP / 100f;
+				}
+				if (!playerManager.GAMEON) {
+					if (playerData.Player == null) {
+						playerManager.CreatePlayer(playerData);
+					}		
+				}
+				
+			}
 		}
 	}
 	
@@ -142,11 +158,11 @@ public class PlayerHudMain : MonoBehaviour
 	
 	void changeState (AbilityMenuState state)
 	{
-		GameMenu.gameObject.SetActive(true);
+		_Camera.setAnalogStickDelaysDefault ();
 		
-		Player.gameObject.SetActive (false);
+		GameMenu.gameObject.SetActive (true);
 		
-		playerActivatorMenu.gameObject.SetActive(false);
+		playerActivatorMenu.gameObject.SetActive (false);
 		
 		ShopPanel.SetActive (false);
 		UpgradePanel.gameObject.SetActive (false);
@@ -154,10 +170,10 @@ public class PlayerHudMain : MonoBehaviour
 		hp_slider.gameObject.SetActive (false);
 		mp_slider.gameObject.SetActive (false);
 		
-		if (state==AbilityMenuState.Off){
-			playerActivatorMenu.gameObject.SetActive(true);
-			GameMenu.gameObject.SetActive(false);
-			playerActivatorMenu.setState(PlayerState.notConnected);
+		if (state == AbilityMenuState.Off) {
+			playerActivatorMenu.gameObject.SetActive (true);
+			GameMenu.gameObject.SetActive (false);
+			playerActivatorMenu.setState (PlayerState.notConnected);
 		}
 		
 		if (state == AbilityMenuState.Bar) {
@@ -183,11 +199,11 @@ public class PlayerHudMain : MonoBehaviour
 		
 		if (this.state == AbilityMenuState.Upgrade) {//Coming from upgrade
 			UpgradePanel.clearGrid ();
-			_Camera.setAnalogStickDelaysDefault ();
 		}
 		
 		if (this.state == AbilityMenuState.Ready) {//Coming from ready
 			menu_BG_panel.gameObject.SetActive (true);
+			playerManager.DestroyPlayer (playerData);
 		}
 		
 		if (state == AbilityMenuState.Ready) {//Going to ready
@@ -200,16 +216,17 @@ public class PlayerHudMain : MonoBehaviour
 			hp_slider.gameObject.SetActive (true);
 			mp_slider.gameObject.SetActive (true);
 			
-			Player.gameObject.SetActive (true);
 			
+			//set player data			
 			//save selected abilities.
-			int i = 0;
-			foreach (var con in Player.ability_containers) {
-				con.Ability = AbilityBarGrid.Grid [i, 0].GetComponent<ItemContainerMain> ().Ability;
-				i++;
+			playerData.Abilities.Clear ();
+			foreach (var item in AbilityBarGrid.Grid) {
+				var a = item.GetComponent<ItemContainerMain> ().Ability.Ability;
+				playerData.Abilities.Add (a);
 			}
-			//change color
-			Player._Color=Player.Data.color;
+			
+			//create player object
+			playerManager.CreatePlayer (playerData);
 		}
 		this.state = state;
 	}

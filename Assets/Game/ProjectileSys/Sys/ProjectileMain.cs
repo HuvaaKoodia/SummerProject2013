@@ -44,6 +44,7 @@ public class ProjectileMain : MonoBehaviour {
 		
 		//setDirection(rigidbody.velocity);
 		
+		
 		if (SpeedMulti!=1){
 			if (oldSpeedMulti==1){
 				//move_direction.x*=SpeedMulti;
@@ -54,9 +55,9 @@ public class ProjectileMain : MonoBehaviour {
 		}
 		else{
 			if (oldSpeedMulti!=1){
-				//move_direction.x/=oldSpeedMulti;
-				//move_direction.z/=oldSpeedMulti;
-				move_direction/=SpeedMulti;
+				move_direction.x/=oldSpeedMulti;
+				move_direction.z/=oldSpeedMulti;
+				//move_direction/=oldSpeedMulti;
 				rigidbody.velocity=move_direction;
 			}
 		}

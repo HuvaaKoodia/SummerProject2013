@@ -19,4 +19,8 @@ public class ReceiveExplosions : MonoBehaviour {
 		var exp=(Explosion_note)note;
 		rigidbody.AddExplosionForce(exp.Force,exp.Position,exp.Radius);
 	}
+	
+	void OnDestroy(){
+		NotificationCenter.Instance.removeListener(OnExplosion,NotificationType.Explode);
+	}
 }

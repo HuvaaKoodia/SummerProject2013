@@ -5,18 +5,14 @@ using System.Collections;
 public class GameHudController : MonoBehaviour {
 	
 	public PlayerHudMain[] playerHuds;
-	// Use this for initialization
-	void Start () {
-
-	}
 	
 	public void setPlayerMenus(){
-		var players=GameObject.FindGameObjectsWithTag("Player");
+		var playerDatabase=GameObject.FindWithTag("EntityDatabase").GetComponent<PlayerDatabase>();
+		var players=playerDatabase.players;
 		
 		for (int i=0;i<playerHuds.Length;i++){
-			if (players.Length>i){
-				var p =players[i].GetComponent<PlayerMain>();
-				playerHuds[i].Player=p;
+			if (players.Count>i){
+				playerHuds[i].playerData=players[i];
 			}
 			else{
 				playerHuds[i].gameObject.SetActive(false);
@@ -24,27 +20,26 @@ public class GameHudController : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
-	
-	
-	bool not_started=false;
+	public bool start_when_all_ready;
 	void Update (){
 	
-		if (not_started){
-			bool allready=true;
-			foreach (var ph in playerHuds){
-				if (!ph.gameObject.activeSelf) continue;
-				
-				if (ph.state!=AbilityMenuState.Ready){
-					allready=false;
-					break;
-				}
-			}
-			if (allready){
-				not_started=false;
+		if (start_when_all_ready){
+			if (Allready()){
+				start_when_all_ready=false;
 				///start game
 				GameObject.Find("LevelController").GetComponent<TerrainController>().Activate(true);
 			}
 		}
+	}
+	
+	public bool Allready(){
+		foreach (var ph in playerHuds){
+				//if (!ph.gameObject.activeSelf) continue;
+				
+				if (ph.state!=AbilityMenuState.Ready){
+					return false;
+				}
+			}
+		return true;
 	}
 }

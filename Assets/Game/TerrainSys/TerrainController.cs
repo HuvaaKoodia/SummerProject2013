@@ -7,6 +7,10 @@ public class TerrainController : MonoBehaviour {
 	
 	public int LevelWidth,LevelHeight;
 	
+	public int 
+		terrain_deterioration_timer=12225,
+		tile_random_timer_min=2000,tile_random_timer_max=6000;
+	
 	//public PlayerMain[] Players;
 	
 	public Transform player_prefab;
@@ -64,8 +68,10 @@ public class TerrainController : MonoBehaviour {
 				tiles.Add(ts);
 				ts.setCoordinate(new Vector3(coor.x+j,coor.y,-((coor.x+j)+coor.y)));
 				
-				if (Subs.RandomPercent()<20)
+				if (Subs.RandomPercent()<20){
 					ts.Tile_Data.setMovementBounds(2f,0f);
+					ts.Tile_Data.setTimeBounds(tile_random_timer_min,tile_random_timer_max,true);
+				}
 
 				pos.z+=tile_h+0.01f;
 			}
@@ -73,14 +79,7 @@ public class TerrainController : MonoBehaviour {
 			//pos.x+=tile_w+(tile_w*0.5f);
 			pos.x+=tile_w*(3f/4f);
 		}
-		
-		//DEV. spawn pos!
-		/*foreach (var data in playerData.players){
-			spawn_positions.Add(tiles[Random.Range(0,tiles.Count)]);
-		}*/
-		
-		//terrain_timer.Active=false;
-		
+
 		//create land shape DEV. circle
 		
 		int xx=terrain.GetLength(0)/2,yy=terrain.GetLength(1)/2;
@@ -104,7 +103,7 @@ public class TerrainController : MonoBehaviour {
 			radius=(group_amount-g);
 			var data=new TileData(Vector3.zero,g);
 			data.setMovementBounds(0.03f,0.03f);
-			data.setTimeBounds(20,2000,true);
+			data.setTimeBounds(100,1000,true);
 			tile_groups.Add(data);
 			
 			foreach (var ts in tiles){
@@ -115,37 +114,12 @@ public class TerrainController : MonoBehaviour {
 		}
 		terrain[xx,yy].setTileGroup(null);//center not moving
 		terrain[xx,yy].Tile_Data.Activate(false);
-		/*
-		foreach (var t in tiles){
-			if (Vector2.Distance(center_point,new Vector2(t.transform.position.x,t.transform.position.z))<radius){
-				var tt=t.GetComponent("Tile") as Tile;
-				tt.setTileGroup(data);
-			}
-		}*/
-		terrain_timer=new Timer(8100,OnTerrainTrigger);
+
+		terrain_timer=new Timer(terrain_deterioration_timer,OnTerrainTrigger);
 		
 		main_camera.transform.position=new Vector3(terrain[xx,yy].transform.position.x,main_camera.transform.position.y,main_camera.transform.position.z);
 		main_camera.LookAtCenter(terrain[xx,yy].transform.position);
 		main_camera.DetachPlane();
-		//players
-		
-		/*if (GameObject.Find("PLAYERDATAS!")!=null){
-			var playerData=GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager>();
-			int c_p=0;
-			
-			foreach (var p in Players){
-				var data=playerData.players[c_p];
-				c_p++;
-				if (data.state==playerState.ready){
-					p._Color=data.color;
-					p.controllerNumber=data.controllerNumber;
-				}
-				else{
-					p.gameObject.SetActive(false);
-				}
-			}
-		}*/
-		
 		
 		//pause level
 		Activate(false);
@@ -153,16 +127,6 @@ public class TerrainController : MonoBehaviour {
 		foreach (var t in tile_groups){
 			t.Activate(false);
 		}
-		
-		//random pos
-		/*Tile tile;
-		do{
-			tile=tiles[Random.Range(0,tiles.Count)];	
-		}
-		while(!tile.gameObject.activeSelf);
-		
-		var player=Instantiate(player_prefab,tile.transform.position+Vector3.up*2,Quaternion.identity) as Transform;
-		*/
 	}
 	
 	public void Activate(bool active){

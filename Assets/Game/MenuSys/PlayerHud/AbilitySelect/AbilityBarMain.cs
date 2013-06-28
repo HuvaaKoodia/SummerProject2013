@@ -7,11 +7,10 @@ public class AbilityBarMain : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		
-		var array=playerPanel.Player.ability_containers;
+		var array=playerPanel.playerData.Abilities;
 		for (int i=0;i<array.Count;i++){
 			var icon=icons[i];
-			icon.Ability.Ability=array[i].Ability.Ability;
+			icon.Ability.Ability=array[i];
 		}
 	}
 	
