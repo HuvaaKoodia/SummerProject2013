@@ -30,10 +30,16 @@ namespace NotificationSys{
 	public class CameraZoom_note:Notification
 	{
 	    public float Amount;
+		public Transform Target;
 		
 	    public CameraZoom_note(float amount):base(NotificationType.CameraZoom)
 	    {
 			Amount=amount;
+	    }
+		 public CameraZoom_note(float amount,Transform target):base(NotificationType.CameraZoom)
+	    {
+			Amount=amount;
+			Target=target;
 	    }
 	}
 }

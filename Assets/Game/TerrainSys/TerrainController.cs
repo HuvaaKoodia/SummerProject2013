@@ -133,11 +133,18 @@ public class TerrainController : MonoBehaviour {
 		foreach (var t in tiles){
 			t.Activate(active);
 		}
-		/*
-		foreach (var t in tile_groups){
-			t.Activate(active);
-		}*/
+		if (!active){
+			foreach (var t in tile_groups){
+				t.Activate(active);
+			}
+		}
 		terrain_timer.Active=active;
+	}
+	
+	public void LowerTerrain(){
+		foreach (var t in tiles){
+			t.Tile_Data.MoveDown();
+		}
 	}
 	
 	// Update is called once per frame

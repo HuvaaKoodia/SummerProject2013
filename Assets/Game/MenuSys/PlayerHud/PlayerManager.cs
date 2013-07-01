@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+public enum GameState{Setup,GameOn,Gameover}
+
 public class PlayerManager : MonoBehaviour
 {
 	public GameObject player_prefab;
@@ -19,7 +21,7 @@ public class PlayerManager : MonoBehaviour
 	public float timer=5,timerMax=10;
 	float totalTime=0f;
 	
-	public bool GAMEON{get;private set;}
+	public GameState State{get;private set;}
 	
 	// Use this for initialization
 	void Awake() {
@@ -32,12 +34,14 @@ public class PlayerManager : MonoBehaviour
 
 		if (gamehudcontroller!=null)
 			gamehudcontroller.setPlayerMenus();
+		
+		State=GameState.Setup;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if(gameStarting){
+		if(State==GameState.Setup&&gameStarting){
 			totalTime -= Time.deltaTime;
 			timer=Mathf.Round(totalTime*10)/10;
 			
@@ -53,7 +57,7 @@ public class PlayerManager : MonoBehaviour
 	void StartGame(){
 		counter.text="";
 		terrain_control.Activate(true);
-		GAMEON=true;
+		State=GameState.GameOn;
 		
 		//deleting gibs and projetiles
 		var gibs=GameObject.FindGameObjectsWithTag("Gib");
@@ -99,6 +103,12 @@ public class PlayerManager : MonoBehaviour
 		
 		player.Data=data;
 		data.Player=player;
+	}
+	
+	public void changeState(GameState state){
+		State=state;
+		
+		//change effects
 	}
 	
 	

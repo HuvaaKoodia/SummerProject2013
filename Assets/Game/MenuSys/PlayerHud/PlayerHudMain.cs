@@ -87,7 +87,7 @@ public class PlayerHudMain : MonoBehaviour
 				}
 			}
 		
-			if (!playerManager.GAMEON) {
+			if (playerManager.State==GameState.Setup) {
 				if (resources >= 0 && Input.GetButtonDown ("Start_" + playerData.controllerNumber)) {
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
@@ -120,7 +120,7 @@ public class PlayerHudMain : MonoBehaviour
 				menu_BG_panel.SetName (GetSelectedBar ().Ability.GetName ());
 			}
 			if (state == AbilityMenuState.Shop) {
-				if (GetSelectedShop ().Ability.Ability != null) {
+				if (GetSelectedShop ().Ability.Ability != null){
 					menu_BG_panel.SetCost (GetSelectedShop ().Ability.GetCost ());
 					menu_BG_panel.SetName (GetSelectedShop ().Ability.GetName ());
 				} else {
@@ -136,7 +136,7 @@ public class PlayerHudMain : MonoBehaviour
 					hp_slider.sliderValue = playerData.Player.HP / 100f;
 					mp_slider.sliderValue = playerData.Player.MP / 100f;
 				}
-				if (!playerManager.GAMEON) {
+				if (playerManager.State==GameState.Setup) {
 					if (playerData.Player == null) {
 						playerManager.CreatePlayer(playerData);
 					}		

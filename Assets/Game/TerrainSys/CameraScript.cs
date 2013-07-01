@@ -55,10 +55,15 @@ public class CameraScript : MonoBehaviour {
 		
 	public void OnZoomNote(Notification note){
 		var n=(CameraZoom_note)note;
-		LookAt(Vector3.up*0.3f);
-		move_to_pos+=transform.rotation*Vector3.forward*Vector3.Distance(look_pos,transform.position)*n.Amount;
-		
-	} 
+		if (n.Target==null){
+			LookAt(Vector3.up*0.3f);
+			move_to_pos+=transform.rotation*Vector3.forward*Vector3.Distance(look_pos,transform.position)*n.Amount;
+		}else{
+			Ray ray=new Ray(n.Target.position,transform.position-n.Target.position);
+			move_to_pos=ray.GetPoint(n.Amount);
+			look_at_pos=n.Target.position;
+		}
+	}
 	
 	public void DetachPlane(){
 		//DEV. detach plane

@@ -9,7 +9,7 @@ public class PlayerMain : MonoBehaviour
 	public PlayerGraphicsScr graphics;
 	public List<AbilityContainer> ability_containers;
 	public int controllerNumber = 0;
-	public bool restrictLegs = false;
+	bool restrictLegs = false;
 		
 	float hp = 100;
 	public float HP {
@@ -47,8 +47,7 @@ public class PlayerMain : MonoBehaviour
 	Timer jump_timer,onGround_timer;
 	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
 	//Vector3 last_aim_point,last_move_point;
-	bool destroyed=false;
-
+	bool destroyed=false,freeze=false;
 	
 	//DEV.temp color sys
 	//public Color _color=Color.white;
@@ -89,6 +88,9 @@ public class PlayerMain : MonoBehaviour
 
 	void Update ()
 	{
+		if (freeze)
+			restrictLegs=true;
+		
 		l_axis_x = Input.GetAxis ("L_XAxis_" + controllerNumber);
 		l_axis_y = Input.GetAxis ("L_YAxis_" + controllerNumber);
 		
@@ -96,23 +98,23 @@ public class PlayerMain : MonoBehaviour
 		r_axis_y = Input.GetAxis ("R_YAxis_" + controllerNumber);
 		
 		updateRotations();
-	
-		if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
-			ability_containers [0].UseAbility (transform.position, last_upper_direction);
+		if (!freeze){
+			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
+				ability_containers [0].UseAbility (transform.position, last_upper_direction);
+			}
+			
+			if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
+				ability_containers [1].UseAbility (transform.position,  last_upper_direction);
+			}
+			
+			if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
+				ability_containers [2].UseAbility (transform.position,  last_upper_direction);
+			}
+			
+			if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
+				ability_containers [3].UseAbility (transform.position,  last_upper_direction);
+			}
 		}
-		
-		if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
-			ability_containers [1].UseAbility (transform.position,  last_upper_direction);
-		}
-		
-		if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
-			ability_containers [2].UseAbility (transform.position,  last_upper_direction);
-		}
-		
-		if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
-			ability_containers [3].UseAbility (transform.position,  last_upper_direction);
-		}
-		
 		//mp regen
 		MP+=Time.deltaTime*MP_regen_multi;
 		MP_regen_multi+=Time.deltaTime*MP_regen_add;
@@ -123,57 +125,36 @@ public class PlayerMain : MonoBehaviour
 		}
 	}
 	
-	
-	//DEV. bugs out a bit
-	void MoveAround(Vector3 force){	
-		if (jumped||!onGround)
-			restrictMovement();
-		
-		if (jumped||!onGround)
-			restrictMovement();
-		
-		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=speed_max)
-			rigidbody.AddForce(force);
-		
-		//DEV. WEIRD.SIHT
-		if (l_torso.animation!=null){
-			l_torso.animation.Play();
-			u_torso.animation.Play();
-		
-			l_torso.animation.enabled=true;
-			u_torso.animation.enabled=true;
-		}
-	}
-	
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
+		
 		rigidbody.WakeUp ();
 		
 		if (l_torso.animation!=null){
 			l_torso.animation.enabled=false;
 			u_torso.animation.enabled=false;
 		}
+		if (!freeze){
+			if(!restrictLegs){
+				if (l_axis_x < 0) {
+					MoveAround(Vector3.left * acceleration);
+				}
+				
+				if (l_axis_x > 0) {
+					MoveAround(Vector3.right * acceleration);
+				}
+				
+				if (l_axis_y < 0) {
+					MoveAround(Vector3.forward * acceleration);
+				}
+				
+				if (l_axis_y > 0) {
+					MoveAround(Vector3.back * acceleration);
+				}
 	
-		if(!restrictLegs){
-			if (l_axis_x < 0) {
-				MoveAround(Vector3.left * acceleration);
 			}
-			
-			if (l_axis_x > 0) {
-				MoveAround(Vector3.right * acceleration);
-			}
-			
-			if (l_axis_y < 0) {
-				MoveAround(Vector3.forward * acceleration);
-			}
-			
-			if (l_axis_y > 0) {
-				MoveAround(Vector3.back * acceleration);
-			}
-
-		}
-		//jump
+			//jump
 			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
 				if (onGround&&canJump){
 					jumped=true;
@@ -183,7 +164,7 @@ public class PlayerMain : MonoBehaviour
 					//rigidbody.velocity= new Vector3(rigidbody.velocity.x,jump_speed, rigidbody.velocity.z);
 				}
 			}
-		
+		}
 		if (jumped||!onGround){
 			rigidbody.velocity = new Vector3(rigidbody.velocity.x,current_jump_y, rigidbody.velocity.z);
 			current_jump_y+=Physics.gravity.y*Time.deltaTime;
@@ -258,6 +239,30 @@ public class PlayerMain : MonoBehaviour
 	public void restrictLegMovement(bool restrict){
 		restrictLegs=restrict;
 	}
+	public void freezePlayer(){
+		freeze=true;
+	}
+	
+	//DEV. bugs out a bit
+	void MoveAround(Vector3 force){	
+		if (jumped||!onGround)
+			restrictMovement();
+		
+		if (jumped||!onGround)
+			restrictMovement();
+		
+		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=speed_max)
+			rigidbody.AddForce(force);
+		
+		//DEV. WEIRD.SIHT
+		if (l_torso.animation!=null){
+			l_torso.animation.Play();
+			u_torso.animation.Play();
+		
+			l_torso.animation.enabled=true;
+			u_torso.animation.enabled=true;
+		}
+	}
 		
 	void restrictMovement(){
 	
@@ -312,9 +317,9 @@ public class PlayerMain : MonoBehaviour
         newRotation.x = newRotation.z = 0;
         u_torso.rotation = Quaternion.Slerp(u_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
 		if(!restrictLegs){
-		newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
-        newRotation.x = newRotation.z = 0;
-        l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+			newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
+	        newRotation.x = newRotation.z = 0;
+	        l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
 		}
 		//shoot direction
 		last_upper_direction=u_torso.rotation*Vector3.forward;
