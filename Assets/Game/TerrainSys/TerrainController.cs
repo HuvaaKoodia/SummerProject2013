@@ -70,7 +70,7 @@ public class TerrainController : MonoBehaviour {
 				
 				if (Subs.RandomPercent()<20){
 					ts.Tile_Data.setMovementBounds(2f,0f);
-					ts.Tile_Data.setTimeBounds(tile_random_timer_min,tile_random_timer_max,true);
+					ts.Tile_Data.setTimeBounds(tile_random_timer_min,tile_random_timer_max,false);
 				}
 
 				pos.z+=tile_h+0.01f;

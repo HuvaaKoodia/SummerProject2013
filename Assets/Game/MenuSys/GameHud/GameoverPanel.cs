@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class GameoverPanel : MonoBehaviour {
 	
-	public UILabel winner_label,score_label;
+	public UILabel winner_label,score_label,continue_label;
 	
 	// Use this for initialization
 	void Start () {
@@ -18,13 +18,14 @@ public class GameoverPanel : MonoBehaviour {
 	
 	public void setPlayer(PlayerData p){
 		winner_label.text="Player "+p.controllerNumber+" wins!";
+		continue_label.text="Player "+p.controllerNumber+" press start for next round.";
 	}
 
 	public void setScores (List<PlayerScoreData> scores)
 	{
 		string t="";
 		foreach(var p in scores){
-			t+="Player "+p.player.controllerNumber+" +"+p.score+" r\n";
+			t+="[FFFFFF]Player "+p.player.controllerNumber+" +[FFF242]"+p.score+" r\n";
 		}
 		score_label.text=t;
 	}

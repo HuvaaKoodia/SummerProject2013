@@ -17,6 +17,7 @@ public class PlayerHudMain : MonoBehaviour
 	public UICamera _Camera;
 	public AbilityMenuState state;
 	public PlayerManager playerManager;
+	public GameController gameController;
 	public PlayerSelectScript playerActivatorMenu;
 	public UpgradePanelScr UpgradePanel;
 	public GameObject ShopPanel;
@@ -87,14 +88,14 @@ public class PlayerHudMain : MonoBehaviour
 				}
 			}
 		
-			if (playerManager.State==GameState.Setup) {
+			if (gameController.State==GameState.Setup) {
 				if (resources >= 0 && Input.GetButtonDown ("Start_" + playerData.controllerNumber)) {
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
-						playerManager.startCounter (false);
+						gameController.startCounter (false);
 					} else {
 						changeState (AbilityMenuState.Ready);
-						playerManager.startCounter (true);
+						gameController.startCounter (true);
 					}
 				}
 				
@@ -105,7 +106,7 @@ public class PlayerHudMain : MonoBehaviour
 					}
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
-						playerManager.startCounter (false);
+						gameController.startCounter (false);
 					}
 				}
 			}
@@ -136,7 +137,7 @@ public class PlayerHudMain : MonoBehaviour
 					hp_slider.sliderValue = playerData.Player.HP / 100f;
 					mp_slider.sliderValue = playerData.Player.MP / 100f;
 				}
-				if (playerManager.State==GameState.Setup) {
+				if (gameController.State==GameState.Setup) {
 					if (playerData.Player == null) {
 						playerManager.CreatePlayer(playerData);
 					}		

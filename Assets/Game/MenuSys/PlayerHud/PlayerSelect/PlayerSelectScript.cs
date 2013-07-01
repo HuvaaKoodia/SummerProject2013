@@ -9,7 +9,7 @@ public class PlayerSelectScript : MonoBehaviour
 	public bool updatedOnce = false;
 	public int controller = 0, colorIndex = 0;
 	List<Color> presetColors;
-	public PlayerHudMain playerhud;
+	//public PlayerHudMain playerhud;
 	public UILabel textLabel;
 	// Use this for initialization
 	void Awake ()
@@ -104,7 +104,7 @@ public class PlayerSelectScript : MonoBehaviour
 		if (player.state == PlayerState.connected) {
 			player.color = presetColors [colorIndex];
 			
-			if (input != 0 && !updatedOnce && !playerhud.playerManager.gameStarting) {
+			if (input != 0 && !updatedOnce) {
 				updatedOnce = true;
 				if (input > 0) {
 					colorIndex++;
