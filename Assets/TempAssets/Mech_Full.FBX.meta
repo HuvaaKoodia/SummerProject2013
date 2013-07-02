@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 75160a78b62ae3a4c972aead6a487653
+guid: fdccbd4b1d3f46b43963e900e5266cf7
 ModelImporter:
   serializedVersion: 15
   fileIDToRecycleName:
@@ -116,6 +116,7 @@ ModelImporter:
     4300040: Torso001
     4300042: R_cannon001
     9500000: //RootNode
+    11100000: //RootNode
     13700000: L_ankle001
     13700002: L_arm001
     13700004: L_calf001
@@ -186,5 +187,5 @@ ModelImporter:
     rootMotionBoneName: 
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   additionalBone: 1
-  animationType: 2
+  animationType: 1
   userData: 

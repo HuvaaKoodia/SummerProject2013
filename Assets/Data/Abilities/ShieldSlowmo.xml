@@ -1,0 +1,30 @@
+<Stats>
+  <Basic>
+    <Name>SlowMo Field</Name>
+    <Sprite>Shield</Sprite>
+    <Cost>22</Cost>
+  </Basic>
+  <Values>
+    <Speed>0</Speed>
+    <Power>1</Power>
+    <Knockback>0</Knockback>
+    <Lifetime>8100</Lifetime>
+    <Energycost>50</Energycost>
+    <Radius>50</Radius>
+    <SpeedMulti>1</SpeedMulti>
+    <PowerMulti>1</PowerMulti>
+    <KnockbackMulti>1</KnockbackMulti>
+    <LifetimeMulti>1</LifetimeMulti>
+    <EnergycostMulti>1</EnergycostMulti>
+    <RadiusMulti>1</RadiusMulti>
+  </Values>
+  <Upgrade>
+    <Speed>false</Speed>
+    <Power>false</Power>
+    <Knockback>false</Knockback>
+    <Cooldown>false</Cooldown>
+    <Radius>false</Radius>
+    <Lifetime>true</Lifetime>
+    <EnergyCost>true</EnergyCost>
+  </Upgrade>
+</Stats>

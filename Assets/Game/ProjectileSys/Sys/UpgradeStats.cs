@@ -2,11 +2,10 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public enum UpgradeStat{Speed,Power,Knockback,Cooldown,Range,Lifetime,EnergyCost}
+public enum UpgradeStat{Speed,Power,Knockback,Cooldown,Radius,Lifetime,EnergyCost}
 public class UpgradeStats : MonoBehaviour {
 
 	public UpgradeStat[] AvailableUpgrades;
-	
 }
 
 public class UpgradeStatContainer{

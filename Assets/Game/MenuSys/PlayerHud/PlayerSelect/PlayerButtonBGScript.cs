@@ -2,19 +2,14 @@ using UnityEngine;
 using System.Collections;
 
 public class PlayerButtonBGScript : MonoBehaviour {
-	public PlayerSelectScript playerSelectScript;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	public void setColor(Color color){
+		
 		if(GetComponent<UISprite>()!=null){
-			GetComponent<UISprite>().color=playerSelectScript.player.color;
+			GetComponent<UISprite>().color=color;
 		}
 		if(GetComponent<UILabel>()!=null){
-			GetComponent<UILabel>().color=playerSelectScript.player.color;
+			GetComponent<UILabel>().color=color;
 		}	
 	}
 }

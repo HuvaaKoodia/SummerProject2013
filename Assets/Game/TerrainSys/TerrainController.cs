@@ -149,6 +149,8 @@ public class TerrainController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update (){
+		terrain_timer.Update();
+		
 		foreach (var tg in tile_groups){
 			tg.Update();
 		}

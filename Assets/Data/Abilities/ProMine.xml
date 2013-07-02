@@ -1,0 +1,30 @@
+<Stats>
+  <Basic>
+    <Name>Proximity Mine</Name>
+    <Sprite>Mine</Sprite>
+    <Cost>23</Cost>
+  </Basic>
+  <Values>
+    <Speed>0</Speed>
+    <Power>0</Power>
+    <Knockback>110000</Knockback>
+    <Lifetime>-1</Lifetime>
+    <Energycost>12</Energycost>
+    <Radius>12</Radius>
+    <SpeedMulti>1</SpeedMulti>
+    <PowerMulti>1</PowerMulti>
+    <KnockbackMulti>1</KnockbackMulti>
+    <LifetimeMulti>1</LifetimeMulti>
+    <EnergycostMulti>1</EnergycostMulti>
+    <RadiusMulti>1</RadiusMulti>
+  </Values>
+  <Upgrade>
+    <Speed>true</Speed>
+    <Power>true</Power>
+    <Knockback>true</Knockback>
+    <Cooldown>false</Cooldown>
+    <Radius>false</Radius>
+    <Lifetime>true</Lifetime>
+    <EnergyCost>true</EnergyCost>
+  </Upgrade>
+</Stats>

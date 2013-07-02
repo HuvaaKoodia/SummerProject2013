@@ -9,12 +9,14 @@ public class PlayerMain : MonoBehaviour
 	public PlayerGraphicsScr graphics;
 	public List<AbilityContainer> ability_containers;
 	public int controllerNumber = 0;
-	bool restrictLegs = false;
+	bool restrictLegs = false,invulnerable=false;
 		
 	float hp = 100;
 	public float HP {
 		get{ return hp;}
-		set{ hp = Mathf.Clamp(value,0,100);
+		set{
+			if (invulnerable) return;
+			hp = Mathf.Clamp(value,0,100);
 			if(hp==0) Die();
 		}
 	}
@@ -24,8 +26,12 @@ public class PlayerMain : MonoBehaviour
 	public float MP {
 		get{ return mp;}
 		set{ 
-			if (mp>value)
+			if (mp>value){
 				MP_regen_multi=MP_regen_multi_normal;
+				mp_regen_on=false;
+				mp_regen_timer.Active=true;
+				mp_regen_timer.Reset();
+			}
 			mp = Mathf.Clamp(value,0,100);
 		}
 	}
@@ -34,7 +40,7 @@ public class PlayerMain : MonoBehaviour
 	public Vector3 UpperTorsoDir{get{return last_upper_direction;}}
 	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
 	
-	public bool ignoreExplosion=false;
+	bool ignoreExplosion=false;
 	
 	//private 
 	bool onGround, canJump, jumped;
@@ -42,12 +48,11 @@ public class PlayerMain : MonoBehaviour
 		jump_speed = 7,current_jump_y,
 		speed_max = 1f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
-	Transform u_torso,l_torso;
 	
-	Timer jump_timer,onGround_timer;
+	Timer jump_timer,onGround_timer,mp_regen_timer;
 	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
 	//Vector3 last_aim_point,last_move_point;
-	bool destroyed=false,freeze=false;
+	bool destroyed=false,freeze=false,mp_regen_on=false;
 	
 	//DEV.temp color sys
 	//public Color _color=Color.white;
@@ -62,11 +67,9 @@ public class PlayerMain : MonoBehaviour
 	{
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
-		u_torso=graphics.UpperTorso;
-		l_torso=graphics.LowerTorso;
-		
 		jump_timer = new Timer(400, OnJumpTimer);
 		onGround_timer= new Timer(200, OnGroundTimer);
+		mp_regen_timer= new Timer(1000, OnMPregenTimer);
 	}
 
 	void Start () {
@@ -74,10 +77,7 @@ public class PlayerMain : MonoBehaviour
 		ability_containers = new List<AbilityContainer> ();
 		
 		for (int i=0; i<Data.Abilities.Count; i++){
-			var abb = new AbilityContainer ();
-			abb.Ability.Ability = Data.Abilities [i];
-			
-			abb.player=this;
+			var abb = new AbilityContainer(this,Data.Abilities[i]);
 			ability_containers.Add(abb);
 		}
 		_Color=Data.color;
@@ -88,6 +88,10 @@ public class PlayerMain : MonoBehaviour
 
 	void Update ()
 	{
+		jump_timer.Update();
+		onGround_timer.Update();
+		mp_regen_timer.Update();
+		
 		if (freeze)
 			restrictLegs=true;
 		
@@ -116,12 +120,16 @@ public class PlayerMain : MonoBehaviour
 			}
 		}
 		//mp regen
-		MP+=Time.deltaTime*MP_regen_multi;
-		MP_regen_multi+=Time.deltaTime*MP_regen_add;
+		if (mp_regen_on){
+			MP+=Time.deltaTime*MP_regen_multi;
+			MP_regen_multi+=Time.deltaTime*MP_regen_add;
+		}
 		
-		//DEV.temp
-		if (controllerNumber==1){
-			//Debug.Log("OnGround= "+onGround+" CanJump= "+canJump+" jumped: "+jumped );
+		
+		//dev
+		
+		if (Input.GetButtonDown("X_" + controllerNumber)){
+			graphics.toggleFullbody();
 		}
 	}
 	
@@ -131,9 +139,9 @@ public class PlayerMain : MonoBehaviour
 		
 		rigidbody.WakeUp ();
 		
-		if (l_torso.animation!=null){
-			l_torso.animation.enabled=false;
-			u_torso.animation.enabled=false;
+		if (graphics.LowerTorso.animation!=null){
+			graphics.LowerTorso.animation.enabled=false;
+			graphics.UpperTorso.animation.enabled=false;
 		}
 		if (!freeze){
 			if(!restrictLegs){
@@ -177,13 +185,10 @@ public class PlayerMain : MonoBehaviour
 			//onGround=false;
 		
 		//DEV.input <
-		if (Input.GetButtonDown("B_" + controllerNumber)){
-			Die();
-		}
+		/*
 		if (Input.GetButtonDown("Y_" + controllerNumber)){
 			NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
-		}
-		
+		}*/
 	}
 
 	void OnCollisionStay(Collision other)
@@ -227,7 +232,11 @@ public class PlayerMain : MonoBehaviour
 		onGround_timer.Active=false;
 	}
 	
-		
+	void OnMPregenTimer(){
+		mp_regen_on=true;
+		mp_regen_timer.Active=false;
+	}
+
 	void OnExplosion(Notification note){
 		if (destroyed) return;
 		var exp=(Explosion_note)note;
@@ -236,18 +245,9 @@ public class PlayerMain : MonoBehaviour
 		}
 		ignoreExplosion=false;
 	}
-	public void restrictLegMovement(bool restrict){
-		restrictLegs=restrict;
-	}
-	public void freezePlayer(){
-		freeze=true;
-	}
-	
+
 	//DEV. bugs out a bit
 	void MoveAround(Vector3 force){	
-		if (jumped||!onGround)
-			restrictMovement();
-		
 		if (jumped||!onGround)
 			restrictMovement();
 		
@@ -255,12 +255,12 @@ public class PlayerMain : MonoBehaviour
 			rigidbody.AddForce(force);
 		
 		//DEV. WEIRD.SIHT
-		if (l_torso.animation!=null){
-			l_torso.animation.Play();
-			u_torso.animation.Play();
+		if (graphics.LowerTorso.animation!=null){
+			graphics.LowerTorso.animation.Play();
+			graphics.UpperTorso.animation.Play();
 		
-			l_torso.animation.enabled=true;
-			u_torso.animation.enabled=true;
+			graphics.LowerTorso.animation.enabled=true;
+			graphics.UpperTorso.animation.enabled=true;
 		}
 	}
 		
@@ -278,15 +278,7 @@ public class PlayerMain : MonoBehaviour
 			xz_vec.y
 			);
 	}
-	void Die(){
-		destroyed=true;
-		graphics.DisengageParts();
-		
-		NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
-		
-		Destroy(gameObject);
-	}
-	
+
 	void OnDestroy ()
 	{
 		jump_timer.Destroy();
@@ -294,7 +286,7 @@ public class PlayerMain : MonoBehaviour
 		NotificationCenter.Instance.removeListener(OnExplosion,NotificationType.Explode);
 	}
 		
-	private void updateRotations ()
+	private void updateRotations()
 	{
 		//aim
 		var forward = transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
@@ -312,17 +304,50 @@ public class PlayerMain : MonoBehaviour
 		}
 		//last_move_point=transform.position + last_move_direction;
 		
-		//mecha rotation
+		//mecha rotations
+		
+		//aimrot
 		var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
         newRotation.x = newRotation.z = 0;
-        u_torso.rotation = Quaternion.Slerp(u_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+       	graphics.UpperTorso.rotation = Quaternion.Slerp(graphics.UpperTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+		//moverot
 		if(!restrictLegs){
 			newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
 	        newRotation.x = newRotation.z = 0;
-	        l_torso.rotation = Quaternion.Slerp(l_torso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+	        graphics.LowerTorso.rotation = Quaternion.Slerp(graphics.LowerTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+			graphics.Fullbody.rotation=graphics.LowerTorso.rotation;
 		}
 		//shoot direction
-		last_upper_direction=u_torso.rotation*Vector3.forward;
+		last_upper_direction=graphics.UpperTorso.rotation*Vector3.forward;
+	}
+	/// <summary>
+	/// Ignores the next explosion.
+	/// </summary>
+	public void IgnoreExplosion ()
+	{
+		ignoreExplosion=true;
+	}
+	
+	public void Die(){
+		hp=0;
+		destroyed=true;
+		graphics.DisengageParts();
+		
+		NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
+		
+		Destroy(gameObject);
+	}
+	
+	public void restrictLegMovement(bool restrict){
+		restrictLegs=restrict;
+	}
+	
+	public void freezePlayer(){
+		freeze=true;
+	}
+	
+	public void toggleInvulnerability(){
+		invulnerable=!invulnerable;
 	}
 }
 

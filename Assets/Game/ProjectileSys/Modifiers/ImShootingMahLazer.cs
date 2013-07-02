@@ -16,7 +16,12 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 	
 	// Update is called once per frame
 	void Update () {
-	Physics.Raycast(new Ray(plr_main.transform.position,plr_main.UpperTorsoDir),out hitInfo , 10f);
+		if (plr_main==null){
+			Destroy(gameObject);
+			return;
+		}
+		
+		Physics.Raycast(new Ray(plr_main.transform.position,plr_main.UpperTorsoDir),out hitInfo , 10f);
 		
 		line_rend.SetPosition(0, plr_main.transform.position+new Vector3(0f,0.5f,0f));
 		if(hitInfo.collider!=null&&hitInfo.collider.gameObject.tag!="Gib"){

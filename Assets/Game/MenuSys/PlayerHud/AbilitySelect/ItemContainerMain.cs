@@ -9,7 +9,13 @@ public class AbilityItem{
 	}
 	UpgradeStatContainer abilityStats=new UpgradeStatContainer();
 	public UpgradeStatContainer Stats{get{return abilityStats;}}
-
+	
+	public AbilityItem(){}
+	
+	public AbilityItem(Transform ability){
+		Ability=ability;
+	}
+	
 	public string GetName ()
 	{
 		return ability.GetComponent<AbilityStats>().Name;
@@ -28,11 +34,15 @@ public class AbilityItem{
 }
 
 public class ItemContainerMain : MonoBehaviour {
-	
-	public AbilityItem Ability;
+	AbilityItem ability;
+	public AbilityItem Ability{
+		get{return ability;}
+		set{ability=value;
+			setSprite(value.Ability);
+		}
+	}
 	UISprite spr;
-	
-	
+
 	// Use this for initialization
 	void Awake () {
 		spr=transform.Find("Background").GetComponent<UISprite>();
@@ -40,13 +50,7 @@ public class ItemContainerMain : MonoBehaviour {
 	
 		Ability=new AbilityItem();
 	}
-	
-	// Update is called once per frame
-	void Update (){
-		//DEV.HACK!
-		setSprite(Ability.Ability);
-	}
-	
+
 	void setSprite(Transform ability){
 		
 		string spr_name="Empty";
@@ -55,5 +59,11 @@ public class ItemContainerMain : MonoBehaviour {
 			spr_name=sts.Sprite;
 		}
 		spr.spriteName=spr_name;
+	}
+	/// <summary>
+	/// 0-1 please
+	/// </param>
+	public void setSpriteFillPercent(float percent){
+		spr.fillAmount=percent;
 	}
 }

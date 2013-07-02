@@ -12,11 +12,13 @@ public class AbilityContainer{
 	Timer cooldown;
 	bool ability_ready=true;
 	
-	public AbilityContainer(){
-		cooldown=new Timer(1000,OnTimer);
+	public AbilityContainer(PlayerMain player,AbilityItem ability){
+		cooldown=new Timer(1000,OnTimer,true);
 		cooldown.Active=false;
 		
-		Ability=new AbilityItem();
+		this.player=player;
+		
+		Ability=ability;
 	}
 	
 	public void UseAbility(Vector3 pos,Vector3 direction){
@@ -137,6 +139,11 @@ public class AbilityContainer{
 	void OnTimer(){
 		cooldown.Active=false;
 		ability_ready=true;
+	}
+
+	public float getCooldownPercent ()
+	{
+		return cooldown.Tick/cooldown.Delay;
 	}
 }
 

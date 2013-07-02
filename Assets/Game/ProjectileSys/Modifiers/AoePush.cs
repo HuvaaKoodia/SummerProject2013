@@ -17,8 +17,7 @@ public class AoePush : MonoBehaviour,ProjectileModifier {
 	
 	// Update is called once per frame
 	void Update () {
-		
-		plr.ignoreExplosion=true;
+		plr.IgnoreExplosion();
 	
 		NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position, force, radius));
 		

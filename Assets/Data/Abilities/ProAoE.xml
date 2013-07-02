@@ -1,0 +1,30 @@
+<Stats>
+  <Basic>
+    <Name>AOE Push </Name>
+    <Sprite>Shield</Sprite>
+    <Cost>10</Cost>
+  </Basic>
+  <Values>
+    <Speed>0</Speed>
+    <Power>10</Power>
+    <Knockback>800000</Knockback>
+    <Lifetime>10</Lifetime>
+    <Energycost>5</Energycost>
+    <Radius>5</Radius>
+    <SpeedMulti>0</SpeedMulti>
+    <PowerMulti>1</PowerMulti>
+    <KnockbackMulti>1</KnockbackMulti>
+    <LifetimeMulti>1</LifetimeMulti>
+    <EnergycostMulti>1</EnergycostMulti>
+    <RadiusMulti>1</RadiusMulti>
+  </Values>
+  <Upgrade>
+    <Speed>false</Speed>
+    <Power>false</Power>
+    <Knockback>true</Knockback>
+    <Cooldown>true</Cooldown>
+    <Radius>false</Radius>
+    <Lifetime>false</Lifetime>
+    <EnergyCost>true</EnergyCost>
+  </Upgrade>
+</Stats>

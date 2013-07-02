@@ -24,6 +24,7 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 	// Update is called once per frame
 	void Update ()
 	{
+		time.Update();
 		if (rigidbody.velocity.magnitude > 0.05f)
 			rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 		else

@@ -1,0 +1,30 @@
+<Stats>
+  <Basic>
+    <Name>Rapidfire Pro</Name>
+    <Sprite>Flare</Sprite>
+    <Cost>1</Cost>
+  </Basic>
+  <Values>
+    <Speed>5.5</Speed>
+    <Power>2.5</Power>
+    <Knockback>0</Knockback>
+    <Lifetime>900</Lifetime>
+    <Energycost>1.3</Energycost>
+    <Radius>1.3</Radius>
+    <SpeedMulti>1</SpeedMulti>
+    <PowerMulti>0.1</PowerMulti>
+    <KnockbackMulti>1</KnockbackMulti>
+    <LifetimeMulti>1</LifetimeMulti>
+    <EnergycostMulti>1</EnergycostMulti>
+    <RadiusMulti>1</RadiusMulti>
+  </Values>
+  <Upgrade>
+    <Speed>true</Speed>
+    <Power>true</Power>
+    <Knockback>true</Knockback>
+    <Cooldown>false</Cooldown>
+    <Radius>false</Radius>
+    <Lifetime>true</Lifetime>
+    <EnergyCost>true</EnergyCost>
+  </Upgrade>
+</Stats>

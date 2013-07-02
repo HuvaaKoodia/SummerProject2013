@@ -25,10 +25,10 @@ public class PlayerDatabase : MonoBehaviour
 	/// </summary>
 	public void CreatePlayers ()
 	{
-		players.Add(new PlayerData (abilitiesDB,1));
-		players.Add(new PlayerData (abilitiesDB,2));
-		players.Add(new PlayerData (abilitiesDB,3));
-		players.Add(new PlayerData (abilitiesDB,4));
+		players.Add(new PlayerData (abilitiesDB,1,Color.blue));
+		players.Add(new PlayerData (abilitiesDB,2,Color.red));
+		players.Add(new PlayerData (abilitiesDB,3,Color.green));
+		players.Add(new PlayerData (abilitiesDB,4,Color.yellow));
 		
 		//DEV.temp
 		/*players [0].color = Color.blue;
@@ -46,15 +46,15 @@ public class PlayerData
 	public PlayerState state = PlayerState.notConnected;
 	public Color color;
 	public int ResourceAmount = 100;
-	public List<Transform> Abilities = new List<Transform> ();
+	public List<AbilityItem> Abilities = new List<AbilityItem>();
 	
-	public PlayerData (AbilitiesDatabase abilitiesDB,int controller)
+	public PlayerData (AbilitiesDatabase abilitiesDB,int controller,Color color)
 	{
 		controllerNumber = controller;
-		color = Color.white;
+		this.color=color;
 	
 		for (int i=0;i<Mathf.Min(4,abilitiesDB.abilities.Length);i++){
-			Abilities.Add(abilitiesDB.abilities[i]);
+			Abilities.Add(new AbilityItem(abilitiesDB.abilities[i]));
 		}
 	}
 }

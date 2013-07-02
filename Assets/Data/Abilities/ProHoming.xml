@@ -1,0 +1,30 @@
+<Stats>
+  <Basic>
+    <Name>Homing Missile</Name>
+    <Sprite>Homing</Sprite>
+    <Cost>15</Cost>
+  </Basic>
+  <Values>
+    <Speed>3.5</Speed>
+    <Power>18</Power>
+    <Knockback>0</Knockback>
+    <Lifetime>10000</Lifetime>
+    <Energycost>15</Energycost>
+    <Radius>15</Radius>
+    <SpeedMulti>1</SpeedMulti>
+    <PowerMulti>1</PowerMulti>
+    <KnockbackMulti>1</KnockbackMulti>
+    <LifetimeMulti>1</LifetimeMulti>
+    <EnergycostMulti>1</EnergycostMulti>
+    <RadiusMulti>1</RadiusMulti>
+  </Values>
+  <Upgrade>
+    <Speed>true</Speed>
+    <Power>true</Power>
+    <Knockback>true</Knockback>
+    <Cooldown>false</Cooldown>
+    <Radius>false</Radius>
+    <Lifetime>true</Lifetime>
+    <EnergyCost>true</EnergyCost>
+  </Upgrade>
+</Stats>

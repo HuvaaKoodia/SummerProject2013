@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerGraphicsScr : MonoBehaviour {
 	
-	public Transform Mecha,LowerTorso,UpperTorso,LowerPelvis,ExplosionDummy;
+	public Transform Mecha,LowerTorso,UpperTorso,LowerPelvis,ExplosionDummy,Fullbody;
 	
 	// Use this for initialization
 	void Start () {
@@ -29,6 +29,12 @@ public class PlayerGraphicsScr : MonoBehaviour {
 			t.material.color=color;
 		}
 		ExplosionDummy.gameObject.SetActive(false);
+		
+		Fullbody.gameObject.SetActive(true);
+		foreach (Renderer t in Fullbody.GetComponentsInChildren(typeof(Renderer))){
+			t.material.color=color;
+		}
+		Fullbody.gameObject.SetActive(false);
 	}
 	
 	public void DisengageParts(){
@@ -37,5 +43,14 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		foreach (Rigidbody r in ExplosionDummy.GetComponentsInChildren(typeof(Rigidbody))){
 			r.transform.parent=null;
 		}
+	}
+	
+	public void setFullbody(bool on){
+		Mecha.gameObject.SetActive(!on);
+		Fullbody.gameObject.SetActive(on);
+	}
+	
+	public void toggleFullbody(){
+		setFullbody(!Fullbody.gameObject.activeSelf);
 	}
 }

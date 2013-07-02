@@ -19,7 +19,7 @@ public class Homing : MonoBehaviour,ProjectileModifier {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update (){
 		if(target!=null){
 			projectile.setDirection(Vector3.Slerp(projectile.MoveDirection, (target.position-projectile.transform.position), Time.deltaTime*4));
 			time-=Time.deltaTime;

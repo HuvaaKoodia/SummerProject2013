@@ -19,6 +19,6 @@ public class Bouncy : MonoBehaviour,ProjectileModifier {
 		//pro.setMoveDirection(new Vector3(pro.MoveDirection.x,4,pro.MoveDirection.z));//Mathf.Max(1,Mathf.Min(15,rigidbody.velocity.y*6))
 		
 		//pro.setDirection(new Vector3(pro.MoveDirection.x,4*pro.SpeedMulti,pro.MoveDirection.z));
-		pro.setDirection(new Vector3(pro.MoveDirection.x,4,pro.MoveDirection.z));
+		pro.setVelocity(new Vector3(pro.MoveDirection.x,4,pro.MoveDirection.z));
 	}
 }

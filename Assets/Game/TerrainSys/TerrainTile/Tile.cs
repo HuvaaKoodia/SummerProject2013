@@ -83,6 +83,8 @@ public class TileData{
 
 	// Update is called once per frame
 	public void Update () {
+		timer.Update();
+		
 		if (moving_up&&(Position.y<move_target.y)){
 			Position+=move_speed*Time.deltaTime;
 			if (Position.y>move_target.y){

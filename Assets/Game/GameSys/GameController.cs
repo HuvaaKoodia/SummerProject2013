@@ -89,6 +89,7 @@ public class GameController : MonoBehaviour {
 				//game over!
 				changeState(GameState.Gameover);
 				winner.Player.freezePlayer();
+				winner.Player.toggleInvulnerability();
 				
 				//hud texts
 				gameoverPanel.gameObject.SetActive(true);
@@ -134,7 +135,6 @@ public class GameController : MonoBehaviour {
 		}
 	}
 	
-	
 	public void startCounter(bool start){
 		if(start){
 			int playerCount=0;
@@ -164,9 +164,7 @@ public class GameController : MonoBehaviour {
 		
 		//state change effects
 	}
-
 }
-
 
 public class PlayerScoreData{
 	public PlayerData player;

@@ -109,8 +109,6 @@ public class ProjectileMain : MonoBehaviour {
 			var player=other.gameObject.transform.GetComponent<PlayerMain>();
 			player.HP-=Power;//other.impactForceSum.magnitude/10;
 		}
-	
-		
 		//move_direction=MoveSpeed*(other..transform.position-transform.position);
 		//move_direction=other.relativeVelocity;
 	}
@@ -127,9 +125,17 @@ public class ProjectileMain : MonoBehaviour {
 	}
 	/// <summary>
 	/// Sets the move direction to a new direction.
-	/// Preserves speed.
+	/// Preserves original speed.
 	/// </summary>
 	public void setDirection(Vector3 newDir){
+		move_direction=newDir.normalized*rigidbody.velocity.magnitude;
+		rigidbody.velocity=move_direction;
+	}
+	
+	/// <summary>
+	/// Sets the move velocity to a new one.
+	/// </summary>
+	public void setVelocity(Vector3 newDir){
 		move_direction=newDir;
 		rigidbody.velocity=move_direction;
 	}

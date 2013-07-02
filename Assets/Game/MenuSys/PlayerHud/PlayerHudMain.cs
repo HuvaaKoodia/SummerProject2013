@@ -56,12 +56,12 @@ public class PlayerHudMain : MonoBehaviour
 				if (Input.GetButtonDown ("A_" + playerData.controllerNumber)) {
 					if (state == AbilityMenuState.Bar) {
 						changeState (AbilityMenuState.Shop);
-					} else if (state == AbilityMenuState.Shop) {
+					}else if (state == AbilityMenuState.Shop) {
 						//select item and change to current slot
-						GetSelectedBar ().Ability.Ability = GetSelectedShop ().Ability.Ability;
-						GetSelectedBar ().Ability.Stats.Clear ();
+						GetSelectedBar ().Ability = new AbilityItem(GetSelectedShop ().Ability.Ability);
+						GetSelectedBar ().Ability.Stats.Clear();
 						changeState (AbilityMenuState.Bar);
-					} else if (state == AbilityMenuState.Upgrade) {
+					}else if (state == AbilityMenuState.Upgrade){
 						changeState (AbilityMenuState.Bar);
 					}
 				}
@@ -111,9 +111,7 @@ public class PlayerHudMain : MonoBehaviour
 				}
 			}
 		
-		
 			//update bg labels
-		
 			menu_BG_panel.SetResources (resources);
 		
 			if (state == AbilityMenuState.Bar || state == AbilityMenuState.Upgrade) {
@@ -137,12 +135,19 @@ public class PlayerHudMain : MonoBehaviour
 					hp_slider.sliderValue = playerData.Player.HP / 100f;
 					mp_slider.sliderValue = playerData.Player.MP / 100f;
 				}
+				else{
+					hp_slider.sliderValue=mp_slider.sliderValue = 0;
+				}
 				if (gameController.State==GameState.Setup) {
 					if (playerData.Player == null) {
 						playerManager.CreatePlayer(playerData);
-					}		
+					}
+					else{			
+						if (Input.GetButtonDown("B_" + playerData.controllerNumber)){
+							playerData.Player.Die();
+						}
+					}
 				}
-				
 			}
 		}
 	}
@@ -196,6 +201,8 @@ public class PlayerHudMain : MonoBehaviour
 				_Camera.selectedObjectInput = UpgradeGrid.gameObject;
 				UpgradeGrid.HighlightCurrent ();
 			}
+			else
+				return;
 		}
 		
 		if (this.state == AbilityMenuState.Upgrade) {//Coming from upgrade
@@ -217,14 +224,16 @@ public class PlayerHudMain : MonoBehaviour
 			hp_slider.gameObject.SetActive (true);
 			mp_slider.gameObject.SetActive (true);
 			
-			
 			//set player data			
 			//save selected abilities.
-			playerData.Abilities.Clear ();
+			//playerData.Abilities.Clear ();
+			
+			/*int i=0;
 			foreach (var item in AbilityBarGrid.Grid) {
-				var a = item.GetComponent<ItemContainerMain> ().Ability.Ability;
-				playerData.Abilities.Add (a);
-			}
+				var a = item.GetComponent<ItemContainerMain>().Ability.Ability;
+				var d=playerData.Abilities[i].Ability;
+				i++;
+			}*/
 			
 			//create player object
 			playerManager.CreatePlayer (playerData);

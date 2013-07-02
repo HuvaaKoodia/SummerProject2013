@@ -26,17 +26,9 @@ public class EngineController : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.R)){
 			Application.LoadLevel(Application.loadedLevel);
 		}
-	}
-	/*DEV.TIMER
-	void OnGUI(){
 		
-		int a=0;
-		foreach (var t in Timer.timers)
-		{
-			if(t.Active)
-				a++;
+		if (Input.GetKeyDown(KeyCode.Escape)){
+			Application.Quit();
 		}
-		
-		GUI.Box (new Rect(10,10,100,50),"Timers: "+Timer.timers.Count+"\nActive: "+a);
-	}*/
+	}
 }

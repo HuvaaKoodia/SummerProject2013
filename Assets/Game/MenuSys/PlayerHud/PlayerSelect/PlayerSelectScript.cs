@@ -5,19 +5,21 @@ using System.Collections.Generic;
 public class PlayerSelectScript : MonoBehaviour
 {
 	public PlayerData player;
-	public UIButton uibutton;
+	
+	public PlayerButtonBGScript color_b,color_a1,color_a2;
+	public UILabel textLabel;
+	
 	public bool updatedOnce = false;
 	public int controller = 0, colorIndex = 0;
+	
 	List<Color> presetColors;
-	//public PlayerHudMain playerhud;
-	public UILabel textLabel;
+	
+	Color current_color;
+
+	
 	// Use this for initialization
 	void Awake ()
 	{
-		//manager = GameObject.Find("PLAYERDATAS!").GetComponent<PlayerManager> ();
-
-		uibutton = GetComponent<UIButton> ();
-		
 		presetColors = new List<Color> ();
 		presetColors.Add (new Color (256, 0, 0));
 		presetColors.Add (new Color (0, 256, 0));
@@ -26,18 +28,6 @@ public class PlayerSelectScript : MonoBehaviour
 		presetColors.Add (new Color (256, 0, 256));
 		presetColors.Add (new Color (0, 256, 256));
 		presetColors.Add (new Color (256, 256, 256));
-		/*foreach (Transform t in transform) {
-			
-			if (t.name == "SideIcons") {
-						
-				t.GetComponent<UISprite> ().color = presetColors [colorIndex];
-			}
-		
-		}
-		uibutton.pressed = presetColors [colorIndex];
-		uibutton.UpdateColor (true, true);*/
-		
-		NGUITools.SetActive (textLabel.gameObject, true);
 	}
 	
 	public void setPlayer (PlayerData data)
@@ -45,8 +35,8 @@ public class PlayerSelectScript : MonoBehaviour
 		player = data;
 		controller = player.controllerNumber;
 		
+		current_color=player.color;
 		colorIndex = controller - 1;
-		player.color = presetColors [colorIndex];
 		stateUpdate (0);
 	}
 	
@@ -55,13 +45,16 @@ public class PlayerSelectScript : MonoBehaviour
 		player.state = state;
 		
 		if (state == PlayerState.notConnected) {
+			setButtonColor(Color.white);
 			setActives (false, "Press start", false);
 		}
 		if (state == PlayerState.connected) {
+			setButtonColor(current_color);
 			setActives (true, "Choose color", false);
 				
 		}
 		if (state == PlayerState.ready) {
+			player.color = current_color;
 			setActives (false, "", true);
 		}
 	}
@@ -98,11 +91,7 @@ public class PlayerSelectScript : MonoBehaviour
 		
 		float input = Input.GetAxis ("L_XAxis_" + controller);
 		
-		if (player.state == PlayerState.notConnected) {
-			player.color = Color.white;
-		}
 		if (player.state == PlayerState.connected) {
-			player.color = presetColors [colorIndex];
 			
 			if (input != 0 && !updatedOnce) {
 				updatedOnce = true;
@@ -115,10 +104,18 @@ public class PlayerSelectScript : MonoBehaviour
 					colorIndex += presetColors.Count;
 				}
 				colorIndex = colorIndex % presetColors.Count;
+				current_color=presetColors[colorIndex];
+				setButtonColor(current_color);
 				
 			} else if (input == 0) {
 				updatedOnce = false;
 			}
 		}
+	}
+	
+	void setButtonColor(Color c){
+		color_b.setColor(c);
+		color_a1.setColor(c);
+		color_a2.setColor(c);
 	}
 }

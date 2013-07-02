@@ -13,12 +13,7 @@ public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 		proj_main=GetComponent<ProjectileMain>();
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-	
+
 	void OnDestroy(){
 		
 		GameObject obj = Instantiate(explosion,transform.position,Quaternion.identity) as GameObject;
