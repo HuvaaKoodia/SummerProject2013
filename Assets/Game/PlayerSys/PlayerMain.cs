@@ -67,7 +67,7 @@ public class PlayerMain : MonoBehaviour
 	{
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
-		jump_timer = new Timer(400, OnJumpTimer);
+		jump_timer = new Timer(100, OnJumpTimer);
 		onGround_timer= new Timer(200, OnGroundTimer);
 		mp_regen_timer= new Timer(1000, OnMPregenTimer);
 	}
@@ -91,9 +91,6 @@ public class PlayerMain : MonoBehaviour
 		jump_timer.Update();
 		onGround_timer.Update();
 		mp_regen_timer.Update();
-		
-		if (freeze)
-			restrictLegs=true;
 		
 		l_axis_x = Input.GetAxis ("L_XAxis_" + controllerNumber);
 		l_axis_y = Input.GetAxis ("L_YAxis_" + controllerNumber);
@@ -125,12 +122,17 @@ public class PlayerMain : MonoBehaviour
 			MP_regen_multi+=Time.deltaTime*MP_regen_add;
 		}
 		
+		if (!onGround&&rigidbody.velocity.y<0)
+			jump_has_peaked=true;
 		
 		//dev
 		
 		if (Input.GetButtonDown("X_" + controllerNumber)){
 			graphics.toggleFullbody();
 		}
+		
+		
+		
 	}
 	
 	// Update is called once per frame
@@ -169,6 +171,9 @@ public class PlayerMain : MonoBehaviour
 					canJump = false;
 					
 					current_jump_y=jump_speed;
+					
+					jumpStart();
+					//graphics.setFullbody(true);
 					//rigidbody.velocity= new Vector3(rigidbody.velocity.x,jump_speed, rigidbody.velocity.z);
 				}
 			}
@@ -193,11 +198,6 @@ public class PlayerMain : MonoBehaviour
 
 	void OnCollisionStay(Collision other)
 	{	
-		if (other.gameObject.tag=="Hurt"){
-			HP-=Time.deltaTime*2;
-
-		}
-		
 		int angle=10;
 		if (other.gameObject.tag=="Gib")
 			angle=30;
@@ -209,6 +209,8 @@ public class PlayerMain : MonoBehaviour
 				onGround_timer.Active=true;
 				onGround = true;
 				
+				jumpEnd();
+				
 				if (!jump_timer.Active){
 					jump_timer.Reset();
 					jump_timer.Active=true;
@@ -218,17 +220,51 @@ public class PlayerMain : MonoBehaviour
 			}
 		}
 	}
+	bool jump_end=true,jump_start=true,jump_has_peaked=false;
+	bool freeze_lower=false,freeze_upper=false;
+	
+	void jumpStart(){
+		if (jump_start)
+			StartCoroutine(JumpStart());
+	}
+	
+	void jumpEnd(){
+		if (!jumped&&!canJump&&jump_end)
+			StartCoroutine(JumpEnd());
+	}
+	
+	IEnumerator JumpEnd(){
+		if (jump_has_peaked){
+			graphics.changeFullAnimation("JumpEnd");
+			jump_end=false;
+			freeze=freeze_lower=freeze_upper=true;
+			yield return new WaitForSeconds(graphics.Fullbody.animation["JumpEnd"].length);
+		}
+		graphics.setFullbody(false);
+		jump_end=true;
+		freeze=freeze_lower=freeze_upper=false;
+		UpperIsLower();
+	}
+	
+	IEnumerator JumpStart(){
+		jump_start=false;
+		yield return new WaitForSeconds(0.1f);
+		graphics.setFullbody(true);
+		graphics.changeFullAnimation("JumpStart");
+		jump_start=true;
+	}
 	
 	void OnJumpTimer ()
 	{
 		canJump=true;
+		jump_has_peaked=false;
 		jump_timer.Active = false;
 	}
 	void OnGroundTimer ()
-	{
+	{	
 		onGround=false;
 		jumped=false;
-		jump_timer.Active=false;
+		//jump_timer.Active=false;
 		onGround_timer.Active=false;
 	}
 	
@@ -245,6 +281,8 @@ public class PlayerMain : MonoBehaviour
 		}
 		ignoreExplosion=false;
 	}
+	
+	
 
 	//DEV. bugs out a bit
 	void MoveAround(Vector3 force){	
@@ -276,22 +314,26 @@ public class PlayerMain : MonoBehaviour
 			xz_vec.x,
 			rigidbody.velocity.y,//Mathf.Clamp (rigidbody.velocity.y, -jump_speed, jump_speed_max),
 			xz_vec.y
-			);
+		);
 	}
-
+	
 	void OnDestroy ()
 	{
 		jump_timer.Destroy();
 		Data.Player=null;
 		NotificationCenter.Instance.removeListener(OnExplosion,NotificationType.Explode);
 	}
-		
+
+	private void UpperIsLower(){
+		graphics.UpperTorso.rotation=graphics.LowerTorso.rotation;
+	}
+	
 	private void updateRotations()
 	{
 		//aim
 		var forward = transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
 		
-		if (forward.magnitude>0.5f) {
+		if (forward.magnitude>0.5f){
 			last_aim_direction = forward.normalized;
 		}
 		//last_aim_point = transform.position + last_aim_direction;
@@ -307,18 +349,24 @@ public class PlayerMain : MonoBehaviour
 		//mecha rotations
 		
 		//aimrot
-		var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
-        newRotation.x = newRotation.z = 0;
-       	graphics.UpperTorso.rotation = Quaternion.Slerp(graphics.UpperTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+		
+		if (!freeze_upper){
+			var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
+        	newRotation.x = newRotation.z = 0;
+       		graphics.UpperTorso.rotation = Quaternion.Slerp(graphics.UpperTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+			
+			//shoot direction
+			last_upper_direction=graphics.UpperTorso.rotation*Vector3.forward;
+		}
 		//moverot
-		if(!restrictLegs){
-			newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
+		if(!freeze_lower&&!restrictLegs){
+			var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
 	        newRotation.x = newRotation.z = 0;
 	        graphics.LowerTorso.rotation = Quaternion.Slerp(graphics.LowerTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
 			graphics.Fullbody.rotation=graphics.LowerTorso.rotation;
 		}
-		//shoot direction
-		last_upper_direction=graphics.UpperTorso.rotation*Vector3.forward;
+		
+
 	}
 	/// <summary>
 	/// Ignores the next explosion.
