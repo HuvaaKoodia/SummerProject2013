@@ -7,6 +7,8 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 	public float distance=3f;
 	
 	public void UseSkill(PlayerMain player){
+		
+		
 		float 
 			dis=distance,dis_extra=dis+2f;
 		Vector3 

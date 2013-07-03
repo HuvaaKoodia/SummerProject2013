@@ -228,12 +228,12 @@ public class PlayerHudMain : MonoBehaviour
 			//save selected abilities.
 			//playerData.Abilities.Clear ();
 			
-			/*int i=0;
+			int i=0;
 			foreach (var item in AbilityBarGrid.Grid) {
-				var a = item.GetComponent<ItemContainerMain>().Ability.Ability;
-				var d=playerData.Abilities[i].Ability;
+				var a = item.GetComponent<ItemContainerMain>().Ability;
+				var d=playerData.Abilities[i]=a;
 				i++;
-			}*/
+			}
 			
 			//create player object
 			playerManager.CreatePlayer (playerData);
