@@ -37,20 +37,24 @@ public class SoundMain : MonoBehaviour
 	}
 	
 	public void detach ()
-	{
-		transform.parent = null;
-		isDetached = true;
+	{	
 		if (sfx != null) {
-			if (sfx.onDeath != null) {
+			if (sfx.onDeath == null && sfx.onCollision == null) {
+				return;
+			}else{
 				onDeath = gameObject.AddComponent<AudioSource> ();
 				onDeath.clip = sfx.onDeath;
 				onDeath.Play ();	
 			}
 		}
+		transform.parent = null;
+		isDetached = true;
+		enabled=true;
 	}
 	public void playCollisionSound(){
 		if (sfx != null) {
 			if (sfx.onCollision != null) {
+				
 				onCollision = gameObject.AddComponent<AudioSource> ();
 				onCollision.clip = sfx.onCollision;
 				onCollision.Play ();	

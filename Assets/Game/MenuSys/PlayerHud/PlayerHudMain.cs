@@ -224,7 +224,8 @@ public class PlayerHudMain : MonoBehaviour
 			hp_slider.gameObject.SetActive (true);
 			mp_slider.gameObject.SetActive (true);
 			
-			//set player data			
+			//set player data
+			
 			//save selected abilities.
 			int i=0;
 			foreach (var item in AbilityBarGrid.Grid) {
