@@ -14,7 +14,9 @@ public class ProjectileStats : MonoBehaviour {
 		Power=1,
 		Knockback=1,
 		EnergyCost=1,
-		Radius=1;
+		Radius=1,
+		HP=1
+		;
 	
 	public float 
 		Speed_multi=1,
@@ -23,5 +25,7 @@ public class ProjectileStats : MonoBehaviour {
 		Power_multi=1,
 		Knockback_multi=1,
 		EnergyCost_multi=1,
-		Radius_multi=1;
+		Radius_multi=1,
+		HP_multi
+		;
 }

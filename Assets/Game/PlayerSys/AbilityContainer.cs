@@ -73,12 +73,14 @@ public class AbilityContainer{
 	
 			//calculate stats based on upgrades DEV.RELOC
 			
-			float lt_s=0,spd_s=0,pwr_s=0,kck_s=0;
+			float lt_s=0,spd_s=0,pwr_s=0,kck_s=0,hp_s,rad_s;
 			
 			lt_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Lifetime,ProStats.Life_time_multi)*100;
 			spd_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Speed,ProStats.Speed_multi);
 			pwr_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Power,ProStats.Power_multi);
 			kck_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Knockback,ProStats.Knockback_multi);
+			hp_s=GetUpgradeStat(upgrade_stats,UpgradeStat.HP,ProStats.HP_multi);
+			rad_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Radius,ProStats.Radius_multi);
 			
 			//set stats
 			var pro = obj.GetComponent<ProjectileMain> ();
@@ -99,6 +101,8 @@ public class AbilityContainer{
 			pro.changeMaterialColor(ProStats.Colour);
 			pro.Power=ProStats.Power+pwr_s;
 			pro.Knockback=ProStats.Knockback+kck_s;
+			pro.HP=ProStats.HP+hp_s;
+			pro.Radius=ProStats.Radius+rad_s;
 			
 			obj.localScale=Vector3.one*ProStats.Size;
 			obj.rigidbody.mass=ProStats.Size*10;
@@ -146,17 +150,3 @@ public class AbilityContainer{
 		return cooldown.Tick/cooldown.Delay;
 	}
 }
-
-/*foreach (var old_c in ability_prefab.GetComponents<Component>()){
-			var old_t =old_c.GetType();
-			var new_c=obj.gameObject.AddComponent(old_t);
-			foreach (var f in old_t.GetFields()){
-				f.SetValue(new_c,f.GetValue(old_c));
-			}
-		}*/
-		
-
-/*
-			foreach (var f in old_c.GetType().GetFields()){
-				f.SetValue(new_c,f.GetValue(old_c));
-			}*/

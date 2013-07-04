@@ -9,7 +9,11 @@ public class PlayerMain : MonoBehaviour
 	public PlayerGraphicsScr graphics;
 	public List<AbilityContainer> ability_containers;
 	public int controllerNumber = 0;
-	bool restrictLegs = false,invulnerable=false;
+	
+	bool freeze_movement = false,invulnerable=false;
+	bool jump_end=true,jump_start=true,jump_has_peaked=false;
+	bool freeze_lower=false,freeze_upper=false,freeze_weapons=false;
+	
 		
 	float hp = 100;
 	public float HP {
@@ -99,7 +103,7 @@ public class PlayerMain : MonoBehaviour
 		r_axis_y = Input.GetAxis ("R_YAxis_" + controllerNumber);
 		
 		updateRotations();
-		if (!freeze){
+		if (!freeze&&!freeze_weapons){
 			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
 				ability_containers [0].UseAbility (transform.position, last_upper_direction);
 			}
@@ -138,44 +142,40 @@ public class PlayerMain : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
-		
 		rigidbody.WakeUp ();
 		
 		if (graphics.LowerTorso.animation!=null){
 			graphics.LowerTorso.animation.enabled=false;
 			graphics.UpperTorso.animation.enabled=false;
 		}
-		if (!freeze){
-			if(!restrictLegs){
-				if (l_axis_x < 0) {
-					MoveAround(Vector3.left * acceleration);
-				}
-				
-				if (l_axis_x > 0) {
-					MoveAround(Vector3.right * acceleration);
-				}
-				
-				if (l_axis_y < 0) {
-					MoveAround(Vector3.forward * acceleration);
-				}
-				
-				if (l_axis_y > 0) {
-					MoveAround(Vector3.back * acceleration);
-				}
-	
+		if (!freeze&&!freeze_movement ){
+			if (l_axis_x < 0) {
+				MoveAround(Vector3.left * acceleration);
 			}
-			//jump
-			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
-				if (onGround&&canJump){
-					jumped=true;
-					canJump = false;
-					
-					current_jump_y=jump_speed;
-					
-					jumpStart();
-					//graphics.setFullbody(true);
-					//rigidbody.velocity= new Vector3(rigidbody.velocity.x,jump_speed, rigidbody.velocity.z);
-				}
+			
+			if (l_axis_x > 0) {
+				MoveAround(Vector3.right * acceleration);
+			}
+			
+			if (l_axis_y < 0) {
+				MoveAround(Vector3.forward * acceleration);
+			}
+			
+			if (l_axis_y > 0) {
+				MoveAround(Vector3.back * acceleration);
+			}
+			
+		}
+		
+		//jump
+		if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
+			if (onGround&&canJump){
+				jumped=true;
+				canJump = false;
+				
+				current_jump_y=jump_speed;
+				
+				jumpStart();
 			}
 		}
 		if (jumped||!onGround){
@@ -220,9 +220,6 @@ public class PlayerMain : MonoBehaviour
 			}
 		}
 	}
-	bool jump_end=true,jump_start=true,jump_has_peaked=false;
-	bool freeze_lower=false,freeze_upper=false;
-	
 	void jumpStart(){
 		if (jump_start)
 			StartCoroutine(JumpStart());
@@ -240,6 +237,7 @@ public class PlayerMain : MonoBehaviour
 			freeze=freeze_lower=freeze_upper=true;
 			yield return new WaitForSeconds(graphics.Fullbody.animation["JumpEnd"].length);
 		}
+		freeze_weapons=false;
 		graphics.setFullbody(false);
 		jump_end=true;
 		freeze=freeze_lower=freeze_upper=false;
@@ -248,10 +246,13 @@ public class PlayerMain : MonoBehaviour
 	
 	IEnumerator JumpStart(){
 		jump_start=false;
-		yield return new WaitForSeconds(0.1f);
+		freeze_weapons=true;
+		//yield return new WaitForSeconds(0.1f);
 		graphics.setFullbody(true);
 		graphics.changeFullAnimation("JumpStart");
+		
 		jump_start=true;
+		yield return null;
 	}
 	
 	void OnJumpTimer ()
@@ -359,7 +360,7 @@ public class PlayerMain : MonoBehaviour
 			last_upper_direction=graphics.UpperTorso.rotation*Vector3.forward;
 		}
 		//moverot
-		if(!freeze_lower&&!restrictLegs){
+		if(!freeze_lower&&!freeze_movement){
 			var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
 	        newRotation.x = newRotation.z = 0;
 	        graphics.LowerTorso.rotation = Quaternion.Slerp(graphics.LowerTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
@@ -386,8 +387,8 @@ public class PlayerMain : MonoBehaviour
 		Destroy(gameObject);
 	}
 	
-	public void restrictLegMovement(bool restrict){
-		restrictLegs=restrict;
+	public void freezeMovement(bool freeze){
+		freeze_movement=freeze;
 	}
 	
 	public void freezePlayer(){

@@ -9,7 +9,8 @@ using System.Linq;
 public class XMLsys : MonoBehaviour {
 	
 	public AbilitiesDatabase abiDB;
-
+	
+	//engine logic
 	void Start () {
 		readXML();
 	}
@@ -18,6 +19,8 @@ public class XMLsys : MonoBehaviour {
 		writeXML();
 	}
 		
+	
+	//game logic
 	void readXML(){
 		
 		string path=Application.dataPath+@"\Data\Abilities";
@@ -56,6 +59,7 @@ public class XMLsys : MonoBehaviour {
 			p_stats.Life_time=getFlt(pros,"Lifetime");
 			p_stats.EnergyCost=getFlt(pros,"Energycost");
 			p_stats.Radius=getFlt(pros,"Radius");
+			p_stats.HP=getFlt(pros,"Hp");
 			
 			p_stats.Speed_multi=getFlt(pros,"SpeedMulti");
 			p_stats.Power_multi=getFlt(pros,"PowerMulti");
@@ -63,6 +67,7 @@ public class XMLsys : MonoBehaviour {
 			p_stats.Life_time_multi=getFlt(pros,"LifetimeMulti");
 			p_stats.EnergyCost_multi=getFlt(pros,"EnergycostMulti");
 			p_stats.Radius_multi=getFlt(pros,"RadiusMulti");
+			p_stats.HP_multi=getFlt(pros,"HpMulti");
 			
 			//upgrades
 			List<UpgradeStat> upgrades=new List<UpgradeStat>();
@@ -77,11 +82,6 @@ public class XMLsys : MonoBehaviour {
 			}
 			u_stats.AvailableUpgrades=upgrades.ToArray();
 		}
-	/*
-		try{
-		catch(Exception e){
-			Debug.Log("Oh noes teh XMLs are corrupt!");
-		}*/
 	}
 
 	
@@ -120,6 +120,7 @@ public class XMLsys : MonoBehaviour {
 			addElement(Xdoc,pros,"Lifetime",p_stats.Life_time);
 			addElement(Xdoc,pros,"Energycost",p_stats.EnergyCost);
 			addElement(Xdoc,pros,"Radius",p_stats.EnergyCost);
+			addElement(Xdoc,pros,"Hp",p_stats.HP);
 			
 			addElement(Xdoc,pros,"SpeedMulti",p_stats.Speed_multi);
 			addElement(Xdoc,pros,"PowerMulti",p_stats.Power_multi);
@@ -127,9 +128,9 @@ public class XMLsys : MonoBehaviour {
 			addElement(Xdoc,pros,"LifetimeMulti",p_stats.Life_time_multi);
 			addElement(Xdoc,pros,"EnergycostMulti",p_stats.EnergyCost_multi);
 			addElement(Xdoc,pros,"RadiusMulti",p_stats.EnergyCost_multi);
+			addElement(Xdoc,pros,"HpMulti",p_stats.HP_multi);
 			
 			//up stats
-			
 			foreach (var u in System.Enum.GetNames(typeof(UpgradeStat))){
 				string v="false";
 				foreach(var au in u_stats.AvailableUpgrades){
@@ -155,14 +156,17 @@ public class XMLsys : MonoBehaviour {
 	
 	//subs
 	string getStr(XmlElement element,string name){
+		if (element[name]==null) return "";
 		return element[name].InnerText;
 	}
 	
 	int getInt(XmlElement element,string name){
+		if (element[name]==null) return 0;
 		return int.Parse(element[name].InnerText);
 	}
 	
 	float getFlt(XmlElement element,string name){
+		if (element[name]==null) return 0f;
 		return float.Parse(element[name].InnerText);
 	}
 	

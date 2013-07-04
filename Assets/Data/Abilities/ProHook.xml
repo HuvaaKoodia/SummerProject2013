@@ -1,31 +1,31 @@
 <Stats>
   <Basic>
-    <Name>Ricochet Pro</Name>
+    <Name>Hook</Name>
     <Sprite>Projectile</Sprite>
-    <Cost>10</Cost>
+    <Cost>0</Cost>
   </Basic>
   <Values>
-    <Speed>4.5</Speed>
-    <Power>10</Power>
+    <Speed>5</Speed>
+    <Power>1</Power>
     <Knockback>0</Knockback>
-    <Lifetime>8000</Lifetime>
+    <Lifetime>1000</Lifetime>
     <Energycost>10</Energycost>
     <Radius>10</Radius>
-    <Hp>0</Hp>
-    <SpeedMulti>1</SpeedMulti>
+    <Hp>1</Hp>
+    <SpeedMulti>0</SpeedMulti>
     <PowerMulti>1</PowerMulti>
-    <KnockbackMulti>1</KnockbackMulti>
-    <LifetimeMulti>1</LifetimeMulti>
-    <EnergycostMulti>1</EnergycostMulti>
-    <RadiusMulti>1</RadiusMulti>
+    <KnockbackMulti>0</KnockbackMulti>
+    <LifetimeMulti>0</LifetimeMulti>
+    <EnergycostMulti>0</EnergycostMulti>
+    <RadiusMulti>0</RadiusMulti>
     <HpMulti>0</HpMulti>
   </Values>
   <Upgrade>
     <Speed>true</Speed>
     <Power>true</Power>
-    <Knockback>false</Knockback>
+    <Knockback>true</Knockback>
     <Cooldown>false</Cooldown>
-    <Radius>false</Radius>
+    <Radius>true</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>
     <HP>false</HP>
