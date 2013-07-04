@@ -51,7 +51,7 @@ public class SoundMain : MonoBehaviour
 		}
 		transform.parent = null;
 		isDetached = true;
-		
+		enabled=true;
 	}
 	public void playCollisionSound(){
 		if (sfx != null) {
