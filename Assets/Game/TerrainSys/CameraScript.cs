@@ -68,6 +68,7 @@ public class CameraScript : MonoBehaviour {
 	public void DetachPlane(){
 		//DEV. detach plane
 		var plane=transform.Find("Plane");
+		if (plane==null) return;
 		plane.transform.parent=null;
 	}
 }

@@ -6,19 +6,9 @@ public class GameoverPanel : MonoBehaviour {
 	
 	public UILabel winner_label,score_label,continue_label;
 	
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
 	public void setPlayer(PlayerData p){
 		winner_label.text="Player "+p.controllerNumber+" wins!";
-		continue_label.text="Player "+p.controllerNumber+" press start for next round.";
+		continue_label.text="Player "+p.controllerNumber+" press:\n- start for next round.\n- back for main menu.";
 	}
 
 	public void setScores (List<PlayerScoreData> scores)

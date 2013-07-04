@@ -24,6 +24,9 @@ public class AbsorbShield : MonoBehaviour, ProjectileModifier {
 			Destroy(other.gameObject);
 	}*/
 	void OnTriggerEnter(Collider other){
+		if(other.gameObject.tag=="Projectile"){
+		pro_main.sound.playCollisionSound();
+		}
 		if (other.gameObject.tag=="Projectile"&&!other.collider.isTrigger)
 			Destroy(other.gameObject);
 	}

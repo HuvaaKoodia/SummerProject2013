@@ -7,7 +7,7 @@ public class PlayerSelectScript : MonoBehaviour
 	public PlayerData player;
 	
 	public PlayerButtonBGScript color_b,color_a1,color_a2;
-	public UILabel textLabel;
+	public UILabel textLabel,player_name_label;
 	
 	public bool updatedOnce = false;
 	public int controller = 0, colorIndex = 0;
@@ -21,9 +21,9 @@ public class PlayerSelectScript : MonoBehaviour
 	void Awake ()
 	{
 		presetColors = new List<Color> ();
-		presetColors.Add (new Color (256, 0, 0));
-		presetColors.Add (new Color (0, 256, 0));
-		presetColors.Add (new Color (0, 0, 256));
+		presetColors.Add (Color.red);
+		presetColors.Add (Color.green);
+		presetColors.Add (Color.blue);
 		presetColors.Add (new Color (256, 256, 0));
 		presetColors.Add (new Color (256, 0, 256));
 		presetColors.Add (new Color (0, 256, 256));
@@ -35,6 +35,7 @@ public class PlayerSelectScript : MonoBehaviour
 		player = data;
 		controller = player.controllerNumber;
 		
+		player_name_label.text="PLAYER "+player.controllerNumber;
 		current_color=player.color;
 		colorIndex = controller - 1;
 		stateUpdate (0);
