@@ -24,10 +24,10 @@ public class PlayerSelectScript : MonoBehaviour
 		presetColors.Add (Color.red);
 		presetColors.Add (Color.green);
 		presetColors.Add (Color.blue);
-		presetColors.Add (new Color (256, 256, 0));
-		presetColors.Add (new Color (256, 0, 256));
-		presetColors.Add (new Color (0, 256, 256));
-		presetColors.Add (new Color (256, 256, 256));
+		presetColors.Add (new Color (1, 1, 0));
+		presetColors.Add (new Color (1, 0, 1));
+		presetColors.Add (new Color (0, 1, 1));
+		presetColors.Add (new Color (1, 1, 1));
 	}
 	
 	public void setPlayer (PlayerData data)
@@ -79,7 +79,7 @@ public class PlayerSelectScript : MonoBehaviour
 	
 	void Update ()
 	{
-		if (Input.GetButtonDown ("Start_" + (controller))||Input.GetButtonDown ("A_" + (controller))) {
+		if (Input.GetButtonDown ("Start_" + (controller))||Input.GetButtonDown ("A_" + (controller))||Input.GetKey(KeyCode.K)) {//DEV.key
 			if (player.state != PlayerState.ready)
 				stateUpdate (1);
 			

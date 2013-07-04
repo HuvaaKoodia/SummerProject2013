@@ -104,7 +104,7 @@ public class PlayerMain : MonoBehaviour
 		
 		updateRotations();
 		if (!freeze&&!freeze_weapons){
-			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
+			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)||Input.GetKey(KeyCode.L)){//DEV.KEY
 				ability_containers [0].UseAbility (transform.position, last_upper_direction);
 			}
 			
