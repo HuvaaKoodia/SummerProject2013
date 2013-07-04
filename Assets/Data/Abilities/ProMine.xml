@@ -19,11 +19,11 @@
     <RadiusMulti>1</RadiusMulti>
   </Values>
   <Upgrade>
-    <Speed>true</Speed>
+    <Speed>false</Speed>
     <Power>true</Power>
     <Knockback>true</Knockback>
-    <Cooldown>false</Cooldown>
-    <Radius>false</Radius>
+    <Cooldown>true</Cooldown>
+    <Radius>true</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>
   </Upgrade>

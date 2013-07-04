@@ -2,12 +2,12 @@
   <Basic>
     <Name>Charge</Name>
     <Sprite>Projectile</Sprite>
-    <Cost>0</Cost>
+    <Cost>25</Cost>
   </Basic>
   <Values>
     <Speed>5</Speed>
-    <Power>1</Power>
-    <Knockback>10</Knockback>
+    <Power>0</Power>
+    <Knockback>100</Knockback>
     <Lifetime>1000</Lifetime>
     <Energycost>10</Energycost>
     <Radius>10</Radius>
@@ -20,9 +20,9 @@
   </Values>
   <Upgrade>
     <Speed>true</Speed>
-    <Power>true</Power>
+    <Power>false</Power>
     <Knockback>true</Knockback>
-    <Cooldown>false</Cooldown>
+    <Cooldown>true</Cooldown>
     <Radius>false</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>

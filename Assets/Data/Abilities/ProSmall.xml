@@ -21,8 +21,8 @@
   <Upgrade>
     <Speed>true</Speed>
     <Power>true</Power>
-    <Knockback>true</Knockback>
-    <Cooldown>false</Cooldown>
+    <Knockback>false</Knockback>
+    <Cooldown>true</Cooldown>
     <Radius>false</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>

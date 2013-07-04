@@ -22,9 +22,9 @@
     <Speed>false</Speed>
     <Power>false</Power>
     <Knockback>false</Knockback>
-    <Cooldown>false</Cooldown>
-    <Radius>false</Radius>
-    <Lifetime>true</Lifetime>
+    <Cooldown>true</Cooldown>
+    <Radius>true</Radius>
+    <Lifetime>false</Lifetime>
     <EnergyCost>true</EnergyCost>
   </Upgrade>
 </Stats>

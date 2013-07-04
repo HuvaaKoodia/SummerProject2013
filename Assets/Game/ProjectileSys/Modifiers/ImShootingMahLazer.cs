@@ -21,7 +21,10 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 			return;
 		}
 		
-		Physics.Raycast(new Ray(plr_main.transform.position,plr_main.UpperTorsoDir),out hitInfo , 10f);
+		//ignore projectiles
+		int mask=1<<LayerMask.NameToLayer("Projectile");
+		mask=~mask;
+		Physics.Raycast(new Ray(plr_main.transform.position,plr_main.UpperTorsoDir),out hitInfo , 10f,mask);
 		
 		line_rend.SetPosition(0, plr_main.transform.position+new Vector3(0f,0.5f,0f));
 		if(hitInfo.collider!=null&&hitInfo.collider.gameObject.tag!="Gib"){

@@ -23,7 +23,7 @@
     <Power>false</Power>
     <Knockback>false</Knockback>
     <Cooldown>true</Cooldown>
-    <Radius>false</Radius>
+    <Radius>true</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>
   </Upgrade>

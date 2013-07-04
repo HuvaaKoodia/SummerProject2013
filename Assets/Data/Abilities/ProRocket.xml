@@ -8,7 +8,7 @@
     <Speed>4</Speed>
     <Power>25</Power>
     <Knockback>25000</Knockback>
-    <Lifetime>2500</Lifetime>
+    <Lifetime>1000</Lifetime>
     <Energycost>20</Energycost>
     <Radius>20</Radius>
     <SpeedMulti>1</SpeedMulti>
@@ -23,7 +23,7 @@
     <Power>true</Power>
     <Knockback>true</Knockback>
     <Cooldown>false</Cooldown>
-    <Radius>false</Radius>
+    <Radius>true</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>
   </Upgrade>
