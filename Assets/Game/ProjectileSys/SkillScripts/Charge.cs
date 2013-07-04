@@ -18,7 +18,7 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 	
 	// Update is called once per frame
  	void Update () {
-		plr_main.restrictLegMovement(true);
+		plr_main.freezeMovement(true);
 		speedVector=heading * (force / 2f);
  		speedVector.y = plr_main.rigidbody.velocity.y;
 		
@@ -28,6 +28,6 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 
 	
 	void OnDestroy(){
-		plr_main.restrictLegMovement(false);
+		plr_main.freezeMovement(false);
 	}
 }

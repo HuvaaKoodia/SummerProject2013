@@ -142,7 +142,7 @@ public class PlayerHudMain : MonoBehaviour
 					if (playerData.Player == null) {
 						playerManager.CreatePlayer(playerData);
 					}
-					else{			
+					else{	
 						if (Input.GetButtonDown("B_" + playerData.controllerNumber)){
 							playerData.Player.Die();
 						}
@@ -224,10 +224,9 @@ public class PlayerHudMain : MonoBehaviour
 			hp_slider.gameObject.SetActive (true);
 			mp_slider.gameObject.SetActive (true);
 			
-			//set player data			
-			//save selected abilities.
-			//playerData.Abilities.Clear ();
+			//set player data
 			
+			//save selected abilities.
 			int i=0;
 			foreach (var item in AbilityBarGrid.Grid) {
 				var a = item.GetComponent<ItemContainerMain>().Ability;

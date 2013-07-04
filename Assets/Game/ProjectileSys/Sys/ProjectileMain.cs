@@ -20,8 +20,7 @@ public class ProjectileMain : MonoBehaviour {
 	public float MoveSpeed {get;private set;}
 	
 	//stats
-	public float Power,Knockback;
-	
+	public float Power,Knockback,Radius,HP;
 	
 	// Use this for initialization
 	void Awake () {
@@ -33,7 +32,6 @@ public class ProjectileMain : MonoBehaviour {
 		if(sound!=null)
 		sound.sfx=sfx;
 		
-
 		rigidbody.useGravity=GravityOn;
 	}
 	// Update is called once per frame
@@ -108,6 +106,15 @@ public class ProjectileMain : MonoBehaviour {
 		if (other.gameObject.tag=="Player"){
 			var player=other.gameObject.transform.GetComponent<PlayerMain>();
 			player.HP-=Power;//other.impactForceSum.magnitude/10;
+		}
+		if (other.gameObject.tag=="Projectile"){
+			if (HP>0){
+				var pro=other.gameObject.transform.GetComponent<ProjectileMain>();
+				HP-=pro.Power;
+				if (HP<0){
+					Destroy(gameObject);
+				}
+			}
 		}
 		//move_direction=MoveSpeed*(other..transform.position-transform.position);
 		//move_direction=other.relativeVelocity;

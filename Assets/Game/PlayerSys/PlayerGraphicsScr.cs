@@ -53,4 +53,13 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	public void toggleFullbody(){
 		setFullbody(!Fullbody.gameObject.activeSelf);
 	}
+	
+	public void changeFullAnimation(string animation){
+		Fullbody.animation.Play(animation);
+	}
+
+	public bool isFullbody ()
+	{
+		return Fullbody.gameObject.activeSelf;
+	}
 }

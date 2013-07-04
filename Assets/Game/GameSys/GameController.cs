@@ -108,6 +108,11 @@ public class GameController : MonoBehaviour {
 				//next round or post game stats
 				Application.LoadLevel("GameScene");
 			}
+			
+			if (Input.GetButton("Back_"+winner.controllerNumber)){
+				//next round or post game stats
+				Application.LoadLevel("MainMenu");
+			}
 		}
 	}
 	
