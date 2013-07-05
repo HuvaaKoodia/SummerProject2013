@@ -108,6 +108,7 @@ public class AbilityContainer{
 			obj.rigidbody.mass=ProStats.Size*10;
 			obj.rigidbody.drag=ProStats.Drag;
 			obj.rigidbody.angularDrag=ProStats.Drag;
+			obj.rigidbody.mass=ProStats.Mass;
 		}
 		else{
 			//use skill

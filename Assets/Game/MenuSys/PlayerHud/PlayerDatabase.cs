@@ -11,6 +11,7 @@ public enum PlayerState
 
 public class PlayerDatabase : MonoBehaviour
 {
+	public GameObject PlayerPrefab;
 	public List<PlayerData> players = new List<PlayerData> ();
 	public AbilitiesDatabase abilitiesDB;
 	
@@ -47,6 +48,7 @@ public class PlayerData
 	public Color color;
 	public int ResourceAmount = 100;
 	public List<AbilityItem> Abilities = new List<AbilityItem>();
+	public PlayerHudMain Hud;
 	
 	public PlayerData (AbilitiesDatabase abilitiesDB,int controller,Color color)
 	{

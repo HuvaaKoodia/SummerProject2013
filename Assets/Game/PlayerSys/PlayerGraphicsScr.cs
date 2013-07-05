@@ -39,7 +39,15 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	
 	public void DisengageParts(){
 		ExplosionDummy.gameObject.SetActive(true);
-		
+		//set rotations correctly
+		if (isFullbody()){
+			ExplosionDummy.FindChild("LowerTorso").rotation=Fullbody.rotation;
+			ExplosionDummy.FindChild("UpperTorso").rotation=Fullbody.rotation;
+		}
+		else{
+			ExplosionDummy.FindChild("LowerTorso").rotation=LowerTorso.rotation;
+			ExplosionDummy.FindChild("UpperTorso").rotation=UpperTorso.rotation;
+		}
 		foreach (Rigidbody r in ExplosionDummy.GetComponentsInChildren(typeof(Rigidbody))){
 			r.transform.parent=null;
 		}

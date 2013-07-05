@@ -13,6 +13,7 @@ public class GameHudController : MonoBehaviour {
 		for (int i=0;i<playerHuds.Length;i++){
 			if (players.Count>i){
 				playerHuds[i].playerData=players[i];
+				players[i].Hud=playerHuds[i];
 			}
 			else{
 				playerHuds[i].gameObject.SetActive(false);
@@ -36,7 +37,7 @@ public class GameHudController : MonoBehaviour {
 		foreach (var ph in playerHuds){
 				//if (!ph.gameObject.activeSelf) continue;
 				
-				if (ph.state!=AbilityMenuState.Ready){
+				if (ph.playerData.state==PlayerState.ready&&ph.state!=AbilityMenuState.Ready){
 					return false;
 				}
 			}

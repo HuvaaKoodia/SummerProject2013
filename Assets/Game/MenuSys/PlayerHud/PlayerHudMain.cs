@@ -89,7 +89,7 @@ public class PlayerHudMain : MonoBehaviour
 			}
 		
 			if (gameController.State==GameState.Setup) {
-				if (resources >= 0 && Input.GetButtonDown ("Start_" + playerData.controllerNumber)) {
+				if (resources >= 0 && Input.GetButtonDown ("Start_" + playerData.controllerNumber)||Input.GetKeyDown(KeyCode.K)) {//DEV.key
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
 						gameController.startCounter (false);
@@ -103,6 +103,7 @@ public class PlayerHudMain : MonoBehaviour
 				if (Input.GetButtonDown ("Back_" + playerData.controllerNumber)) {
 					if (state != AbilityMenuState.Ready && state != AbilityMenuState.Off) {
 						changeState (AbilityMenuState.Off);
+						gameController.startCounter (true);
 					}
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);

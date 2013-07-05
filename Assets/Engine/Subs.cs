@@ -47,14 +47,31 @@ public class Subs{
 	
 	/// <summary>
 	/// Wraps the specified number according to min and max.
-	/// Doesn't take multiple revolutions into account.
+	/// Max exclusive.
 	/// </summary>
-	public static int Wrap (int number, int min, int max)
+	public static int Wrap(int number, int min, int max)
 	{
-		if (number<min)
-			return max+number;
-		if (number>=max)
-			return min+(number-max);
-		return number;
+		var b=number%(max-min);
+		if (b>=0)
+			return min+b;
+		return max+b;
+	}
+	
+	/// <summary>
+	/// Adds and wraps the specified number according to min and max.
+	/// Max exclusive.
+	/// </summary>
+	public static int Add(int number, int min, int max)
+	{
+		return Add(number,1,min,max);
+	}
+	
+	/// <summary>
+	/// Adds and wraps the specified number according to min and max.
+	/// Max exclusive.
+	/// </summary>
+	public static int Add(int number,int amount, int min, int max)
+	{
+		return Wrap (number+amount,min,max);
 	}
 }

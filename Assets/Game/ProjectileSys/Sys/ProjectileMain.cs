@@ -110,15 +110,21 @@ public class ProjectileMain : MonoBehaviour {
 		if (other.gameObject.tag=="Projectile"){
 			if (HP>0){
 				var pro=other.gameObject.transform.GetComponent<ProjectileMain>();
-				HP-=pro.Power;
-				if (HP<0){
-					Destroy(gameObject);
+				if (pro!=last_hit){
+					last_hit=pro;
+					HP-=pro.Power;
+					
+					if (HP<=0){
+						Destroy(gameObject);
+					}
 				}
 			}
 		}
 		//move_direction=MoveSpeed*(other..transform.position-transform.position);
 		//move_direction=other.relativeVelocity;
 	}
+	
+	ProjectileMain last_hit;//HAX!
 	
 	
 	/// <summary>

@@ -11,7 +11,7 @@
     <Lifetime>1000</Lifetime>
     <Energycost>20</Energycost>
     <Radius>20</Radius>
-    <Hp>0</Hp>
+    <Hp>50</Hp>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>

@@ -9,6 +9,7 @@ using System.Linq;
 public class XMLsys : MonoBehaviour {
 	
 	public AbilitiesDatabase abiDB;
+	public PlayerDatabase plrDB;
 	
 	//engine logic
 	void Start () {
@@ -23,15 +24,45 @@ public class XMLsys : MonoBehaviour {
 	//game logic
 	void readXML(){
 		
-		string path=Application.dataPath+@"\Data\Abilities";
+		string path=Application.dataPath+@"\Data";
+		string folder="";
+		string file="";
+		
+		XmlDocument Xdoc;
+		XmlElement root;
+		
+		file=@"\Player.xml";
+		if (File.Exists(path+file)){
+			//player
+			var player=plrDB.PlayerPrefab.GetComponent<PlayerMain>();
+			
+			Xdoc=new XmlDocument();
+			Xdoc.Load(path+file);
+		
+			root=Xdoc["Stats"];
+			
+			player.MAX_HP=getFlt(root,"HP");
+			player.MAX_MP=getFlt(root,"MP");
+			
+			player.mp_regen_delay=getInt(root,"MPregenDelay");
+			player.MP_regen_multi_normal=getFlt(root,"MPregenSpeed");
+			player.MP_regen_add=getFlt(root,"MPregenAcceleration");
+			
+			player.acceleration=getFlt(root,"Acceleration");
+			player.jump_speed=getFlt(root,"Jump");
+			player.speed_max=getFlt(root,"Speed");
+		}
+		
+		//abilities
+		path=Application.dataPath+@"\Data\Abilities";
 		if (!Directory.Exists(path)){
 			return;
 		}
 		
-		var Xdoc=new XmlDocument();
+		Xdoc=new XmlDocument();
 		foreach (var a in abiDB.abilities){
 			//open xml
-			var file=@"\"+a.gameObject.name+".xml";
+			file=@"\"+a.gameObject.name+".xml";
 			if (!File.Exists(path+file)) continue;
 			Xdoc.Load(path+file);
 			
@@ -41,7 +72,7 @@ public class XMLsys : MonoBehaviour {
 			var u_stats=a.GetComponent<UpgradeStats>();
 			
 			//read xml
-			var root=Xdoc["Stats"];
+			root=Xdoc["Stats"];
 			
 			var abis=root["Basic"];
 			var pros=root["Values"];
@@ -82,13 +113,43 @@ public class XMLsys : MonoBehaviour {
 			}
 			u_stats.AvailableUpgrades=upgrades.ToArray();
 		}
+		
+		//levels
 	}
 
 	
 	void writeXML(){
-		string path=Application.dataPath+@"\Data\Abilities";
-		if (!Directory.Exists(path)){
-			Directory.CreateDirectory(path);
+		
+		string path=Application.dataPath+@"\Data";
+		string folder="";
+		string file="";
+		
+		XmlDocument Xdoc;
+		XmlElement root;
+		
+		//player
+		var player=plrDB.PlayerPrefab.GetComponent<PlayerMain>();
+		
+		file=@"\Player.xml";
+		Xdoc=new XmlDocument();
+		root=Xdoc.CreateElement("Stats");
+		addElement(Xdoc,root,"HP",player.MAX_HP);
+		addElement(Xdoc,root,"MP",player.MAX_MP);
+		
+		addElement(Xdoc,root,"MPregenDelay",player.mp_regen_delay);
+		addElement(Xdoc,root,"MPregenSpeed",player.MP_regen_multi_normal);
+		addElement(Xdoc,root,"MPregenAcceleration",player.MP_regen_add);
+		
+		addElement(Xdoc,root,"Acceleration",player.acceleration);
+		addElement(Xdoc,root,"Jump",player.jump_speed);
+		addElement(Xdoc,root,"Speed",player.speed_max);
+		
+		Xdoc.AppendChild(root);
+		Xdoc.Save(path+folder+file);
+		
+		folder=@"\Abilities";
+		if (!Directory.Exists(path+folder)){
+			Directory.CreateDirectory(path+folder);
 		}
 		
 		foreach (var a in abiDB.abilities){
@@ -98,10 +159,10 @@ public class XMLsys : MonoBehaviour {
 			var u_stats=a.GetComponent<UpgradeStats>();
 			
 			//create xml
-			string file=@"\"+a.gameObject.name+".xml";
-			var Xdoc=new XmlDocument();
+			file=@"\"+a.gameObject.name+".xml";
+			Xdoc=new XmlDocument();
 			
-			var root=Xdoc.CreateElement("Stats");
+			root=Xdoc.CreateElement("Stats");
 			
 			var abis=Xdoc.CreateElement("Basic");
 			var pros=Xdoc.CreateElement("Values");
@@ -119,7 +180,7 @@ public class XMLsys : MonoBehaviour {
 			addElement(Xdoc,pros,"Knockback",p_stats.Knockback);
 			addElement(Xdoc,pros,"Lifetime",p_stats.Life_time);
 			addElement(Xdoc,pros,"Energycost",p_stats.EnergyCost);
-			addElement(Xdoc,pros,"Radius",p_stats.EnergyCost);
+			addElement(Xdoc,pros,"Radius",p_stats.Radius);
 			addElement(Xdoc,pros,"Hp",p_stats.HP);
 			
 			addElement(Xdoc,pros,"SpeedMulti",p_stats.Speed_multi);
@@ -127,7 +188,7 @@ public class XMLsys : MonoBehaviour {
 			addElement(Xdoc,pros,"KnockbackMulti",p_stats.Knockback_multi);
 			addElement(Xdoc,pros,"LifetimeMulti",p_stats.Life_time_multi);
 			addElement(Xdoc,pros,"EnergycostMulti",p_stats.EnergyCost_multi);
-			addElement(Xdoc,pros,"RadiusMulti",p_stats.EnergyCost_multi);
+			addElement(Xdoc,pros,"RadiusMulti",p_stats.Radius_multi);
 			addElement(Xdoc,pros,"HpMulti",p_stats.HP_multi);
 			
 			//up stats
@@ -149,7 +210,7 @@ public class XMLsys : MonoBehaviour {
 			root.AppendChild(pros);
 			root.AppendChild(ups);
 			
-			Xdoc.Save(path+file);
+			Xdoc.Save(path+folder+file);
 		}
 	}
 	

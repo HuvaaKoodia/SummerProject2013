@@ -1,0 +1,10 @@
+<Stats>
+  <HP>100</HP>
+  <MP>100</MP>
+  <MPregenDelay>1000</MPregenDelay>
+  <MPregenSpeed>5</MPregenSpeed>
+  <MPregenAcceleration>5.5</MPregenAcceleration>
+  <Acceleration>10000</Acceleration>
+  <Jump>7</Jump>
+  <Speed>1</Speed>
+</Stats>

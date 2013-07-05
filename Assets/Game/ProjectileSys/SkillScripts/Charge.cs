@@ -13,7 +13,7 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 		pro_main=GetComponent<ProjectileMain>();
 		plr_main = pro_main.Creator;
 		heading = plr_main.LowerTorsoDir;
-		force=pro_main.stats.Knockback;
+		force=pro_main.stats.Speed;
 	}
 	
 	// Update is called once per frame
