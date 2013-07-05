@@ -9,8 +9,8 @@ public class PlayerSelectScript : MonoBehaviour
 	public PlayerButtonBGScript color_b,color_a1,color_a2;
 	public UILabel textLabel,player_name_label;
 	
-	public bool updatedOnce = false;
-	public int controller = 0, colorIndex = 0;
+	bool updatedOnce = false;
+	int controller = 0, colorIndex = 0;
 	
 	List<Color> presetColors;
 	

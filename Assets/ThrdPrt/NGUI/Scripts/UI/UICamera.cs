@@ -394,7 +394,7 @@ public class UICamera : MonoBehaviour
 			{
 				if (mSelInput != null)
 				{
-					UICamera uicam = FindCameraForLayer(mSelInput.layer);
+					UICamera uicam = this;
 					if (uicam!=null){
 						Notify( mSelInput, "OnSelect", false);
 						if (uicam.useController || uicam.useKeyboard) Highlight(mSelInput, false);
@@ -405,7 +405,7 @@ public class UICamera : MonoBehaviour
 
 				if ( mSelInput != null)
 				{
-					UICamera uicam = FindCameraForLayer(mSelInput.layer);
+					UICamera uicam = this;
 					if (uicam!=null){
 						Notify(mSelInput, "OnSelect", true);
 						if (uicam.useController || uicam.useKeyboard) Highlight(mSelInput, true);
@@ -431,7 +431,7 @@ public class UICamera : MonoBehaviour
 			{
 				if (mSelHigh != null)
 				{
-					UICamera uicam = FindCameraForLayer(mSelHigh.layer);
+					UICamera uicam = this;
 					if (uicam!=null){
 						Notify( mSelHigh, "OnSelect", false);
 						if (uicam.useController || uicam.useKeyboard) Highlight(mSelHigh, false);
@@ -442,7 +442,7 @@ public class UICamera : MonoBehaviour
 
 				if ( mSelHigh != null)
 				{
-					UICamera uicam = FindCameraForLayer(mSelHigh.layer);
+					UICamera uicam = this;
 					if (uicam!=null){
 						Notify(mSelHigh, "OnSelect", true);
 						if (uicam.useController || uicam.useKeyboard) Highlight(mSelHigh, true);

@@ -11,6 +11,8 @@ public class AbsorbShield : MonoBehaviour, ProjectileModifier {
 		pro_main=GetComponent<ProjectileMain>();
 		plr_main = pro_main.Creator;
 		transform.position = plr_main.transform.position;
+		
+		transform.localScale*=pro_main.Radius;
 	}
 	
 	// Update is called once per frame

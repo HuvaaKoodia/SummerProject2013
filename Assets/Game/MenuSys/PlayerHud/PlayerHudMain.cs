@@ -103,6 +103,7 @@ public class PlayerHudMain : MonoBehaviour
 				if (Input.GetButtonDown ("Back_" + playerData.controllerNumber)) {
 					if (state != AbilityMenuState.Ready && state != AbilityMenuState.Off) {
 						changeState (AbilityMenuState.Off);
+						gameController.startCounter (true);
 					}
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
