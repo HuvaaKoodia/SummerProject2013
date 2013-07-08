@@ -190,11 +190,7 @@ function UpdateSmoothedMovementDirection ()
 		_characterState = CharacterState.Idle;
 		
 		// Pick speed modifier
-<<<<<<< HEAD
-		if (Input.GetKey (KeyCode.LeftShift) | Input.GetKey (KeyCode.RightShift))
-=======
 		if (Input.GetKey (KeyCode.LeftShift) || Input.GetKey (KeyCode.RightShift))
->>>>>>> aeb98decb54fe460fa8fda54a3e397761eff2b93
 		{
 			targetSpeed *= runSpeed;
 			_characterState = CharacterState.Running;

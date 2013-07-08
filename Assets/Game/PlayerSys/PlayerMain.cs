@@ -231,8 +231,10 @@ public class PlayerMain : MonoBehaviour
 			}
 		}
 	}
-	bool jump_end=true,jump_start=true,jump_has_peaked=false;
-	bool freeze_lower=false,freeze_upper=false;
+	
+	
+	
+	
 	
 	void jumpStart(){
 		if (jump_start)
@@ -240,41 +242,10 @@ public class PlayerMain : MonoBehaviour
 	}
 	
 	void jumpEnd(){
-		if (!jumped&&!canJump&&jump_end)
-			StartCoroutine(JumpEnd());
-	}
-	
-	IEnumerator JumpEnd(){
-		if (jump_has_peaked){
-			graphics.changeFullAnimation("JumpEnd");
-			jump_end=false;
-			freeze=freeze_lower=freeze_upper=true;
-			yield return new WaitForSeconds(graphics.Fullbody.animation["JumpEnd"].length);
-		}
-		graphics.setFullbody(false);
-		jump_end=true;
-		freeze=freeze_lower=freeze_upper=false;
-		UpperIsLower();
-	}
-	
-	IEnumerator JumpStart(){
-		jump_start=false;
-		yield return new WaitForSeconds(0.1f);
-		graphics.setFullbody(true);
-		graphics.changeFullAnimation("JumpStart");
-		jump_start=true;
-	}
-	
-	void jumpStart(){
-		if (jump_start)
-			StartCoroutine(JumpStart());
-	}
-	
-	void jumpEnd(){
-		bool started=false;
+		//bool started=false;
 		if (jumped&&canJump&&jump_end){
 			StartCoroutine(JumpEnd());
-			started=true;
+			//started=true;
 		}
 		/*DEV.debug
 		if (jump_has_peaked){
