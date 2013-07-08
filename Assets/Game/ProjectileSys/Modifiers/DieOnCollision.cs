@@ -15,6 +15,7 @@ public class DieOnCollision : MonoBehaviour,ProjectileModifier {
 	}
 	
 	void OnCollisionEnter(Collision other){
-		Destroy(gameObject);
+		if (other.gameObject.tag!="Projectile")
+			Destroy(gameObject);
 	}
 }

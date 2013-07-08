@@ -38,11 +38,13 @@ public class SoundMain : MonoBehaviour
 	
 	public void detach ()
 	{	
+		enabled=true;
 		if (sfx != null) {
-			if (sfx.onDeath == null && sfx.onCollision == null) {
+			if (sfx.onDeath == null||sfx.onCollision == null) {
 				return;
 			}else{
 				onDeath = gameObject.AddComponent<AudioSource> ();
+				onDeath.enabled=true;
 				onDeath.clip = sfx.onDeath;
 				onDeath.Play ();	
 			}

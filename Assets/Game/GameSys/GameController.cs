@@ -106,7 +106,19 @@ public class GameController : MonoBehaviour {
 		if (State==GameState.Gameover){
 			if (Input.GetButton("Start_"+winner.controllerNumber)){
 				//next round or post game stats
-				Application.LoadLevel("GameScene");
+				var lvlDB=GameObject.FindGameObjectWithTag("LevelDatabase") as GameObject;
+				if (lvlDB==null){//DEV.DEBUG
+					Application.LoadLevel(Application.loadedLevel);
+				}
+				else{
+					var scr=lvlDB.GetComponent<LevelList>();
+					scr.gotoNext();
+				}
+			}
+			
+			if (Input.GetButton("Back_"+winner.controllerNumber)){
+				//next round or post game stats
+				Application.LoadLevel("TitleScene");
 			}
 			
 			if (Input.GetButton("Back_"+winner.controllerNumber)){
@@ -132,11 +144,18 @@ public class GameController : MonoBehaviour {
 		var pros=GameObject.FindGameObjectsWithTag("Projectile");
 		foreach (var p in pros){Destroy(p);}
 		
-		//delete all players and recreate them
+		
 		foreach(var p in playerManager.pDB.players){
+			//delete all players and recreate them
 			playerManager.DestroyPlayer(p);
-			if (p.state==PlayerState.ready)
+			if (p.state==PlayerState.ready){
 				playerManager.CreatePlayer(p);
+			}
+			else{
+				//turn off menus for inactive players
+				if (p.Hud!=null)
+					p.Hud.gameObject.SetActive(false);
+			}
 		}
 	}
 	
@@ -155,7 +174,6 @@ public class GameController : MonoBehaviour {
 				timer=count_down_timer;
 				startgameCounter.gameObject.SetActive(true);
 				startgameCounter.setRound(1);
-
 			}
 		}
 		else{

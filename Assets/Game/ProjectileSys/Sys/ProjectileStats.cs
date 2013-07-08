@@ -6,15 +6,18 @@ public class ProjectileStats : MonoBehaviour {
 	public bool Gravity_on=false;
 	
 	public float 
-		Speed=1,
 		Size=1,
+		Mass=1,
 		Drag=0,
+		Speed=1,
 		Life_time=1000,
 		Cooldown=1000,
 		Power=1,
 		Knockback=1,
 		EnergyCost=1,
-		Radius=1;
+		Radius=1,
+		HP=-1
+		;
 	
 	public float 
 		Speed_multi=1,
@@ -23,5 +26,7 @@ public class ProjectileStats : MonoBehaviour {
 		Power_multi=1,
 		Knockback_multi=1,
 		EnergyCost_multi=1,
-		Radius_multi=1;
+		Radius_multi=1,
+		HP_multi
+		;
 }

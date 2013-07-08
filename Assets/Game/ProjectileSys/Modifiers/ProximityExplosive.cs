@@ -3,7 +3,6 @@ using System.Collections;
 
 public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 {
-	GameObject explosion;
 	Timer time;
 	bool activated = false;
 	GameObject boxCollider;
@@ -14,10 +13,6 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 		boxCollider = Instantiate (exp_pre, transform.position, Quaternion.identity) as GameObject;
 		boxCollider.transform.parent = transform;
 		
-		explosion = Resources.Load ("Explosion") as GameObject;
-		var expl = explosion.GetComponent<ExplosionScr> ();
-		expl.force = GetComponent<ProjectileMain> ().stats.Knockback;
-		expl.radius = GetComponent<ProjectileMain> ().stats.Radius;
 		time = new Timer (2000, activateMine);
 	}
 	
@@ -47,10 +42,6 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 				Destroy (gameObject);
 			}
 		}
-	}
-
-	void OnDestroy(){
-		Instantiate (explosion, transform.position, Quaternion.identity);
 	}
 
 	void activateMine ()

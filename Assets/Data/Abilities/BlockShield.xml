@@ -10,21 +10,24 @@
     <Knockback>0</Knockback>
     <Lifetime>2500</Lifetime>
     <Energycost>10</Energycost>
-    <Radius>10</Radius>
+    <Radius>1</Radius>
+    <Hp>0</Hp>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
     <LifetimeMulti>1</LifetimeMulti>
     <EnergycostMulti>1</EnergycostMulti>
-    <RadiusMulti>1</RadiusMulti>
+    <RadiusMulti>0.1</RadiusMulti>
+    <HpMulti>0</HpMulti>
   </Values>
   <Upgrade>
     <Speed>false</Speed>
     <Power>false</Power>
     <Knockback>false</Knockback>
     <Cooldown>true</Cooldown>
-    <Radius>false</Radius>
+    <Radius>true</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>
+    <HP>false</HP>
   </Upgrade>
 </Stats>
