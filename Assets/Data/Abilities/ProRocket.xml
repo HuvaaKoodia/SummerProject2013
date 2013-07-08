@@ -5,13 +5,13 @@
     <Cost>44</Cost>
   </Basic>
   <Values>
-    <Speed>4</Speed>
+    <Speed>2.9</Speed>
     <Power>25</Power>
-    <Knockback>25000</Knockback>
-    <Lifetime>1000</Lifetime>
-    <Energycost>20</Energycost>
-    <Radius>20</Radius>
-    <Hp>50</Hp>
+    <Knockback>57000</Knockback>
+    <Lifetime>3200</Lifetime>
+    <Energycost>30</Energycost>
+    <Radius>3.5</Radius>
+    <Hp>20</Hp>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>

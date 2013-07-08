@@ -5,6 +5,7 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 {
 	Timer time;
 	bool activated = false;
+	public Vector3 extraVector;
 	GameObject boxCollider;
 	// Use this for initialization
 	void Start ()
@@ -12,7 +13,8 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 		var exp_pre = Resources.Load ("BoxCollider") as GameObject;
 		boxCollider = Instantiate (exp_pre, transform.position, Quaternion.identity) as GameObject;
 		boxCollider.transform.parent = transform;
-		
+		var expl_dest = GetComponent<ExplodesOnDestroy>() as ExplodesOnDestroy;
+		expl_dest.extraVector= extraVector;
 		time = new Timer (2000, activateMine);
 	}
 	

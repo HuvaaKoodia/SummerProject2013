@@ -5,7 +5,7 @@
     <Cost>10</Cost>
   </Basic>
   <Values>
-    <Speed>4.5</Speed>
+    <Speed>4</Speed>
     <Power>10</Power>
     <Knockback>0</Knockback>
     <Lifetime>8000</Lifetime>
