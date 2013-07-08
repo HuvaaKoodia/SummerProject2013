@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour {
 				//halt terrain
 				terrainController.Activate(false);
 				terrainController.LowerTerrain();
-				NotificationCenter.Instance.sendNotification(new CameraZoom_note(5f,winner.Player.transform));
+				//NotificationCenter.Instance.sendNotification(new CameraZoom_note(5f,winner.Player.transform));
 			}
 		}
 		if (State==GameState.Gameover){

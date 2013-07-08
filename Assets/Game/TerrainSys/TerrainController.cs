@@ -75,7 +75,6 @@ public class TerrainController : MonoBehaviour {
 
 				pos.z+=tile_h+0.01f;
 			}
-			
 			//pos.x+=tile_w+(tile_w*0.5f);
 			pos.x+=tile_w*(3f/4f);
 		}
@@ -117,8 +116,8 @@ public class TerrainController : MonoBehaviour {
 
 		terrain_timer=new Timer(terrain_deterioration_timer,OnTerrainTrigger);
 		
-		main_camera.transform.position=new Vector3(terrain[xx,yy].transform.position.x,main_camera.transform.position.y,main_camera.transform.position.z);
-		main_camera.LookAtCenter(terrain[xx,yy].transform.position);
+		//main_camera.transform.position=new Vector3(terrain[xx,yy].transform.position.x,main_camera.transform.position.y,main_camera.transform.position.z);
+		//main_camera.LookAtCenter(terrain[xx,yy].transform.position);
 		main_camera.DetachPlane();
 		
 		//pause level

@@ -17,7 +17,7 @@
     <KnockbackMulti>1</KnockbackMulti>
     <LifetimeMulti>1</LifetimeMulti>
     <EnergycostMulti>1</EnergycostMulti>
-    <RadiusMulti>0.1</RadiusMulti>
+    <RadiusMulti>0.01</RadiusMulti>
     <HpMulti>0</HpMulti>
   </Values>
   <Upgrade>

@@ -21,8 +21,8 @@ public class AbilityContainer{
 		Ability=ability;
 	}
 	
-	public void UseAbility(Vector3 pos,Vector3 direction){
-		if (!ability_ready) return;
+	public bool UseAbility(Vector3 pos,Vector3 direction){
+		if (!ability_ready) return false;
 		
 		var ability_prefab=Ability.Ability;
 		var upgrade_stats=Ability.Stats;
@@ -30,7 +30,7 @@ public class AbilityContainer{
 		var ProStats = ability_prefab.GetComponent<ProjectileStats> ();
 		var sfx = ability_prefab.GetComponent<StoreSounds>();
 		if (player.MP < ProStats.EnergyCost) {
-			return;
+			return false;
 		}
 		
 		var projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
@@ -44,8 +44,8 @@ public class AbilityContainer{
 			var ray_hits = Physics.RaycastAll (pos, direction, dis);
 			
 			foreach (var hit in ray_hits) {
-				if (hit.collider.gameObject.tag == "Ground") {
-					return;
+				if (hit.collider.gameObject.tag == "Ground"){
+					return false;
 					//don't spawn a projectile at all.
 				}
 			}
@@ -125,6 +125,7 @@ public class AbilityContainer{
 		setOnCooldown ();
 		
 		player.MP -= Mathf.Max(1,ProStats.EnergyCost-ec_s);
+		return true;
 	}
 	
 	float GetUpgradeStat(UpgradeStatContainer stats,UpgradeStat stat,float multi){

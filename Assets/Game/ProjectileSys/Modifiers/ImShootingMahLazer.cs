@@ -20,6 +20,7 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 			Destroy(gameObject);
 			return;
 		}
+		plr_main.MPregenReset();
 		
 		//ignore projectiles
 		int mask=1<<LayerMask.NameToLayer("Projectile");
