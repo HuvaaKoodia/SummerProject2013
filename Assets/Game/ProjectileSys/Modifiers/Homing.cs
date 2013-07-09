@@ -13,7 +13,6 @@ public class Homing : MonoBehaviour,ProjectileModifier
 	void Start ()
 	{
 		projectile = GetComponent<ProjectileMain> ();
-
 		var cc_pre = Resources.Load ("ConeCollider") as GameObject;
 		ConeCollider = Instantiate (cc_pre, transform.position, Quaternion.identity) as GameObject;
 		ConeCollider.transform.parent = transform;
@@ -32,6 +31,7 @@ public class Homing : MonoBehaviour,ProjectileModifier
 				target = null;
 				time = traceTime;
 			}
+		}else{
 		}
 	}
 

@@ -6,6 +6,7 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 	PlayerMain plr_main;
 	RaycastHit hitInfo;
 	LineRenderer line_rend;
+	public float lenght;
 	
 	// Use this for initialization
 	void Start () {
@@ -24,7 +25,7 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 		//ignore projectiles
 		int mask=1<<LayerMask.NameToLayer("Projectile");
 		mask=~mask;
-		Physics.Raycast(new Ray(plr_main.transform.position,plr_main.UpperTorsoDir),out hitInfo , 10f,mask);
+		Physics.Raycast(new Ray(plr_main.transform.position,plr_main.UpperTorsoDir),out hitInfo , lenght,mask);
 		
 		line_rend.SetPosition(0, plr_main.transform.position+new Vector3(0f,0.5f,0f));
 		if(hitInfo.collider!=null&&hitInfo.collider.gameObject.tag!="Gib"){
@@ -35,7 +36,7 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 			}
 		}
 		else{
-			line_rend.SetPosition(1, plr_main.transform.position+(plr_main.UpperTorsoDir.normalized*10));
+			line_rend.SetPosition(1, plr_main.transform.position+(plr_main.UpperTorsoDir.normalized*lenght));
 		}
 			
 	}
