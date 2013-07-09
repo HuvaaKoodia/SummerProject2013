@@ -19,4 +19,10 @@ public class GameoverPanel : MonoBehaviour {
 		}
 		score_label.text=t;
 	}
+	
+	public void setTie(){
+		winner_label.text="It's a tie";
+		score_label.gameObject.SetActive(false);
+		continue_label.text="Press:\n- start for next round.\n- back for main menu.";
+	}
 }

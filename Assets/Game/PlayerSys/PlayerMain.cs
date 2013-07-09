@@ -56,7 +56,7 @@ public class PlayerMain : MonoBehaviour
 	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
 
 	//private 
-	bool ignoreExplosion=false;
+	bool ignoreExplosion=false,on_legit_ground=false;
 	bool freeze_movement = false,invulnerable=false;
 	bool jump_end=true,jump_start=true,jump_has_peaked=false;
 	bool freeze_lower=false,freeze_upper=false,freeze_weapons=false;
@@ -68,7 +68,7 @@ public class PlayerMain : MonoBehaviour
 	
 	int public_invulnerability=0;
 	
-	Timer jump_timer,onGround_timer,mp_regen_timer;
+	Timer legit_timer,onGround_timer,mp_regen_timer;
 	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
 	
 	//Vector3 last_aim_point,last_move_point;
@@ -77,7 +77,7 @@ public class PlayerMain : MonoBehaviour
 	{
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
-		jump_timer = new Timer(100, OnJumpTimer);
+		legit_timer = new Timer(888, OnLegit);
 		onGround_timer= new Timer(200, OnGroundTimer);
 		mp_regen_timer= new Timer(mp_regen_delay, OnMPregenTimer);
 	}
@@ -100,7 +100,7 @@ public class PlayerMain : MonoBehaviour
 
 	void Update ()
 	{
-		jump_timer.Update();
+		legit_timer.Update();
 		onGround_timer.Update();
 		mp_regen_timer.Update();
 		
@@ -140,7 +140,7 @@ public class PlayerMain : MonoBehaviour
 	{
 		rigidbody.WakeUp ();
 		
-		if (!freeze&&!freeze_movement ){
+		if (!freeze&&!freeze_movement){
 			if (l_axis_x < 0){
 				MoveAround(Vector3.left * acceleration);
 			}
@@ -160,6 +160,7 @@ public class PlayerMain : MonoBehaviour
 					canJump = false;
 					//Debug.Log ("Jump force++");
 					jumpStart();
+					sounds.StopWalk();
 				}
 			}
 		}
@@ -186,6 +187,10 @@ public class PlayerMain : MonoBehaviour
 		if (graphics.animationsCheck()){
 			sounds.StopWalk();
 		}
+		
+		//DEV.debug
+		//if (controllerNumber==1)
+		//	Debug.Log("Legit?: "+on_legit_ground);
 	}
 
 	void OnCollisionStay(Collision other)
@@ -195,12 +200,25 @@ public class PlayerMain : MonoBehaviour
 		if (other.gameObject.tag=="Gib")
 			angle=30;
 		
+		//bool not_on_ground_at_all=true;
 		foreach (var c in other.contacts) {
 			if (Vector3.Angle (c.normal, transform.up) < angle){
 				
 				onGround_timer.Reset();
 				onGround_timer.Active=true;
 				onGround = true;
+				
+				if (other.gameObject.tag=="Hurt"){
+					//not_on_ground_at_all=false;
+					on_legit_ground=false;
+				} else
+				if (other.gameObject.tag=="Ground"){
+					//not_on_ground_at_all=false;
+					if (!on_legit_ground&&!legit_timer.Active){
+						legit_timer.Reset(true);
+					}
+				}
+				
 				
 				jumpEnd();
 
@@ -213,6 +231,8 @@ public class PlayerMain : MonoBehaviour
 				break;
 			}
 		}
+		//if (not_on_ground_at_all)
+		//	on_legit_ground=false;
 	}
 	
 	void jumpStart(){
@@ -270,19 +290,19 @@ public class PlayerMain : MonoBehaviour
 		yield return null;
 	}
 	
-	void OnJumpTimer ()
+	void OnLegit()
 	{
-		//canJump=true;
-		//jump_has_peaked=false;
-		//jump_timer.Active = false;
+		on_legit_ground=true;
+		legit_timer.Active=false;
 	}
 	void OnGroundTimer ()
 	{	
 		onGround=false;
+		on_legit_ground=false;
 		canJump=true;
-		jump_has_peaked=false;
 		jump_has_peaked=true;
-		//jump_timer.Active=false;
+		
+		legit_timer.Active=false;
 		onGround_timer.Active=false;
 	}
 	
@@ -309,8 +329,10 @@ public class PlayerMain : MonoBehaviour
 			rigidbody.AddForce(force);
 		
 		//DEV. WEIRD.SIHT
-		graphics.AnimationWalk();
-		sounds.PlayWalk();	
+		if (onGround){
+			graphics.AnimationWalk();
+			sounds.PlayWalk();	
+		}
 	}
 	void restrictMovement(){
 	
@@ -329,7 +351,6 @@ public class PlayerMain : MonoBehaviour
 	
 	void OnDestroy ()
 	{
-		jump_timer.Destroy();
 		Data.Player=null;
 		NotificationCenter.Instance.removeListener(OnExplosion,NotificationType.Explode);
 	}
@@ -426,6 +447,10 @@ public class PlayerMain : MonoBehaviour
 	void useAbility(int index){
 		if (ability_containers [index].UseAbility (transform.position, last_upper_direction))
 			graphics.AnimationShoot();
+	}
+	
+	public bool onLegitGround(){
+		return on_legit_ground;
 	}
 	
 	

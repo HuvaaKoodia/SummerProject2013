@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class DestroyScr : MonoBehaviour {
+public class KillBoxScr : MonoBehaviour {
 
 	public void OnTriggerExit(Collider other){
 		

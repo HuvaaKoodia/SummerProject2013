@@ -79,8 +79,8 @@ ModelImporter:
     clipAnimations:
     - name: Right_shoot
       takeName: Take 001
-      firstFrame: 0
-      lastFrame: 32.7999992
+      firstFrame: 33
+      lastFrame: 69
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

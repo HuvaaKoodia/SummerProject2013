@@ -41,6 +41,7 @@ public class AbsorbShield : MonoBehaviour, ProjectileModifier {
 	}
 	
 	void OnDestroy(){
-		plr_main.setInvulnerable(false);
+		if (plr_main)
+			plr_main.setInvulnerable(false);
 	}
 }

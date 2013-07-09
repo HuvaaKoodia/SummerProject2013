@@ -7,9 +7,7 @@ public class TerrainController : MonoBehaviour {
 	
 	public int LevelWidth,LevelHeight;
 	
-	public int 
-		terrain_deterioration_timer=12225,
-		tile_random_timer_min=2000,tile_random_timer_max=6000;
+	public LevelStats stats;
 	
 	//public PlayerMain[] Players;
 	
@@ -32,6 +30,12 @@ public class TerrainController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake (){
+		
+		//get level data
+		var lvlPL=GameObject.FindGameObjectWithTag("LevelPlaylist").GetComponent<LevelPlaylist>();
+		var lvlDB=GameObject.FindGameObjectWithTag("EntityDatabase").GetComponent<LevelDatabase>();
+		stats=lvlDB.getLevel(lvlPL.getCurrentLevelName());
+		
 		//var spawn_positions=new List<Tile>();
 		
 		mesh_bounds=tile_mesh.renderer.bounds;
@@ -43,6 +47,8 @@ public class TerrainController : MonoBehaviour {
 		
 		var pos=Vector3.zero;
 		float tile_w=hexa_size.x,tile_h=hexa_size.z;//ground_prefab.transform.localScale.x
+		
+		
 		
 		//creating tiles
 		Vector3 coor=new Vector3(0,0,0);
@@ -68,9 +74,14 @@ public class TerrainController : MonoBehaviour {
 				tiles.Add(ts);
 				ts.setCoordinate(new Vector3(coor.x+j,coor.y,-((coor.x+j)+coor.y)));
 				
-				if (Subs.RandomPercent()<20){
-					ts.Tile_Data.setMovementBounds(2f,0f);
-					ts.Tile_Data.setTimeBounds(tile_random_timer_min,tile_random_timer_max,false);
+				if (Subs.RandomPercent()<stats.Tile_random_low_change){
+					ts.Tile_Data.setMovementBounds(stats.Tile_random_low_height,0f);
+					ts.Tile_Data.setTimeBounds(stats.Tile_random_time_min,stats.Tile_random_time_max,true);
+				}
+				
+				if (Subs.RandomPercent()<stats.Tile_random_high_change){
+					ts.Tile_Data.setMovementBounds(stats.Tile_random_high_height,0f);
+					ts.Tile_Data.setTimeBounds(stats.Tile_random_time_min,stats.Tile_random_time_max,true);
 				}
 
 				pos.z+=tile_h+0.01f;
@@ -78,8 +89,7 @@ public class TerrainController : MonoBehaviour {
 			//pos.x+=tile_w+(tile_w*0.5f);
 			pos.x+=tile_w*(3f/4f);
 		}
-
-		//create land shape DEV. circle
+		//load land shape DEV. circle
 		
 		int xx=terrain.GetLength(0)/2,yy=terrain.GetLength(1)/2;
 		center_point=terrain[xx,yy].getCoordinate();
@@ -102,7 +112,7 @@ public class TerrainController : MonoBehaviour {
 			radius=(group_amount-g);
 			var data=new TileData(Vector3.zero,g);
 			data.setMovementBounds(0.03f,0.03f);
-			data.setTimeBounds(100,1000,true);
+			data.setTimeBounds(1000,1000,true);
 			tile_groups.Add(data);
 			
 			foreach (var ts in tiles){
@@ -114,7 +124,7 @@ public class TerrainController : MonoBehaviour {
 		terrain[xx,yy].setTileGroup(null);//center not moving
 		terrain[xx,yy].Tile_Data.Activate(false);
 
-		terrain_timer=new Timer(terrain_deterioration_timer,OnTerrainTrigger);
+		terrain_timer=new Timer(stats.Terrain_deterioration_time,OnTerrainTrigger);
 		
 		//main_camera.transform.position=new Vector3(terrain[xx,yy].transform.position.x,main_camera.transform.position.y,main_camera.transform.position.z);
 		//main_camera.LookAtCenter(terrain[xx,yy].transform.position);
