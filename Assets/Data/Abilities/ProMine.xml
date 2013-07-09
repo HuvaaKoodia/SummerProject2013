@@ -7,10 +7,10 @@
   <Values>
     <Speed>0</Speed>
     <Power>0</Power>
-    <Knockback>110000</Knockback>
+    <Knockback>125000</Knockback>
     <Lifetime>-1</Lifetime>
     <Energycost>12</Energycost>
-    <Radius>12</Radius>
+    <Radius>6</Radius>
     <Hp>0</Hp>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>1</PowerMulti>

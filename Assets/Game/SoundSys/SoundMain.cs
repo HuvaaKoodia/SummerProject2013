@@ -29,7 +29,7 @@ public class SoundMain : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (isDetached) {
+		if (isDetached&&onDeath!=null) {
 			if (!onDeath.isPlaying) {
 				Destroy (gameObject);
 			}

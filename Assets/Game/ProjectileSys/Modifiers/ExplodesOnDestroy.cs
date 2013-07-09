@@ -5,6 +5,7 @@ using System.Linq;
 public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 	GameObject explosion;
 	ProjectileMain proj_main;
+	public Vector3 extraVector;
 	Timer time,startTime;
 	
 	// Use this for initialization
@@ -16,7 +17,8 @@ public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 
 	void OnDestroy(){
 		
-		GameObject obj = Instantiate(explosion,transform.position,Quaternion.identity) as GameObject;
+		GameObject obj = Instantiate(explosion,transform.position + extraVector,Quaternion.identity) as GameObject;
+		
 		var expl = obj.GetComponent<ExplosionScr>();
 		
 		expl.radius = proj_main.stats.Radius;

@@ -6,10 +6,10 @@
   </Basic>
   <Values>
     <Speed>0</Speed>
-    <Power>10</Power>
+    <Power>18</Power>
     <Knockback>0</Knockback>
     <Lifetime>1000</Lifetime>
-    <Energycost>10</Energycost>
+    <Energycost>30</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
     <SpeedMulti>1</SpeedMulti>
