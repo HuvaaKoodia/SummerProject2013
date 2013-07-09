@@ -17,18 +17,18 @@ public class CameraScript : MonoBehaviour {
 		move_to_pos=transform.position;
 		
 		//look_at_pos=Vector3.up*initial_y_offset;
+		
+		look_at_pos=transform.rotation*Vector3.forward;
 	}
 	
 	// Update is called once per frame
 	
 	void Update (){
-		
-		
 		move_dir=move_to_pos-transform.position;
 		move_dir.Normalize();
 		
-		look_pos=look_at_pos-transform.position;
-		look_pos.Normalize();
+		//look_pos=look_at_pos-transform.position;
+		//look_pos.Normalize();
 		
 		move_dir_r=move_dir;
 		//move_dir_r=Vector3.Lerp(move_dir_r,move_dir,Time.deltaTime);
@@ -41,7 +41,7 @@ public class CameraScript : MonoBehaviour {
 			transform.position+=move_dir_r*speed;
 		}
 		
-		transform.LookAt(transform.position+look_pos_r);
+		//transform.LookAt(transform.position+look_pos_r);
 	}
 	
 	public void LookAtCenter(Vector3 center){

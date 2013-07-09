@@ -41,8 +41,6 @@ public class ProjectileMain : MonoBehaviour {
 		//rigidbody.velocity=rigidbody.velocity.normalized*MoveSpeed*SpeedMulti;
 		
 		//setDirection(rigidbody.velocity);
-		
-		
 		if (SpeedMulti!=1){
 			if (oldSpeedMulti==1){
 				//move_direction.x*=SpeedMulti;

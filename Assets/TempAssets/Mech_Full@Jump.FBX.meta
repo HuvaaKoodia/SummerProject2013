@@ -158,7 +158,7 @@ ModelImporter:
     - name: JumpStart
       takeName: Take 001
       firstFrame: 0
-      lastFrame: 31
+      lastFrame: 28.2999992
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -201,7 +201,7 @@ ModelImporter:
       skeletonMaskElements: []
     - name: JumpEnd
       takeName: Take 001
-      firstFrame: 31
+      firstFrame: 28.2999992
       lastFrame: 45
       wrapMode: 0
       orientationOffsetY: 0

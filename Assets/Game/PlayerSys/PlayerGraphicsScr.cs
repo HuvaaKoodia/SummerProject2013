@@ -53,6 +53,36 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		}
 	}
 	
+	bool animation_walk,animation_shoot=false,current_shoot_arm=true;	
+
+	public void AnimationWalk(){
+		if (LowerTorso.animation!=null){
+			UpperTorso.animation.Blend("walk");
+			LowerTorso.animation.Play();
+			
+			LowerTorso.animation.enabled=true;
+			UpperTorso.animation.enabled=true;
+			animation_walk=true;
+		}
+	}
+	public void AnimationShoot(){
+		//if (animation_shoot) return;
+		if (UpperTorso.animation!=null){
+			if (current_shoot_arm){
+				UpperTorso.animation.Stop("Left_shoot");
+				UpperTorso.animation.Blend("Left_shoot");
+			}
+			else{
+				UpperTorso.animation.Stop("Right_shoot");
+				UpperTorso.animation.Blend("Right_shoot");
+			}
+			current_shoot_arm=!current_shoot_arm;
+
+			UpperTorso.animation.enabled=true;
+			//animation_shoot=true;
+		}
+	}
+	
 	public void setFullbody(bool on){
 		Mecha.gameObject.SetActive(!on);
 		Fullbody.gameObject.SetActive(on);
@@ -69,5 +99,23 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	public bool isFullbody ()
 	{
 		return Fullbody.gameObject.activeSelf;
+	}
+
+	public bool animationsCheck()
+	{
+		bool on=animation_walk;
+		animation_walk=false;
+		if (!on){
+			
+			if (LowerTorso.animation!=null){
+				LowerTorso.animation.enabled=false;
+			//}
+			//if (UpperTorso.animation!=null&&UpperTorso.animation["walk"].enabled){
+				UpperTorso.animation["walk"].enabled=false;
+				return true;
+			}
+		}
+		return false;
+		
 	}
 }

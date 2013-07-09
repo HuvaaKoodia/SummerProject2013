@@ -28,6 +28,7 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 
 	
 	void OnDestroy(){
-		plr_main.freezeMovement(false);
+		if (plr_main!=null)
+			plr_main.freezeMovement(false);
 	}
 }

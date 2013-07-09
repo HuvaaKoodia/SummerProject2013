@@ -13,6 +13,7 @@ public class AbsorbShield : MonoBehaviour, ProjectileModifier {
 		transform.position = plr_main.transform.position;
 		
 		transform.localScale*=pro_main.Radius;
+		plr_main.setInvulnerable(true);
 	}
 	
 	// Update is called once per frame
@@ -27,13 +28,20 @@ public class AbsorbShield : MonoBehaviour, ProjectileModifier {
 	}*/
 	void OnTriggerEnter(Collider other){
 		if(other.gameObject.tag=="Projectile"){
-		pro_main.sound.playCollisionSound();
+			pro_main.sound.playCollisionSound();
 		}
+		
 		if (other.gameObject.tag=="Projectile"&&!other.collider.isTrigger)
 			Destroy(other.gameObject);
 	}
+	
 	void OnTriggerStay(Collider other){
 		if (other.gameObject.tag=="Projectile"&&!other.collider.isTrigger)
 			Destroy(other.gameObject);
+	}
+	
+	void OnDestroy(){
+		if (plr_main)
+			plr_main.setInvulnerable(false);
 	}
 }

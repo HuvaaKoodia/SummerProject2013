@@ -23,43 +23,49 @@ public class SoundMain : MonoBehaviour
 				onAlive.loop = true;
 				onAlive.Play ();	
 			}
+			if (sfx.onCollision != null) {
+				onCollision = gameObject.AddComponent<AudioSource> ();
+				onCollision.clip = sfx.onCollision;
+			}
 		}
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if (isDetached&&onDeath!=null) {
-			if (!onDeath.isPlaying) {
+		if (isDetached) {
+			if (onDeath!= null&&!onDeath.isPlaying){
 				Destroy (gameObject);
 			}
 		}
 	}
 	
 	public void detach ()
-	{	
-		enabled=true;
+	{
 		if (sfx != null) {
-			if (sfx.onDeath == null||sfx.onCollision == null) {
-				return;
-			}else{
+			if (sfx.onDeath == null) {
+				return;//no death sound ->don't detach
+			}
+			if (sfx.onDeath!= null)
+			{
 				onDeath = gameObject.AddComponent<AudioSource> ();
-				onDeath.enabled=true;
 				onDeath.clip = sfx.onDeath;
-				onDeath.Play ();	
+				onDeath.enabled=true;
+				onDeath.Play();
 			}
 		}
+		else
+			return;//no sounds -> don't detach
 		transform.parent = null;
 		isDetached = true;
+		onDeath.enabled=true;
+		onCollision.enabled=true;
 		enabled=true;
 	}
 	public void playCollisionSound(){
-		if (sfx != null) {
-			if (sfx.onCollision != null) {
-				
-				onCollision = gameObject.AddComponent<AudioSource> ();
-				onCollision.clip = sfx.onCollision;
-				onCollision.Play ();	
+		if (onCollision!=null){
+			if (!onCollision.isPlaying){
+				onCollision.Play ();
 			}
 		}
 	}

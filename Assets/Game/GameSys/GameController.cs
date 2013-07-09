@@ -76,55 +76,84 @@ public class GameController : MonoBehaviour {
 			}
 			
 			if (alive==1){
-				addScore(winner);
-				
-				//set scores
-				int score=50;
-				foreach (var psd in score_list){
-					psd.score=score;
-					score/=2;
-					psd.player.ResourceAmount+=score;
-				}
-				
-				//game over!
-				changeState(GameState.Gameover);
-				winner.Player.freezePlayer();
-				winner.Player.toggleInvulnerability();
-				
-				//hud texts
-				gameoverPanel.gameObject.SetActive(true);
-				gameoverPanel.setPlayer(winner);
-				
-				gameoverPanel.setScores(score_list);
-				
-				//halt terrain
-				terrainController.Activate(false);
-				terrainController.LowerTerrain();
-				NotificationCenter.Instance.sendNotification(new CameraZoom_note(5f,winner.Player.transform));
-			}
-		}
-		if (State==GameState.Gameover){
-			if (Input.GetButton("Start_"+winner.controllerNumber)){
-				//next round or post game stats
-				var lvlDB=GameObject.FindGameObjectWithTag("LevelDatabase") as GameObject;
-				if (lvlDB==null){//DEV.DEBUG
-					Application.LoadLevel(Application.loadedLevel);
-				}
-				else{
-					var scr=lvlDB.GetComponent<LevelList>();
-					scr.gotoNext();
+				if (winner.Player!=null&&winner.Player.onLegitGround()){
+					addScore(winner);
+					
+					//set scores
+					int score=50;
+					foreach (var psd in score_list){
+						psd.score=score;
+						score/=2;
+						psd.player.ResourceAmount+=score;
+					}
+					
+					//game over!
+					changeState(GameState.Gameover);
+					//winner.Player.freezePlayer();
+					winner.Player.toggleInvulnerability();
+					
+					//hud texts
+					gameoverPanel.gameObject.SetActive(true);
+					gameoverPanel.setPlayer(winner);
+					
+					gameoverPanel.setScores(score_list);
+					
+					//halt terrain
+					terrainController.Activate(false);
+					terrainController.LowerTerrain();
+					//NotificationCenter.Instance.sendNotification(new CameraZoom_note(5f,winner.Player.transform));
 				}
 			}
 			
-			if (Input.GetButton("Back_"+winner.controllerNumber)){
-				//next round or post game stats
-				Application.LoadLevel("TitleScene");
+			if (alive==0){
+				winner=null;
+				changeState(GameState.Gameover);
+
+				//hud texts
+				gameoverPanel.gameObject.SetActive(true);
+				gameoverPanel.setTie();
+				
+				terrainController.Activate(false);
+				//NotificationCenter.Instance.sendNotification(new CameraZoom_note(5f,winner.Player.transform));
+			}
+		}
+		if (State==GameState.Gameover){
+			if (winner!=null){
+				PressStart(winner.controllerNumber);
+				PressBack(winner.controllerNumber);
+			}
+			else{
+				foreach (var p in playerManager.pDB.players){
+					PressStart(p.controllerNumber);
+					PressBack(p.controllerNumber);
+				}
 			}
 			
 			if (Input.GetButton("Back_"+winner.controllerNumber)){
 				//next round or post game stats
 				Application.LoadLevel("MainMenu");
 			}
+		}
+	}
+	
+	void PressStart(int controllerNumber){
+		if (Input.GetButton("Start_"+controllerNumber)){
+					//next round or post game stats
+					var lvlDB=GameObject.FindGameObjectWithTag("LevelPlaylist") as GameObject;
+					if (lvlDB==null){//DEV.DEBUG
+						Application.LoadLevel(Application.loadedLevel);
+					}
+					else{
+						var scr=lvlDB.GetComponent<LevelPlaylist>();
+						scr.gotoNextMap();
+					}
+				}
+	}
+	
+	void PressBack(int controllerNumber){
+		if (Input.GetButton("Back_"+controllerNumber)){
+			//next round or post game stats
+			Application.LoadLevel("TitleScene");
 		}
 	}
 	

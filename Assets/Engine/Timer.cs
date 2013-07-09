@@ -74,6 +74,10 @@ public class Timer{
 	public void Reset(){
 		tick=delay;
 	}
+	public void Reset(bool active){
+		Active=active;
+		tick=delay;
+	}
 	
 	public void Destroy(){
 		Destroyed=true;

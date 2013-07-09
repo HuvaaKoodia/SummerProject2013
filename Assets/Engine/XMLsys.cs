@@ -10,16 +10,16 @@ public class XMLsys : MonoBehaviour {
 	
 	public AbilitiesDatabase abiDB;
 	public PlayerDatabase plrDB;
+	public LevelDatabase lvlDB;
 	
 	//engine logic
-	void Start () {
+	void Awake () {
 		readXML();
 	}
 	
 	void OnDestroy(){
 		writeXML();
 	}
-		
 	
 	//game logic
 	void readXML(){
@@ -54,69 +54,80 @@ public class XMLsys : MonoBehaviour {
 		}
 		
 		//abilities
-		path=Application.dataPath+@"\Data\Abilities";
-		if (!Directory.Exists(path)){
-			return;
-		}
+		folder=@"\Abilities";
+		if (Directory.Exists(path+folder)){
+			Xdoc=new XmlDocument();
+			foreach (var a in abiDB.abilities){
+				//open xml
+				file=@"\"+a.gameObject.name+".xml";
+				if (!File.Exists(path+folder+file)) continue;
+				Xdoc.Load(path+folder+file);
+				
+				//read ability
+				var p_stats=a.GetComponent<ProjectileStats>();
+				var a_stats=a.GetComponent<AbilityStats>();
+				var u_stats=a.GetComponent<UpgradeStats>();
+				
+				//read xml
+				root=Xdoc["Stats"];
+				
+				var abis=root["Basic"];
+				var pros=root["Values"];
+				var ups=root["Upgrade"];
 		
-		Xdoc=new XmlDocument();
-		foreach (var a in abiDB.abilities){
-			//open xml
-			file=@"\"+a.gameObject.name+".xml";
-			if (!File.Exists(path+file)) continue;
-			Xdoc.Load(path+file);
-			
-			//read ability
-			var p_stats=a.GetComponent<ProjectileStats>();
-			var a_stats=a.GetComponent<AbilityStats>();
-			var u_stats=a.GetComponent<UpgradeStats>();
-			
-			//read xml
-			root=Xdoc["Stats"];
-			
-			var abis=root["Basic"];
-			var pros=root["Values"];
-			var ups=root["Upgrade"];
-	
-			//basic
-			a_stats.Name=getStr(abis,"Name");
-			a_stats.Cost=getInt(abis,"Cost");
-			a_stats.Sprite=getStr(abis,"Sprite");
-			
-			//values
-			p_stats.Speed=getFlt(pros,"Speed");
-			p_stats.Power=getFlt(pros,"Power");
-			p_stats.Knockback=getFlt(pros,"Knockback");
-			p_stats.Life_time=getFlt(pros,"Lifetime");
-			p_stats.EnergyCost=getFlt(pros,"Energycost");
-			p_stats.Radius=getFlt(pros,"Radius");
-			p_stats.HP=getFlt(pros,"Hp");
-			
-			p_stats.Speed_multi=getFlt(pros,"SpeedMulti");
-			p_stats.Power_multi=getFlt(pros,"PowerMulti");
-			p_stats.Knockback_multi=getFlt(pros,"KnockbackMulti");
-			p_stats.Life_time_multi=getFlt(pros,"LifetimeMulti");
-			p_stats.EnergyCost_multi=getFlt(pros,"EnergycostMulti");
-			p_stats.Radius_multi=getFlt(pros,"RadiusMulti");
-			p_stats.HP_multi=getFlt(pros,"HpMulti");
-			
-			//upgrades
-			List<UpgradeStat> upgrades=new List<UpgradeStat>();
-			
-			foreach (XmlElement u in ups){
-				foreach (var e in System.Enum.GetValues(typeof(UpgradeStat))){
-					if (e.ToString()==u.Name){
-						if (u.InnerText.ToLower().StartsWith("t"))
-							upgrades.Add((UpgradeStat)e);
+				//basic
+				a_stats.Name=getStr(abis,"Name");
+				a_stats.Cost=getInt(abis,"Cost");
+				a_stats.Sprite=getStr(abis,"Sprite");
+				
+				//values
+				p_stats.Speed=getFlt(pros,"Speed");
+				p_stats.Power=getFlt(pros,"Power");
+				p_stats.Knockback=getFlt(pros,"Knockback");
+				p_stats.Life_time=getFlt(pros,"Lifetime");
+				p_stats.EnergyCost=getFlt(pros,"Energycost");
+				p_stats.Radius=getFlt(pros,"Radius");
+				p_stats.HP=getFlt(pros,"Hp");
+				
+				p_stats.Speed_multi=getFlt(pros,"SpeedMulti");
+				p_stats.Power_multi=getFlt(pros,"PowerMulti");
+				p_stats.Knockback_multi=getFlt(pros,"KnockbackMulti");
+				p_stats.Life_time_multi=getFlt(pros,"LifetimeMulti");
+				p_stats.EnergyCost_multi=getFlt(pros,"EnergycostMulti");
+				p_stats.Radius_multi=getFlt(pros,"RadiusMulti");
+				p_stats.HP_multi=getFlt(pros,"HpMulti");
+				
+				//upgrades
+				List<UpgradeStat> upgrades=new List<UpgradeStat>();
+				
+				foreach (XmlElement u in ups){
+					foreach (var e in System.Enum.GetValues(typeof(UpgradeStat))){
+						if (e.ToString()==u.Name){
+							if (u.InnerText.ToLower().StartsWith("t"))
+								upgrades.Add((UpgradeStat)e);
+						}
 					}
 				}
+				u_stats.AvailableUpgrades=upgrades.ToArray();
 			}
-			u_stats.AvailableUpgrades=upgrades.ToArray();
 		}
-		
 		//levels
+		
+		folder=@"\Levels";
+		if (Directory.Exists(path+folder)){
+			foreach (var l in lvlDB.levels){
+				var level=l.gameObject.GetComponent<LevelStats>();
+				file=@"\"+l.name+".xml";
+				
+				Xdoc=new XmlDocument();
+				Xdoc.Load(path+folder+file);
+				
+				root=Xdoc["Stats"];
+				
+				readAuto(root,level);
+			}
+		}
 	}
-
 	
 	void writeXML(){
 		
@@ -127,30 +138,30 @@ public class XMLsys : MonoBehaviour {
 		XmlDocument Xdoc;
 		XmlElement root;
 		
+		checkFolder(path);
+		
 		//player
 		var player=plrDB.PlayerPrefab.GetComponent<PlayerMain>();
 		
 		file=@"\Player.xml";
 		Xdoc=new XmlDocument();
 		root=Xdoc.CreateElement("Stats");
-		addElement(Xdoc,root,"HP",player.MAX_HP);
-		addElement(Xdoc,root,"MP",player.MAX_MP);
+		addElement(root,"HP",player.MAX_HP);
+		addElement(root,"MP",player.MAX_MP);
 		
-		addElement(Xdoc,root,"MPregenDelay",player.mp_regen_delay);
-		addElement(Xdoc,root,"MPregenSpeed",player.MP_regen_multi_normal);
-		addElement(Xdoc,root,"MPregenAcceleration",player.MP_regen_add);
+		addElement(root,"MPregenDelay",player.mp_regen_delay);
+		addElement(root,"MPregenSpeed",player.MP_regen_multi_normal);
+		addElement(root,"MPregenAcceleration",player.MP_regen_add);
 		
-		addElement(Xdoc,root,"Acceleration",player.acceleration);
-		addElement(Xdoc,root,"Jump",player.jump_speed);
-		addElement(Xdoc,root,"Speed",player.speed_max);
+		addElement(root,"Acceleration",player.acceleration);
+		addElement(root,"Jump",player.jump_speed);
+		addElement(root,"Speed",player.speed_max);
 		
 		Xdoc.AppendChild(root);
 		Xdoc.Save(path+folder+file);
 		
 		folder=@"\Abilities";
-		if (!Directory.Exists(path+folder)){
-			Directory.CreateDirectory(path+folder);
-		}
+		checkFolder(path+folder);
 		
 		foreach (var a in abiDB.abilities){
 			//read ability
@@ -169,27 +180,27 @@ public class XMLsys : MonoBehaviour {
 			var ups=Xdoc.CreateElement("Upgrade");
 			
 			//abi stats
-			addElement(Xdoc,abis,"Name",a_stats.Name);
-			addElement(Xdoc,abis,"Sprite",a_stats.Sprite);
-			addElement(Xdoc,abis,"Cost",a_stats.Cost);
+			addElement(abis,"Name",a_stats.Name);
+			addElement(abis,"Sprite",a_stats.Sprite);
+			addElement(abis,"Cost",a_stats.Cost);
 			
 			//pro stats
 			
-			addElement(Xdoc,pros,"Speed",p_stats.Speed);
-			addElement(Xdoc,pros,"Power",p_stats.Power);
-			addElement(Xdoc,pros,"Knockback",p_stats.Knockback);
-			addElement(Xdoc,pros,"Lifetime",p_stats.Life_time);
-			addElement(Xdoc,pros,"Energycost",p_stats.EnergyCost);
-			addElement(Xdoc,pros,"Radius",p_stats.Radius);
-			addElement(Xdoc,pros,"Hp",p_stats.HP);
+			addElement(pros,"Speed",p_stats.Speed);
+			addElement(pros,"Power",p_stats.Power);
+			addElement(pros,"Knockback",p_stats.Knockback);
+			addElement(pros,"Lifetime",p_stats.Life_time);
+			addElement(pros,"Energycost",p_stats.EnergyCost);
+			addElement(pros,"Radius",p_stats.Radius);
+			addElement(pros,"Hp",p_stats.HP);
 			
-			addElement(Xdoc,pros,"SpeedMulti",p_stats.Speed_multi);
-			addElement(Xdoc,pros,"PowerMulti",p_stats.Power_multi);
-			addElement(Xdoc,pros,"KnockbackMulti",p_stats.Knockback_multi);
-			addElement(Xdoc,pros,"LifetimeMulti",p_stats.Life_time_multi);
-			addElement(Xdoc,pros,"EnergycostMulti",p_stats.EnergyCost_multi);
-			addElement(Xdoc,pros,"RadiusMulti",p_stats.Radius_multi);
-			addElement(Xdoc,pros,"HpMulti",p_stats.HP_multi);
+			addElement(pros,"SpeedMulti",p_stats.Speed_multi);
+			addElement(pros,"PowerMulti",p_stats.Power_multi);
+			addElement(pros,"KnockbackMulti",p_stats.Knockback_multi);
+			addElement(pros,"LifetimeMulti",p_stats.Life_time_multi);
+			addElement(pros,"EnergycostMulti",p_stats.EnergyCost_multi);
+			addElement(pros,"RadiusMulti",p_stats.Radius_multi);
+			addElement(pros,"HpMulti",p_stats.HP_multi);
 			
 			//up stats
 			foreach (var u in System.Enum.GetNames(typeof(UpgradeStat))){
@@ -200,7 +211,7 @@ public class XMLsys : MonoBehaviour {
 						break;
 					}
 				}
-				addElement(Xdoc,ups,u,v);
+				addElement(ups,u,v);
 			}
 
 			//save xml
@@ -210,6 +221,22 @@ public class XMLsys : MonoBehaviour {
 			root.AppendChild(pros);
 			root.AppendChild(ups);
 			
+			Xdoc.Save(path+folder+file);
+		}
+		
+		//levels
+		folder=@"\Levels";
+		checkFolder(path+folder);
+		
+		foreach (var l in lvlDB.levels){
+			var level=l.gameObject.GetComponent<LevelStats>();
+			file=@"\"+l.name+".xml";
+			Xdoc=new XmlDocument();
+			root=Xdoc.CreateElement("Stats");
+			
+			writeAuto(root,level);
+			
+			Xdoc.AppendChild(root);
 			Xdoc.Save(path+folder+file);
 		}
 	}
@@ -231,17 +258,42 @@ public class XMLsys : MonoBehaviour {
 		return float.Parse(element[name].InnerText);
 	}
 	
-	void addElement(XmlDocument Xdoc,XmlElement element,string name,string val){
-		var node=Xdoc.CreateElement(name);
+	void addElement(XmlElement element,string name,string val){
+		var node=element.OwnerDocument.CreateElement(name);
 		node.InnerText=val;
 		element.AppendChild(node);
 	}
 	
-	void addElement(XmlDocument Xdoc,XmlElement element,string name,int val){
-		addElement(Xdoc,element,name,val.ToString());
+	void addElement(XmlElement element,string name,int val){
+		addElement(element,name,val.ToString());
 	}
 	
-	void addElement(XmlDocument Xdoc,XmlElement element,string name,float val){
-		addElement(Xdoc,element,name,val.ToString());
+	void addElement(XmlElement element,string name,float val){
+		addElement(element,name,val.ToString());
+	}
+		
+	void readAuto(XmlElement element,object obj){
+		foreach (var f in obj.GetType().GetFields()){
+			if (f.IsPublic){
+				if (element[f.Name]!=null){
+					f.SetValue(obj,Convert.ChangeType(element[f.Name].InnerText,f.FieldType));
+				}
+			}
+		}
+	}
+	
+	void writeAuto(XmlElement element,object obj){
+		foreach (var f in obj.GetType().GetFields()){
+			addElement(element,f.Name,f.GetValue(obj).ToString());
+		}
+	}
+	
+	/// <summary>
+	/// Creates a folder if it doesn't exist
+	/// </summary>
+	void checkFolder(string path){
+		if (!Directory.Exists(path)){
+			Directory.CreateDirectory(path);
+		}
 	}
 }

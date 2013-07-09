@@ -21,8 +21,8 @@ public class AbilityContainer{
 		Ability=ability;
 	}
 	
-	public void UseAbility(Vector3 pos,Vector3 direction){
-		if (!ability_ready) return;
+	public bool UseAbility(Vector3 pos,Vector3 direction){
+		if (!ability_ready) return false;
 		
 		var ability_prefab=Ability.Ability;
 		var upgrade_stats=Ability.Stats;
@@ -30,13 +30,14 @@ public class AbilityContainer{
 		var ProStats = ability_prefab.GetComponent<ProjectileStats> ();
 		var sfx = ability_prefab.GetComponent<StoreSounds>();
 		if (player.MP < ProStats.EnergyCost) {
-			return;
+			return false;
 		}
 		
 		var projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
-		//var modifiers=ability_prefab.GetComponent<AbilityModifiers>();
-		
+
 		if (projectile_prefab!=null){//is projectile
+			
+			PlayerMain inside_player=null;
 			
 			var dis = Mathf.Max (ProStats.Size, 0.5f) + 0.2f + player.rigidbody.velocity.magnitude / 10;
 			var spawn_pos = pos + direction * dis;
@@ -44,9 +45,15 @@ public class AbilityContainer{
 			var ray_hits = Physics.RaycastAll (pos, direction, dis);
 			
 			foreach (var hit in ray_hits) {
-				if (hit.collider.gameObject.tag == "Ground") {
-					return;
+				var go=hit.collider.gameObject;
+				if (go.tag == "Ground"){
+					return false;
 					//don't spawn a projectile at all.
+				}
+				if (go.tag == "Player"){
+					inside_player=go.GetComponent<PlayerMain>();
+					break;
+					//automatically destroy projectile after spawning.
 				}
 			}
 
@@ -60,19 +67,12 @@ public class AbilityContainer{
 				}
 			}
 			
-			/*foreach (var scr in modifiers.Components){
-				if (scr!=null){
-					obj.gameObject.AddComponent(scr.name);
-				}
-			}*/
-			
 			//add rigid body as the last component
 			obj.gameObject.AddComponent<Rigidbody> ();
 			obj.rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 			obj.rigidbody.useGravity=false;
 	
 			//calculate stats based on upgrades DEV.RELOC
-			
 			float lt_s=0,spd_s=0,pwr_s=0,kck_s=0,hp_s,rad_s;
 			
 			lt_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Lifetime,ProStats.Life_time_multi)*100;
@@ -109,6 +109,11 @@ public class AbilityContainer{
 			obj.rigidbody.drag=ProStats.Drag;
 			obj.rigidbody.angularDrag=ProStats.Drag;
 			obj.rigidbody.mass=ProStats.Mass;
+			
+			if (inside_player!=null){//DEV.HAX!
+				GameObject.Destroy(obj.gameObject);
+				inside_player.HP-=pro.Power;
+			}
 		}
 		else{
 			//use skill
@@ -125,6 +130,7 @@ public class AbilityContainer{
 		setOnCooldown ();
 		
 		player.MP -= Mathf.Max(1,ProStats.EnergyCost-ec_s);
+		return true;
 	}
 	
 	float GetUpgradeStat(UpgradeStatContainer stats,UpgradeStat stat,float multi){

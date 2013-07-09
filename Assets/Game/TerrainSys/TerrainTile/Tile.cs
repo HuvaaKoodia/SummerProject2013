@@ -9,9 +9,7 @@ public class Tile : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {
-		Tile_Data=new TileData(Vector3.zero,0);
-		Tile_Data.setMovementBounds(1,0);
-		Tile_Data.setTimeBounds(10000,80000,true);
+		Tile_Data=new TileData(transform.position,0);
 	}
 
 	// Update is called once per frame
@@ -71,11 +69,11 @@ public class TileData{
 	public TileData(Vector3 startpos, int tileGroup){
 		tile_group=tileGroup;
 		
-		setMovementBounds(1,1);
+		setMovementBounds(0,0);
 		
 		Position=start_pos=move_target=startpos;
 		
-		timer=new Timer(0,OnTimerRandom);
+		timer=new Timer(1000,OnTimerRandom);
 		timer.Active=false;
 		
 		moving_up=Subs.RandomBool();
@@ -111,7 +109,7 @@ public class TileData{
 			randomizeDelay(0,time_max-time_min);
 		}
 		else{
-			timer.Delay=time_max;
+			randomizeDelay(time_min,time_max);
 			timer.Reset();
 		}
 		timer.Active=true;
