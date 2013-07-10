@@ -67,15 +67,8 @@ public class PlayerMain : MonoBehaviour
 	
 	Timer legit_timer,onGround_timer,mp_regen_timer;
 	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
-	
-	//Vector3 last_aim_point,last_move_point;
-	void Awake ()
-	{
-
-	}
 
 	void Start () {
-		
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
 		legit_timer = new Timer(888, OnLegit);
@@ -84,8 +77,9 @@ public class PlayerMain : MonoBehaviour
 		
 		mp=stats.MP;
 		hp=stats.HP;
+		
 		//Data set
-		ability_containers = new List<AbilityContainer> ();
+		ability_containers = new List<AbilityContainer>();
 		
 		for (int i=0; i<Data.Abilities.Count; i++){
 			var abb = new AbilityContainer(this,Data.Abilities[i]);
@@ -184,7 +178,7 @@ public class PlayerMain : MonoBehaviour
 			NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position,10000f,20f));
 		}*/
 		
-		if (graphics.animationsCheck()){
+		if (graphics.UpdateEnd()){
 			sounds.StopWalk();
 		}
 		

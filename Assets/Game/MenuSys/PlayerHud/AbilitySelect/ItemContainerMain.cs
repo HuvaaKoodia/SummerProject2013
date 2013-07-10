@@ -46,14 +46,14 @@ public class ItemContainerMain : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 		spr=transform.Find("Background").GetComponent<UISprite>();
-		spr.spriteName="Empty";
+		spr.spriteName="empty";
 	
 		Ability=new AbilityItem();
 	}
 
 	void setSprite(Transform ability){
 		
-		string spr_name="Empty";
+		string spr_name="empty";
 		if (ability!=null){
 			var sts=ability.GetComponent<AbilityStats>();
 			spr_name=sts.Sprite;
