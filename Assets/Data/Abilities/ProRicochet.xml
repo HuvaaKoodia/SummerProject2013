@@ -1,7 +1,7 @@
 <Stats>
   <Basic>
     <Name>Ricochet Pro</Name>
-    <Sprite>Projectile</Sprite>
+    <Sprite>Ricochet</Sprite>
     <Cost>10</Cost>
   </Basic>
   <Values>

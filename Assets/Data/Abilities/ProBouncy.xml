@@ -1,7 +1,7 @@
 <Stats>
   <Basic>
     <Name>Bouncy pro</Name>
-    <Sprite>Projectile2</Sprite>
+    <Sprite>Bouncy</Sprite>
     <Cost>22</Cost>
   </Basic>
   <Values>

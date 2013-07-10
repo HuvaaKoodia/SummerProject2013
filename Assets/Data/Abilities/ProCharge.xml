@@ -1,7 +1,7 @@
 <Stats>
   <Basic>
     <Name>Charge</Name>
-    <Sprite>Projectile</Sprite>
+    <Sprite>Charge</Sprite>
     <Cost>25</Cost>
   </Basic>
   <Values>

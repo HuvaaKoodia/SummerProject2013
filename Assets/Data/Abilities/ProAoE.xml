@@ -1,7 +1,7 @@
 <Stats>
   <Basic>
     <Name>AOE Push </Name>
-    <Sprite>Shield</Sprite>
+    <Sprite>AoEPush</Sprite>
     <Cost>10</Cost>
   </Basic>
   <Values>

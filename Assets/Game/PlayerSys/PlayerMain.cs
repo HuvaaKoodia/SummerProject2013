@@ -113,7 +113,7 @@ public class PlayerMain : MonoBehaviour
 		updateRotations();
 		if (!freeze&&!freeze_weapons){
 			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)||Input.GetKey(KeyCode.L)){//DEV.KEY
-				useAbility(0);
+				useAbility(2);
 			}
 			
 			if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
@@ -121,11 +121,11 @@ public class PlayerMain : MonoBehaviour
 			}
 			
 			if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
-				useAbility(2);
+				useAbility(3);
 			}
 			
 			if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
-				useAbility(3);
+				useAbility(0);
 			}
 		}
 		//mp regen

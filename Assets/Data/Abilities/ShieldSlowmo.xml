@@ -1,7 +1,7 @@
 <Stats>
   <Basic>
     <Name>SlowMo Field</Name>
-    <Sprite>Shield</Sprite>
+    <Sprite>SlowMo</Sprite>
     <Cost>22</Cost>
   </Basic>
   <Values>

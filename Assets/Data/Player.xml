@@ -1,8 +1,8 @@
 <Stats>
   <HP>100</HP>
   <MP>100</MP>
-  <MPregenDelay>500</MPregenDelay>
-  <MPregenSpeed>5</MPregenSpeed>
+  <MPregenDelay>485</MPregenDelay>
+  <MPregenSpeed>5.5</MPregenSpeed>
   <MPregenAcceleration>8.5</MPregenAcceleration>
   <Acceleration>10000</Acceleration>
   <Jump>7</Jump>
