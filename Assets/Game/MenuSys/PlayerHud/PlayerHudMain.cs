@@ -29,6 +29,8 @@ public class PlayerHudMain : MonoBehaviour
 	public void Start ()
 	{
 		playerActivatorMenu.setPlayer (playerData);
+		_Camera.verticalAxisName="L_YAxis_"+playerData.controllerNumber;
+		_Camera.horizontalAxisName="L_XAxis_"+playerData.controllerNumber;
 		
 		AbilityBarGrid.UpdateGrid ();
 		AbilityPanelGrid.UpdateGrid ();

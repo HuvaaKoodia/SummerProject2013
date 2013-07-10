@@ -12,6 +12,7 @@ public enum PlayerState
 public class PlayerDatabase : MonoBehaviour
 {
 	public GameObject PlayerPrefab;
+	public PlayerStats player_stats;
 	public List<PlayerData> players = new List<PlayerData> ();
 	public AbilitiesDatabase abilitiesDB;
 	

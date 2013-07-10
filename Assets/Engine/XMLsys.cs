@@ -34,23 +34,14 @@ public class XMLsys : MonoBehaviour {
 		file=@"\Player.xml";
 		if (File.Exists(path+file)){
 			//player
-			var player=plrDB.PlayerPrefab.GetComponent<PlayerMain>();
+			var player=plrDB.player_stats.GetComponent<PlayerStats>();
 			
 			Xdoc=new XmlDocument();
 			Xdoc.Load(path+file);
 		
 			root=Xdoc["Stats"];
 			
-			player.MAX_HP=getFlt(root,"HP");
-			player.MAX_MP=getFlt(root,"MP");
-			
-			player.mp_regen_delay=getInt(root,"MPregenDelay");
-			player.MP_regen_multi_normal=getFlt(root,"MPregenSpeed");
-			player.MP_regen_add=getFlt(root,"MPregenAcceleration");
-			
-			player.acceleration=getFlt(root,"Acceleration");
-			player.jump_speed=getFlt(root,"Jump");
-			player.speed_max=getFlt(root,"Speed");
+			readAuto(root,player);
 		}
 		
 		//abilities
@@ -58,6 +49,7 @@ public class XMLsys : MonoBehaviour {
 		if (Directory.Exists(path+folder)){
 			Xdoc=new XmlDocument();
 			foreach (var a in abiDB.abilities){
+				if (!a) continue;
 				//open xml
 				file=@"\"+a.gameObject.name+".xml";
 				if (!File.Exists(path+folder+file)) continue;
@@ -141,21 +133,13 @@ public class XMLsys : MonoBehaviour {
 		checkFolder(path);
 		
 		//player
-		var player=plrDB.PlayerPrefab.GetComponent<PlayerMain>();
+		var player=plrDB.player_stats.GetComponent<PlayerStats>();
 		
 		file=@"\Player.xml";
 		Xdoc=new XmlDocument();
 		root=Xdoc.CreateElement("Stats");
-		addElement(root,"HP",player.MAX_HP);
-		addElement(root,"MP",player.MAX_MP);
 		
-		addElement(root,"MPregenDelay",player.mp_regen_delay);
-		addElement(root,"MPregenSpeed",player.MP_regen_multi_normal);
-		addElement(root,"MPregenAcceleration",player.MP_regen_add);
-		
-		addElement(root,"Acceleration",player.acceleration);
-		addElement(root,"Jump",player.jump_speed);
-		addElement(root,"Speed",player.speed_max);
+		writeAuto(root,player);
 		
 		Xdoc.AppendChild(root);
 		Xdoc.Save(path+folder+file);
@@ -164,6 +148,7 @@ public class XMLsys : MonoBehaviour {
 		checkFolder(path+folder);
 		
 		foreach (var a in abiDB.abilities){
+			if (!a) continue;
 			//read ability
 			var p_stats=a.GetComponent<ProjectileStats>();
 			var a_stats=a.GetComponent<AbilityStats>();

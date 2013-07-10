@@ -12,17 +12,14 @@ public class PlayerMain : MonoBehaviour
 	public int controllerNumber = 0;
 	
 	//stats
-	public float acceleration = 10000,jump_speed = 7,speed_max = 1f;
-	public float MAX_HP=100,MAX_MP=100;
-	public float MP_regen_multi_normal=5f,MP_regen_add=5.5f;
-	public int mp_regen_delay=1000;
+	public PlayerStats stats;
 	
 	float hp;
 	public float HP {
 		get{ return hp;}
 		set{
 			if (invulnerable||public_invulnerability>0) return;
-			hp = Mathf.Clamp(value,0,MAX_HP);
+			hp = Mathf.Clamp(value,0,stats.HP);
 			if(hp==0) Die();
 		}
 	}
@@ -34,12 +31,12 @@ public class PlayerMain : MonoBehaviour
 			if (mp>value){
 				MPregenReset();
 			}
-			mp = Mathf.Clamp(value,0,MAX_MP);
+			mp = Mathf.Clamp(value,0,stats.MP);
 		}
 	}
 	
 	public void MPregenReset(){
-		MP_regen_multi=MP_regen_multi_normal;
+		MP_regen_multi=stats.MP_regen_multi;
 		mp_regen_on=false;
 		mp_regen_timer.Active=true;
 		mp_regen_timer.Reset();
@@ -72,19 +69,21 @@ public class PlayerMain : MonoBehaviour
 	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
 	
 	//Vector3 last_aim_point,last_move_point;
-
 	void Awake ()
 	{
+
+	}
+
+	void Start () {
+		
 		last_aim_direction=last_move_direction=Vector3.forward;
 		
 		legit_timer = new Timer(888, OnLegit);
 		onGround_timer= new Timer(200, OnGroundTimer);
-		mp_regen_timer= new Timer(mp_regen_delay, OnMPregenTimer);
-	}
-
-	void Start () {
-		mp=MAX_MP;
-		hp=MAX_HP;
+		mp_regen_timer= new Timer(stats.MP_regen_delay, OnMPregenTimer);
+		
+		mp=stats.MP;
+		hp=stats.HP;
 		//Data set
 		ability_containers = new List<AbilityContainer> ();
 		
@@ -92,6 +91,7 @@ public class PlayerMain : MonoBehaviour
 			var abb = new AbilityContainer(this,Data.Abilities[i]);
 			ability_containers.Add(abb);
 		}
+		
 		_Color=Data.color;
 		controllerNumber=Data.controllerNumber;
 		
@@ -131,7 +131,7 @@ public class PlayerMain : MonoBehaviour
 		//mp regen
 		if (mp_regen_on){
 			MP+=Time.deltaTime*MP_regen_multi;
-			MP_regen_multi+=Time.deltaTime*MP_regen_add;
+			MP_regen_multi+=Time.deltaTime*stats.MP_regen_add;
 		}
 	}
 	
@@ -141,17 +141,17 @@ public class PlayerMain : MonoBehaviour
 		rigidbody.WakeUp ();
 		
 		if (!freeze&&!freeze_movement){
-			if (l_axis_x < 0){
-				MoveAround(Vector3.left * acceleration);
+			if (l_axis_x < -stats.Lower_torso_rotation_deadzone){
+				MoveAround(Vector3.left * stats.Acceleration);
 			}
-			if (l_axis_x > 0){
-				MoveAround(Vector3.right * acceleration);
+			if (l_axis_x > stats.Lower_torso_rotation_deadzone){
+				MoveAround(Vector3.right * stats.Acceleration);
 			}
-			if (l_axis_y < 0){
-				MoveAround(Vector3.forward * acceleration);
+			if (l_axis_y < -stats.Lower_torso_rotation_deadzone){
+				MoveAround(Vector3.forward * stats.Acceleration);
 			}
-			if (l_axis_y > 0){
-				MoveAround(Vector3.back * acceleration);
+			if (l_axis_y > stats.Lower_torso_rotation_deadzone){
+				MoveAround(Vector3.back * stats.Acceleration);
 			}
 			//jump
 			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
@@ -191,6 +191,37 @@ public class PlayerMain : MonoBehaviour
 		//DEV.debug
 		//if (controllerNumber==1)
 		//	Debug.Log("Legit?: "+on_legit_ground);
+	}
+	
+	
+	//DEV. bugs out a bit
+	void MoveAround(Vector3 force){	
+		if (jumped||!onGround)
+			restrictMovement();
+		
+		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=stats.Move_speed){
+			rigidbody.AddForce(graphics.LowerTorso.rotation*Vector3.forward* stats.Acceleration);
+		}
+		
+		//DEV. WEIRD.SIHT
+		if (onGround){
+			graphics.AnimationWalk();
+			sounds.PlayWalk();
+		}
+	}
+	void restrictMovement(){
+	
+		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
+		
+		if (xz_vec.magnitude > stats.Move_speed){
+			xz_vec = Vector2.ClampMagnitude(xz_vec, stats.Move_speed);
+		}
+		
+		rigidbody.velocity = new Vector3(
+			xz_vec.x,
+			rigidbody.velocity.y,//Mathf.Clamp (rigidbody.velocity.y, -jump_speed, jump_speed_max),
+			xz_vec.y
+		);
 	}
 
 	void OnCollisionStay(Collision other)
@@ -242,7 +273,7 @@ public class PlayerMain : MonoBehaviour
 	
 	void jumpEnd(){
 		//bool started=false;
-		if (jumped&&canJump&&jump_end){
+		if (jumped&&canJump&&jump_end&&current_jump_y<0){
 			StartCoroutine(JumpEnd());
 			//started=true;
 		}
@@ -284,7 +315,7 @@ public class PlayerMain : MonoBehaviour
 		graphics.setFullbody(true);
 		graphics.changeFullAnimation("JumpStart");
 		yield return new WaitForSeconds(0.1f);
-		current_jump_y=jump_speed;
+		current_jump_y=stats.Jump_speed;
 		
 		jump_start=true;
 		yield return null;
@@ -321,35 +352,6 @@ public class PlayerMain : MonoBehaviour
 		}
 		ignoreExplosion=false;
 	}
-
-	//DEV. bugs out a bit
-	void MoveAround(Vector3 force){	
-		if (jumped||!onGround)
-			restrictMovement();
-		
-		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=speed_max)
-			rigidbody.AddForce(force);
-		
-		//DEV. WEIRD.SIHT
-		if (onGround){
-			graphics.AnimationWalk();
-			sounds.PlayWalk();	
-		}
-	}
-	void restrictMovement(){
-	
-		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
-		
-		if (xz_vec.magnitude > speed_max){
-			xz_vec = Vector2.ClampMagnitude(xz_vec, speed_max);
-		}
-		
-		rigidbody.velocity = new Vector3 (
-			xz_vec.x,
-			rigidbody.velocity.y,//Mathf.Clamp (rigidbody.velocity.y, -jump_speed, jump_speed_max),
-			xz_vec.y
-		);
-	}
 	
 	void OnDestroy ()
 	{
@@ -370,7 +372,8 @@ public class PlayerMain : MonoBehaviour
 		//aim
 		var forward = transform.TransformDirection(new Vector3(r_axis_x, 0, -r_axis_y));
 		
-		if (forward.magnitude>0.5f){
+		if (forward.magnitude>0.1f)
+		{
 			last_aim_direction = forward.normalized;
 		}
 		//last_aim_point = transform.position + last_aim_direction;
@@ -378,8 +381,9 @@ public class PlayerMain : MonoBehaviour
 		//movement
 		forward=transform.TransformDirection(new Vector3(l_axis_x, 0, -l_axis_y));
 		
-		if (forward.magnitude>0.5f){
-			last_move_direction = forward.normalized;
+		if (forward.magnitude>stats.Lower_torso_rotation_deadzone)
+		{
+			last_move_direction = Vector3.Slerp(last_move_direction,forward.normalized,Time.deltaTime*stats.Lower_torso_rotation_multi);
 		}
 		//last_move_point=transform.position + last_move_direction;
 		
@@ -390,7 +394,7 @@ public class PlayerMain : MonoBehaviour
 		if (!freeze_upper){
 			var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_aim_direction)).eulerAngles;
         	newRotation.x = newRotation.z = 0;
-       		graphics.UpperTorso.rotation = Quaternion.Slerp(graphics.UpperTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+       		graphics.UpperTorso.rotation =Quaternion.Slerp(graphics.UpperTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*stats.Upper_torso_rotation_multi);
 			
 			//shoot direction
 			last_upper_direction=graphics.UpperTorso.rotation*Vector3.forward;
@@ -399,11 +403,10 @@ public class PlayerMain : MonoBehaviour
 		if(!freeze_lower&&!freeze_movement){
 			var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
 	        newRotation.x = newRotation.z = 0;
-	        graphics.LowerTorso.rotation = Quaternion.Slerp(graphics.LowerTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*4);
+	       // graphics.LowerTorso.rotation = Quaternion.Slerp(graphics.LowerTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*lower_torso_rotation_multi);
+		 	graphics.LowerTorso.rotation=Quaternion.Euler(newRotation);
 			graphics.Fullbody.rotation=graphics.LowerTorso.rotation;
 		}
-		
-
 	}
 	/// <summary>
 	/// Ignores the next explosion.
