@@ -23,15 +23,17 @@ public class AbilityBarMain : MonoBehaviour {
 				for (int i=0;i<p.ability_containers.Count;i++){
 					var ac = p.ability_containers[i];
 					var per=ac.getCooldownPercent();
-					if (per<1)
-						per=1-per;
+					/*if (per<1)
+						per=1-per;*/
+					if (per==1)
+						per=0;
 					icons[i].setSpriteFillPercent(per);
 				}
 			}
 		}
 		else{
 			for (int i=0;i<icons.Length;i++){
-				icons[i].setSpriteFillPercent(1);
+				icons[i].setSpriteFillPercent(0);
 			}
 		}
 		

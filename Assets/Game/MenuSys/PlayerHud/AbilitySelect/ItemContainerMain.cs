@@ -42,10 +42,11 @@ public class ItemContainerMain : MonoBehaviour {
 		}
 	}
 	UISprite spr;
-
+	public UISprite abilityCooldownSprite;
 	// Use this for initialization
 	void Awake () {
 		spr=transform.Find("Background").GetComponent<UISprite>();
+		
 		spr.spriteName="Empty";
 	
 		Ability=new AbilityItem();
@@ -64,6 +65,6 @@ public class ItemContainerMain : MonoBehaviour {
 	/// 0-1 please
 	/// </param>
 	public void setSpriteFillPercent(float percent){
-		spr.fillAmount=percent;
+		abilityCooldownSprite.fillAmount=percent;
 	}
 }
