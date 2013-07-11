@@ -9,7 +9,7 @@
     <Power>1</Power>
     <Knockback>0</Knockback>
     <Lifetime>8100</Lifetime>
-    <Energycost>40</Energycost>
+    <Energycost>35</Energycost>
     <Radius>0</Radius>
     <Hp>-1</Hp>
     <SpeedMulti>1</SpeedMulti>
