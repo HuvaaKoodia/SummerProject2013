@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerGraphicsScr : MonoBehaviour {
 	
-	public Transform Mecha,LowerTorso,UpperTorso,LowerPelvis,ExplosionDummy,Fullbody;
+	public Transform Mecha,LowerTorso,UpperTorso,LowerPelvis,ExplosionDummy,Fullbody,left_cannon,right_cannon;
 	
 	// Use this for initialization
 	void Start () {
@@ -53,7 +53,7 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		}
 	}
 	
-	bool animation_walk,animation_shoot=false,current_shoot_arm=true;	
+	bool animation_walk,current_shoot_arm_left=true;	
 
 	public void AnimationWalk(){
 		if (LowerTorso.animation!=null){
@@ -68,7 +68,7 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	public void AnimationShoot(){
 		//if (animation_shoot) return;
 		if (UpperTorso.animation!=null){
-			if (current_shoot_arm){
+			if (current_shoot_arm_left){
 				UpperTorso.animation.Stop("Left_shoot");
 				UpperTorso.animation.Blend("Left_shoot");
 			}
@@ -76,7 +76,7 @@ public class PlayerGraphicsScr : MonoBehaviour {
 				UpperTorso.animation.Stop("Right_shoot");
 				UpperTorso.animation.Blend("Right_shoot");
 			}
-			current_shoot_arm=!current_shoot_arm;
+			current_shoot_arm_left=!current_shoot_arm_left;
 
 			UpperTorso.animation.enabled=true;
 			//animation_shoot=true;
@@ -101,21 +101,23 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		return Fullbody.gameObject.activeSelf;
 	}
 
-	public bool animationsCheck()
+	public bool UpdateEnd()
 	{
 		bool on=animation_walk;
 		animation_walk=false;
 		if (!on){
-			
-			if (LowerTorso.animation!=null){
-				LowerTorso.animation.enabled=false;
-			//}
-			//if (UpperTorso.animation!=null&&UpperTorso.animation["walk"].enabled){
-				UpperTorso.animation["walk"].enabled=false;
-				return true;
-			}
+			LowerTorso.animation.enabled=false;
+			UpperTorso.animation["walk"].enabled=false;
+			return true;
 		}
 		return false;
 		
+	}
+	
+	
+	public Vector3 getShootPosition(){
+		if (current_shoot_arm_left)
+			return left_cannon.transform.position;
+		return right_cannon.transform.position;
 	}
 }

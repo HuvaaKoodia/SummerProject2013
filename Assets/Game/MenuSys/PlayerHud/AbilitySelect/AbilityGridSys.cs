@@ -18,10 +18,15 @@ public class AbilityGridSys : MonoBehaviour {
 		foreach (Transform t in transform){
 			var item_c=t.GetComponent<ItemContainerMain>();
 
-			if (d_i<data.Length){
-				item_c.Ability=new AbilityItem(data[d_i]);
+			//get non null ability
+			Transform a=null;
+			while(!a&&d_i<data.Length){
+				a=data[d_i];
 				d_i++;
 			}
+			if (!a) break;
+			
+			item_c.Ability=new AbilityItem(a);
 		}
 		
 		/*

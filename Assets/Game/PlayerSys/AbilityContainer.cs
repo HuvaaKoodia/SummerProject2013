@@ -36,11 +36,10 @@ public class AbilityContainer{
 		var projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
 
 		if (projectile_prefab!=null){//is projectile
-			
 			PlayerMain inside_player=null;
 			
-			var dis = Mathf.Max (ProStats.Size, 0.5f) + 0.2f + player.rigidbody.velocity.magnitude / 10;
-			var spawn_pos = pos + direction * dis;
+			var dis = Mathf.Max (ProStats.Size, 0.2f) + player.rigidbody.velocity.magnitude / 10;
+			var spawn_pos = player.graphics.getShootPosition() + direction * dis;
 			//check if pos free
 			var ray_hits = Physics.RaycastAll (pos, direction, dis);
 			

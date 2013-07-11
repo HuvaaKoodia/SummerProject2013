@@ -16,8 +16,10 @@ public class PlayerHudMain : MonoBehaviour
 	public PlayerData playerData;
 	public UICamera _Camera;
 	public AbilityMenuState state;
-	public PlayerManager playerManager;
-	public GameController gameController;
+	
+	PlayerManager playerManager;
+	GameController gameController;
+	
 	public PlayerSelectScript playerActivatorMenu;
 	public UpgradePanelScr UpgradePanel;
 	public GameObject ShopPanel;
@@ -28,7 +30,13 @@ public class PlayerHudMain : MonoBehaviour
 	
 	public void Start ()
 	{
+		var entDB=GameObject.FindGameObjectWithTag("LevelController");
+		playerManager=entDB.GetComponent<PlayerManager>();
+		gameController=entDB.GetComponent<GameController>();
+		
 		playerActivatorMenu.setPlayer (playerData);
+		_Camera.verticalAxisName="L_YAxis_"+playerData.controllerNumber;
+		_Camera.horizontalAxisName="L_XAxis_"+playerData.controllerNumber;
 		
 		AbilityBarGrid.UpdateGrid ();
 		AbilityPanelGrid.UpdateGrid ();
@@ -89,13 +97,17 @@ public class PlayerHudMain : MonoBehaviour
 			}
 		
 			if (gameController.State==GameState.Setup) {
-				if (resources >= 0 && Input.GetButtonDown ("Start_" + playerData.controllerNumber)||Input.GetKeyDown(KeyCode.K)) {//DEV.key
+				if (Input.GetButtonDown ("Start_" + playerData.controllerNumber)||Input.GetKeyDown(KeyCode.K)) {//DEV.key
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
 						gameController.startCounter (false);
 					} else {
-						changeState (AbilityMenuState.Ready);
-						gameController.startCounter (true);
+						if (resources <0){
+							menu_BG_panel.NoMoniesWarning();
+						}else{
+							changeState (AbilityMenuState.Ready);
+							gameController.startCounter (true);
+						}
 					}
 				}
 				
@@ -231,7 +243,7 @@ public class PlayerHudMain : MonoBehaviour
 			int i=0;
 			foreach (var item in AbilityBarGrid.Grid) {
 				var a = item.GetComponent<ItemContainerMain>().Ability;
-				var d=playerData.Abilities[i]=a;
+				playerData.Abilities[i]=a;
 				i++;
 			}
 			

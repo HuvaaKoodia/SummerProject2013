@@ -1,10 +1,13 @@
 <Stats>
   <HP>100</HP>
   <MP>100</MP>
-  <MPregenDelay>485</MPregenDelay>
-  <MPregenSpeed>5.5</MPregenSpeed>
-  <MPregenAcceleration>8.5</MPregenAcceleration>
   <Acceleration>10000</Acceleration>
-  <Jump>7</Jump>
-  <Speed>1.1</Speed>
+  <Jump_speed>7</Jump_speed>
+  <Move_speed>1.1</Move_speed>
+  <Upper_torso_rotation_multi>2</Upper_torso_rotation_multi>
+  <Lower_torso_rotation_multi>2</Lower_torso_rotation_multi>
+  <Lower_torso_rotation_deadzone>0.1</Lower_torso_rotation_deadzone>
+  <MP_regen_multi>5</MP_regen_multi>
+  <MP_regen_add>8.5</MP_regen_add>
+  <MP_regen_delay>485</MP_regen_delay>
 </Stats>

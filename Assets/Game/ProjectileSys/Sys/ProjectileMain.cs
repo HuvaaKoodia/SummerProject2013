@@ -24,7 +24,7 @@ public class ProjectileMain : MonoBehaviour {
 	
 	// Use this for initialization
 	void Awake () {
-		life_time=new Timer(1000,OnDeath,false);
+		life_time=new Timer(10000,OnDeath,false);
 		graphics=transform.Find("Graphics") as Transform;
 		SpeedMulti=oldSpeedMulti=1f;
 	}
@@ -111,7 +111,6 @@ public class ProjectileMain : MonoBehaviour {
 				if (pro!=last_hit){
 					last_hit=pro;
 					HP-=pro.Power;
-					
 					if (HP<=0){
 						Destroy(gameObject);
 					}

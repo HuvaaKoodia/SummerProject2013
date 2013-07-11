@@ -11,6 +11,7 @@ public class XMLsys : MonoBehaviour {
 	public AbilitiesDatabase abiDB;
 	public PlayerDatabase plrDB;
 	public LevelDatabase lvlDB;
+	public GameplayDatabase gpDB;
 	
 	//engine logic
 	void Awake () {
@@ -34,23 +35,14 @@ public class XMLsys : MonoBehaviour {
 		file=@"\Player.xml";
 		if (File.Exists(path+file)){
 			//player
-			var player=plrDB.PlayerPrefab.GetComponent<PlayerMain>();
+			var player=plrDB.player_stats.GetComponent<PlayerStats>();
 			
 			Xdoc=new XmlDocument();
 			Xdoc.Load(path+file);
 		
 			root=Xdoc["Stats"];
 			
-			player.MAX_HP=getFlt(root,"HP");
-			player.MAX_MP=getFlt(root,"MP");
-			
-			player.mp_regen_delay=getInt(root,"MPregenDelay");
-			player.MP_regen_multi_normal=getFlt(root,"MPregenSpeed");
-			player.MP_regen_add=getFlt(root,"MPregenAcceleration");
-			
-			player.acceleration=getFlt(root,"Acceleration");
-			player.jump_speed=getFlt(root,"Jump");
-			player.speed_max=getFlt(root,"Speed");
+			readAuto(root,player);
 		}
 		
 		//abilities
@@ -58,6 +50,7 @@ public class XMLsys : MonoBehaviour {
 		if (Directory.Exists(path+folder)){
 			Xdoc=new XmlDocument();
 			foreach (var a in abiDB.abilities){
+				if (!a) continue;
 				//open xml
 				file=@"\"+a.gameObject.name+".xml";
 				if (!File.Exists(path+folder+file)) continue;
@@ -127,6 +120,24 @@ public class XMLsys : MonoBehaviour {
 				readAuto(root,level);
 			}
 		}
+		
+		//scores
+		
+		folder=@"\Gameplay";
+		if (Directory.Exists(path+folder)){
+			foreach (var l in gpDB.Stats){
+				var gp=l.gameObject.GetComponent<GameplayStats>();
+				file=@"\"+gp.name+".xml";
+				
+				Xdoc=new XmlDocument();
+				Xdoc.Load(path+folder+file);
+				
+				root=Xdoc["Stats"];
+				
+				readAuto(root,gp);
+			}
+		}
+		
 	}
 	
 	void writeXML(){
@@ -141,21 +152,13 @@ public class XMLsys : MonoBehaviour {
 		checkFolder(path);
 		
 		//player
-		var player=plrDB.PlayerPrefab.GetComponent<PlayerMain>();
+		var player=plrDB.player_stats.GetComponent<PlayerStats>();
 		
 		file=@"\Player.xml";
 		Xdoc=new XmlDocument();
 		root=Xdoc.CreateElement("Stats");
-		addElement(root,"HP",player.MAX_HP);
-		addElement(root,"MP",player.MAX_MP);
 		
-		addElement(root,"MPregenDelay",player.mp_regen_delay);
-		addElement(root,"MPregenSpeed",player.MP_regen_multi_normal);
-		addElement(root,"MPregenAcceleration",player.MP_regen_add);
-		
-		addElement(root,"Acceleration",player.acceleration);
-		addElement(root,"Jump",player.jump_speed);
-		addElement(root,"Speed",player.speed_max);
+		writeAuto(root,player);
 		
 		Xdoc.AppendChild(root);
 		Xdoc.Save(path+folder+file);
@@ -164,6 +167,7 @@ public class XMLsys : MonoBehaviour {
 		checkFolder(path+folder);
 		
 		foreach (var a in abiDB.abilities){
+			if (!a) continue;
 			//read ability
 			var p_stats=a.GetComponent<ProjectileStats>();
 			var a_stats=a.GetComponent<AbilityStats>();
@@ -239,6 +243,22 @@ public class XMLsys : MonoBehaviour {
 			Xdoc.AppendChild(root);
 			Xdoc.Save(path+folder+file);
 		}
+		
+		//gameplay
+		folder=@"\Gameplay";
+		checkFolder(path+folder);
+		
+		foreach (var o in gpDB.Stats){
+			var obj=o.gameObject.GetComponent<GameplayStats>();
+			file=@"\"+obj.name+".xml";
+			Xdoc=new XmlDocument();
+			root=Xdoc.CreateElement("Stats");
+			
+			writeAuto(root,obj);
+			
+			Xdoc.AppendChild(root);
+			Xdoc.Save(path+folder+file);
+		}
 	}
 	
 	
@@ -286,6 +306,37 @@ public class XMLsys : MonoBehaviour {
 		foreach (var f in obj.GetType().GetFields()){
 			addElement(element,f.Name,f.GetValue(obj).ToString());
 		}
+	}
+	
+	void readAutoFile(string path,string folder,string file,object obj){
+		if (folder!="")
+			folder=@"\"+folder;
+		if (Directory.Exists(path+folder)){
+			file=@"\"+file+".xml";
+			
+			var Xdoc=new XmlDocument();
+			Xdoc.Load(path+folder+file);
+			
+			var root=Xdoc["Stats"];
+			
+			readAuto(root,obj);
+		}
+		
+	}
+	
+	void writeAutoFile(string path,string folder,string file,object obj){
+		if (folder!="")
+			folder=@"\"+folder;
+		checkFolder(path+folder);
+
+		file=@"\"+file+".xml";
+		var Xdoc=new XmlDocument();
+		var root=Xdoc.CreateElement("Stats");
+		
+		writeAuto(root,obj);
+		
+		Xdoc.AppendChild(root);
+		Xdoc.Save(path+folder+file);
 	}
 	
 	/// <summary>

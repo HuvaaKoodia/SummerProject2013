@@ -13,6 +13,10 @@ public class GameController : MonoBehaviour {
 	public PlayerManager playerManager;
 	public TerrainController terrainController;
 	
+	
+	LevelPlaylist level_stats;
+	GameplayStats stats;
+	
 	List<PlayerScoreData> score_list;
 	int last_alive=4;
 	
@@ -23,12 +27,26 @@ public class GameController : MonoBehaviour {
 	
 	public GameState State{get;private set;}
 	
+	List<int> scores;
+	
 	// Use this for initialization
 	void Start () {
+		level_stats=GameObject.FindGameObjectWithTag("LevelPlaylist").GetComponent<LevelPlaylist>();
+		
 		gameoverPanel.gameObject.SetActive(false);
 		score_list=new List<PlayerScoreData>();
 				
 		State=GameState.Setup;
+		
+		var entDB=GameObject.FindGameObjectWithTag("EntityDatabase");
+		stats=entDB.GetComponent<GameplayDatabase>().Stats[0];
+		
+		scores=new List<int>();
+			scores.Add (stats.Score_first);
+			scores.Add (stats.Score_second);
+			scores.Add (stats.Score_third);
+			scores.Add (stats.Score_fourth);
+		
 	}
 	PlayerData winner=null;
 	// Update is called once per frame
@@ -79,11 +97,12 @@ public class GameController : MonoBehaviour {
 				if (winner.Player!=null&&winner.Player.onLegitGround()){
 					addScore(winner);
 					
-					//set scores
-					int score=50;
-					foreach (var psd in score_list){
+					//set score
+					for (int i=0;i<score_list.Count;i++){
+						var psd = score_list[i];
+						
+						var score= scores[i];
 						psd.score=score;
-						score/=2;
 						psd.player.ResourceAmount+=score;
 					}
 					
@@ -128,26 +147,21 @@ public class GameController : MonoBehaviour {
 					PressBack(p.controllerNumber);
 				}
 			}
-			
-			if (Input.GetButton("Back_"+winner.controllerNumber)){
-				//next round or post game stats
-				Application.LoadLevel("MainMenu");
-			}
 		}
 	}
 	
 	void PressStart(int controllerNumber){
 		if (Input.GetButton("Start_"+controllerNumber)){
-					//next round or post game stats
-					var lvlDB=GameObject.FindGameObjectWithTag("LevelPlaylist") as GameObject;
-					if (lvlDB==null){//DEV.DEBUG
-						Application.LoadLevel(Application.loadedLevel);
-					}
-					else{
-						var scr=lvlDB.GetComponent<LevelPlaylist>();
-						scr.gotoNextMap();
-					}
-				}
+			//next round or post game stats
+			var lvlDB=GameObject.FindGameObjectWithTag("LevelPlaylist");
+			if (lvlDB==null){//DEV.DEBUG
+				Application.LoadLevel(Application.loadedLevel);
+			}
+			else{
+				var scr=lvlDB.GetComponent<LevelPlaylist>();
+				scr.gotoNextMap();
+			}
+		}
 	}
 	
 	void PressBack(int controllerNumber){
@@ -202,7 +216,7 @@ public class GameController : MonoBehaviour {
 				gameStarting=true;
 				timer=count_down_timer;
 				startgameCounter.gameObject.SetActive(true);
-				startgameCounter.setRound(1);
+				startgameCounter.setRound(level_stats.CurrentRound);
 			}
 		}
 		else{
