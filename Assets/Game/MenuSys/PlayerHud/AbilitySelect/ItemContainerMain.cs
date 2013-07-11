@@ -35,31 +35,37 @@ public class AbilityItem{
 
 public class ItemContainerMain : MonoBehaviour {
 	AbilityItem ability;
+	public string buttonSpriteName="none";
 	public AbilityItem Ability{
 		get{return ability;}
 		set{ability=value;
 			setSprite(value.Ability);
 		}
 	}
-	UISprite spr;
-	public UISprite abilityCooldownSprite;
+	public UISprite abilityCooldownSprite, buttonSprite, abilitySprite, backgroundSprite;
 	// Use this for initialization
 	void Awake () {
-		spr=transform.Find("Background").GetComponent<UISprite>();
-		
-		spr.spriteName="Empty";
-	
+		buttonSprite.spriteName=buttonSpriteName;
+		if(buttonSpriteName=="none")
+			buttonSprite.gameObject.SetActive(false);
+		else
+			buttonSprite.spriteName=buttonSpriteName;
+		abilitySprite.spriteName="empty";
+		abilityCooldownSprite.fillAmount=0;
 		Ability=new AbilityItem();
 	}
 
 	void setSprite(Transform ability){
 		
-		string spr_name="Empty";
+		string spr_name="Transparent";
 		if (ability!=null){
 			var sts=ability.GetComponent<AbilityStats>();
 			spr_name=sts.Sprite;
 		}
-		spr.spriteName=spr_name;
+		
+		abilitySprite.spriteName=spr_name;
+		
+		
 	}
 	/// <summary>
 	/// 0-1 please
