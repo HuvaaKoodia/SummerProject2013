@@ -11,6 +11,7 @@ public class XMLsys : MonoBehaviour {
 	public AbilitiesDatabase abiDB;
 	public PlayerDatabase plrDB;
 	public LevelDatabase lvlDB;
+	public GameplayDatabase gpDB;
 	
 	//engine logic
 	void Awake () {
@@ -119,6 +120,24 @@ public class XMLsys : MonoBehaviour {
 				readAuto(root,level);
 			}
 		}
+		
+		//scores
+		
+		folder=@"\Gameplay";
+		if (Directory.Exists(path+folder)){
+			foreach (var l in gpDB.Stats){
+				var gp=l.gameObject.GetComponent<GameplayStats>();
+				file=@"\"+gp.name+".xml";
+				
+				Xdoc=new XmlDocument();
+				Xdoc.Load(path+folder+file);
+				
+				root=Xdoc["Stats"];
+				
+				readAuto(root,gp);
+			}
+		}
+		
 	}
 	
 	void writeXML(){
@@ -224,6 +243,22 @@ public class XMLsys : MonoBehaviour {
 			Xdoc.AppendChild(root);
 			Xdoc.Save(path+folder+file);
 		}
+		
+		//gameplay
+		folder=@"\Gameplay";
+		checkFolder(path+folder);
+		
+		foreach (var o in gpDB.Stats){
+			var obj=o.gameObject.GetComponent<GameplayStats>();
+			file=@"\"+obj.name+".xml";
+			Xdoc=new XmlDocument();
+			root=Xdoc.CreateElement("Stats");
+			
+			writeAuto(root,obj);
+			
+			Xdoc.AppendChild(root);
+			Xdoc.Save(path+folder+file);
+		}
 	}
 	
 	
@@ -271,6 +306,37 @@ public class XMLsys : MonoBehaviour {
 		foreach (var f in obj.GetType().GetFields()){
 			addElement(element,f.Name,f.GetValue(obj).ToString());
 		}
+	}
+	
+	void readAutoFile(string path,string folder,string file,object obj){
+		if (folder!="")
+			folder=@"\"+folder;
+		if (Directory.Exists(path+folder)){
+			file=@"\"+file+".xml";
+			
+			var Xdoc=new XmlDocument();
+			Xdoc.Load(path+folder+file);
+			
+			var root=Xdoc["Stats"];
+			
+			readAuto(root,obj);
+		}
+		
+	}
+	
+	void writeAutoFile(string path,string folder,string file,object obj){
+		if (folder!="")
+			folder=@"\"+folder;
+		checkFolder(path+folder);
+
+		file=@"\"+file+".xml";
+		var Xdoc=new XmlDocument();
+		var root=Xdoc.CreateElement("Stats");
+		
+		writeAuto(root,obj);
+		
+		Xdoc.AppendChild(root);
+		Xdoc.Save(path+folder+file);
 	}
 	
 	/// <summary>

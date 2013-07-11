@@ -53,7 +53,7 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		}
 	}
 	
-	bool animation_walk,animation_shoot=false,current_shoot_arm_left=true;	
+	bool animation_walk,current_shoot_arm_left=true;	
 
 	public void AnimationWalk(){
 		if (LowerTorso.animation!=null){

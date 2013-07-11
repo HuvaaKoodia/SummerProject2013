@@ -24,9 +24,12 @@ public class PlayerManager : MonoBehaviour
 	}
 		
 	public void CreatePlayer(PlayerData data){
-		var po=MonoBehaviour.Instantiate(pDB.PlayerPrefab,spawners[data.controllerNumber-1].position,Quaternion.identity) as GameObject;
+		var spawner=spawners[data.controllerNumber-1];
+		var po=MonoBehaviour.Instantiate(pDB.PlayerPrefab,spawner.position,Quaternion.identity) as GameObject;
 		var player=po.GetComponent<PlayerMain>();
 		
+		
+		player.setStartRotation(spawner.rotation);
 		player.stats=pDB.player_stats;
 		player.Data=data;
 		data.Player=player;

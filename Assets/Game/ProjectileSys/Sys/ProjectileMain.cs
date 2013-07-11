@@ -111,7 +111,6 @@ public class ProjectileMain : MonoBehaviour {
 				if (pro!=last_hit){
 					last_hit=pro;
 					HP-=pro.Power;
-					
 					if (HP<=0){
 						Destroy(gameObject);
 					}

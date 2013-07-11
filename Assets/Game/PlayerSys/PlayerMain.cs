@@ -69,7 +69,7 @@ public class PlayerMain : MonoBehaviour
 	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
 
 	void Start () {
-		last_aim_direction=last_move_direction=Vector3.forward;
+		//last_aim_direction=last_move_direction=Vector3.forward;
 		
 		legit_timer = new Timer(888, OnLegit);
 		onGround_timer= new Timer(200, OnGroundTimer);
@@ -452,7 +452,14 @@ public class PlayerMain : MonoBehaviour
 		return on_legit_ground;
 	}
 	
-	
+	public void setStartRotation (Quaternion rotation)
+	{
+		graphics.LowerTorso.rotation=rotation;
+		last_move_direction=rotation*Vector3.forward;
+		
+		graphics.UpperTorso.rotation=rotation;
+		last_aim_direction=rotation*Vector3.forward;
+	}
 }
 #region temp
 /*DEV. mouse 
