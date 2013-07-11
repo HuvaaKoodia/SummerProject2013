@@ -45,7 +45,6 @@ public class ItemContainerMain : MonoBehaviour {
 	public UISprite abilityCooldownSprite, buttonSprite, abilitySprite, backgroundSprite;
 	// Use this for initialization
 	void Awake () {
-		buttonSprite.spriteName=buttonSpriteName;
 		if(buttonSpriteName=="none")
 			buttonSprite.gameObject.SetActive(false);
 		else

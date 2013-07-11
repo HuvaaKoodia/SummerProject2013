@@ -193,8 +193,11 @@ public class PlayerMain : MonoBehaviour
 		if (jumped||!onGround)
 			restrictMovement();
 		
-		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=stats.Move_speed){
-			rigidbody.AddForce(graphics.LowerTorso.rotation*Vector3.forward* stats.Acceleration);
+		var stick_mag=new Vector2(l_axis_x,l_axis_y).magnitude;
+		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=stick_mag*stats.Move_speed){
+			
+			rigidbody.AddForce(graphics.LowerTorso.rotation*Vector3.forward*stats.Acceleration);
+			Debug.Log("mag:   "+stick_mag);
 		}
 		
 		//DEV. WEIRD.SIHT

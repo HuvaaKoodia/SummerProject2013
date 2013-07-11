@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour {
 	List<PlayerScoreData> score_list;
 	int last_alive=4;
 	
-	public bool gameStarting = false;
+	public bool GameStarting{get;private set;}
 	
 	private float timer;
 	public float count_down_timer=5;
@@ -30,36 +30,36 @@ public class GameController : MonoBehaviour {
 	List<int> scores;
 	
 	// Use this for initialization
-	void Start () {
+	void Start (){
 		level_stats=GameObject.FindGameObjectWithTag("LevelPlaylist").GetComponent<LevelPlaylist>();
 		
 		gameoverPanel.gameObject.SetActive(false);
 		score_list=new List<PlayerScoreData>();
-				
+		
 		State=GameState.Setup;
 		
 		var entDB=GameObject.FindGameObjectWithTag("EntityDatabase");
 		stats=entDB.GetComponent<GameplayDatabase>().Stats[0];
 		
 		scores=new List<int>();
-			scores.Add (stats.Score_first);
-			scores.Add (stats.Score_second);
-			scores.Add (stats.Score_third);
-			scores.Add (stats.Score_fourth);
+		scores.Add(stats.Score_first);
+		scores.Add(stats.Score_second);
+		scores.Add(stats.Score_third);
+		scores.Add(stats.Score_fourth);
 		
 	}
 	PlayerData winner=null;
 	// Update is called once per frame
 	void Update () {
 		
-		if(State==GameState.Setup&&gameStarting){
+		if(State==GameState.Setup&&GameStarting){
 			timer -= Time.deltaTime;
 			var t=Mathf.Round(timer*10)/10;
 			
 			startgameCounter.setTime(t);
 			if(timer<=0){
 				timer=0;
-				gameStarting=false;
+				GameStarting=false;
 				StartGame();
 			}
 		}
@@ -212,15 +212,15 @@ public class GameController : MonoBehaviour {
 				}
 			}
 			//if(readyCount == playerCount && playerCount >= 2 &&!gameStarting){
-			if (playerManager.gamehudcontroller.Allready()&&playerCount>=2&&!gameStarting){
-				gameStarting=true;
+			if (playerManager.gamehudcontroller.Allready()&&playerCount>=2&&!GameStarting){
+				GameStarting=true;
 				timer=count_down_timer;
 				startgameCounter.gameObject.SetActive(true);
 				startgameCounter.setRound(level_stats.CurrentRound);
 			}
 		}
 		else{
-			gameStarting=false;
+			GameStarting=false;
 			startgameCounter.gameObject.SetActive(false);
 		}
 	}

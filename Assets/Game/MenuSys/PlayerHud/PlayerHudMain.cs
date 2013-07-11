@@ -100,13 +100,11 @@ public class PlayerHudMain : MonoBehaviour
 				if (Input.GetButtonDown ("Start_" + playerData.controllerNumber)||Input.GetKeyDown(KeyCode.K)) {//DEV.key
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
-						gameController.startCounter (false);
 					} else {
 						if (resources <0){
 							menu_BG_panel.NoMoniesWarning();
 						}else{
 							changeState (AbilityMenuState.Ready);
-							gameController.startCounter (true);
 						}
 					}
 				}
@@ -115,11 +113,9 @@ public class PlayerHudMain : MonoBehaviour
 				if (Input.GetButtonDown ("Back_" + playerData.controllerNumber)) {
 					if (state != AbilityMenuState.Ready && state != AbilityMenuState.Off) {
 						changeState (AbilityMenuState.Off);
-						gameController.startCounter (true);
 					}
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
-						gameController.startCounter (false);
 					}
 				}
 			}
@@ -177,6 +173,9 @@ public class PlayerHudMain : MonoBehaviour
 	
 	void changeState (AbilityMenuState state)
 	{
+		var old_state=this.state;
+		this.state = state;
+		
 		_Camera.setAnalogStickDelaysDefault ();
 		
 		GameMenu.gameObject.SetActive (true);
@@ -193,11 +192,15 @@ public class PlayerHudMain : MonoBehaviour
 			playerActivatorMenu.gameObject.SetActive (true);
 			GameMenu.gameObject.SetActive (false);
 			playerActivatorMenu.setState (PlayerState.notConnected);
+			
+			gameController.startCounter (true);
 		}
 		
 		if (state == AbilityMenuState.Bar) {
 			_Camera.selectedObjectInput = AbilityBarGrid.gameObject;
 			AbilityBarGrid.HighlightCurrent ();
+			
+			gameController.startCounter (false);
 		}
 		
 		if (state == AbilityMenuState.Shop) {
@@ -218,17 +221,16 @@ public class PlayerHudMain : MonoBehaviour
 				return;
 		}
 		
-		if (this.state == AbilityMenuState.Upgrade) {//Coming from upgrade
-			UpgradePanel.clearGrid ();
+		if (old_state == AbilityMenuState.Upgrade) {//Coming from upgrade
+			UpgradePanel.clearGrid();
 		}
 		
-		if (this.state == AbilityMenuState.Ready) {//Coming from ready
+		if (old_state == AbilityMenuState.Ready) {//Coming from ready
 			menu_BG_panel.gameObject.SetActive (true);
 			playerManager.DestroyPlayer (playerData);
 		}
 		
 		if (state == AbilityMenuState.Ready) {//Going to ready
-			
 			menu_BG_panel.gameObject.SetActive (false);
 			
 			_Camera.selectedObjectInput = null;
@@ -249,8 +251,10 @@ public class PlayerHudMain : MonoBehaviour
 			
 			//create player object
 			playerManager.CreatePlayer (playerData);
+			
+			gameController.startCounter (true);
 		}
-		this.state = state;
+		
 	}
 	
 	/*public void setHudOriantation(UIAnchor.Side side){
