@@ -59,7 +59,7 @@ public class PlayerMain : MonoBehaviour
 	bool freeze_lower=false,freeze_upper=false,freeze_weapons=false;
 	bool onGround, canJump, jumped,destroyed=false,freeze=false,mp_regen_on=false;
 	
-	float MP_regen_multi=5f;
+	float MP_regen_multi=5f,Lower_torso_rotation_deadzone=0.3f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
 	float current_jump_y;
 	
@@ -135,16 +135,16 @@ public class PlayerMain : MonoBehaviour
 		rigidbody.WakeUp ();
 		
 		if (!freeze&&!freeze_movement){
-			if (l_axis_x < -stats.Lower_torso_rotation_deadzone){
+			if (l_axis_x < -Lower_torso_rotation_deadzone){
 				MoveAround(Vector3.left * stats.Acceleration);
 			}
-			if (l_axis_x > stats.Lower_torso_rotation_deadzone){
+			if (l_axis_x > Lower_torso_rotation_deadzone){
 				MoveAround(Vector3.right * stats.Acceleration);
 			}
-			if (l_axis_y < -stats.Lower_torso_rotation_deadzone){
+			if (l_axis_y < -Lower_torso_rotation_deadzone){
 				MoveAround(Vector3.forward * stats.Acceleration);
 			}
-			if (l_axis_y > stats.Lower_torso_rotation_deadzone){
+			if (l_axis_y > Lower_torso_rotation_deadzone){
 				MoveAround(Vector3.back * stats.Acceleration);
 			}
 			//jump
@@ -197,7 +197,6 @@ public class PlayerMain : MonoBehaviour
 		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=stick_mag*stats.Move_speed){
 			
 			rigidbody.AddForce(graphics.LowerTorso.rotation*Vector3.forward*stats.Acceleration);
-			Debug.Log("mag:   "+stick_mag);
 		}
 		
 		//DEV. WEIRD.SIHT
@@ -264,7 +263,7 @@ public class PlayerMain : MonoBehaviour
 	}
 
 	void jumpStart(){
-		if (jump_start)
+		if (jump_start&&!(current_jump_y>1))
 			StartCoroutine(JumpStart());
 	}
 	
@@ -378,9 +377,9 @@ public class PlayerMain : MonoBehaviour
 		//movement
 		forward=transform.TransformDirection(new Vector3(l_axis_x, 0, -l_axis_y));
 		
-		if (forward.magnitude>stats.Lower_torso_rotation_deadzone)
+		if (forward.magnitude>Lower_torso_rotation_deadzone)
 		{
-			last_move_direction = Vector3.Slerp(last_move_direction,forward.normalized,Time.deltaTime*stats.Lower_torso_rotation_multi);
+			last_move_direction = forward.normalized;//Vector3.Slerp(last_move_direction,forward.normalized,Time.deltaTime*stats.Lower_torso_rotation_multi);
 		}
 		//last_move_point=transform.position + last_move_direction;
 		
@@ -401,7 +400,7 @@ public class PlayerMain : MonoBehaviour
 			var newRotation = Quaternion.LookRotation(transform.TransformDirection(last_move_direction)).eulerAngles;
 	        newRotation.x = newRotation.z = 0;
 	       // graphics.LowerTorso.rotation = Quaternion.Slerp(graphics.LowerTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*lower_torso_rotation_multi);
-		 	graphics.LowerTorso.rotation=Quaternion.Euler(newRotation);
+		 	graphics.LowerTorso.rotation=Quaternion.Slerp(graphics.LowerTorso.rotation,Quaternion.Euler(newRotation),Time.deltaTime*stats.Lower_torso_rotation_multi);//Quaternion.Euler(newRotation);
 			graphics.Fullbody.rotation=graphics.LowerTorso.rotation;
 		}
 	}
@@ -447,7 +446,11 @@ public class PlayerMain : MonoBehaviour
 	}
 		
 	void useAbility(int index){
-		if (ability_containers [index].UseAbility (transform.position, last_upper_direction))
+		Vector3 pos=graphics.getShootPosition(),
+			  dir=pos-(last_upper_direction*5);
+		
+		dir=last_upper_direction;
+		if (ability_containers [index].UseAbility(pos,dir.normalized))
 			graphics.AnimationShoot();
 	}
 	

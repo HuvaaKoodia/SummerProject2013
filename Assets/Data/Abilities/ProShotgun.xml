@@ -1,21 +1,21 @@
 <Stats>
   <Basic>
-    <Name>Troller</Name>
-    <Sprite>Troll</Sprite>
-    <Cost>0</Cost>
+    <Name>Shotgun</Name>
+    <Sprite>Flare</Sprite>
+    <Cost>33</Cost>
   </Basic>
   <Values>
-    <Spread>0</Spread>
-    <AimDistance>1.28</AimDistance>
-    <AmountOfShots>1</AmountOfShots>
-    <Speed>1.28</Speed>
-    <Power>0</Power>
+    <Spread>40</Spread>
+    <AimDistance>10</AimDistance>
+    <AmountOfShots>3</AmountOfShots>
+    <Speed>4</Speed>
+    <Power>14</Power>
     <Knockback>0</Knockback>
-    <Lifetime>10000</Lifetime>
-    <Energycost>0</Energycost>
-    <Radius>0</Radius>
+    <Lifetime>1201</Lifetime>
+    <Energycost>10</Energycost>
+    <Radius>10</Radius>
     <Hp>0</Hp>
-    <Cooldown>200</Cooldown>
+    <Cooldown>666</Cooldown>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
@@ -24,17 +24,17 @@
     <RadiusMulti>1</RadiusMulti>
     <HpMulti>0</HpMulti>
     <CooldownMulti>1</CooldownMulti>
-    <AccuracyMulti>1</AccuracyMulti>
+    <AccuracyMulti>6</AccuracyMulti>
   </Values>
   <Upgrade>
-    <Speed>false</Speed>
-    <Accuracy>false</Accuracy>
-    <Power>false</Power>
+    <Speed>true</Speed>
+    <Accuracy>true</Accuracy>
+    <Power>true</Power>
     <Knockback>false</Knockback>
     <Cooldown>false</Cooldown>
     <Radius>false</Radius>
-    <Lifetime>false</Lifetime>
-    <EnergyCost>false</EnergyCost>
+    <Lifetime>true</Lifetime>
+    <EnergyCost>true</EnergyCost>
     <HP>false</HP>
   </Upgrade>
 </Stats>

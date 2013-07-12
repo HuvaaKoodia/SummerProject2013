@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public enum UpgradeStat{
 	Speed,
+	Accuracy,
 	Power,
 	Knockback,
 	Cooldown,

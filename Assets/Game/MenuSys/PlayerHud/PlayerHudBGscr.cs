@@ -4,6 +4,7 @@ using System.Collections;
 public class PlayerHudBGscr : MonoBehaviour {
 	
 	public UILabel cost_label,resource_label,name_label;
+	public UISprite background;
 	Color base_color;
 	
 	void Start(){
@@ -39,5 +40,11 @@ public class PlayerHudBGscr : MonoBehaviour {
 			change=!change;
 			yield return new WaitForSeconds(0.1f);
 		}
+	}
+
+	public void setPlayer (PlayerData playerData)
+	{
+		var c=playerData.color;
+		background.color=new Color(c.r,c.g,c.b,background.color.a);
 	}
 }

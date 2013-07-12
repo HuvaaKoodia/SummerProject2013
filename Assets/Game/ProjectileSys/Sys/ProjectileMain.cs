@@ -23,7 +23,7 @@ public class ProjectileMain : MonoBehaviour {
 	public float Power,Knockback,Radius,HP;
 	
 	// Use this for initialization
-	void Awake () {
+	void Awake (){
 		life_time=new Timer(10000,OnDeath,false);
 		graphics=transform.Find("Graphics") as Transform;
 		SpeedMulti=oldSpeedMulti=1f;
@@ -127,10 +127,11 @@ public class ProjectileMain : MonoBehaviour {
 	/// <summary>
 	/// Use on start up.
 	/// Sets the move direction to a new direction and speed.
+	/// Normalizes direction.
 	/// </param>
 	public void setDirection(Vector3 direction,float speed){
 		MoveSpeed=speed;
-		move_direction=direction*MoveSpeed;
+		move_direction=direction.normalized*MoveSpeed;
 		rigidbody.velocity=move_direction;
 	}
 	/// <summary>

@@ -11,7 +11,6 @@ public class PlayerStats : MonoBehaviour {
 		Move_speed = 1f,
 	    Upper_torso_rotation_multi=2f,
 		Lower_torso_rotation_multi=2f,
-	    Lower_torso_rotation_deadzone=0.1f,
 		MP_regen_multi=5f,
 		MP_regen_add=5.5f
 	;

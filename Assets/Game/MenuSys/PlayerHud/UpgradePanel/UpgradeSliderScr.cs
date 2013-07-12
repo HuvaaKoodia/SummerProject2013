@@ -1,7 +1,7 @@
-using UnityEngine;
+ using UnityEngine;
 using System.Collections;
 
-public class UpgradeSliderScr : MonoBehaviour {
+public class UpgradeSliderScr : MonoBehaviour{
 	public UICamera _camera;
 	public UISlider Slider;
 	public UILabel NameLabel,PointsLabel;

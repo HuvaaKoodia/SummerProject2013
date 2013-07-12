@@ -5,6 +5,9 @@
     <Cost>10</Cost>
   </Basic>
   <Values>
+    <Spread>0</Spread>
+    <AimDistance>0</AimDistance>
+    <AmountOfShots>1</AmountOfShots>
     <Speed>0</Speed>
     <Power>10</Power>
     <Knockback>800000</Knockback>
@@ -12,6 +15,7 @@
     <Energycost>5</Energycost>
     <Radius>5</Radius>
     <Hp>0</Hp>
+    <Cooldown>3000</Cooldown>
     <SpeedMulti>0</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
@@ -19,9 +23,12 @@
     <EnergycostMulti>1</EnergycostMulti>
     <RadiusMulti>1</RadiusMulti>
     <HpMulti>0</HpMulti>
+    <CooldownMulti>0</CooldownMulti>
+    <AccuracyMulti>0</AccuracyMulti>
   </Values>
   <Upgrade>
     <Speed>false</Speed>
+    <Accuracy>false</Accuracy>
     <Power>false</Power>
     <Knockback>true</Knockback>
     <Cooldown>true</Cooldown>
