@@ -197,6 +197,7 @@ public class PlayerHudMain : MonoBehaviour
 		}
 		
 		if (state == AbilityMenuState.Bar) {
+			menu_BG_panel.setPlayer(playerData);
 			_Camera.selectedObjectInput = AbilityBarGrid.gameObject;
 			AbilityBarGrid.HighlightCurrent ();
 			
@@ -215,7 +216,7 @@ public class PlayerHudMain : MonoBehaviour
 				UpgradePanel.gameObject.SetActive (true);
 				UpgradePanel.setAbility (GetSelectedBar ().Ability);
 				_Camera.selectedObjectInput = UpgradeGrid.gameObject;
-				UpgradeGrid.HighlightCurrent ();
+				UpgradeGrid.HighlightCurrent();
 			}
 			else
 				return;

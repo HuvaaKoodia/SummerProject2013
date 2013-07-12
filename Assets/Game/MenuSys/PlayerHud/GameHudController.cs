@@ -24,7 +24,7 @@ public class GameHudController : MonoBehaviour {
 	public bool start_when_all_ready;
 	void Update (){
 	
-		if (start_when_all_ready){
+	if (start_when_all_ready){
 			if (Allready()){
 				start_when_all_ready=false;
 				///start game

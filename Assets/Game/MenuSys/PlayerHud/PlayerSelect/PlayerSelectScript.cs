@@ -24,7 +24,7 @@ public class PlayerSelectScript : MonoBehaviour
 		presetColors.Add (Color.red);
 		presetColors.Add (Color.green);
 		presetColors.Add (Color.blue);
-		presetColors.Add (new Color (1, 1, 0));
+		presetColors.Add (Color.yellow);
 		presetColors.Add (new Color (1, 0, 1));
 		presetColors.Add (new Color (0, 1, 1));
 		presetColors.Add (new Color (1, 1, 1));
@@ -35,9 +35,12 @@ public class PlayerSelectScript : MonoBehaviour
 		player = data;
 		controller = player.controllerNumber;
 		
-		player_name_label.text="PLAYER "+player.controllerNumber;
-		current_color=player.color;
 		colorIndex = controller - 1;
+		player.color=presetColors[colorIndex];
+		current_color=player.color;
+		
+		player_name_label.text="PLAYER "+player.controllerNumber;
+		
 		stateUpdate (0);
 	}
 	

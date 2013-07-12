@@ -59,7 +59,6 @@ public class SoundMain : MonoBehaviour
 		transform.parent = null;
 		isDetached = true;
 		onDeath.enabled=true;
-		onCollision.enabled=true;
 		enabled=true;
 	}
 	public void playCollisionSound(){

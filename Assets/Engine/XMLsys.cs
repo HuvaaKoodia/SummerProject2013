@@ -74,6 +74,9 @@ public class XMLsys : MonoBehaviour {
 				a_stats.Sprite=getStr(abis,"Sprite");
 				
 				//values
+				p_stats.Spread=getFlt(pros,"Spread");
+				p_stats.AimDistance=getFlt(pros,"AimDistance");
+				p_stats.AmountOfShots=getInt(pros,"AmountOfShots");
 				p_stats.Speed=getFlt(pros,"Speed");
 				p_stats.Power=getFlt(pros,"Power");
 				p_stats.Knockback=getFlt(pros,"Knockback");
@@ -81,6 +84,7 @@ public class XMLsys : MonoBehaviour {
 				p_stats.EnergyCost=getFlt(pros,"Energycost");
 				p_stats.Radius=getFlt(pros,"Radius");
 				p_stats.HP=getFlt(pros,"Hp");
+				p_stats.Cooldown=getFlt(pros,"Cooldown");
 				
 				p_stats.Speed_multi=getFlt(pros,"SpeedMulti");
 				p_stats.Power_multi=getFlt(pros,"PowerMulti");
@@ -89,6 +93,8 @@ public class XMLsys : MonoBehaviour {
 				p_stats.EnergyCost_multi=getFlt(pros,"EnergycostMulti");
 				p_stats.Radius_multi=getFlt(pros,"RadiusMulti");
 				p_stats.HP_multi=getFlt(pros,"HpMulti");
+				p_stats.Cooldown_multi=getFlt(pros,"CooldownMulti");
+				p_stats.Accuracy_multi=getFlt(pros,"AccuracyMulti");
 				
 				//upgrades
 				List<UpgradeStat> upgrades=new List<UpgradeStat>();
@@ -190,6 +196,10 @@ public class XMLsys : MonoBehaviour {
 			
 			//pro stats
 			
+			addElement(pros,"Spread",p_stats.Spread);
+			addElement(pros,"AimDistance",p_stats.AimDistance);
+			addElement(pros,"AmountOfShots",p_stats.AmountOfShots);
+			
 			addElement(pros,"Speed",p_stats.Speed);
 			addElement(pros,"Power",p_stats.Power);
 			addElement(pros,"Knockback",p_stats.Knockback);
@@ -197,6 +207,7 @@ public class XMLsys : MonoBehaviour {
 			addElement(pros,"Energycost",p_stats.EnergyCost);
 			addElement(pros,"Radius",p_stats.Radius);
 			addElement(pros,"Hp",p_stats.HP);
+			addElement(pros,"Cooldown",p_stats.Cooldown);
 			
 			addElement(pros,"SpeedMulti",p_stats.Speed_multi);
 			addElement(pros,"PowerMulti",p_stats.Power_multi);
@@ -205,6 +216,8 @@ public class XMLsys : MonoBehaviour {
 			addElement(pros,"EnergycostMulti",p_stats.EnergyCost_multi);
 			addElement(pros,"RadiusMulti",p_stats.Radius_multi);
 			addElement(pros,"HpMulti",p_stats.HP_multi);
+			addElement(pros,"CooldownMulti",p_stats.Cooldown_multi);
+			addElement(pros,"AccuracyMulti",p_stats.Accuracy_multi);
 			
 			//up stats
 			foreach (var u in System.Enum.GetNames(typeof(UpgradeStat))){

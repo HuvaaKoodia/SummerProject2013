@@ -5,10 +5,15 @@ public class ProjectileStats : MonoBehaviour {
 	public Color Colour=Color.red;
 	public bool Gravity_on=false;
 	
+	public int AmountOfShots=1;
+	
 	public float 
 		Size=1,
 		Mass=1,
 		Drag=0,
+		AimDistance=0,
+		Spread=0,
+			
 		Speed=1,
 		Life_time=1000,
 		Cooldown=1000,
@@ -20,6 +25,7 @@ public class ProjectileStats : MonoBehaviour {
 		;
 	
 	public float 
+		Accuracy_multi=1,
 		Speed_multi=1,
 		Life_time_multi=1,
 		Cooldown_multi=1,
