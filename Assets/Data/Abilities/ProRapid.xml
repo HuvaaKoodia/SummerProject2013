@@ -6,7 +6,7 @@
   </Basic>
   <Values>
     <Speed>4</Speed>
-    <Power>7.5</Power>
+    <Power>7</Power>
     <Knockback>0</Knockback>
     <Lifetime>8000</Lifetime>
     <Energycost>7</Energycost>

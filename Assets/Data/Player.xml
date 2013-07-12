@@ -8,6 +8,6 @@
   <Lower_torso_rotation_multi>3</Lower_torso_rotation_multi>
   <Lower_torso_rotation_deadzone>0.1</Lower_torso_rotation_deadzone>
   <MP_regen_multi>5.4</MP_regen_multi>
-  <MP_regen_add>8.5</MP_regen_add>
+  <MP_regen_add>8</MP_regen_add>
   <MP_regen_delay>495</MP_regen_delay>
 </Stats>

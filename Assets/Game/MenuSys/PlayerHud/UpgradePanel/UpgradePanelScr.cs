@@ -7,6 +7,7 @@ public class UpgradePanelScr : MonoBehaviour {
 	public GameObject UpgradeSliderPrefab;
 	public UIGrid UpgradeSliderGrid;
 	public GridInput grid_in;
+	public float row_offset;
 	
 	Transform current_ability;
 	
@@ -24,12 +25,19 @@ public class UpgradePanelScr : MonoBehaviour {
 			slider._camera=playerHud._Camera;
 			slider.setStat(u_stats.AvailableUpgrades[i],item.Stats);
 		}
-		UpgradeSliderGrid.Reposition();
+		UpgradeSliderGrid.RepositionHard();
 		grid_in.UpdateGrid();
+		int gfx_offset=0;
+		foreach(var g in grid_in.Grid){
+			
+			g.transform.localPosition += new Vector3(52f+(gfx_offset*row_offset),0f,0f);
+			gfx_offset++;
+		}
+		UpgradeSliderGrid.SkipStartReposition();
 	}
 	
 	public void clearGrid(){
 		grid_in.ClearGrid();
-		UpgradeSliderGrid.Reposition();
+		UpgradeSliderGrid.RepositionHard();
 	}
 }
