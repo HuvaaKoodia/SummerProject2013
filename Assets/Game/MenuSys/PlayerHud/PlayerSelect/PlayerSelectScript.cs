@@ -14,7 +14,7 @@ public class PlayerSelectScript : MonoBehaviour
 	
 	List<Color> presetColors;
 	
-	Color current_color;
+	Color current_color, startColor;
 
 	
 	// Use this for initialization
@@ -28,6 +28,7 @@ public class PlayerSelectScript : MonoBehaviour
 		presetColors.Add (new Color (1, 0, 1));
 		presetColors.Add (new Color (0, 1, 1));
 		presetColors.Add (new Color (1, 1, 1));
+		startColor = color_b.default_color;
 	}
 	
 	public void setPlayer (PlayerData data)
@@ -49,7 +50,7 @@ public class PlayerSelectScript : MonoBehaviour
 		player.state = state;
 		
 		if (state == PlayerState.notConnected) {
-			setButtonColor(Color.white);
+			setButtonColor(startColor);
 			setActives (false, "Press start", false);
 		}
 		if (state == PlayerState.connected) {
