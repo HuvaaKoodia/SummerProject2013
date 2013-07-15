@@ -22,7 +22,6 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 		speedVector=heading * (force / 2f);
  		speedVector.y = plr_main.rigidbody.velocity.y;
 		
-		
 		plr_main.rigidbody.velocity = new Vector3(speedVector.x,plr_main.rigidbody.velocity.y, speedVector.z);
 	}
 

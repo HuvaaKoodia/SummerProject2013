@@ -1,14 +1,5 @@
 <Stats>
   <Name>LavaPit</Name>
-<<<<<<< HEAD
-  <Terrain_deterioration_time>13225</Terrain_deterioration_time>
-  <Tile_random_time_min>4000</Tile_random_time_min>
-  <Tile_random_time_max>10000</Tile_random_time_max>
-  <Tile_random_low_change>8</Tile_random_low_change>
-  <Tile_random_high_change>3</Tile_random_high_change>
-  <Tile_random_high_height>1.5</Tile_random_high_height>
-  <Tile_random_low_height>0.85</Tile_random_low_height>
-=======
   <Terrain_deterioration_time>12225</Terrain_deterioration_time>
   <Tile_random_time_min>20000</Tile_random_time_min>
   <Tile_random_time_max>30000</Tile_random_time_max>
@@ -16,5 +7,4 @@
   <Tile_random_high_change>5</Tile_random_high_change>
   <Tile_random_high_height>1.5</Tile_random_high_height>
   <Tile_random_low_height>1</Tile_random_low_height>
->>>>>>> Alien
 </Stats>

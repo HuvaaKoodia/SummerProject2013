@@ -32,7 +32,7 @@
     <Power>false</Power>
     <Knockback>false</Knockback>
     <Cooldown>true</Cooldown>
-    <Radius>true</Radius>
+    <Radius>false</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>
     <HP>false</HP>

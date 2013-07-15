@@ -8,7 +8,6 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 	
 	public void UseSkill(PlayerMain player){
 		
-		
 		float 
 			dis=distance,dis_extra=dis+2f;
 		Vector3 
@@ -16,10 +15,15 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 			start_pos=player.transform.position,
 			end_pos=start_pos+dir*dis;
 		
-		var hits=Physics.RaycastAll(start_pos,dir,dis_extra).OrderBy(r=>Vector3.Distance(start_pos,end_pos)).ToArray();
-
-		float current_warp_dis=dis;
 		Ray ray=new Ray(start_pos,dir);
+		var hits=Physics.RaycastAll(ray,dis_extra).OrderByDescending(r=>r.distance).ToArray();
+		
+		foreach (var h in hits){
+			Debug.Log(""+h.distance);
+		}
+		
+		float current_warp_dis=dis;
+		
 		bool jump=true;
 		
 		for (int i=0;i<hits.Length;i++){
@@ -28,8 +32,36 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 				hit_dis=(new Vector2(start_pos.x,start_pos.z)-new Vector2(hit.collider.transform.position.x,hit.collider.transform.position.z)).magnitude,
 				hit_rad=hit.collider.bounds.size.x/2f,
 				min_dif=0.5f+hit_rad,
-				dis_dif=current_warp_dis-hit_dis;
+				dis_dif=Mathf.Abs(current_warp_dis-hit_dis),
+				min_legal=0.5f;
 			
+			float next_valid_jump_dis=hit_dis-min_dif;
+			
+			if (dis_dif<=min_legal){
+				//Too close. No jump.
+				jump=false;
+				break;
+			}else
+			if (dis_dif<min_dif){
+				//too close to this collider->Change current to min legal distance from collider and continue;
+				current_warp_dis=hit_dis-min_dif;
+			}else{
+				//this pos is good use it
+				break;
+			}
+			
+			/*
+			if (next_valid_jump_dis>distance){
+				continue;//over legal distance.
+			}else
+			if (){
+				continue;//under legal distance
+			{
+				*/
+				
+				
+			
+			/*
 			if (Mathf.Abs(dis_dif)>min_dif){
 				//good pos jump
 				current_warp_dis=dis_dif;
@@ -43,8 +75,7 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 					break;
 				}
 			}
-			
-			
+			*/
 		}
 		if (jump)
 			player.transform.position=ray.GetPoint(current_warp_dis);

@@ -244,10 +244,12 @@ public class PlayerHudMain : MonoBehaviour
 			//set player data
 			
 			//save selected abilities.
+			
 			int i=0;
 			foreach (var item in AbilityBarGrid.Grid) {
 				var a = item.GetComponent<ItemContainerMain>().Ability;
 				playerData.Abilities[i]=a;
+				Debug.Log("Abi name: "+a.Ability.GetComponent<AbilityStats>());
 				i++;
 			}
 			
