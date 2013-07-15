@@ -3,9 +3,10 @@ using System.Collections;
 
 public class ProjectileStats : MonoBehaviour {
 	public Color Colour=Color.red;
-	public bool Gravity_on=false;
 	
 	public int AmountOfShots=1;
+	
+	public bool Gravity_on=false,DoubleBarreledFunTime=true;
 	
 	public float 
 		Size=1,

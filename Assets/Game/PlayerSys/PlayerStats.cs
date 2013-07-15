@@ -12,11 +12,13 @@ public class PlayerStats : MonoBehaviour {
 	    Upper_torso_rotation_multi=2f,
 		Lower_torso_rotation_multi=2f,
 		MP_regen_multi=5f,
-		MP_regen_add=5.5f
+		MP_regen_add=5.5f,
+		MP_overheat_threshold_percent=0.75f
 	;
 	
 	public int
-		MP_regen_delay=1000
+		MP_regen_delay=100,
+		MP_overheat_delay=100
 	;
 	
 	

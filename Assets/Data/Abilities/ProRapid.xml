@@ -31,8 +31,8 @@
     <Accuracy>true</Accuracy>
     <Power>false</Power>
     <Knockback>false</Knockback>
-    <Cooldown>false</Cooldown>
-    <Radius>true</Radius>
+    <Cooldown>true</Cooldown>
+    <Radius>false</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>false</EnergyCost>
     <HP>false</HP>

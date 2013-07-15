@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 public enum UpgradeStat{
 	Speed,
 	Accuracy,
@@ -16,6 +18,15 @@ public enum UpgradeStat{
 public class UpgradeStats : MonoBehaviour {
 
 	public UpgradeStat[] AvailableUpgrades;
+	
+	public static string getUpgradeName(UpgradeStat stat){
+		if (stat==UpgradeStat.Cooldown)
+			return "Firerate";
+		if (stat==UpgradeStat.EnergyCost)
+			return "Cooling";
+		
+		return stat.ToString();
+	}
 }
 
 public class UpgradeStatContainer{

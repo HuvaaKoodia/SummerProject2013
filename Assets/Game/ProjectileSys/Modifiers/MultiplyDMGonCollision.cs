@@ -10,6 +10,8 @@ public class MultiplyDMGonCollision : MonoBehaviour,ProjectileModifier {
 	}
 	
 	void OnCollisionEnter(Collision other){
+		Debug.Log("Pow now: "+pro.Power);
 		pro.Power*=1f+power_add_percent;
+		Debug.Log("Pow later: "+pro.Power);
 	}
 }

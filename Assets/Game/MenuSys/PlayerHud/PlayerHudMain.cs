@@ -121,7 +121,7 @@ public class PlayerHudMain : MonoBehaviour
 			}
 		
 			//update bg labels
-			menu_BG_panel.SetResources (resources);
+			menu_BG_panel.SetResources(resources);
 		
 			if (state == AbilityMenuState.Bar || state == AbilityMenuState.Upgrade) {
 				menu_BG_panel.SetCost (GetSelectedBar ().Ability.GetCost ());
@@ -146,6 +146,7 @@ public class PlayerHudMain : MonoBehaviour
 				}
 				else{
 					hp_slider.sliderValue=mp_slider.sliderValue = 0;
+					gameObject.SetActive(false);
 				}
 				if (gameController.State==GameState.Setup) {
 					if (playerData.Player == null) {
