@@ -8,5 +8,7 @@
   <Lower_torso_rotation_multi>1</Lower_torso_rotation_multi>
   <MP_regen_multi>5</MP_regen_multi>
   <MP_regen_add>8.5</MP_regen_add>
-  <MP_regen_delay>485</MP_regen_delay>
+  <MP_overheat_threshold_percent>75</MP_overheat_threshold_percent>
+  <MP_regen_delay>115</MP_regen_delay>
+  <MP_overheat_delay>100</MP_overheat_delay>
 </Stats>

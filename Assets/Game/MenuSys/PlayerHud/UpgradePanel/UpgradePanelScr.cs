@@ -18,7 +18,7 @@ public class UpgradePanelScr : MonoBehaviour {
 		grid_in.grid_height=u_stats.AvailableUpgrades.Length;
 		
 		clearGrid();
-		
+		//creating sliders
 		for(int i =0 ; i<u_stats.AvailableUpgrades.Length; i++){
 			var o=NGUITools.AddChild(UpgradeSliderGrid.gameObject, UpgradeSliderPrefab);
 			var slider=o.GetComponent<UpgradeSliderScr>();

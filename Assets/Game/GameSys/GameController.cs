@@ -64,7 +64,6 @@ public class GameController : MonoBehaviour {
 			}
 		}
 		
-		
 		if (State==GameState.GameOn){
 			//check players
 			int playing=0,alive=0;

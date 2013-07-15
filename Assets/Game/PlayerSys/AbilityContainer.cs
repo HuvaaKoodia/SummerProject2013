@@ -7,8 +7,6 @@ public class AbilityContainer{
 	public PlayerMain player;
 	public AbilityItem Ability;
 	
-	public float _cooldown_delay;
-	
 	Timer cooldown;
 	bool ability_ready=true;
 	
@@ -29,7 +27,7 @@ public class AbilityContainer{
 		upgrade_stats=Ability.Stats;
 		projectile_prefab=ability_prefab.GetComponent<AbilityStats>().ProjectilePrefab;
 		
-		ProStats = ability_prefab.GetComponent<ProjectileStats> ();
+		ProStats = ability_prefab.GetComponent<ProjectileStats>();
 		sfx = ability_prefab.GetComponent<StoreSounds>();
 	}
 	
@@ -40,11 +38,11 @@ public class AbilityContainer{
 		var sfx = ability_prefab.GetComponent<StoreSounds>();
 		
 		float cd_s=0,ec_s=0,e_cost;
-		cd_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Cooldown,ProStats.Cooldown_multi);
-		ec_s=GetUpgradeStat(upgrade_stats,UpgradeStat.EnergyCost,ProStats.EnergyCost_multi);
+		cd_s=1-GetUpgradeStat(upgrade_stats,UpgradeStat.Cooldown,ProStats.Cooldown_multi);
+		ec_s=1-GetUpgradeStat(upgrade_stats,UpgradeStat.EnergyCost,ProStats.EnergyCost_multi);
 		
-		e_cost=Mathf.Max(1,ProStats.EnergyCost-ec_s);
-		if (player.MP < e_cost) {
+		e_cost=Mathf.Max(1,ProStats.EnergyCost*ec_s);
+		if (player.MP >= player.stats.MP){
 			return false;
 		}
 
@@ -54,7 +52,7 @@ public class AbilityContainer{
 			var dis = Mathf.Max (ProStats.Size, 0.2f);// + player.rigidbody.velocity.magnitude / 10
 			var spawn_pos = pos + direction * dis;
 			//check if pos free
-			var ray_hits = Physics.RaycastAll (pos, direction, dis);
+			var ray_hits = Physics.RaycastAll (pos-direction*1,direction, dis+1);
 			
 			foreach (var hit in ray_hits) {
 				var go=hit.collider.gameObject;
@@ -87,13 +85,13 @@ public class AbilityContainer{
 				//calculate stats based on upgrades DEV.RELOC
 				float lt_s=0,spd_s=0,pwr_s=0,kck_s=0,hp_s=0,rad_s=0,acc_s=0;
 				
-				lt_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Lifetime,ProStats.Life_time_multi)*100;
-				spd_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Speed,ProStats.Speed_multi);
-				pwr_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Power,ProStats.Power_multi);
-				kck_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Knockback,ProStats.Knockback_multi);
-				hp_s=GetUpgradeStat(upgrade_stats,UpgradeStat.HP,ProStats.HP_multi);
-				rad_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Radius,ProStats.Radius_multi);
-				acc_s=GetUpgradeStat(upgrade_stats,UpgradeStat.Accuracy,ProStats.Accuracy_multi);
+				lt_s=1+GetUpgradeStat(upgrade_stats,UpgradeStat.Lifetime,ProStats.Life_time_multi)*100;
+				spd_s=1+GetUpgradeStat(upgrade_stats,UpgradeStat.Speed,ProStats.Speed_multi);
+				pwr_s=1+GetUpgradeStat(upgrade_stats,UpgradeStat.Power,ProStats.Power_multi);
+				kck_s=1+GetUpgradeStat(upgrade_stats,UpgradeStat.Knockback,ProStats.Knockback_multi);
+				hp_s=1+GetUpgradeStat(upgrade_stats,UpgradeStat.HP,ProStats.HP_multi);
+				rad_s=1+GetUpgradeStat(upgrade_stats,UpgradeStat.Radius,ProStats.Radius_multi);
+				acc_s=1+GetUpgradeStat(upgrade_stats,UpgradeStat.Accuracy,ProStats.Accuracy_multi);
 				
 				//set stats
 				var pro = obj.GetComponent<ProjectileMain> ();
@@ -110,7 +108,6 @@ public class AbilityContainer{
 					pro.life_time.Reset();
 				}
 				
-				//var q=Quaternion.Euler(new Vector3(Random.Range(-35,35),Random.Range(-35,35),Random.Range(-35,35)));
 				float spread_start=0;
 				/*if (ProStats.AmountOfShots>1){
 					float angle_per=180f/ProStats.AmountOfShots;
@@ -122,15 +119,17 @@ public class AbilityContainer{
 				var q=Quaternion.Euler(new Vector3(0,spread_start+Random.Range(-spread,spread),0));
 				
 				var dir=direction;
-				if (ProStats.AimDistance>0)
+				if (ProStats.AimDistance>0){
 					dir=(player.transform.position+direction*ProStats.AimDistance)-pos;
+					dir.y=0;
+				}
 				
-				pro.setDirection(q*dir.normalized,ProStats.Speed+spd_s);
+				pro.setDirection(q*dir.normalized,ProStats.Speed*spd_s);
 				pro.changeMaterialColor(ProStats.Colour);
-				pro.Power=ProStats.Power+pwr_s;
-				pro.Knockback=ProStats.Knockback+kck_s;
-				pro.HP=ProStats.HP+hp_s;
-				pro.Radius=ProStats.Radius+rad_s;
+				pro.Power=ProStats.Power*pwr_s;
+				pro.Knockback=ProStats.Knockback*kck_s;
+				pro.HP=ProStats.HP*hp_s;
+				pro.Radius=ProStats.Radius*rad_s;
 				
 				obj.localScale=Vector3.one*ProStats.Size;
 				obj.rigidbody.mass=ProStats.Size*10;
@@ -138,7 +137,7 @@ public class AbilityContainer{
 				obj.rigidbody.angularDrag=ProStats.Drag;
 				obj.rigidbody.mass=ProStats.Mass;
 				
-				if (inside_player!=null){//DEV.HAX!
+				if (inside_player!=null){//DEV.HAX! NOT COOL!
 					GameObject.Destroy(obj.gameObject);
 					inside_player.HP-=pro.Power;
 				}
@@ -151,10 +150,9 @@ public class AbilityContainer{
 			}
 		}
 		
-		_cooldown_delay = ProStats.Cooldown-cd_s;
-		setOnCooldown ();
+		setOnCooldown (ProStats.Cooldown*cd_s);
 		
-		player.MP -= e_cost;
+		player.MP += e_cost;
 		return true;
 	}
 	
@@ -164,10 +162,10 @@ public class AbilityContainer{
 		return temp*multi;
 	}
 	
-	void setOnCooldown ()
+	void setOnCooldown (float time)
 	{
 		cooldown.Active = true;
-		cooldown.Delay = _cooldown_delay;
+		cooldown.Delay = time;
 		cooldown.Reset ();
 		ability_ready = false;
 	}

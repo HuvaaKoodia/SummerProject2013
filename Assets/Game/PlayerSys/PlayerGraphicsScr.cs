@@ -66,9 +66,14 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		}
 	}
 	public void AnimationShoot(){
-		//if (animation_shoot) return;
+		if (AnimationShoot(current_shoot_arm_left)){
+			current_shoot_arm_left=!current_shoot_arm_left;
+		}
+	}
+	
+	public bool AnimationShoot(bool left_arm){
 		if (UpperTorso.animation!=null){
-			if (current_shoot_arm_left){
+			if (left_arm){
 				UpperTorso.animation.Stop("Left_shoot");
 				UpperTorso.animation.Blend("Left_shoot");
 			}
@@ -76,11 +81,11 @@ public class PlayerGraphicsScr : MonoBehaviour {
 				UpperTorso.animation.Stop("Right_shoot");
 				UpperTorso.animation.Blend("Right_shoot");
 			}
-			current_shoot_arm_left=!current_shoot_arm_left;
 
 			UpperTorso.animation.enabled=true;
-			//animation_shoot=true;
+			return true;
 		}
+		return false;
 	}
 	
 	public void setFullbody(bool on){
@@ -116,7 +121,11 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	
 	
 	public Vector3 getShootPosition(){
-		if (current_shoot_arm_left)
+		return getShootPosition(current_shoot_arm_left);
+	}
+	
+	public Vector3 getShootPosition(bool left_arm){
+		if (left_arm)
 			return left_cannon.transform.position;
 		return right_cannon.transform.position;
 	}

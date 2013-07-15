@@ -28,8 +28,11 @@ public class PlayerMain : MonoBehaviour
 	public float MP{
 		get{ return mp;}
 		set{ 
-			if (mp>value){
+			if (value>mp){
 				MPregenReset();
+			}
+			if (value>=stats.MP){
+				MPoverheatReset();
 			}
 			mp = Mathf.Clamp(value,0,stats.MP);
 		}
@@ -39,7 +42,18 @@ public class PlayerMain : MonoBehaviour
 		MP_regen_multi=stats.MP_regen_multi;
 		mp_regen_on=false;
 		mp_regen_timer.Active=true;
+		mp_regen_timer.Delay=stats.MP_regen_delay;
 		mp_regen_timer.Reset();
+	}
+	
+	public void MPoverheatReset(){
+		MP_regen_multi=stats.MP_regen_multi;
+		mp_regen_on=false;
+		mp_regen_timer.Active=true;
+		mp_regen_timer.Delay=stats.MP_overheat_delay;
+		mp_regen_timer.Reset();
+		
+		OVERHEAT=true;
 	}
 	
 	public Color _Color{
@@ -51,7 +65,9 @@ public class PlayerMain : MonoBehaviour
 	public Vector3 AimDir{get{return last_aim_direction;}}
 	public Vector3 UpperTorsoDir{get{return last_upper_direction;}}
 	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
-
+	
+	public bool OVERHEAT{get;private set;}
+	
 	//private 
 	bool ignoreExplosion=false,on_legit_ground=false;
 	bool freeze_movement = false,invulnerable=false;
@@ -62,6 +78,8 @@ public class PlayerMain : MonoBehaviour
 	float MP_regen_multi=5f,Lower_torso_rotation_deadzone=0.3f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
 	float current_jump_y;
+	
+	float regen_multi=-1;
 	
 	int public_invulnerability=0;
 	
@@ -75,9 +93,12 @@ public class PlayerMain : MonoBehaviour
 		onGround_timer= new Timer(200, OnGroundTimer);
 		mp_regen_timer= new Timer(stats.MP_regen_delay, OnMPregenTimer);
 		
-		mp=stats.MP;
-		hp=stats.HP;
 		
+		hp=stats.HP;
+		mp=stats.MP;
+		if (regen_multi==-1)
+			mp=0;
+			
 		//Data set
 		ability_containers = new List<AbilityContainer>();
 		
@@ -105,27 +126,33 @@ public class PlayerMain : MonoBehaviour
 		r_axis_y = Input.GetAxis ("R_YAxis_" + controllerNumber);
 		
 		updateRotations();
-		if (!freeze&&!freeze_weapons){
+		if (!OVERHEAT&&!freeze&&!freeze_weapons){
 			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)||Input.GetKey(KeyCode.L)){//DEV.KEY
-				useAbility(2);
+				useAbility(2,false);
 			}
 			
 			if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
-				useAbility(1);
+				useAbility(1,true);
 			}
 			
 			if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
-				useAbility(3);
+				useAbility(3,false);
 			}
 			
 			if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
-				useAbility(0);
+				useAbility(0,true);
 			}
 		}
 		//mp regen
 		if (mp_regen_on){
-			MP+=Time.deltaTime*MP_regen_multi;
+			MP+=regen_multi*Time.deltaTime*MP_regen_multi;
 			MP_regen_multi+=Time.deltaTime*stats.MP_regen_add;
+		}
+		
+		if (OVERHEAT){
+			if (MP<stats.MP*(stats.MP_overheat_threshold_percent*0.01f)){
+				OVERHEAT=false;
+			}
 		}
 	}
 	
@@ -445,13 +472,21 @@ public class PlayerMain : MonoBehaviour
 			public_invulnerability=0;
 	}
 		
-	void useAbility(int index){
-		Vector3 pos=graphics.getShootPosition(),
-			  dir=pos-(last_upper_direction*5);
+	void useAbility(int index,bool left_arm){
 		
-		dir=last_upper_direction;
-		if (ability_containers [index].UseAbility(pos,dir.normalized))
-			graphics.AnimationShoot();
+		var ps=ability_containers [index].Ability.Ability.GetComponent<ProjectileStats>();
+		//set pos
+		var pos=graphics.getShootPosition(left_arm);
+		if (ps.DoubleBarreledFunTime)
+			pos=graphics.getShootPosition();
+		var dir=last_upper_direction;
+		//direction=pos-(direction*5);
+		if (ability_containers [index].UseAbility(pos,dir)){
+			if (ps.DoubleBarreledFunTime)
+				graphics.AnimationShoot();
+			else
+				graphics.AnimationShoot(left_arm);
+		}
 	}
 	
 	public bool onLegitGround(){
