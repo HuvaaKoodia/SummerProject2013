@@ -10,11 +10,11 @@ public class SizeToDmg : MonoBehaviour,ProjectileModifier {
 		pro=GetComponent<ProjectileMain>();
 		
 		start_scale=transform.localScale.x;
-		start_dmg=pro.Power;
+		start_dmg=pro.mod_stats.Power;
 	}
 	
 	// Update is called once per frame
 	void Update (){
-		pro.Power=start_dmg*(transform.localScale.x/start_scale);
+		pro.mod_stats.Power=start_dmg*(transform.localScale.x/start_scale);
 	}
 }

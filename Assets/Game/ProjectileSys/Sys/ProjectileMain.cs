@@ -3,24 +3,24 @@ using System.Collections;
 
 public class ProjectileMain : MonoBehaviour {
 	
-	public ProjectileStats stats;
+	//stats
+	public ProjectileStats original_stats;
+	public ProjectileStatsContainer mod_stats;
 	public PlayerMain Creator;
 	
 	public Timer life_time;
-	Transform graphics;
+	
+	//audiovisuals
 	public SoundMain sound;
 	public StoreSounds sfx;
+	Transform graphics;
 	
 	//movement
 	public float SpeedMulti;
-	public bool GravityOn=false;
 	
 	private Vector3 move_direction;
 	public Vector3 MoveDirection {get{return move_direction;}}
 	public float MoveSpeed {get;private set;}
-	
-	//stats
-	public float Power,Knockback,Radius,HP;
 	
 	// Use this for initialization
 	void Awake (){
@@ -31,8 +31,6 @@ public class ProjectileMain : MonoBehaviour {
 	void Start(){
 		if(sound!=null)
 		sound.sfx=sfx;
-		
-		rigidbody.useGravity=GravityOn;
 	}
 	// Update is called once per frame
 	void FixedUpdate () {
@@ -103,15 +101,15 @@ public class ProjectileMain : MonoBehaviour {
 		}
 		if (other.gameObject.tag=="Player"){
 			var player=other.gameObject.transform.GetComponent<PlayerMain>();
-			player.HP-=Power;//other.impactForceSum.magnitude/10;
+			player.HP-=mod_stats.Power;//other.impactForceSum.magnitude/10;
 		}
 		if (other.gameObject.tag=="Projectile"){
-			if (HP>0){
+			if (mod_stats.HP>0){
 				var pro=other.gameObject.transform.GetComponent<ProjectileMain>();
 				if (pro!=last_hit){
 					last_hit=pro;
-					HP-=pro.Power;
-					if (HP<=0){
+					mod_stats.HP-=pro.mod_stats.Power;
+					if (mod_stats.HP<=0){
 						Destroy(gameObject);
 					}
 				}

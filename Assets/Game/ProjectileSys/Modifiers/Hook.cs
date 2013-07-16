@@ -30,7 +30,7 @@ public class Hook : MonoBehaviour,ProjectileModifier
 		line_rend.SetPosition (0, plr_main.transform.position + new Vector3 (0f, 0f, 0f));
 		
 		if (!collided) {
-			distance += Time.deltaTime * pro_main.stats.Speed;
+			distance += Time.deltaTime * pro_main.mod_stats.Speed;
 			Physics.Raycast (new Ray (startPos, direction), out hitInfo, distance);
 			line_rend.SetPosition (1, startPos + direction * distance); 
 			if (hitInfo.collider != null) {

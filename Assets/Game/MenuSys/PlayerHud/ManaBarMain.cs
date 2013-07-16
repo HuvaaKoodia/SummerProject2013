@@ -20,22 +20,27 @@ public class ManaBarMain : MonoBehaviour {
 		float fill = overHeatMeter.fillAmount;
 		
 		overHeatMeter.color = new Color(fill*startColor.r+(1-fill)*endColor.r,fill*startColor.g+(1-fill)*endColor.g,fill*startColor.b+(1-fill)*endColor.b);
-	
-		if (check_timer){
-			
 
-			if (hud.playerData.Player.OVERHEAT)	{
-				overHeatMeter.color=overHeatColor;
-				StartCoroutine("Blink",0.1f);
-				check_timer=false;
+		if (hud.playerData.Player){
+			if (check_timer){
+				
+	
+				if (hud.playerData.Player.OVERHEAT)	{
+					StartCoroutine("Blink",0.1f);
+					check_timer=false;
+				}
+			}
+			else{
+				if (!hud.playerData.Player.OVERHEAT)	{
+					StopCoroutine("Blink");
+					overheat.gameObject.SetActive(false);
+					check_timer=true;
+				}
+´
 			}
 		}
 		else{
-			if (!hud.playerData.Player.OVERHEAT)	{
-				StopCoroutine("Blink");
-				overheat.gameObject.SetActive(false);
-				check_timer=true;
-			}
+			overheat.gameObject.SetActive(false);
 		}
 	}
 	
