@@ -11,6 +11,6 @@ public class Ricochet : MonoBehaviour,ProjectileModifier {
 	
 	// Update is called once per frame
 	void Update (){
-		rigidbody.velocity=rigidbody.velocity.normalized*projectile.MoveDirection.magnitude;
+		rigidbody.velocity=rigidbody.velocity.normalized*projectile.MoveSpeed;
 	}
 }

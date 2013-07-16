@@ -24,7 +24,7 @@ public class Homing : MonoBehaviour,ProjectileModifier
 	void Update ()
 	{
 		if (target != null) {
-			projectile.setDirection (Vector3.Slerp (projectile.MoveDirection, (target.position - projectile.transform.position), Time.deltaTime * homingSpeed));
+			projectile.setDirection(Vector3.Slerp (projectile.MoveDirection, (target.position - projectile.transform.position), Time.deltaTime * homingSpeed));
 			time -= Time.deltaTime;
 			
 			if (time <= 0) {

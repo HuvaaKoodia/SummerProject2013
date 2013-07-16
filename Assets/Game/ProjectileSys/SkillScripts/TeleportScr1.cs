@@ -27,18 +27,24 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 				hit_rad=hit.collider.bounds.size.x/2f,
 				min_dif=0.5f+hit_rad,
 				dis_dif=Mathf.Abs(current_warp_dis-hit_dis),
-				min_legal=0.1f;
+				min_legal=0.1f,
+				next_to_hit=hit_dis-min_dif;
 			
-			if (dis_dif<=min_legal){
+			if (current_warp_dis<=min_legal){
 				//Too close. No jump.
 				jump=false;
 				break;
-			}else
+			}
 			if (dis_dif<min_dif){
 				//too close to this collider->Change current to min legal distance from collider and continue;
-				current_warp_dis=hit_dis-min_dif;
+				current_warp_dis=next_to_hit;
 			}else{
-				//this pos is good use it
+				
+				if (next_to_hit>dis){
+					//this object is not on the way. Continue iterating
+					continue;
+				}
+				//totally legit position. Go for it!
 				break;
 			}
 			

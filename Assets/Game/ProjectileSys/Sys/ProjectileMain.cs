@@ -13,7 +13,7 @@ public class ProjectileMain : MonoBehaviour {
 	//audiovisuals
 	public SoundMain sound;
 	public StoreSounds sfx;
-	Transform graphics;
+	public Transform graphics{get;private set;}
 	
 	//movement
 	public float SpeedMulti;
@@ -44,6 +44,7 @@ public class ProjectileMain : MonoBehaviour {
 				//move_direction.x*=SpeedMulti;
 				//move_direction.z*=SpeedMulti;
 				move_direction*=SpeedMulti;
+				MoveSpeed*=SpeedMulti;
 				rigidbody.velocity=move_direction;
 			}	
 		}
@@ -52,6 +53,7 @@ public class ProjectileMain : MonoBehaviour {
 				move_direction.x/=oldSpeedMulti;
 				move_direction.z/=oldSpeedMulti;
 				//move_direction/=oldSpeedMulti;
+				MoveSpeed/=SpeedMulti;
 				rigidbody.velocity=move_direction;
 			}
 		}

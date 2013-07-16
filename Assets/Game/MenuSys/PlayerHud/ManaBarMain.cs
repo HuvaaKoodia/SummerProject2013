@@ -31,12 +31,11 @@ public class ManaBarMain : MonoBehaviour {
 				}
 			}
 			else{
-				if (!hud.playerData.Player.OVERHEAT)	{
+				if (!hud.playerData.Player.OVERHEAT){
 					StopCoroutine("Blink");
 					overheat.gameObject.SetActive(false);
 					check_timer=true;
 				}
-
 			}
 		}
 		else{
