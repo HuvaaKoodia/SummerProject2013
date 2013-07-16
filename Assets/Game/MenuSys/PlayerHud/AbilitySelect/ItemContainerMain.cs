@@ -42,7 +42,7 @@ public class ItemContainerMain : MonoBehaviour {
 			setSprite(value.Ability);
 		}
 	}
-	public UISprite abilityCooldownSprite, buttonSprite, abilitySprite, backgroundSprite;
+	public UISprite abilityCooldownSprite, buttonSprite, abilitySprite, backgroundSprite,swapSprite;
 	// Use this for initialization
 	void Awake () {
 		if(buttonSpriteName=="none")
@@ -65,6 +65,9 @@ public class ItemContainerMain : MonoBehaviour {
 		abilitySprite.spriteName=spr_name;
 		
 		
+	}
+	public void enableSwapSprite(bool truth){
+		swapSprite.gameObject.SetActive(truth);
 	}
 	/// <summary>
 	/// 0-1 please

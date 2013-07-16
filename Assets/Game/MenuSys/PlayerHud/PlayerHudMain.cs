@@ -83,17 +83,7 @@ public class PlayerHudMain : MonoBehaviour
 						changeState (AbilityMenuState.Upgrade);
 				}
 			
-				if (Input.GetButtonDown ("X_" + playerData.controllerNumber)) {
-					if (swap_item == null) {
-						swap_item = GetSelectedBar ();
-						_Camera.selectedObjectHighlight = AbilityBarGrid.SelectedItem ().gameObject;
-					} else {
-						var s_ab = GetSelectedBar ().Ability;
-						GetSelectedBar ().Ability = swap_item.Ability;
-						swap_item.Ability = s_ab;
-						swap_item = null;
-					}
-				}
+				
 			}
 		
 			if (gameController.State==GameState.Setup) {
@@ -138,7 +128,21 @@ public class PlayerHudMain : MonoBehaviour
 			}
 			
 			//update MP & HP
-			
+			if (state == AbilityMenuState.Bar) {
+				if (Input.GetButtonDown ("X_" + playerData.controllerNumber)) {
+					if (swap_item == null) {
+						swap_item = GetSelectedBar ();
+						_Camera.selectedObjectHighlight = AbilityBarGrid.SelectedItem ().gameObject;
+						swap_item.enableSwapSprite(true);
+						
+					} else {
+						var s_ab = GetSelectedBar ().Ability;
+						GetSelectedBar ().Ability = swap_item.Ability;
+						swap_item.Ability = s_ab;
+						disableSwap();
+					}
+				}
+			}
 			if (state == AbilityMenuState.Ready) {
 				if (playerData.Player != null) {
 					hp_slider.sliderValue = playerData.Player.HP / 100f;
@@ -161,6 +165,12 @@ public class PlayerHudMain : MonoBehaviour
 			}
 		}
 	}
+	void disableSwap(){
+		if(!swap_item)
+			return ;
+		swap_item.enableSwapSprite(false);
+		swap_item = null;
+	}
 	
 	ItemContainerMain GetSelectedBar ()
 	{
@@ -174,6 +184,8 @@ public class PlayerHudMain : MonoBehaviour
 	
 	void changeState (AbilityMenuState state)
 	{
+		disableSwap();
+		
 		var old_state=this.state;
 		this.state = state;
 		
@@ -198,11 +210,14 @@ public class PlayerHudMain : MonoBehaviour
 		}
 		
 		if (state == AbilityMenuState.Bar) {
+			menu_BG_panel.enableButtonHelper(true);
 			menu_BG_panel.setPlayer(playerData);
 			_Camera.selectedObjectInput = AbilityBarGrid.gameObject;
 			AbilityBarGrid.HighlightCurrent ();
 			
 			gameController.startCounter (false);
+		}else if (old_state == AbilityMenuState.Bar) {
+			menu_BG_panel.enableButtonHelper(false);
 		}
 		
 		if (state == AbilityMenuState.Shop) {

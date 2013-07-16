@@ -5,6 +5,7 @@ public class PlayerHudBGscr : MonoBehaviour {
 	
 	public UILabel cost_label,resource_label,name_label;
 	public UISprite background;
+	public GameObject buttonHelp;
 	Color base_color;
 	
 	void Start(){
@@ -46,5 +47,8 @@ public class PlayerHudBGscr : MonoBehaviour {
 	{
 		var c=playerData.color;
 		background.color=new Color(c.r,c.g,c.b,background.color.a);
+	}
+	public void enableButtonHelper(bool truth){
+		buttonHelp.SetActive(truth);
 	}
 }
