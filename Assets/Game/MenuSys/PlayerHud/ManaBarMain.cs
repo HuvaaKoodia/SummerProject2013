@@ -36,7 +36,7 @@ public class ManaBarMain : MonoBehaviour {
 					overheat.gameObject.SetActive(false);
 					check_timer=true;
 				}
-´
+
 			}
 		}
 		else{
