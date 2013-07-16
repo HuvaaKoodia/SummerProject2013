@@ -12,7 +12,7 @@ public class AbsorbShield : MonoBehaviour, ProjectileModifier {
 		plr_main = pro_main.Creator;
 		transform.position = plr_main.transform.position;
 		
-		transform.localScale*=pro_main.Radius;
+		transform.localScale*=pro_main.mod_stats.Radius;
 		plr_main.setInvulnerable(true);
 	}
 	

@@ -4,23 +4,17 @@ using System.Linq;
 
 public class TeleportScr1 :MonoBehaviour, SkillScript {
 	
-	public float distance=3f;
-	
-	public void UseSkill(PlayerMain player){
+	public void UseSkill(ProjectileStatsContainer mod_stats,PlayerMain player){
 		
 		float 
-			dis=distance,dis_extra=dis+2f;
+			dis=mod_stats.Radius,dis_extra=dis+2f;
 		Vector3 
 			dir=player.transform.TransformDirection(player.UpperTorsoDir),
-			start_pos=player.transform.position,
-			end_pos=start_pos+dir*dis;
+			start_pos=player.transform.position
+			;//end_pos=start_pos+dir*dis;
 		
 		Ray ray=new Ray(start_pos,dir);
 		var hits=Physics.RaycastAll(ray,dis_extra).OrderByDescending(r=>r.distance).ToArray();
-		
-		foreach (var h in hits){
-			Debug.Log(""+h.distance);
-		}
 		
 		float current_warp_dis=dis;
 		
@@ -33,9 +27,7 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 				hit_rad=hit.collider.bounds.size.x/2f,
 				min_dif=0.5f+hit_rad,
 				dis_dif=Mathf.Abs(current_warp_dis-hit_dis),
-				min_legal=0.5f;
-			
-			float next_valid_jump_dis=hit_dis-min_dif;
+				min_legal=0.1f;
 			
 			if (dis_dif<=min_legal){
 				//Too close. No jump.

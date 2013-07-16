@@ -21,7 +21,7 @@ public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 		
 		var expl = obj.GetComponent<ExplosionScr>();
 		
-		expl.radius = proj_main.stats.Radius;
-		expl.force = proj_main.stats.Knockback;
+		expl.radius = proj_main.mod_stats.Radius;
+		expl.force = proj_main.mod_stats.Knockback;
 	}
 }

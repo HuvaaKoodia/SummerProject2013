@@ -4,7 +4,7 @@ using System.Linq;
 
 public class TeleportScr :MonoBehaviour, SkillScript {
 
-	public void UseSkill(PlayerMain player){
+	public void UseSkill(ProjectileStatsContainer mod_stats,PlayerMain player){
 		player.StartCoroutine(doJump(player));
 	}
 	

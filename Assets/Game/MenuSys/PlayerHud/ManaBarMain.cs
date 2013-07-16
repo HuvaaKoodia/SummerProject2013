@@ -15,20 +15,25 @@ public class ManaBarMain : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (check_timer){
-			
-
-			if (hud.playerData.Player.OVERHEAT)	{
-				StartCoroutine("Blink",0.1f);
-				check_timer=false;
+		if (hud.playerData.Player){
+			if (check_timer){
+				
+	
+				if (hud.playerData.Player.OVERHEAT)	{
+					StartCoroutine("Blink",0.1f);
+					check_timer=false;
+				}
+			}
+			else{
+				if (!hud.playerData.Player.OVERHEAT)	{
+					StopCoroutine("Blink");
+					overheat.gameObject.SetActive(false);
+					check_timer=true;
+				}
 			}
 		}
 		else{
-			if (!hud.playerData.Player.OVERHEAT)	{
-				StopCoroutine("Blink");
-				overheat.gameObject.SetActive(false);
-				check_timer=true;
-			}
+			overheat.gameObject.SetActive(false);
 		}
 	}
 	

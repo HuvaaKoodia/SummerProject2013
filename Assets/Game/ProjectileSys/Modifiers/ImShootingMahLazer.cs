@@ -33,7 +33,7 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 			line_rend.SetPosition(1, hitInfo.point);
 			if (hitInfo.collider.gameObject.tag=="Player"){
 				var player=hitInfo.collider.gameObject.GetComponent<PlayerMain>();
-				player.HP-=Time.deltaTime*pro_main.Power;
+				player.HP-=Time.deltaTime*pro_main.mod_stats.Power;
 			}
 		}
 		else{

@@ -8,7 +8,7 @@ public class CameraScript : MonoBehaviour {
 	
 	private Vector3 look_at_pos,move_to_pos;
 	
-	Vector3 move_dir,move_dir_r,look_pos;//,look_pos,look_pos_r
+	Vector3 move_dir,move_dir_r;
 	float dis,speed;
 	
 	// Use this for initialization
@@ -57,7 +57,7 @@ public class CameraScript : MonoBehaviour {
 		var n=(CameraZoom_note)note;
 		if (n.Target==null){
 			LookAt(Vector3.up*0.3f);
-			move_to_pos+=transform.rotation*Vector3.forward*Vector3.Distance(look_pos,transform.position)*n.Amount;
+			move_to_pos+=transform.rotation*Vector3.forward*Vector3.Distance(look_at_pos,transform.position)*n.Amount;
 		}else{
 			Ray ray=new Ray(n.Target.position,transform.position-n.Target.position);
 			move_to_pos=ray.GetPoint(n.Amount);

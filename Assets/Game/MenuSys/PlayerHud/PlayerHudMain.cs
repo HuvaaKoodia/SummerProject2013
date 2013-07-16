@@ -145,8 +145,9 @@ public class PlayerHudMain : MonoBehaviour
 					mp_slider.sliderValue = playerData.Player.MP / 100f;
 				}
 				else{
-					hp_slider.sliderValue=mp_slider.sliderValue = 0;
-					gameObject.SetActive(false);
+					//hp_slider.sliderValue=mp_slider.sliderValue = 0;
+					if (gameController.State==GameState.GameOn)
+						gameObject.SetActive(false);
 				}
 				if (gameController.State==GameState.Setup) {
 					if (playerData.Player == null) {
@@ -249,7 +250,6 @@ public class PlayerHudMain : MonoBehaviour
 			foreach (var item in AbilityBarGrid.Grid) {
 				var a = item.GetComponent<ItemContainerMain>().Ability;
 				playerData.Abilities[i]=a;
-				Debug.Log("Abi name: "+a.Ability.GetComponent<AbilityStats>());
 				i++;
 			}
 			

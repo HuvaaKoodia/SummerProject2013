@@ -162,17 +162,21 @@ public class PlayerMain : MonoBehaviour
 		rigidbody.WakeUp ();
 		
 		if (!freeze&&!freeze_movement){
+			bool move=false;
 			if (l_axis_x < -Lower_torso_rotation_deadzone){
-				MoveAround(Vector3.left * stats.Acceleration);
+				move=true;
 			}
 			if (l_axis_x > Lower_torso_rotation_deadzone){
-				MoveAround(Vector3.right * stats.Acceleration);
+				move=true;
 			}
 			if (l_axis_y < -Lower_torso_rotation_deadzone){
-				MoveAround(Vector3.forward * stats.Acceleration);
+				move=true;
 			}
 			if (l_axis_y > Lower_torso_rotation_deadzone){
-				MoveAround(Vector3.back * stats.Acceleration);
+				move=true;
+			}
+			if (move){
+				MoveAround(Vector3.forward*stats.Acceleration);
 			}
 			//jump
 			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
@@ -191,7 +195,7 @@ public class PlayerMain : MonoBehaviour
 			current_jump_y+=Physics.gravity.y*Time.deltaTime;
 			//Debug.Log ("Jump y "+current_jump_y+", grav: "+Physics.gravity.y);
 		}
-		else{
+		else{ 
 			current_jump_y=rigidbody.velocity.y;
 			//Debug.Log ("Jump y reset");
 		}
@@ -217,14 +221,20 @@ public class PlayerMain : MonoBehaviour
 	
 	//DEV. bugs out a bit
 	void MoveAround(Vector3 force){	
-		if (jumped||!onGround)
-			restrictMovement();
+		//if (jumped||!onGround)
+			//restrictMovement();
 		
+		rigidbody.AddRelativeForce(graphics.LowerTorso.rotation*force);
+		
+		
+		//restrict movement
 		var stick_mag=new Vector2(l_axis_x,l_axis_y).magnitude;
-		if(new Vector2(rigidbody.velocity.x,rigidbody.velocity.z).magnitude<=stick_mag*stats.Move_speed){
-			
-			rigidbody.AddForce(graphics.LowerTorso.rotation*Vector3.forward*stats.Acceleration);
-		}
+		stick_mag=Mathf.Clamp01(stick_mag);
+		var mm=new Vector2(rigidbody.velocity.x,rigidbody.velocity.z);
+		//if(mm.magnitude>stick_mag*stats.Move_speed){
+			mm=mm.normalized*stick_mag*stats.Move_speed;
+			rigidbody.velocity=new Vector3(mm.x,rigidbody.velocity.y,mm.y);
+		//}
 		
 		//DEV. WEIRD.SIHT
 		if (onGround){
@@ -233,7 +243,6 @@ public class PlayerMain : MonoBehaviour
 		}
 	}
 	void restrictMovement(){
-	
 		var xz_vec = new Vector2 (rigidbody.velocity.x, rigidbody.velocity.z);
 		
 		if (xz_vec.magnitude > stats.Move_speed){
