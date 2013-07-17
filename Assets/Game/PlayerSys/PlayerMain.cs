@@ -264,8 +264,7 @@ public class PlayerMain : MonoBehaviour
 		int angle=10;
 		if (other.gameObject.tag=="Gib")
 			angle=30;
-		
-		//bool not_on_ground_at_all=true;
+
 		foreach (var c in other.contacts) {
 			if (Vector3.Angle (c.normal, transform.up) < angle){
 				
@@ -274,11 +273,9 @@ public class PlayerMain : MonoBehaviour
 				onGround = true;
 				
 				if (other.gameObject.tag=="Hurt"){
-					//not_on_ground_at_all=false;
 					on_legit_ground=false;
 				} else
 				if (other.gameObject.tag=="Ground"){
-					//not_on_ground_at_all=false;
 					if (!on_legit_ground&&!legit_timer.Active){
 						legit_timer.Reset(true);
 					}
@@ -286,18 +283,11 @@ public class PlayerMain : MonoBehaviour
 				
 				
 				jumpEnd();
-
 				jump_has_peaked=false;
-				
-				if (jumped){
-					//Debug.Log ("Jump hit 2");
-				}
 				
 				break;
 			}
 		}
-		//if (not_on_ground_at_all)
-		//	on_legit_ground=false;
 	}
 
 	void jumpStart(){
@@ -306,19 +296,9 @@ public class PlayerMain : MonoBehaviour
 	}
 	
 	void jumpEnd(){
-		//bool started=false;
 		if (jumped&&canJump&&jump_end&&current_jump_y<0){
 			StartCoroutine(JumpEnd());
-			//started=true;
 		}
-		/*DEV.debug
-		if (jump_has_peaked){
-			if (started)
-				Debug.Log("SUCCESS:::");
-			else
-				Debug.Log("FAIL");
-		 Debug.Log("jumped "+jumped+" canjump "+canJump+" jump end "+jump_end);
-		}*/
 	}
 	
 	IEnumerator JumpEnd(){

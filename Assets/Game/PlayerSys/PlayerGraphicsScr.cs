@@ -57,7 +57,7 @@ public class PlayerGraphicsScr : MonoBehaviour {
 
 	public void AnimationWalk(){
 		if (LowerTorso.animation!=null){
-			UpperTorso.animation.Blend("walk");
+			UpperTorso.animation.Blend("Walkcycle");
 			LowerTorso.animation.Play();
 			
 			LowerTorso.animation.enabled=true;
@@ -112,7 +112,7 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		animation_walk=false;
 		if (!on){
 			LowerTorso.animation.enabled=false;
-			UpperTorso.animation["walk"].enabled=false;
+			UpperTorso.animation["Walkcycle"].enabled=false;
 			return true;
 		}
 		return false;

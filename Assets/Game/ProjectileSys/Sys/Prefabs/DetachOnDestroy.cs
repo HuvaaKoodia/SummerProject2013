@@ -7,6 +7,6 @@ public class DetachOnDestroy : MonoBehaviour {
 	
 	void OnDestroy(){
 		obj.transform.parent=null;
-		obj.SendMessage("Detached");
+		obj.SendMessage("Detached",SendMessageOptions.DontRequireReceiver);
 	}
 }

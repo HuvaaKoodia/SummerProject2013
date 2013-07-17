@@ -23,6 +23,8 @@ ModelImporter:
     100034: Spine001
     100036: Torso001
     100038: Torso_pelvis_hidden
+    100040: Legs
+    100042: Torso
     400000: L_arm001
     400002: L_cannon001
     400004: L_shoulder001
@@ -43,6 +45,10 @@ ModelImporter:
     400034: Spine001
     400036: Torso001
     400038: Torso_pelvis_hidden
+    400040: Legs
+    400042: Torso
+    2300000: Legs
+    3300000: Legs
     4300000: Spine001
     4300002: L_shoulder001
     4300004: L_arm001
@@ -52,6 +58,9 @@ ModelImporter:
     4300012: Torso001
     4300014: R_cannon001
     4300016: Torso_pelvis_hidden
+    4300018: Legs
+    4300020: Torso
+    7400000: Take 001
     9500000: //RootNode
     11100000: //RootNode
     13700000: L_arm001
@@ -63,6 +72,7 @@ ModelImporter:
     13700012: Spine001
     13700014: Torso001
     13700016: Torso_pelvis_hidden
+    13700018: Torso
   materials:
     importMaterials: 1
     materialName: 0
@@ -95,7 +105,7 @@ ModelImporter:
     splitTangentsAcrossUV: 1
     normalImportMode: 0
     tangentImportMode: 1
-  importAnimation: 1
+  importAnimation: 0
   copyAvatar: 0
   humanDescription:
     human: []

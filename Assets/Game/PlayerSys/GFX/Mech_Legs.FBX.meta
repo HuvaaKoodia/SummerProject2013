@@ -1,0 +1,90 @@
+fileFormatVersion: 2
+guid: 02fbe9c22466f134083d28a2c89fb70b
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: Legs
+    100002: //RootNode
+    100004: Mech_Rig_Legs_LLeg1
+    100006: Mech_Rig_Legs_LLeg2
+    100008: Mech_Rig_Legs_LLeg3
+    100010: Mech_Rig_Legs_LLegAnkle
+    100012: Mech_Rig_Legs_LLegDigit11
+    100014: Mech_Rig_Legs_LLegPlatform
+    100016: Mech_Rig_Legs_Pelvis
+    100018: Mech_Rig_Legs_RLeg1
+    100020: Mech_Rig_Legs_RLeg2
+    100022: Mech_Rig_Legs_RLeg3
+    100024: Mech_Rig_Legs_RLegAnkle
+    100026: Mech_Rig_Legs_RLegDigit11
+    100028: Mech_Rig_Legs_RLegPlatform
+    400000: Legs
+    400002: //RootNode
+    400004: Mech_Rig_Legs_LLeg1
+    400006: Mech_Rig_Legs_LLeg2
+    400008: Mech_Rig_Legs_LLeg3
+    400010: Mech_Rig_Legs_LLegAnkle
+    400012: Mech_Rig_Legs_LLegDigit11
+    400014: Mech_Rig_Legs_LLegPlatform
+    400016: Mech_Rig_Legs_Pelvis
+    400018: Mech_Rig_Legs_RLeg1
+    400020: Mech_Rig_Legs_RLeg2
+    400022: Mech_Rig_Legs_RLeg3
+    400024: Mech_Rig_Legs_RLegAnkle
+    400026: Mech_Rig_Legs_RLegDigit11
+    400028: Mech_Rig_Legs_RLegPlatform
+    4300000: Legs
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Legs
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 

@@ -48,6 +48,52 @@ ModelImporter:
     100084: R_toe004
     100086: Spine001
     100088: Torso001
+    100090: Legs
+    100092: Mech_Rig_Legs_
+    100094: Mech_Rig_Legs_LArm1
+    100096: Mech_Rig_Legs_LArm2
+    100098: Mech_Rig_Legs_LArmCollarbone
+    100100: Mech_Rig_Legs_LLeg1
+    100102: Mech_Rig_Legs_LLeg2
+    100104: Mech_Rig_Legs_LLeg3
+    100106: Mech_Rig_Legs_LLegAnkle
+    100108: Mech_Rig_Legs_LLegDigit11
+    100110: Mech_Rig_Legs_LLegPlatform
+    100112: Mech_Rig_Legs_Pelvis
+    100114: Mech_Rig_Legs_RArm1
+    100116: Mech_Rig_Legs_RArm2
+    100118: Mech_Rig_Legs_RArmCollarbone
+    100120: Mech_Rig_Legs_RLeg1
+    100122: Mech_Rig_Legs_RLeg2
+    100124: Mech_Rig_Legs_RLeg3
+    100126: Mech_Rig_Legs_RLegAnkle
+    100128: Mech_Rig_Legs_RLegDigit11
+    100130: Mech_Rig_Legs_RLegPlatform
+    100132: Mech_Rig_Legs_Spine
+    100134: Mech_Rig_Legs_Torso
+    100136: Mech_Rig_Torso_
+    100138: Mech_Rig_Torso_LArm1
+    100140: Mech_Rig_Torso_LArm2
+    100142: Mech_Rig_Torso_LArmCollarbone
+    100144: Mech_Rig_Torso_LLeg1
+    100146: Mech_Rig_Torso_LLeg2
+    100148: Mech_Rig_Torso_LLeg3
+    100150: Mech_Rig_Torso_LLegAnkle
+    100152: Mech_Rig_Torso_LLegDigit11
+    100154: Mech_Rig_Torso_LLegPlatform
+    100156: Mech_Rig_Torso_Pelvis
+    100158: Mech_Rig_Torso_RArm1
+    100160: Mech_Rig_Torso_RArm2
+    100162: Mech_Rig_Torso_RArmCollarbone
+    100164: Mech_Rig_Torso_RLeg1
+    100166: Mech_Rig_Torso_RLeg2
+    100168: Mech_Rig_Torso_RLeg3
+    100170: Mech_Rig_Torso_RLegAnkle
+    100172: Mech_Rig_Torso_RLegDigit11
+    100174: Mech_Rig_Torso_RLegPlatform
+    100176: Mech_Rig_Torso_Spine
+    100178: Mech_Rig_Torso_Torso
+    100180: Torso
     400000: L_ankle001
     400002: L_arm001
     400004: L_calf001
@@ -93,6 +139,52 @@ ModelImporter:
     400084: R_toe004
     400086: Spine001
     400088: Torso001
+    400090: Legs
+    400092: Mech_Rig_Legs_
+    400094: Mech_Rig_Legs_LArm1
+    400096: Mech_Rig_Legs_LArm2
+    400098: Mech_Rig_Legs_LArmCollarbone
+    400100: Mech_Rig_Legs_LLeg1
+    400102: Mech_Rig_Legs_LLeg2
+    400104: Mech_Rig_Legs_LLeg3
+    400106: Mech_Rig_Legs_LLegAnkle
+    400108: Mech_Rig_Legs_LLegDigit11
+    400110: Mech_Rig_Legs_LLegPlatform
+    400112: Mech_Rig_Legs_Pelvis
+    400114: Mech_Rig_Legs_RArm1
+    400116: Mech_Rig_Legs_RArm2
+    400118: Mech_Rig_Legs_RArmCollarbone
+    400120: Mech_Rig_Legs_RLeg1
+    400122: Mech_Rig_Legs_RLeg2
+    400124: Mech_Rig_Legs_RLeg3
+    400126: Mech_Rig_Legs_RLegAnkle
+    400128: Mech_Rig_Legs_RLegDigit11
+    400130: Mech_Rig_Legs_RLegPlatform
+    400132: Mech_Rig_Legs_Spine
+    400134: Mech_Rig_Legs_Torso
+    400136: Mech_Rig_Torso_
+    400138: Mech_Rig_Torso_LArm1
+    400140: Mech_Rig_Torso_LArm2
+    400142: Mech_Rig_Torso_LArmCollarbone
+    400144: Mech_Rig_Torso_LLeg1
+    400146: Mech_Rig_Torso_LLeg2
+    400148: Mech_Rig_Torso_LLeg3
+    400150: Mech_Rig_Torso_LLegAnkle
+    400152: Mech_Rig_Torso_LLegDigit11
+    400154: Mech_Rig_Torso_LLegPlatform
+    400156: Mech_Rig_Torso_Pelvis
+    400158: Mech_Rig_Torso_RArm1
+    400160: Mech_Rig_Torso_RArm2
+    400162: Mech_Rig_Torso_RArmCollarbone
+    400164: Mech_Rig_Torso_RLeg1
+    400166: Mech_Rig_Torso_RLeg2
+    400168: Mech_Rig_Torso_RLeg3
+    400170: Mech_Rig_Torso_RLegAnkle
+    400172: Mech_Rig_Torso_RLegDigit11
+    400174: Mech_Rig_Torso_RLegPlatform
+    400176: Mech_Rig_Torso_Spine
+    400178: Mech_Rig_Torso_Torso
+    400180: Torso
     4300000: L_calf001
     4300002: L_thigh001
     4300004: R_thigh001
@@ -115,6 +207,8 @@ ModelImporter:
     4300038: Left_calf001
     4300040: Torso001
     4300042: R_cannon001
+    4300044: Legs
+    4300046: Torso
     7400000: JumpStart
     7400002: JumpPose
     7400004: JumpEnd
@@ -142,6 +236,8 @@ ModelImporter:
     13700038: R_toe004
     13700040: Spine001
     13700042: Torso001
+    13700044: Legs
+    13700046: Torso
   materials:
     importMaterials: 1
     materialName: 0
@@ -159,28 +255,6 @@ ModelImporter:
       takeName: Take 001
       firstFrame: 0
       lastFrame: 28.2999992
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      keepAdditionalBonesAnimation: 1
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      skeletonMaskElements: []
-    - name: JumpPose
-      takeName: Take 001
-      firstFrame: 20.1000004
-      lastFrame: 20.2000008
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
