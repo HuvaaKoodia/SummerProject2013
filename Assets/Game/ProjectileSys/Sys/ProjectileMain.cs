@@ -53,7 +53,7 @@ public class ProjectileMain : MonoBehaviour {
 				move_direction.x/=oldSpeedMulti;
 				move_direction.z/=oldSpeedMulti;
 				//move_direction/=oldSpeedMulti;
-				MoveSpeed/=SpeedMulti;
+				MoveSpeed/=oldSpeedMulti;
 				rigidbody.velocity=move_direction;
 			}
 		}
@@ -80,7 +80,8 @@ public class ProjectileMain : MonoBehaviour {
 
 	//DEV.
 	public void changeMaterialColor(Color color){
-		graphics.renderer.material.color=color;
+		graphics.renderer.material.SetColor("_Color",color);
+		
 	}
 	
 	public void OnDeath(){
