@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ShieldEffect : MonoBehaviour {
 	
-	void StartEffect(){
+	void Detached(){
 		StartCoroutine(ShrinkShield());
 	}
 	

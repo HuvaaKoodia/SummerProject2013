@@ -1,0 +1,115 @@
+fileFormatVersion: 2
+guid: 68cc74c0a3fbd7042a88b173bfe0961d
+ModelImporter:
+  serializedVersion: 15
+  fileIDToRecycleName:
+    100000: L_arm001
+    100002: L_cannon001
+    100004: L_shoulder001
+    100006: Mech_Rig_Torso_
+    100008: Mech_Rig_Torso_LArm1
+    100010: Mech_Rig_Torso_LArm2
+    100012: Mech_Rig_Torso_LArmCollarbone
+    100014: Mech_Rig_Torso_Pelvis
+    100016: Mech_Rig_Torso_RArm1
+    100018: Mech_Rig_Torso_RArm2
+    100020: Mech_Rig_Torso_RArmCollarbone
+    100022: Mech_Rig_Torso_Spine
+    100024: Mech_Rig_Torso_Torso
+    100026: //RootNode
+    100028: R_arm001
+    100030: R_cannon001
+    100032: R_shoulder001
+    100034: Spine001
+    100036: Torso001
+    100038: Torso_pelvis_hidden
+    400000: L_arm001
+    400002: L_cannon001
+    400004: L_shoulder001
+    400006: Mech_Rig_Torso_
+    400008: Mech_Rig_Torso_LArm1
+    400010: Mech_Rig_Torso_LArm2
+    400012: Mech_Rig_Torso_LArmCollarbone
+    400014: Mech_Rig_Torso_Pelvis
+    400016: Mech_Rig_Torso_RArm1
+    400018: Mech_Rig_Torso_RArm2
+    400020: Mech_Rig_Torso_RArmCollarbone
+    400022: Mech_Rig_Torso_Spine
+    400024: Mech_Rig_Torso_Torso
+    400026: //RootNode
+    400028: R_arm001
+    400030: R_cannon001
+    400032: R_shoulder001
+    400034: Spine001
+    400036: Torso001
+    400038: Torso_pelvis_hidden
+    4300000: Spine001
+    4300002: L_shoulder001
+    4300004: L_arm001
+    4300006: L_cannon001
+    4300008: R_shoulder001
+    4300010: R_arm001
+    4300012: Torso001
+    4300014: R_cannon001
+    4300016: Torso_pelvis_hidden
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: L_arm001
+    13700002: L_cannon001
+    13700004: L_shoulder001
+    13700006: R_arm001
+    13700008: R_cannon001
+    13700010: R_shoulder001
+    13700012: Spine001
+    13700014: Torso001
+    13700016: Torso_pelvis_hidden
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    handles: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  additionalBone: 1
+  animationType: 1
+  userData: 
