@@ -281,7 +281,6 @@ public class PlayerMain : MonoBehaviour
 					}
 				}
 				
-				
 				jumpEnd();
 				jump_has_peaked=false;
 				
