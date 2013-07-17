@@ -9,10 +9,10 @@
     <AimDistance>0</AimDistance>
     <AmountOfShots>1</AmountOfShots>
     <Speed>0</Speed>
-    <Power>18</Power>
+    <Power>22</Power>
     <Knockback>0</Knockback>
     <Lifetime>1000</Lifetime>
-    <Energycost>30</Energycost>
+    <Energycost>33</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
     <Cooldown>2500</Cooldown>

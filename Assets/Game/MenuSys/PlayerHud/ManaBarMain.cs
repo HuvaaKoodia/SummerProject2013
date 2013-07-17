@@ -5,7 +5,7 @@ public class ManaBarMain : MonoBehaviour {
 	
 	public PlayerHudMain hud;
 	public UILabel overheat;
-	public UISprite overHeatMeter;
+	public UISprite overHeatMeter, delayMeter;
 	public Color startColor, endColor, overHeatColor;
 	
 	// Use this for initialization

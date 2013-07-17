@@ -10,7 +10,6 @@ public class PlayerMain : MonoBehaviour
 	public PlayerSoundMain sounds;
 	public List<AbilityContainer> ability_containers;
 	public int controllerNumber = 0;
-	
 	//stats
 	public PlayerStats stats;
 	
@@ -28,6 +27,9 @@ public class PlayerMain : MonoBehaviour
 	public float MP{
 		get{ return mp;}
 		set{ 
+			if(value>mp)
+				value = mp + ((value-mp)*(1f - (stats.MP_heatgen_reduction * mp / stats.MP)));
+			
 			if (value>mp){
 				MPregenReset();
 			}

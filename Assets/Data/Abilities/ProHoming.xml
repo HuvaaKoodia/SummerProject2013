@@ -12,7 +12,7 @@
     <Power>18</Power>
     <Knockback>27000</Knockback>
     <Lifetime>10000</Lifetime>
-    <Energycost>15</Energycost>
+    <Energycost>25</Energycost>
     <Radius>3</Radius>
     <Hp>0</Hp>
     <Cooldown>2000</Cooldown>

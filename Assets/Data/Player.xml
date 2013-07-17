@@ -9,6 +9,7 @@
   <MP_regen_multi>7.5</MP_regen_multi>
   <MP_regen_add>7</MP_regen_add>
   <MP_overheat_threshold_percent>67</MP_overheat_threshold_percent>
+  <MP_heatgen_reduction>0.3</MP_heatgen_reduction>
   <MP_regen_delay>0</MP_regen_delay>
   <MP_overheat_delay>559</MP_overheat_delay>
 </Stats>

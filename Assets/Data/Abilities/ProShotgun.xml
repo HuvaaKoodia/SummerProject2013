@@ -8,14 +8,14 @@
     <Spread>38</Spread>
     <AimDistance>10</AimDistance>
     <AmountOfShots>5</AmountOfShots>
-    <Speed>4.6</Speed>
-    <Power>8.7</Power>
+    <Speed>6.2</Speed>
+    <Power>7.5</Power>
     <Knockback>0</Knockback>
-    <Lifetime>1081</Lifetime>
+    <Lifetime>777</Lifetime>
     <Energycost>19</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
-    <Cooldown>866</Cooldown>
+    <Cooldown>855</Cooldown>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
