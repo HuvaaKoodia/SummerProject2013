@@ -1,15 +1,15 @@
 <Stats>
-  <HP>100</HP>
+  <HP>110</HP>
   <MP>100</MP>
   <Acceleration>10000</Acceleration>
-  <Jump_speed>7</Jump_speed>
+  <Jump_speed>6.5</Jump_speed>
   <Move_speed>1.1</Move_speed>
   <Upper_torso_rotation_multi>2</Upper_torso_rotation_multi>
-  <Lower_torso_rotation_multi>1.35</Lower_torso_rotation_multi>
+  <Lower_torso_rotation_multi>1.5</Lower_torso_rotation_multi>
   <MP_regen_multi>7.5</MP_regen_multi>
   <MP_regen_add>7</MP_regen_add>
   <MP_overheat_threshold_percent>67</MP_overheat_threshold_percent>
   <MP_heatgen_reduction>0.3</MP_heatgen_reduction>
   <MP_regen_delay>0</MP_regen_delay>
-  <MP_overheat_delay>559</MP_overheat_delay>
+  <MP_overheat_delay>569</MP_overheat_delay>
 </Stats>

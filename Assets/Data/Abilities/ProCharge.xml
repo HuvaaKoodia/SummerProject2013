@@ -15,15 +15,15 @@
     <Energycost>10</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
-    <Cooldown>3000</Cooldown>
-    <SpeedMulti>0</SpeedMulti>
+    <Cooldown>3500</Cooldown>
+    <SpeedMulti>0.35</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>0</KnockbackMulti>
     <LifetimeMulti>0</LifetimeMulti>
-    <EnergycostMulti>0</EnergycostMulti>
+    <EnergycostMulti>0.3</EnergycostMulti>
     <RadiusMulti>0</RadiusMulti>
     <HpMulti>0</HpMulti>
-    <CooldownMulti>0</CooldownMulti>
+    <CooldownMulti>0.4</CooldownMulti>
     <AccuracyMulti>0</AccuracyMulti>
   </Values>
   <Upgrade>
