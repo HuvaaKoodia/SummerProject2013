@@ -26,6 +26,8 @@ public class PlayerHudMain : MonoBehaviour
 	public GridInput AbilityBarGrid, AbilityPanelGrid, UpgradeGrid;
 	public PlayerHudBGscr menu_BG_panel;
 	public UISlider hp_slider, mp_slider;
+	public UIAnchor anchor;
+	
 	ItemContainerMain swap_item;
 	
 	public void Start ()
@@ -37,6 +39,10 @@ public class PlayerHudMain : MonoBehaviour
 		playerActivatorMenu.setPlayer (playerData);
 		_Camera.verticalAxisName="L_YAxis_"+playerData.controllerNumber;
 		_Camera.horizontalAxisName="L_XAxis_"+playerData.controllerNumber;
+		
+		//set side
+		UIAnchor.Side[] Sides=new UIAnchor.Side[]{UIAnchor.Side.TopLeft,UIAnchor.Side.TopRight,UIAnchor.Side.BottomLeft,UIAnchor.Side.BottomRight};
+		anchor.side=Sides[playerData.controllerNumber-1];
 		
 		AbilityBarGrid.UpdateGrid ();
 		AbilityPanelGrid.UpdateGrid ();

@@ -1,19 +1,22 @@
 using UnityEngine;
 using System.Collections;
 
-public class FollowThatHP : MonoBehaviour {
+public class FollowThatHP : MonoBehaviour
+{
 	public UISprite hpToFollow;
 	public float fill, delay, catchUpSpeed;
-	public	float timer,decayTimer=0f;
-	public bool delayActive=false,decayActive=false, trailBar = false;
+	public	float timer, decayTimer = 0f;
+	public bool delayActive = false, decayActive = false;
 	UISprite sprite;
 	// Use this for initialization
-	void Start () {
-	sprite = GetComponent<UISprite>();
+	void Start ()
+	{
+		sprite = GetComponent<UISprite> ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		
 		if(hpToFollow.fillAmount>sprite.fillAmount){
 			sprite.fillAmount=hpToFollow.fillAmount;
@@ -23,22 +26,25 @@ public class FollowThatHP : MonoBehaviour {
 			decayTimer=0f;
 			return ;
 		}
-		if(timer <= 0){
-			if(!decayActive){
-				decayActive=true;
+		if (timer <= 0) {
+			if (!decayActive) {
+				decayActive = true;
 				decayTimer = 0f;
 			}
-				delayActive = false;
+			delayActive = false;
 		}
 		
-		if(delayActive){
+		if (delayActive) {
 			timer -= Time.deltaTime;
-			return ;
-		}else{
-			if(decayActive){
+		} else {
+			if (decayActive){
 				decayTimer += Time.deltaTime;
-			sprite.fillAmount -= (catchUpSpeed * (1 + decayTimer) * Time.deltaTime);
-				if(sprite.fillAmount < hpToFollow.fillAmount + fill){
+				sprite.fillAmount -= (catchUpSpeed * (1 + decayTimer) * Time.deltaTime);
+				
+				if (hpToFollow.fillAmount==0){
+					if (sprite.fillAmount < 0)
+						sprite.fillAmount = 0;
+				} else if (sprite.fillAmount < hpToFollow.fillAmount + fill) {
 					
 					sprite.fillAmount = hpToFollow.fillAmount + fill;
 				}
