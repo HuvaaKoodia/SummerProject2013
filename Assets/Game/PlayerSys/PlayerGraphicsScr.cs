@@ -5,8 +5,11 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	
 	public Transform Mecha,LowerTorso,UpperTorso,LowerPelvis,ExplosionDummy,Fullbody,left_cannon,right_cannon;
 	
+	public PlayerParticles particles;
+	
 	// Use this for initialization
 	void Start () {
+		setOverheat(false,true);
 	}
 	
 	// Update is called once per frame
@@ -15,6 +18,12 @@ public class PlayerGraphicsScr : MonoBehaviour {
 			var pos=LowerPelvis.position;
 			pos.y-=0.5f;
 			UpperTorso.position=pos;
+		}
+		if (isFullbody()){
+			particles.transform.rotation=Fullbody.transform.rotation;
+		}
+		else{
+			particles.transform.rotation=UpperTorso.transform.rotation;
 		}
 	}
 	
@@ -51,6 +60,8 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		foreach (Rigidbody r in ExplosionDummy.GetComponentsInChildren(typeof(Rigidbody))){
 			r.transform.parent=null;
 		}
+		
+		particles.Explode();
 	}
 	
 	bool animation_walk,current_shoot_arm_left=true;	
@@ -128,5 +139,9 @@ public class PlayerGraphicsScr : MonoBehaviour {
 		if (left_arm)
 			return left_cannon.transform.position;
 		return right_cannon.transform.position;
+	}
+	
+	public void setOverheat(bool on,bool clear){
+		particles.setOverheat(on,clear);
 	}
 }
