@@ -17,11 +17,11 @@
     <Hp>0</Hp>
     <Cooldown>5000</Cooldown>
     <SpeedMulti>1</SpeedMulti>
-    <PowerMulti>1</PowerMulti>
+    <PowerMulti>0.5</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
-    <LifetimeMulti>1</LifetimeMulti>
-    <EnergycostMulti>1</EnergycostMulti>
-    <RadiusMulti>1</RadiusMulti>
+    <LifetimeMulti>0.2</LifetimeMulti>
+    <EnergycostMulti>0.22</EnergycostMulti>
+    <RadiusMulti>0.75</RadiusMulti>
     <HpMulti>0</HpMulti>
     <CooldownMulti>0.5</CooldownMulti>
     <AccuracyMulti>1</AccuracyMulti>

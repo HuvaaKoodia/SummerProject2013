@@ -10,20 +10,20 @@
     <AmountOfShots>1</AmountOfShots>
     <Speed>0</Speed>
     <Power>10</Power>
-    <Knockback>80000</Knockback>
+    <Knockback>60000</Knockback>
     <Lifetime>100000</Lifetime>
     <Energycost>5</Energycost>
     <Radius>5</Radius>
     <Hp>0</Hp>
-    <Cooldown>3000</Cooldown>
+    <Cooldown>3500</Cooldown>
     <SpeedMulti>0</SpeedMulti>
-    <PowerMulti>1</PowerMulti>
+    <PowerMulti>0.35</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
     <LifetimeMulti>1</LifetimeMulti>
     <EnergycostMulti>1</EnergycostMulti>
-    <RadiusMulti>1</RadiusMulti>
+    <RadiusMulti>0.4</RadiusMulti>
     <HpMulti>0</HpMulti>
-    <CooldownMulti>0</CooldownMulti>
+    <CooldownMulti>0.2</CooldownMulti>
     <AccuracyMulti>0</AccuracyMulti>
   </Values>
   <Upgrade>
