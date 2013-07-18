@@ -49,7 +49,7 @@ public class AbilityContainer{
 		mod_stats.EnergyCost=ProStats.EnergyCost*(1-GetUpgradeStat(UpgradeStat.EnergyCost,ProStats.EnergyCost_multi));
 		mod_stats.Cooldown=ProStats.Cooldown*(1-GetUpgradeStat(UpgradeStat.Cooldown,ProStats.Cooldown_multi));
 		
-		mod_stats.Life_time=ProStats.Life_time*(1+GetUpgradeStat(UpgradeStat.Lifetime,ProStats.Life_time_multi)*100);
+		mod_stats.Life_time=ProStats.Life_time*(1+GetUpgradeStat(UpgradeStat.Lifetime,ProStats.Life_time_multi));
 		mod_stats.Speed=ProStats.Speed*(1+GetUpgradeStat(UpgradeStat.Speed,ProStats.Speed_multi));
 		mod_stats.Power=ProStats.Power*(1+GetUpgradeStat(UpgradeStat.Power,ProStats.Power_multi));
 		mod_stats.Knockback=ProStats.Knockback*(1+GetUpgradeStat(UpgradeStat.Knockback,ProStats.Knockback_multi));

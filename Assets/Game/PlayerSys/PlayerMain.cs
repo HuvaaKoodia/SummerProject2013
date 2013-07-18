@@ -56,6 +56,8 @@ public class PlayerMain : MonoBehaviour
 		mp_regen_timer.Reset();
 		
 		OVERHEAT=true;
+		
+		graphics.setOverheat(true,false);
 	}
 	
 	public Color _Color{
@@ -154,6 +156,7 @@ public class PlayerMain : MonoBehaviour
 		if (OVERHEAT){
 			if (MP<stats.MP*(stats.MP_overheat_threshold_percent*0.01f)){
 				OVERHEAT=false;
+				graphics.setOverheat(false,false);
 			}
 		}
 	}
@@ -225,9 +228,7 @@ public class PlayerMain : MonoBehaviour
 	void MoveAround(Vector3 force){	
 		//if (jumped||!onGround)
 			//restrictMovement();
-		
 		rigidbody.AddRelativeForce(graphics.LowerTorso.rotation*force);
-		
 		
 		//restrict movement
 		var stick_mag=new Vector2(l_axis_x,l_axis_y).magnitude;
@@ -325,6 +326,7 @@ public class PlayerMain : MonoBehaviour
 	IEnumerator JumpStart(){
 		jump_start=false;
 		freeze_weapons=true;
+		//graphics.setOverheat(false,true);
 		graphics.setFullbody(true);
 		graphics.changeFullAnimation("JumpStart");
 		yield return new WaitForSeconds(0.1f);
