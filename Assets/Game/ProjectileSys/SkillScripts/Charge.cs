@@ -20,8 +20,22 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 		plr_main.DashStart(speedVector);
 	}
 	
+		// Update is called once per frame
+	void Update () {
+		transform.position = plr_main.transform.position;
+	}
+	
 	void OnDestroy(){
 		if (plr_main!=null)
 			plr_main.DashEnd();
+	}
+	
+	void OnTriggerEnter(Collider other){
+		if(other.gameObject.tag=="Player" && other.gameObject != plr_main.gameObject){
+			Vector3 heading = other.gameObject.transform.position - plr_main.transform.position;
+			heading.y=1f;
+			heading=heading.normalized;
+			other.gameObject.rigidbody.AddForce(heading*10000);
+		}
 	}
 }
