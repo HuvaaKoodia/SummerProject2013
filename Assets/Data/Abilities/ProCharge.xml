@@ -12,10 +12,10 @@
     <Power>0</Power>
     <Knockback>3</Knockback>
     <Lifetime>2000</Lifetime>
-    <Energycost>10</Energycost>
+    <Energycost>18</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
-    <Cooldown>3500</Cooldown>
+    <Cooldown>4500</Cooldown>
     <SpeedMulti>0.35</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>0</KnockbackMulti>

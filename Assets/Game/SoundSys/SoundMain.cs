@@ -52,14 +52,20 @@ public class SoundMain : MonoBehaviour
 				onDeath.clip = sfx.onDeath;
 				onDeath.enabled=true;
 				onDeath.Play();
-			}
+			} 
+			
 		}
 		else
 			return;//no sounds -> don't detach
 		transform.parent = null;
+		playCollisionSound();
 		isDetached = true;
 		onDeath.enabled=true;
+		
+		
 		enabled=true;
+		
+		
 	}
 	public void playCollisionSound(){
 		if (onCollision!=null){

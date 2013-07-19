@@ -7,6 +7,8 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 	RaycastHit hitInfo;
 	LineRenderer line_rend;
 	public float lenght;
+	AudioSource onHit;
+	public StoreSounds sfx;
 	
 	// Use this for initialization
 	void Start () {
@@ -34,6 +36,11 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 			if (hitInfo.collider.gameObject.tag=="Player"){
 				var player=hitInfo.collider.gameObject.GetComponent<PlayerMain>();
 				player.HP-=Time.deltaTime*pro_main.mod_stats.Power;
+				onHit = gameObject.AddComponent<AudioSource> ();
+				onHit.clip = sfx.onCollision;
+				onHit.loop = true;
+				if(!onHit.isPlaying){
+				onHit.Play();}
 			}
 		}
 		else{
