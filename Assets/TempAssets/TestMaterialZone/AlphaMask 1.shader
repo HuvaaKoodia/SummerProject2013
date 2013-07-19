@@ -48,19 +48,18 @@ sampler2D _alpha_mask;
 			
 			inline half4 LightingBlinnPhongEditor_PrePass (EditorSurfaceOutput s, half4 light)
 			{
-half3 spec = light.a * s.Gloss;
-half4 c;
-c.rgb = (s.Albedo * light.rgb + light.rgb * spec);
-c.a = s.Alpha;
-return c;
-
+				half3 spec = light.a * s.Gloss;
+				half4 c;
+				c.rgb = (s.Albedo * light.rgb + light.rgb * spec);
+				c.a = s.Alpha;
+				return c;
 			}
 
 			inline half4 LightingBlinnPhongEditor (EditorSurfaceOutput s, half3 lightDir, half3 viewDir, half atten)
 			{
 				half3 h = normalize (lightDir + viewDir);
 				
-				half diff = max (0, dot ( lightDir, s.Normal ));
+				half diff = max (0, dot ( lightDir, s.Normal));
 				
 				float nh = max (0, dot (s.Normal, h));
 				float spec = pow (nh, s.Specular*128.0);
@@ -93,7 +92,7 @@ return c;
 				
 				float4 alpha_tex=tex2D(_alpha_mask,(IN.uv_alpha_mask))*_Color;
 				float4 main_tex=tex2D(_diffuse,(IN.uv_diffuse)).rgba;
-				o.Albedo = main_tex-alpha_tex.a*main_tex+alpha_tex;
+				o.Albedo = main_tex-alpha_tex.a*main_tex+alpha_tex.a*alpha_tex;
 				o.Alpha = 1.0;
 			}
 		ENDCG

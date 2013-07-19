@@ -10,8 +10,8 @@
     <AmountOfShots>1</AmountOfShots>
     <Speed>4.2</Speed>
     <Power>7</Power>
-    <Knockback>0</Knockback>
-    <Lifetime>8000</Lifetime>
+    <Knockback>1.3</Knockback>
+    <Lifetime>1566</Lifetime>
     <Energycost>6.2</Energycost>
     <Radius>10</Radius>
     <Hp>8</Hp>
@@ -33,7 +33,7 @@
     <Knockback>false</Knockback>
     <Cooldown>true</Cooldown>
     <Radius>false</Radius>
-    <Lifetime>true</Lifetime>
+    <Lifetime>false</Lifetime>
     <EnergyCost>true</EnergyCost>
     <HP>false</HP>
   </Upgrade>

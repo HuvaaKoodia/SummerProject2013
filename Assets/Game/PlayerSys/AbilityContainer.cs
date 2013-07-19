@@ -66,6 +66,8 @@ public class AbilityContainer{
 			
 			var dis = Mathf.Max (ProStats.Size, 0.2f);//+player.rigidbody.velocity.magnitude/10
 			var spawn_pos = pos + direction * dis;
+			if (ProStats.Start_in_player_pos)
+				spawn_pos=player.transform.position;
 			//check if pos free
 			if (ProStats.Check_start_collisions){
 				var ray_hits = Physics.RaycastAll (pos-direction*1,direction, dis+1);

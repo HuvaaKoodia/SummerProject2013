@@ -140,19 +140,19 @@ public class PlayerMain : MonoBehaviour
 		
 		updateRotations();
 		if (!OVERHEAT&&!freeze&&!freeze_weapons){
-			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)||Input.GetKey(KeyCode.L)){//DEV.KEY
+			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)||Input.GetKey(KeyCode.V)){//DEV.KEY
 				useAbility(2,false);
 			}
 			
-			if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
+			if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)||Input.GetKey(KeyCode.B)){
 				useAbility(1,true);
 			}
 			
-			if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0) {
+			if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0||Input.GetKey(KeyCode.N)) {
 				useAbility(3,false);
 			}
 			
-			if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0) {
+			if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0||Input.GetKey(KeyCode.M)) {
 				useAbility(0,true);
 			}
 		}
@@ -474,6 +474,12 @@ public class PlayerMain : MonoBehaviour
 	{
 		animations.dashEnd();
 	}
+	
+	public void KNOCKBACKHAX(Vector3 force){
+		animations.KNOCKBACKHAX(force);
+		
+	}
+
 }
 #region temp
 /*DEV. mouse 

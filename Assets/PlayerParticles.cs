@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerParticles : MonoBehaviour {
 	
 	public ParticleSystem[] overheat_particles;
-	public GameObject exploder;
+	public GameObject exploder,stomp_smoke;
 	
 	// Use this for initialization
 	void Start () {
@@ -35,5 +35,9 @@ public class PlayerParticles : MonoBehaviour {
 		e.min_a=3;e.max_a=8;
 		e.min_time=0.05f;e.max_time=0.2f;
 		e.max_rad=0.6f;
+	}
+	
+	public void STOMP(){
+		Instantiate(stomp_smoke,transform.position,Quaternion.identity);
 	}
 }

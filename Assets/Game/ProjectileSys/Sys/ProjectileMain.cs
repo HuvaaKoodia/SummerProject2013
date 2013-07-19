@@ -105,6 +105,10 @@ public class ProjectileMain : MonoBehaviour {
 		if (other.gameObject.tag=="Player"){
 			var player=other.gameObject.transform.GetComponent<PlayerMain>();
 			player.HP-=mod_stats.Power;//other.impactForceSum.magnitude/10;
+			var dir=move_direction.normalized;
+			dir.y=1f;
+			if (original_stats.Knockback_HAX)
+				player.KNOCKBACKHAX(dir*mod_stats.Knockback);
 		}
 		if (other.gameObject.tag=="Projectile"){
 			if (mod_stats.HP>0){
