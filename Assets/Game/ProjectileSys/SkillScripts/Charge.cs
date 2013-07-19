@@ -9,25 +9,19 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 	Vector3 speedVector;
 	
 	// Use this for initialization
-	void Start () {
+	void Start (){
 		pro_main=GetComponent<ProjectileMain>();
 		plr_main = pro_main.Creator;
-		heading = plr_main.LowerTorsoDir;
+		heading = plr_main.LowerGraphicsDir*Vector3.forward;
 		force=pro_main.mod_stats.Speed;
-	}
-	
-	// Update is called once per frame
- 	void Update () {
-		plr_main.freezeMovement(true);
-		speedVector=heading * (force / 2f);
- 		speedVector.y = plr_main.rigidbody.velocity.y;
 		
-		plr_main.rigidbody.velocity = new Vector3(speedVector.x,plr_main.rigidbody.velocity.y, speedVector.z);
-	}
+		speedVector=heading * (force / 2f);
 
+		plr_main.DashStart(speedVector);
+	}
 	
 	void OnDestroy(){
 		if (plr_main!=null)
-			plr_main.freezeMovement(false);
+			plr_main.DashEnd();
 	}
 }

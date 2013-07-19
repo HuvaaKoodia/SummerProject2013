@@ -86,14 +86,7 @@ return c;
 
 			};
 
-			void vert (inout appdata_full v, out Input o) {
-float4 VertexOutputMaster0_0_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_1_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_2_NoInput = float4(0,0,0,0);
-float4 VertexOutputMaster0_3_NoInput = float4(0,0,0,0);
-
-
-			}
+			void vert (inout appdata_full v, out Input o) {}
 			
 
 			void surf (Input IN, inout EditorSurfaceOutput o) {
@@ -116,10 +109,6 @@ float4 Tex2DNormal0=float4(UnpackNormal( tex2D(_normal,Add2.xy)).xyz, 1.0 );
 float4 UnpackNormal0=float4(UnpackNormal(Tex2DNormal0).xyz, 1.0);
 float4 Tex2D2=tex2D(_specular,Add2.xy);
 float4 Multiply1=_emission * Tex2D2;
-float4 Master0_3_NoInput = float4(0,0,0,0);
-float4 Master0_4_NoInput = float4(0,0,0,0);
-float4 Master0_7_NoInput = float4(0,0,0,0);
-float4 Master0_6_NoInput = float4(1,1,1,1);
 o.Albedo = Tex2D0;
 o.Normal = UnpackNormal0;
 o.Emission = Multiply1;

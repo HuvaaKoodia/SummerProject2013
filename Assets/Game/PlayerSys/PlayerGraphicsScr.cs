@@ -19,6 +19,7 @@ public class PlayerGraphicsScr : MonoBehaviour {
 			pos.y-=0.5f;
 			UpperTorso.position=pos;
 		}
+		//DEV.Glorious Hax!
 		if (isFullbody()){
 			particles.transform.rotation=Fullbody.transform.rotation;
 		}

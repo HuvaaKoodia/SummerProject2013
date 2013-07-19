@@ -66,22 +66,26 @@ public class PlayerMain : MonoBehaviour
 		}
 	}
 	
+	public bool onGround{get;private set;}
 	public Vector3 AimDir{get{return last_aim_direction;}}
 	public Vector3 UpperTorsoDir{get{return last_upper_direction;}}
 	public Vector3 LowerTorsoDir{get{return last_move_direction;}}
+	
+	public Quaternion UpperGraphicsDir{get{return graphics.UpperTorso.rotation;}}
+	public Quaternion LowerGraphicsDir{get{return graphics.LowerTorso.rotation;}}
 	
 	public bool OVERHEAT{get;private set;}
 	
 	//private 
 	bool ignoreExplosion=false,on_legit_ground=false;
 	bool freeze_movement = false,invulnerable=false;
-	bool jump_end=true,jump_start=true,jump_has_peaked=false;
+
 	bool freeze_lower=false,freeze_upper=false,freeze_weapons=false;
-	bool onGround, canJump, jumped,destroyed=false,freeze=false,mp_regen_on=false;
+	bool destroyed=false,freeze=false,mp_regen_on=false;
 	
 	float MP_regen_multi=5f,Lower_torso_rotation_deadzone=0.3f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
-	float current_jump_y;
+
 	
 	float regen_multi=-1;
 	
@@ -89,8 +93,11 @@ public class PlayerMain : MonoBehaviour
 	
 	Timer legit_timer,onGround_timer,mp_regen_timer;
 	Vector3 last_aim_direction,last_move_direction,last_upper_direction;
+	
+	PlayerAnimations animations;
 
 	void Start () {
+		animations=new PlayerAnimations(this);
 		//last_aim_direction=last_move_direction=Vector3.forward;
 		
 		legit_timer = new Timer(888, OnLegit);
@@ -119,6 +126,8 @@ public class PlayerMain : MonoBehaviour
 
 	void Update ()
 	{
+		animations.Update();
+		
 		legit_timer.Update();
 		onGround_timer.Update();
 		mp_regen_timer.Update();
@@ -185,23 +194,22 @@ public class PlayerMain : MonoBehaviour
 			}
 			//jump
 			if (Input.GetButton ("A_" + controllerNumber) || Input.GetButton ("LS_" + controllerNumber)) {
-				if (onGround&&canJump){
-					jumped=true;
-					canJump = false;
+				if (onGround&&animations.canJump){
+					
 					//Debug.Log ("Jump force++");
-					jumpStart();
+					animations.jumpStart();
 					sounds.StopWalk();
 				}
 			}
 		}
 
-		if (jumped||!onGround){
-			rigidbody.velocity = new Vector3(rigidbody.velocity.x,current_jump_y, rigidbody.velocity.z);
-			current_jump_y+=Physics.gravity.y*Time.deltaTime;
+		if (animations.jumped||!onGround){
+			rigidbody.velocity = new Vector3(rigidbody.velocity.x,animations.current_jump_y, rigidbody.velocity.z);
+			animations.current_jump_y+=Physics.gravity.y*Time.deltaTime;
 			//Debug.Log ("Jump y "+current_jump_y+", grav: "+Physics.gravity.y);
 		}
 		else{ 
-			current_jump_y=rigidbody.velocity.y;
+			animations.current_jump_y=rigidbody.velocity.y;
 			//Debug.Log ("Jump y reset");
 		}
 		
@@ -260,8 +268,7 @@ public class PlayerMain : MonoBehaviour
 	}
 
 	void OnCollisionStay(Collision other)
-	{	
-
+	{
 		int angle=10;
 		if (other.gameObject.tag=="Gib")
 			angle=30;
@@ -282,59 +289,15 @@ public class PlayerMain : MonoBehaviour
 					}
 				}
 				
-				jumpEnd();
-				jump_has_peaked=false;
+				animations.jumpEnd();
+				animations.jump_has_peaked=false;
 				
 				break;
 			}
 		}
 	}
 
-	void jumpStart(){
-		if (jump_start&&!(current_jump_y>1))
-			StartCoroutine(JumpStart());
-	}
 	
-	void jumpEnd(){
-		if (jumped&&canJump&&jump_end&&current_jump_y<0){
-			StartCoroutine(JumpEnd());
-		}
-	}
-	
-	IEnumerator JumpEnd(){
-		jumped=false;
-		if (jump_has_peaked){
-			graphics.changeFullAnimation("JumpEnd");
-			jump_end=false;
-			freeze=freeze_lower=freeze_upper=true;
-			
-			//lil aoe
-			NotificationCenter.Instance.sendNotification(new Explosion_note(transform.position+transform.TransformDirection(Vector3.down),10000f,3f));
-			
-			yield return new WaitForSeconds(graphics.Fullbody.animation["JumpEnd"].length);
-		}
-		freeze_weapons=false;
-		graphics.setFullbody(false);
-		jump_end=true;
-		jump_has_peaked=false;
-		
-		freeze=freeze_lower=freeze_upper=false;
-		
-		UpperIsLower();
-	}
-	
-	IEnumerator JumpStart(){
-		jump_start=false;
-		freeze_weapons=true;
-		//graphics.setOverheat(false,true);
-		graphics.setFullbody(true);
-		graphics.changeFullAnimation("JumpStart");
-		yield return new WaitForSeconds(0.1f);
-		current_jump_y=stats.Jump_speed;
-		
-		jump_start=true;
-		yield return null;
-	}
 	
 	void OnLegit()
 	{
@@ -347,8 +310,8 @@ public class PlayerMain : MonoBehaviour
 		onGround=false;
 		on_legit_ground=false;
 		
-		canJump=true;
-		jump_has_peaked=true;
+		animations.canJump=true;
+		animations.jump_has_peaked=true;
 		
 		legit_timer.Active=false;
 		onGround_timer.Active=false;
@@ -374,7 +337,7 @@ public class PlayerMain : MonoBehaviour
 		NotificationCenter.Instance.removeListener(OnExplosion,NotificationType.Explode);
 	}
 
-	private void UpperIsLower(){
+	public void UpperIsLower(){
 		graphics.UpperTorso.rotation=graphics.LowerTorso.rotation;
 		
 		//var rot=graphics.UpperTorso.rotation*Vector3.forward;
@@ -445,8 +408,16 @@ public class PlayerMain : MonoBehaviour
 		freeze_movement=freeze;
 	}
 	
-	public void freezePlayer(){
-		freeze=true;
+	public void freezePlayer(bool freeze){
+		this.freeze=freeze;
+	}
+	
+	public void freezeWeapons(bool freeze){
+		freeze_weapons=freeze;
+	}
+	
+	public void freezeRotations(bool freeze){
+		freeze_lower=freeze_upper=freeze;
 	}
 	
 	public void toggleInvulnerability(){
@@ -492,6 +463,16 @@ public class PlayerMain : MonoBehaviour
 		
 		graphics.UpperTorso.rotation=rotation;
 		last_aim_direction=rotation*Vector3.forward;
+	}
+
+	public void DashStart(Vector3 velocity)
+	{
+		animations.dashStart(velocity);
+	}
+	
+	public void DashEnd()
+	{
+		animations.dashEnd();
 	}
 }
 #region temp
