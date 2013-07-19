@@ -38,6 +38,6 @@ public class PlayerParticles : MonoBehaviour {
 	}
 	
 	public void STOMP(){
-		Instantiate(stomp_smoke,transform.position,Quaternion.identity);
+		Instantiate(stomp_smoke,transform.position+Vector3.down*0.45f,Quaternion.identity);
 	}
 }

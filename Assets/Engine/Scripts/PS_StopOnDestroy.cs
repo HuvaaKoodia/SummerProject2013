@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PE_StopOnDestroy : MonoBehaviour {
+public class PS_StopOnDestroy : MonoBehaviour {
 
 	// Use this for initialization
 	public ParticleSystem PS;

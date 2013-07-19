@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PE_LightIntensity : MonoBehaviour {
+public class PS_LightIntensity : MonoBehaviour {
 
 	// Use this for initialization
 	ParticleSystem PS; 
