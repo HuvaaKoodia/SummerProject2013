@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GraphicsToRotation : MonoBehaviour,ProjectileModifier {
 	
+	public float spin_speed=100;
 	ProjectileMain pro;
 	// Use this for initialization
 	void Start () {
@@ -15,6 +16,9 @@ public class GraphicsToRotation : MonoBehaviour,ProjectileModifier {
 		setToRot();
 	}
 	void setToRot(){
-		pro.graphics.transform.LookAt(pro.graphics.transform.position+ (pro.rigidbody.velocity));
+		var dir_pos=pro.transform.position+ (pro.rigidbody.velocity);
+		//pro.graphics.transform.rotation=Quaternion.Euler(pro.transform.TransformDirection(dir_pos));
+		pro.graphics.transform.LookAt(dir_pos);
+		pro.graphics.transform.Rotate(Vector3.forward*Time.time*spin_speed);
 	}
 }

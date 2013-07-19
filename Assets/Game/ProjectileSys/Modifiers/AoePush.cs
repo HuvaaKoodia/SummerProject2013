@@ -13,14 +13,16 @@ public class AoePush : MonoBehaviour,ProjectileModifier {
 		radius=GetComponent<ProjectileMain>().mod_stats.Radius;
 		
 		plr = GetComponent<ProjectileMain>().Creator;
-	} 
-	
-	// Update is called once per frame
-	void Update () {
+		
 		plr.IgnoreExplosion();
 	
 		NotificationCenter.Instance.sendNotification(new Explosion_note(plr.transform.position+Vector3.down, force, radius));
 		
-		Destroy(gameObject);
+	} 
+	
+	// Update is called once per frame
+	void Update () {
+
+		//Destroy(gameObject);
 	}
 }

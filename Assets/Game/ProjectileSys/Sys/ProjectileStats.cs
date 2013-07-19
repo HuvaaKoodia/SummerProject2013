@@ -9,7 +9,9 @@ public class ProjectileStats : MonoBehaviour {
 	public bool 
 		Gravity_on=false,
 		DoubleBarreledFunTime=true,
-		Check_start_collisions=true
+		Check_start_collisions=true,
+		Knockback_HAX=true,
+		Start_in_player_pos=false
 		;
 	
 	public float 

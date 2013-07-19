@@ -72,6 +72,7 @@ public class PlayerAnimations{
 			
 			//lil aoe
 			NotificationCenter.Instance.sendNotification(new Explosion_note(player.transform.position+player.transform.TransformDirection(Vector3.down),10000f,3f));
+			player.graphics.particles.STOMP();
 			
 			yield return new WaitForSeconds(player.graphics.Fullbody.animation["JumpEnd"].length);
 		}
@@ -100,7 +101,6 @@ public class PlayerAnimations{
 	IEnumerator DashEnd(){
 		dash_move=false;
 		player.graphics.changeFullAnimation("DashEnd");
-		Debug.Log("dsh length"+player.graphics.Fullbody.animation["DashEnd"].length);
 		yield return new WaitForSeconds(player.graphics.Fullbody.animation["DashEnd"].length);
 		
 		dashing=false;
@@ -113,4 +113,16 @@ public class PlayerAnimations{
 		yield return null;
 	}
 
+	public void KNOCKBACKHAX (Vector3 force)
+	{
+		player.StartCoroutine(start_knockback_hax(force,0.3f));
+	}
+	
+	IEnumerator start_knockback_hax(Vector3 force ,float seconds){
+		if (jumped||dashing) yield return null;
+		player.freezeMovement(true);
+		player.transform.rigidbody.velocity=force;
+		yield return new WaitForSeconds(seconds);
+		player.freezeMovement(false);
+	}
 }
