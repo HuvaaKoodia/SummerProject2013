@@ -15,7 +15,7 @@
     <Energycost>6.2</Energycost>
     <Radius>10</Radius>
     <Hp>8</Hp>
-    <Cooldown>111</Cooldown>
+    <Cooldown>100</Cooldown>
     <SpeedMulti>0.25</SpeedMulti>
     <PowerMulti>0.2</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>

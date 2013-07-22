@@ -27,6 +27,7 @@ public class PlayerHudMain : MonoBehaviour
 	public PlayerHudBGscr menu_BG_panel;
 	public UISlider hp_slider, mp_slider;
 	public UIAnchor anchor;
+	public SoundPlayer sfxr;
 	
 	ItemContainerMain swap_item;
 	
@@ -68,6 +69,7 @@ public class PlayerHudMain : MonoBehaviour
 			//input
 			if (state != AbilityMenuState.Ready) {
 				if (Input.GetButtonDown ("A_" + playerData.controllerNumber)) {
+					sfxr.playSelect();
 					if (state == AbilityMenuState.Bar) {
 						changeState (AbilityMenuState.Shop);
 					}else if (state == AbilityMenuState.Shop) {
@@ -81,11 +83,18 @@ public class PlayerHudMain : MonoBehaviour
 				}
 			
 				if (Input.GetButtonDown ("B_" + playerData.controllerNumber)) {
+					
+					if(state!=AbilityMenuState.Bar){
+						sfxr.playCancel();
+					}
 					changeState (AbilityMenuState.Bar);
 				}
 			
 				if (Input.GetButtonDown ("Y_" + playerData.controllerNumber)) {
-					if (state != AbilityMenuState.Upgrade)
+					if(state!=AbilityMenuState.Upgrade){
+						sfxr.playSelect();
+					}
+						if (state != AbilityMenuState.Upgrade)
 						changeState (AbilityMenuState.Upgrade);
 				}
 			
@@ -94,6 +103,7 @@ public class PlayerHudMain : MonoBehaviour
 		
 			if (gameController.State==GameState.Setup) {
 				if (Input.GetButtonDown ("Start_" + playerData.controllerNumber)||Input.GetKeyDown(KeyCode.K)) {//DEV.key
+					sfxr.playSelect();
 					if (state == AbilityMenuState.Ready) {
 						changeState (AbilityMenuState.Bar);
 					} else {
@@ -107,6 +117,7 @@ public class PlayerHudMain : MonoBehaviour
 				
 				//back to player activation
 				if (Input.GetButtonDown ("Back_" + playerData.controllerNumber)) {
+					sfxr.playCancel();
 					if (state != AbilityMenuState.Ready && state != AbilityMenuState.Off) {
 						changeState (AbilityMenuState.Off);
 					}
@@ -136,6 +147,7 @@ public class PlayerHudMain : MonoBehaviour
 			//update MP & HP
 			if (state == AbilityMenuState.Bar) {
 				if (Input.GetButtonDown ("X_" + playerData.controllerNumber)) {
+					sfxr.playSelect();
 					if (swap_item == null) {
 						swap_item = GetSelectedBar ();
 						_Camera.selectedObjectHighlight = AbilityBarGrid.SelectedItem ().gameObject;
@@ -151,8 +163,8 @@ public class PlayerHudMain : MonoBehaviour
 			}
 			if (state == AbilityMenuState.Ready) {
 				if (playerData.Player != null) {
-					hp_slider.sliderValue = playerData.Player.HP / 100f;
-					mp_slider.sliderValue = playerData.Player.MP / 100f;
+					hp_slider.sliderValue = playerData.Player.HP / playerData.Player.stats.HP;
+					mp_slider.sliderValue = playerData.Player.MP / playerData.Player.stats.MP;
 				}
 				else{
 					//hp_slider.sliderValue=mp_slider.sliderValue = 0;
@@ -172,6 +184,8 @@ public class PlayerHudMain : MonoBehaviour
 			}
 		}
 	}
+	
+	
 	void disableSwap(){
 		if(!swap_item)
 			return ;

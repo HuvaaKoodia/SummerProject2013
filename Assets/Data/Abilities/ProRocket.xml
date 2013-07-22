@@ -2,7 +2,7 @@
   <Basic>
     <Name>Basic Missile</Name>
     <Sprite>Homing</Sprite>
-    <Cost>44</Cost>
+    <Cost>18</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>

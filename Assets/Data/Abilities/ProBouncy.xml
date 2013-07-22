@@ -2,7 +2,7 @@
   <Basic>
     <Name>Bouncy pro</Name>
     <Sprite>Bouncy</Sprite>
-    <Cost>22</Cost>
+    <Cost>10</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>
@@ -14,7 +14,7 @@
     <Lifetime>-1</Lifetime>
     <Energycost>20</Energycost>
     <Radius>10</Radius>
-    <Hp>0</Hp>
+    <Hp>10</Hp>
     <Cooldown>1000</Cooldown>
     <SpeedMulti>0.25</SpeedMulti>
     <PowerMulti>0.28</PowerMulti>

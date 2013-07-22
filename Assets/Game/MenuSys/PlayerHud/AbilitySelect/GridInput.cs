@@ -9,8 +9,9 @@ public class GridInput : MonoBehaviour
 	public Transform[,] Grid;
 	public int grid_width,grid_height;
 	public bool ForwardToItem,WrapToNextLineHorizontal;
-	
 	int s_x,s_y;
+	public SoundPlayer sfxr;
+	
 	public ButtonAction AcceptEvent,CancelEvent;
 	
 	void Start ()
@@ -23,30 +24,36 @@ public class GridInput : MonoBehaviour
 		if (enabled)
 		{
 			switch (key)
-			{
+			{	
 			case KeyCode.LeftArrow:
+				sfxr.playMove();
 					addX(-1);
 					if (WrapToNextLineHorizontal&&s_x==Grid.GetLength(0)-1){
 						addY(-1);
 					}
 				break;
 			case KeyCode.RightArrow:
+				sfxr.playMove();
 				addX(1);
 				if (WrapToNextLineHorizontal&&s_x==0){
 					addY(1);
 				}
 				break;
 			case KeyCode.UpArrow:
+				sfxr.playMove();
 				addY(-1);
 				break;
 			case KeyCode.DownArrow:
+				sfxr.playMove();
 				addY(1);
 				break;
 			case KeyCode.A:
+				sfxr.playSelect();
 				if (AcceptEvent!=null)
 					AcceptEvent();
 				break;
 			case KeyCode.B:
+				sfxr.playCancel();
 				if (CancelEvent!=null)
 					CancelEvent();
 				break;
@@ -60,10 +67,12 @@ public class GridInput : MonoBehaviour
 	
 	void addX(int a){
 		s_x=Subs.Wrap(s_x+a,0,Grid.GetLength(0));
+		
 	}
 	
 	void addY(int a){
 		s_y=Subs.Wrap(s_y+a,0,Grid.GetLength(1));
+		
 	}
 	
 	public void HighlightCurrent(){
@@ -110,5 +119,7 @@ public class GridInput : MonoBehaviour
 	public void ChangeSelectedItem (Transform swap_item)
 	{
 		Grid[s_x,s_y]=swap_item;
+		
 	}
+	
 }

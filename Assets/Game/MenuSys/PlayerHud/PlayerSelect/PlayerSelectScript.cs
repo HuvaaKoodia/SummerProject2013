@@ -11,9 +11,8 @@ public class PlayerSelectScript : MonoBehaviour
 	
 	bool updatedOnce = false;
 	int controller = 0, colorIndex = 0;
-	
 	List<Color> presetColors;
-	
+	public SoundPlayer sfxr;
 	Color current_color, startColor;
 
 	
@@ -65,7 +64,10 @@ public class PlayerSelectScript : MonoBehaviour
 	}
 	
 	void stateUpdate (int addAmount)
-	{
+	{	
+		if(addAmount>0){
+		}else if(addAmount<0){
+		}
 		player.state += addAmount;
 		setState (player.state);
 	}
@@ -84,12 +86,16 @@ public class PlayerSelectScript : MonoBehaviour
 	void Update ()
 	{
 		if (Input.GetButtonDown ("Start_" + (controller))||Input.GetButtonDown ("A_" + (controller))||Input.GetKey(KeyCode.K)) {//DEV.key
-			if (player.state != PlayerState.ready)
+			if (player.state != PlayerState.ready){
 				stateUpdate (1);
+				sfxr.playSelect();
+			}
+			
 			
 		} else 
 		if (Input.GetButtonDown ("Back_" + (controller))||Input.GetButtonDown ("B_" + (controller))) {
 			if (player.state > 0) {
+				sfxr.playCancel();
 				stateUpdate (-1);
 			}
 		}
@@ -99,6 +105,7 @@ public class PlayerSelectScript : MonoBehaviour
 		if (player.state == PlayerState.connected) {
 			
 			if (input != 0 && !updatedOnce) {
+				sfxr.playMove();
 				updatedOnce = true;
 				if (input > 0) {
 					colorIndex++;

@@ -11,11 +11,11 @@
     <Speed>0</Speed>
     <Power>10</Power>
     <Knockback>0</Knockback>
-    <Lifetime>2501</Lifetime>
+    <Lifetime>2401</Lifetime>
     <Energycost>10</Energycost>
     <Radius>1</Radius>
     <Hp>0</Hp>
-    <Cooldown>7000</Cooldown>
+    <Cooldown>7300</Cooldown>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>

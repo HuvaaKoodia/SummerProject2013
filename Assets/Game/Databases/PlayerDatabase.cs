@@ -47,7 +47,7 @@ public class PlayerData
 	public int controllerNumber;
 	public PlayerState state = PlayerState.notConnected;
 	public Color color;
-	public int ResourceAmount = 100;
+	public int ResourceAmount = 60;
 	public List<AbilityItem> Abilities = new List<AbilityItem>();
 	public PlayerHudMain Hud;
 	

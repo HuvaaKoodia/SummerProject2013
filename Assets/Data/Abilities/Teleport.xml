@@ -2,7 +2,7 @@
   <Basic>
     <Name>Teleport</Name>
     <Sprite>Teleport</Sprite>
-    <Cost>12</Cost>
+    <Cost>15</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>

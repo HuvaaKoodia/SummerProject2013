@@ -2,7 +2,7 @@
   <Basic>
     <Name>Shotgun</Name>
     <Sprite>Flare</Sprite>
-    <Cost>33</Cost>
+    <Cost>25</Cost>
   </Basic>
   <Values>
     <Spread>45</Spread>

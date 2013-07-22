@@ -2,7 +2,7 @@
   <Basic>
     <Name>Proximity Mine</Name>
     <Sprite>Mine</Sprite>
-    <Cost>23</Cost>
+    <Cost>15</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>

@@ -2,7 +2,7 @@
   <Basic>
     <Name>SlowMo Field</Name>
     <Sprite>SlowMo</Sprite>
-    <Cost>22</Cost>
+    <Cost>20</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>

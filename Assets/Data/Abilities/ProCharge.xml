@@ -2,7 +2,7 @@
   <Basic>
     <Name>Charge</Name>
     <Sprite>Charge</Sprite>
-    <Cost>25</Cost>
+    <Cost>10</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>

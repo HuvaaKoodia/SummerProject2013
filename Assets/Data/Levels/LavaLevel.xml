@@ -1,6 +1,6 @@
 <Stats>
   <Name>LavaPit</Name>
-  <Terrain_deterioration_time>13525</Terrain_deterioration_time>
+  <Terrain_deterioration_time>14825</Terrain_deterioration_time>
   <Tile_random_time_min>20000</Tile_random_time_min>
   <Tile_random_time_max>30000</Tile_random_time_max>
   <Tile_random_low_change>9</Tile_random_low_change>
