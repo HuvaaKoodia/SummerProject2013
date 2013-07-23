@@ -2,7 +2,7 @@
   <Basic>
     <Name>Bouncy pro</Name>
     <Sprite>Bouncy</Sprite>
-    <Cost>10</Cost>
+    <Cost>8</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>

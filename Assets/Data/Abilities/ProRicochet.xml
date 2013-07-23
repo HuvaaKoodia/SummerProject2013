@@ -9,21 +9,21 @@
     <AimDistance>4.3</AimDistance>
     <AmountOfShots>1</AmountOfShots>
     <Speed>4.7</Speed>
-    <Power>14</Power>
+    <Power>15</Power>
     <Knockback>0</Knockback>
     <Lifetime>8000</Lifetime>
-    <Energycost>16</Energycost>
+    <Energycost>20</Energycost>
     <Radius>10</Radius>
     <Hp>20</Hp>
     <Cooldown>673</Cooldown>
-    <SpeedMulti>0.35</SpeedMulti>
+    <SpeedMulti>0.38</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
     <LifetimeMulti>1</LifetimeMulti>
-    <EnergycostMulti>0.34</EnergycostMulti>
+    <EnergycostMulti>0.32</EnergycostMulti>
     <RadiusMulti>1</RadiusMulti>
     <HpMulti>0</HpMulti>
-    <CooldownMulti>0.2</CooldownMulti>
+    <CooldownMulti>0.19</CooldownMulti>
     <AccuracyMulti>1</AccuracyMulti>
   </Values>
   <Upgrade>
@@ -33,7 +33,7 @@
     <Knockback>false</Knockback>
     <Cooldown>false</Cooldown>
     <Radius>false</Radius>
-    <Lifetime>true</Lifetime>
+    <Lifetime>false</Lifetime>
     <EnergyCost>true</EnergyCost>
     <HP>false</HP>
   </Upgrade>

@@ -2,7 +2,7 @@
   <Basic>
     <Name>LazorBeam</Name>
     <Sprite>Lazor</Sprite>
-    <Cost>11</Cost>
+    <Cost>13</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>
@@ -15,12 +15,12 @@
     <Energycost>33</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
-    <Cooldown>2700</Cooldown>
+    <Cooldown>3145</Cooldown>
     <SpeedMulti>1</SpeedMulti>
-    <PowerMulti>0.5</PowerMulti>
+    <PowerMulti>0.43</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
-    <LifetimeMulti>0.4</LifetimeMulti>
-    <EnergycostMulti>0.2</EnergycostMulti>
+    <LifetimeMulti>0.35</LifetimeMulti>
+    <EnergycostMulti>0.22</EnergycostMulti>
     <RadiusMulti>1</RadiusMulti>
     <HpMulti>0</HpMulti>
     <CooldownMulti>0.3</CooldownMulti>

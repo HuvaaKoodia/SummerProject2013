@@ -20,11 +20,11 @@
     <PowerMulti>0.2</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
     <LifetimeMulti>1</LifetimeMulti>
-    <EnergycostMulti>0.45</EnergycostMulti>
+    <EnergycostMulti>0.43</EnergycostMulti>
     <RadiusMulti>1</RadiusMulti>
     <HpMulti>0</HpMulti>
-    <CooldownMulti>0.5</CooldownMulti>
-    <AccuracyMulti>0.75</AccuracyMulti>
+    <CooldownMulti>0.4</CooldownMulti>
+    <AccuracyMulti>0.7</AccuracyMulti>
   </Values>
   <Upgrade>
     <Speed>true</Speed>

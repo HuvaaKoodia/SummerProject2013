@@ -5,7 +5,7 @@
   <Jump_speed>6.5</Jump_speed>
   <Move_speed>1.1</Move_speed>
   <Upper_torso_rotation_multi>2</Upper_torso_rotation_multi>
-  <Lower_torso_rotation_multi>1.5</Lower_torso_rotation_multi>
+  <Lower_torso_rotation_multi>1.6</Lower_torso_rotation_multi>
   <MP_regen_multi>7.5</MP_regen_multi>
   <MP_regen_add>7</MP_regen_add>
   <MP_overheat_threshold_percent>65</MP_overheat_threshold_percent>

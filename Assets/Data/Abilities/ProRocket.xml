@@ -2,7 +2,7 @@
   <Basic>
     <Name>Basic Missile</Name>
     <Sprite>Homing</Sprite>
-    <Cost>20</Cost>
+    <Cost>25</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>
@@ -15,13 +15,13 @@
     <Energycost>35</Energycost>
     <Radius>3.5</Radius>
     <Hp>0</Hp>
-    <Cooldown>3286</Cooldown>
-    <SpeedMulti>0.45</SpeedMulti>
+    <Cooldown>3347</Cooldown>
+    <SpeedMulti>0.41</SpeedMulti>
     <PowerMulti>0.27</PowerMulti>
-    <KnockbackMulti>0.35</KnockbackMulti>
+    <KnockbackMulti>0.41</KnockbackMulti>
     <LifetimeMulti>1</LifetimeMulti>
-    <EnergycostMulti>0.23</EnergycostMulti>
-    <RadiusMulti>0.75</RadiusMulti>
+    <EnergycostMulti>0.25</EnergycostMulti>
+    <RadiusMulti>0.85</RadiusMulti>
     <HpMulti>0</HpMulti>
     <CooldownMulti>0.2</CooldownMulti>
     <AccuracyMulti>1</AccuracyMulti>

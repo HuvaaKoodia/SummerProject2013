@@ -2,7 +2,7 @@
   <Basic>
     <Name>Teleport</Name>
     <Sprite>Teleport</Sprite>
-    <Cost>15</Cost>
+    <Cost>14</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>
@@ -12,18 +12,18 @@
     <Power>1</Power>
     <Knockback>0</Knockback>
     <Lifetime>0</Lifetime>
-    <Energycost>10</Energycost>
+    <Energycost>24</Energycost>
     <Radius>3</Radius>
     <Hp>0</Hp>
-    <Cooldown>5000</Cooldown>
+    <Cooldown>7245</Cooldown>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>0.5</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
     <LifetimeMulti>0.2</LifetimeMulti>
-    <EnergycostMulti>0.22</EnergycostMulti>
-    <RadiusMulti>0.75</RadiusMulti>
+    <EnergycostMulti>0.3</EnergycostMulti>
+    <RadiusMulti>0.6</RadiusMulti>
     <HpMulti>0</HpMulti>
-    <CooldownMulti>0.5</CooldownMulti>
+    <CooldownMulti>0.49</CooldownMulti>
     <AccuracyMulti>1</AccuracyMulti>
   </Values>
   <Upgrade>

@@ -11,19 +11,19 @@
     <Speed>0</Speed>
     <Power>10</Power>
     <Knockback>0</Knockback>
-    <Lifetime>2401</Lifetime>
+    <Lifetime>2110</Lifetime>
     <Energycost>10</Energycost>
     <Radius>1</Radius>
     <Hp>0</Hp>
-    <Cooldown>7300</Cooldown>
+    <Cooldown>7412</Cooldown>
     <SpeedMulti>1</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
-    <LifetimeMulti>0.25</LifetimeMulti>
-    <EnergycostMulti>1</EnergycostMulti>
+    <LifetimeMulti>0.24</LifetimeMulti>
+    <EnergycostMulti>0.65</EnergycostMulti>
     <RadiusMulti>0.01</RadiusMulti>
     <HpMulti>0</HpMulti>
-    <CooldownMulti>0.25</CooldownMulti>
+    <CooldownMulti>0.22</CooldownMulti>
     <AccuracyMulti>1</AccuracyMulti>
   </Values>
   <Upgrade>

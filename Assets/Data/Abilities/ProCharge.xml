@@ -2,21 +2,21 @@
   <Basic>
     <Name>Charge</Name>
     <Sprite>Charge</Sprite>
-    <Cost>10</Cost>
+    <Cost>8</Cost>
   </Basic>
   <Values>
     <Spread>0</Spread>
     <AimDistance>10</AimDistance>
     <AmountOfShots>1</AmountOfShots>
-    <Speed>10</Speed>
+    <Speed>12.5</Speed>
     <Power>0</Power>
     <Knockback>3</Knockback>
-    <Lifetime>2000</Lifetime>
+    <Lifetime>1589</Lifetime>
     <Energycost>18</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
-    <Cooldown>4500</Cooldown>
-    <SpeedMulti>0.35</SpeedMulti>
+    <Cooldown>6148</Cooldown>
+    <SpeedMulti>0.28</SpeedMulti>
     <PowerMulti>1</PowerMulti>
     <KnockbackMulti>0</KnockbackMulti>
     <LifetimeMulti>0</LifetimeMulti>
