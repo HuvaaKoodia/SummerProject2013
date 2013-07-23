@@ -8,10 +8,10 @@
     <Spread>45</Spread>
     <AimDistance>10</AimDistance>
     <AmountOfShots>5</AmountOfShots>
-    <Speed>6.8</Speed>
+    <Speed>10</Speed>
     <Power>7.1</Power>
     <Knockback>1</Knockback>
-    <Lifetime>725</Lifetime>
+    <Lifetime>125</Lifetime>
     <Energycost>25</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>

@@ -11,7 +11,8 @@ public class ProjectileStats : MonoBehaviour {
 		DoubleBarreledFunTime=true,
 		Check_start_collisions=true,
 		Knockback_HAX=true,
-		Start_in_player_pos=false
+		Start_in_player_pos=false,
+		use_in_air=false
 		;
 	
 	public float 

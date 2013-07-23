@@ -51,7 +51,7 @@ public class PlayerAnimations{
 	
 	IEnumerator JumpStart(){
 		jump_start=false;
-		player.freezeWeapons(true);
+		//player.freezeWeapons(true);
 		//graphics.setOverheat(false,true);
 		player.graphics.setFullbody(true);
 		player.graphics.changeFullAnimation("JumpStart");
@@ -76,7 +76,7 @@ public class PlayerAnimations{
 			
 			yield return new WaitForSeconds(player.graphics.Fullbody.animation["JumpEnd"].length);
 		}
-		player.freezeWeapons(false);
+		//player.freezeWeapons(false);
 		player.graphics.setFullbody(false);
 		jump_end=true;
 		jump_has_peaked=false;
@@ -93,7 +93,7 @@ public class PlayerAnimations{
 		player.freezeWeapons(true);
 		player.graphics.setFullbody(true);
 		player.graphics.changeFullAnimation("DashStart");
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.44f);
 		dash_move=true;
 		yield return null;
 	}
@@ -118,10 +118,17 @@ public class PlayerAnimations{
 		player.StartCoroutine(start_knockback_hax(force,0.3f));
 	}
 	
+	public void KNOCKBACKHAX (Vector3 pos,float force,float seconds)
+	{
+		var f=(player.transform.position-pos).normalized*force;
+		player.StartCoroutine(start_knockback_hax(f,seconds));
+	}
+	
 	IEnumerator start_knockback_hax(Vector3 force ,float seconds){
-		if (jumped||dashing) yield return null;
-		player.freezeMovement(true);
+		if (dashing) yield return null;
 		player.transform.rigidbody.velocity=force;
+		
+		player.freezeMovement(true);
 		yield return new WaitForSeconds(seconds);
 		player.freezeMovement(false);
 	}

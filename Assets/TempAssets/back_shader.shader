@@ -17,7 +17,7 @@ _Diffuse("_Diffuse", 2D) = "gray" {}
 		}
 
 		
-Cull Front
+Cull Off
 ZWrite On
 ZTest LEqual
 ColorMask RGBA

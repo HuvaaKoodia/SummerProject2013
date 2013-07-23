@@ -5,7 +5,7 @@ using System.Collections;
 public delegate void OnLastFrame();
 class Sprite_ : MonoBehaviour
 {
-    public int width=128,height=128,image_amount;
+    public int width=128,height=128,image_amount=1;
     public float framesPerSecond = 10f;
  
 	int main_w,main_h,columns,rows;
