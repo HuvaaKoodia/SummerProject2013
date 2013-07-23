@@ -5,7 +5,7 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 	ProjectileMain pro_main;
 	PlayerMain plr_main;
 	Vector3 heading;
-	float force;
+	float force,power;
 	Vector3 speedVector;
 	
 	// Use this for initialization
@@ -14,14 +14,19 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 		plr_main = pro_main.Creator;
 		heading = plr_main.LowerGraphicsDir*Vector3.forward;
 		force=pro_main.mod_stats.Speed;
+		power=pro_main.mod_stats.Power;
 		
 		speedVector=heading * (force / 2f);
 
 		plr_main.DashStart(speedVector);
 	}
 	
-		// Update is called once per frame
+	// Update is called once per frame
 	void Update () {
+		if (!plr_main){
+			Destroy(gameObject);
+			return;
+		}
 		transform.position = plr_main.transform.position;
 	}
 	
@@ -32,10 +37,16 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 	
 	void OnTriggerEnter(Collider other){
 		if(other.gameObject.tag=="Player" && other.gameObject != plr_main.gameObject){
-			Vector3 heading = other.gameObject.transform.position - plr_main.transform.position;
-			heading.y=1f;
-			heading=heading.normalized;
-			other.gameObject.rigidbody.AddForce(heading*10000);
+			var other_p=other.GetComponent<PlayerMain>();
+			//Vector3 heading = other.gameObject.transform.position - plr_main.transform.position;
+			//heading.y=1f;
+			//heading=heading.normalized;
+			
+			other_p.KNOCKBACKHAX(plr_main.transform.position,10,1);
+			other_p.HP-=power;
+			
+			//other.gameObject.rigidbody.AddForce(heading*10000);
+			
 		}
 	}
 }

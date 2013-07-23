@@ -9,7 +9,7 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 		float 
 			dis=mod_stats.Radius,dis_extra=dis+2f;
 		Vector3 
-			dir=player.transform.TransformDirection(player.UpperTorsoDir),
+			dir=player.transform.TransformDirection(player.AimDir),
 			start_pos=player.transform.position
 			;//end_pos=start_pos+dir*dis;
 		

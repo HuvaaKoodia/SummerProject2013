@@ -17,7 +17,6 @@ public class FollowThatHP : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		
 		if(hpToFollow.fillAmount>sprite.fillAmount){
 			sprite.fillAmount=hpToFollow.fillAmount;
 			timer=delay;
@@ -26,8 +25,9 @@ public class FollowThatHP : MonoBehaviour
 			decayTimer=0f;
 			return ;
 		}
-		if (timer <= 0) {
-			if (!decayActive) {
+		
+		if (timer <= 0){
+			if (!decayActive){
 				decayActive = true;
 				decayTimer = 0f;
 			}
@@ -41,12 +41,9 @@ public class FollowThatHP : MonoBehaviour
 				decayTimer += Time.deltaTime;
 				sprite.fillAmount -= (catchUpSpeed * (1 + decayTimer) * Time.deltaTime);
 				
-				if (hpToFollow.fillAmount==0){
-					if (sprite.fillAmount < 0)
-						sprite.fillAmount = 0;
-				} else if (sprite.fillAmount < hpToFollow.fillAmount + fill) {
+				if (sprite.fillAmount < hpToFollow.fillAmount) {
 					
-					sprite.fillAmount = hpToFollow.fillAmount + fill;
+					sprite.fillAmount = hpToFollow.fillAmount;
 				}
 			}
 		}

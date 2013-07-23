@@ -2,25 +2,25 @@
   <Basic>
     <Name>Shotgun</Name>
     <Sprite>Flare</Sprite>
-    <Cost>22</Cost>
+    <Cost>33</Cost>
   </Basic>
   <Values>
     <Spread>45</Spread>
     <AimDistance>10</AimDistance>
     <AmountOfShots>5</AmountOfShots>
-    <Speed>6.8</Speed>
-    <Power>6.8</Power>
+    <Speed>10</Speed>
+    <Power>7.1</Power>
     <Knockback>1</Knockback>
-    <Lifetime>725</Lifetime>
-    <Energycost>21</Energycost>
+    <Lifetime>125</Lifetime>
+    <Energycost>25</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
-    <Cooldown>1235</Cooldown>
+    <Cooldown>855</Cooldown>
     <SpeedMulti>0.42</SpeedMulti>
     <PowerMulti>0.32</PowerMulti>
     <KnockbackMulti>1</KnockbackMulti>
     <LifetimeMulti>1</LifetimeMulti>
-    <EnergycostMulti>0.29</EnergycostMulti>
+    <EnergycostMulti>0.3</EnergycostMulti>
     <RadiusMulti>1</RadiusMulti>
     <HpMulti>0</HpMulti>
     <CooldownMulti>1</CooldownMulti>

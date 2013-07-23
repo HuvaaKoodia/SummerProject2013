@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Ricochet : MonoBehaviour,ProjectileModifier {
 	ProjectileMain projectile;
-	public int random_number;
 	// Use this for initialization
 	void Start () {
 		projectile=transform.GetComponent<ProjectileMain>();

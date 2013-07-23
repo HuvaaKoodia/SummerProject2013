@@ -4,7 +4,8 @@ namespace NotificationSys{
 	// Each notification type should gets its own enum
 	public enum NotificationType {
 		Explode,
-		CameraZoom
+		CameraZoom,
+		HaxKnockback
 	};
 	
 	
@@ -25,6 +26,22 @@ namespace NotificationSys{
 			
 			rbody.AddExplosionForce(Force,Position,Radius);
 		}
+	}
+	
+	public class Knockback_note:Notification
+	{
+	    public Vector3 Position;
+		public float Force,Radius,Seconds;
+		public PlayerMain ignore_this;
+		
+	    public Knockback_note(Vector3 position,float force,float radius,float seconds_disabled,PlayerMain ignore):base(NotificationType.HaxKnockback)
+	    {
+			ignore_this=ignore;
+			Position=position;
+			Force=force;
+			Radius=radius;
+			Seconds=seconds_disabled;
+	    }
 	}
 	
 	public class CameraZoom_note:Notification

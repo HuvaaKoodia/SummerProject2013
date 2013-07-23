@@ -122,6 +122,7 @@ public class PlayerMain : MonoBehaviour
 		controllerNumber=Data.controllerNumber;
 		
 		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
+		NotificationCenter.Instance.addListener(OnKnockback,NotificationType.HaxKnockback);
 	}
 
 	void Update ()
@@ -144,15 +145,16 @@ public class PlayerMain : MonoBehaviour
 				useAbility(2,false);
 			}
 			
-			if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)||Input.GetKey(KeyCode.B)){
+			if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)||Input.GetKey(KeyCode.B)){//DEV.KEY
 				useAbility(1,true);
 			}
 			
-			if (ability_containers.Count > 2 && Input.GetAxis ("Triggers_" + controllerNumber) < 0||Input.GetKey(KeyCode.N)) {
+			if (ability_containers.Count > 2 && Input.GetAxis ("RT_" + controllerNumber) > 0||Input.GetKey(KeyCode.N)) {//DEV.KEY
 				useAbility(3,false);
+				
 			}
 			
-			if (ability_containers.Count > 3 && Input.GetAxis ("Triggers_" + controllerNumber) > 0||Input.GetKey(KeyCode.M)) {
+			if (ability_containers.Count > 3 && Input.GetAxis ("LT_" + controllerNumber) > 0||Input.GetKey(KeyCode.M)) {//DEV.KEY
 				useAbility(0,true);
 			}
 		}
@@ -331,6 +333,13 @@ public class PlayerMain : MonoBehaviour
 		ignoreExplosion=false;
 	}
 	
+	void OnKnockback(Notification note){
+		var n=(Knockback_note)note;
+		if (n.ignore_this!=this){
+			animations.KNOCKBACKHAX(n.Position,n.Force,n.Seconds);
+		}
+	}
+	
 	void OnDestroy ()
 	{
 		Data.Player=null;
@@ -438,6 +447,11 @@ public class PlayerMain : MonoBehaviour
 	void useAbility(int index,bool left_arm){
 		
 		var ps=ability_containers [index].Ability.Ability.GetComponent<ProjectileStats>();
+		//check jumped
+		if (animations.jumped&&!ps.use_in_air){
+			return;
+		}
+		
 		//set pos
 		var pos=graphics.getShootPosition(left_arm);
 		if (ps.DoubleBarreledFunTime)
@@ -477,6 +491,11 @@ public class PlayerMain : MonoBehaviour
 	
 	public void KNOCKBACKHAX(Vector3 force){
 		animations.KNOCKBACKHAX(force);
+		
+	}
+	
+	public void KNOCKBACKHAX(Vector3 pos,float force,float seconds){
+		animations.KNOCKBACKHAX(pos,force,seconds);
 		
 	}
 

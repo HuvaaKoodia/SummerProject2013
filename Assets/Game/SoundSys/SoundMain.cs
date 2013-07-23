@@ -12,20 +12,28 @@ public class SoundMain : MonoBehaviour
 	{
 		//Sound sources, play onAwake if !=null
 		if (sfx != null) {
-			if (sfx.onAwake != null) {
+			if (sfx.onAwake) {
 				onAwake = gameObject.AddComponent<AudioSource> ();
 				onAwake.clip = sfx.onAwake;
 				onAwake.Play ();
 			}
-			if (sfx.onAlive != null) {
+			if (sfx.onAlive) {
 				onAlive = gameObject.AddComponent<AudioSource> ();
 				onAlive.clip = sfx.onAlive;
 				onAlive.loop = true;
-				onAlive.Play ();	
+				onAlive.Play ();
 			}
-			if (sfx.onCollision != null) {
+			if (sfx.onCollision) {
 				onCollision = gameObject.AddComponent<AudioSource> ();
 				onCollision.clip = sfx.onCollision;
+				onCollision.playOnAwake=false;
+			}
+			
+			if (sfx.onDeath){
+				onDeath = gameObject.AddComponent<AudioSource> ();
+				onDeath.clip = sfx.onDeath;
+				onDeath.enabled=true;
+				onDeath.playOnAwake=false;
 			}
 		}
 	}
@@ -33,44 +41,49 @@ public class SoundMain : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (isDetached) {
-			if (onDeath!= null&&!onDeath.isPlaying){
-				Destroy (gameObject);
+		if (isDetached){
+			int off=0;
+			if (onDeath&&onDeath.isPlaying){
+				off++;
 			}
+			if (onCollision&&(onCollision.isPlaying||hax_collision_sound_on)){
+				off++;
+				hax_collision_sound_on=false;
+			}
+			if (onAwake&&onAwake.isPlaying){
+				off++;
+			}
+			
+			if (off==0)
+				Destroy (gameObject);
 		}
 	}
 	
 	public void detach ()
 	{
-		if (sfx != null) {
-			if (sfx.onDeath == null) {
-				return;//no death sound ->don't detach
-			}
-			if (sfx.onDeath!= null)
-			{
-				onDeath = gameObject.AddComponent<AudioSource> ();
-				onDeath.clip = sfx.onDeath;
-				onDeath.enabled=true;
-				onDeath.Play();
-			} 
-			
-		}
-		else
-			return;//no sounds -> don't detach
 		transform.parent = null;
 		playCollisionSound();
 		isDetached = true;
-		onDeath.enabled=true;
-		
-		
+
 		enabled=true;
 		
+		if (onDeath){
+			onDeath.enabled=true;
+			onDeath.Play();
+		}
 		
+		if (onCollision&&hax_collision_sound_on){
+			onCollision.enabled=true;
+			onCollision.Play();
+		}
 	}
+	
+	bool hax_collision_sound_on=false;
 	public void playCollisionSound(){
-		if (onCollision!=null){
+		if (onCollision){
 			if (!onCollision.isPlaying){
 				onCollision.Play ();
+				hax_collision_sound_on=true;
 			}
 		}
 	}

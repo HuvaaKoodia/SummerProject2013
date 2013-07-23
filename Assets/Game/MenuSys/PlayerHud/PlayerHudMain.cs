@@ -48,6 +48,9 @@ public class PlayerHudMain : MonoBehaviour
 		AbilityBarGrid.UpdateGrid ();
 		AbilityPanelGrid.UpdateGrid ();
 		UpgradeGrid.UpdateGrid ();
+		
+		if (playerData.state==PlayerState.ready)
+			state=AbilityMenuState.Bar;
 		changeState (state);
 	}
 	
