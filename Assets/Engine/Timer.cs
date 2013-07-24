@@ -29,6 +29,7 @@ public class Timer{
 	//object
 	public bool Active=false;
 	public float Delay{get{return delay;} set{delay=value/1000;}}
+	public float Percent{get{return tick/delay;}}
 	public float Tick{get{return tick;}}
 	public bool Destroyed{get;private set;}
 	

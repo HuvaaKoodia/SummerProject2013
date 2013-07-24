@@ -122,7 +122,9 @@ public class PlayerAnimations{
 	{
 		var d=player.transform.position-pos;
 		var f=(d).normalized*(force);
-		float ss=Mathf.Max(0, (1-d.magnitude/radius));
+		float ss=1;
+		if (radius>0)
+			ss=Mathf.Max(0, (1-d.magnitude/radius));
 		//f*=ss;
 		//var e=0;
 		//seconds*=ss;
