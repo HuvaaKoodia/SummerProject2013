@@ -118,10 +118,16 @@ public class PlayerAnimations{
 		player.StartCoroutine(start_knockback_hax(force,0.3f));
 	}
 	
-	public void KNOCKBACKHAX (Vector3 pos,float force,float seconds)
+	public void KNOCKBACKHAX (Vector3 pos,float force,float radius,float seconds)
 	{
-		var f=(player.transform.position-pos).normalized*force;
-		player.StartCoroutine(start_knockback_hax(f,seconds));
+		var d=player.transform.position-pos;
+		var f=(d).normalized*(force);
+		float ss=Mathf.Max(0, (1-d.magnitude/radius));
+		//f*=ss;
+		//var e=0;
+		//seconds*=ss;
+		if (ss>0)
+			player.StartCoroutine(start_knockback_hax(f,seconds));
 	}
 	
 	IEnumerator start_knockback_hax(Vector3 force ,float seconds){

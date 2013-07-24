@@ -13,8 +13,6 @@ public class Exploder : MonoBehaviour {
 	}
 	
 	IEnumerator explode(){
-		
-		
 			for (int i=0;i<Random.Range(min_a,max_a);i++){
 	        {
 				Instantiate(explosion_particle,

@@ -12,7 +12,6 @@ public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 	void Start () {
 		explosion=Resources.Load("Explosion") as GameObject;
 		proj_main=GetComponent<ProjectileMain>();
-		
 	}
 
 	void OnDestroy(){
