@@ -18,10 +18,10 @@ public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 		
 		GameObject obj = Instantiate(explosion,transform.position + extraVector,Quaternion.identity) as GameObject;
 		
-/*		var expl = obj.GetComponent<ExplosionScr>();
+		var expl = obj.GetComponent<ExplosionScr1>();
 		
 		expl.radius = proj_main.mod_stats.Radius;
 		expl.force = proj_main.mod_stats.Knockback;
-		*/
+		
 	}
 }

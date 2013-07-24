@@ -180,6 +180,6 @@ public class AbilityContainer{
 
 	public float getCooldownPercent ()
 	{
-		return cooldown.Tick/cooldown.Delay;
+		return cooldown.Percent;
 	}
 }

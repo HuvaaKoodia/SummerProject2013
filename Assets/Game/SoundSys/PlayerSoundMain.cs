@@ -3,16 +3,10 @@ using System.Collections;
 
 public class PlayerSoundMain : MonoBehaviour {
 	
-	public AudioSource walk_source;
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public AudioSource walk_source,shoot_source;
+
+	public void PlayShoot(AudioClip audio){
+		shoot_source.PlayOneShot(audio);
 	}
 	
 	public void PlayWalk(){

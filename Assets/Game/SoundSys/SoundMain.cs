@@ -7,15 +7,17 @@ public class SoundMain : MonoBehaviour
 	public StoreSounds sfx;
 	AudioSource onAwake, onAlive, onDeath, onCollision;
 	bool isDetached = false;
+	bool hax_collision_sound_on=false, hax_awake_sound_on=true;
 	// Use this for initialization
 	void Start ()
 	{
 		//Sound sources, play onAwake if !=null
 		if (sfx != null) {
 			if (sfx.onAwake) {
-				onAwake = gameObject.AddComponent<AudioSource> ();
-				onAwake.clip = sfx.onAwake;
-				onAwake.Play ();
+				//onAwake = gameObject.AddComponent<AudioSource> ();
+				//onAwake.clip = sfx.onAwake;
+				//onAwake.playOnAwake=false;
+				//onAwake.Play ();
 			}
 			if (sfx.onAlive) {
 				onAlive = gameObject.AddComponent<AudioSource> ();
@@ -50,17 +52,31 @@ public class SoundMain : MonoBehaviour
 				off++;
 				hax_collision_sound_on=false;
 			}
-			if (onAwake&&onAwake.isPlaying){
+			if (onAwake&&(onAwake.isPlaying||hax_awake_sound_on)){
 				off++;
+				
+				if (hax_awake_sound_on){
+					//onAwake.Play();
+					//onAwake.timeSamples=awake_time;
+				}
+				
+				hax_awake_sound_on=false;
 			}
 			
 			if (off==0)
 				Destroy (gameObject);
 		}
+		else{
+			if (onAwake){
+				//awake_time=onAwake.timeSamples;
+			}
+		}
 	}
-	
+	int awake_time=0;
 	public void detach ()
 	{
+
+		
 		transform.parent = null;
 		isDetached = true;
 
@@ -75,9 +91,14 @@ public class SoundMain : MonoBehaviour
 			onCollision.enabled=true;
 			onCollision.Play();
 		}
+		
+		if (onAwake){
+			onAwake.enabled=true;
+		}
+
 	}
 	
-	bool hax_collision_sound_on=false;
+	
 	public void playCollisionSound(){
 		if (onCollision){
 			if (!onCollision.isPlaying){

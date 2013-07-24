@@ -9,8 +9,6 @@ public class VolumetricExplosionAnimation : MonoBehaviour {
 	
 	void Start(){
 		transform.localScale=Vector3.one*0.01f;
-		
-		//time_multi=Random.Range(2f,10f);
 	}
 	
 	void Update () {

@@ -451,6 +451,7 @@ public class PlayerMain : MonoBehaviour
 	void useAbility(int index,bool left_arm){
 		
 		var ps=ability_containers [index].Ability.Ability.GetComponent<ProjectileStats>();
+		var ss=ability_containers [index].Ability.Ability.GetComponent<StoreSounds>();
 		//check jumped
 		if (animations.jumped&&!ps.use_in_air){
 			return;
@@ -467,7 +468,13 @@ public class PlayerMain : MonoBehaviour
 				graphics.AnimationShoot();
 			else
 				graphics.AnimationShoot(left_arm);
+			
+		//play awake sound
+		if (ss.onAwake)
+			sounds.PlayShoot(ss.onAwake);
 		}
+	
+
 	}
 	
 	public bool onLegitGround(){
@@ -502,6 +509,8 @@ public class PlayerMain : MonoBehaviour
 		animations.KNOCKBACKHAX(pos,force,radius,seconds);
 		
 	}
+	
+	public bool ReallyDashing{get{return animations.dash_move;}}
 
 }
 #region temp
