@@ -10,7 +10,7 @@
     <AmountOfShots>1</AmountOfShots>
     <Speed>4.9</Speed>
     <Power>32</Power>
-    <Knockback>25000</Knockback>
+    <Knockback>2.5</Knockback>
     <Lifetime>1500</Lifetime>
     <Energycost>35</Energycost>
     <Radius>3.5</Radius>

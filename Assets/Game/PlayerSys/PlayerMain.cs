@@ -121,7 +121,7 @@ public class PlayerMain : MonoBehaviour
 		_Color=Data.color;
 		controllerNumber=Data.controllerNumber;
 		
-		NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
+		//NotificationCenter.Instance.addListener(OnExplosion,NotificationType.Explode);
 		NotificationCenter.Instance.addListener(OnKnockback,NotificationType.HaxKnockback);
 	}
 
@@ -169,6 +169,10 @@ public class PlayerMain : MonoBehaviour
 				OVERHEAT=false;
 				graphics.setOverheat(false,false);
 			}
+		}
+		
+		if (Input.GetKey(KeyCode.C)){//DEV.KEY
+			Data.ResourceAmount+=1000;
 		}
 	}
 	
@@ -336,7 +340,7 @@ public class PlayerMain : MonoBehaviour
 	void OnKnockback(Notification note){
 		var n=(Knockback_note)note;
 		if (n.ignore_this!=this){
-			animations.KNOCKBACKHAX(n.Position,n.Force,n.Seconds);
+			animations.KNOCKBACKHAX(n.Position,n.Force,n.Radius,n.Seconds);
 		}
 	}
 	
@@ -494,8 +498,8 @@ public class PlayerMain : MonoBehaviour
 		
 	}
 	
-	public void KNOCKBACKHAX(Vector3 pos,float force,float seconds){
-		animations.KNOCKBACKHAX(pos,force,seconds);
+	public void KNOCKBACKHAX(Vector3 pos,float force,float radius,float seconds){
+		animations.KNOCKBACKHAX(pos,force,radius,seconds);
 		
 	}
 
