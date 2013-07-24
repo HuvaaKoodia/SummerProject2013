@@ -10,7 +10,7 @@ public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 	
 	// Use this for initialization
 	void Start () {
-		explosion=Resources.Load("Explosion") as GameObject;
+		explosion=Resources.Load("Explosion2") as GameObject;
 		proj_main=GetComponent<ProjectileMain>();
 	}
 
@@ -18,9 +18,10 @@ public class ExplodesOnDestroy : MonoBehaviour,ProjectileModifier {
 		
 		GameObject obj = Instantiate(explosion,transform.position + extraVector,Quaternion.identity) as GameObject;
 		
-		var expl = obj.GetComponent<ExplosionScr>();
+/*		var expl = obj.GetComponent<ExplosionScr>();
 		
 		expl.radius = proj_main.mod_stats.Radius;
 		expl.force = proj_main.mod_stats.Knockback;
+		*/
 	}
 }
