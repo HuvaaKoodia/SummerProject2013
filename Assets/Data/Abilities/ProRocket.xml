@@ -1,7 +1,7 @@
 <Stats>
   <Basic>
     <Name>Basic Missile</Name>
-    <Sprite>Homing</Sprite>
+    <Sprite>Missile</Sprite>
     <Cost>25</Cost>
   </Basic>
   <Values>

@@ -2,7 +2,7 @@
   <Basic>
     <Name>Shotgun</Name>
     <Sprite>Flare</Sprite>
-    <Cost>22</Cost>
+    <Cost>20</Cost>
   </Basic>
   <Values>
     <Spread>45</Spread>
@@ -12,7 +12,7 @@
     <Power>7.1</Power>
     <Knockback>1</Knockback>
     <Lifetime>225</Lifetime>
-    <Energycost>21</Energycost>
+    <Energycost>24</Energycost>
     <Radius>10</Radius>
     <Hp>0</Hp>
     <Cooldown>1235</Cooldown>
