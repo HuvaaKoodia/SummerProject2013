@@ -140,23 +140,47 @@ public class PlayerMain : MonoBehaviour
 		r_axis_y = Input.GetAxis ("R_YAxis_" + controllerNumber);
 		
 		updateRotations();
-		if (!OVERHEAT&&!freeze&&!freeze_weapons){
-			if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)||Input.GetKey(KeyCode.V)){//DEV.KEY
-				useAbility(2,false);
+		if (!OVERHEAT&&!freeze){
+			//button press quick&dirty HAX
+			if (ability_containers.Count > 0 && Input.GetButtonDown ("RB_" + controllerNumber)){
+				useAbilityHAX(2);
 			}
 			
-			if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)||Input.GetKey(KeyCode.B)){//DEV.KEY
-				useAbility(1,true);
+			if (ability_containers.Count > 1 && Input.GetButtonDown ("LB_" + controllerNumber)){
+				useAbilityHAX(1);
 			}
 			
-			if (ability_containers.Count > 2 && Input.GetAxis ("RT_" + controllerNumber) > 0||Input.GetKey(KeyCode.N)) {//DEV.KEY
-				useAbility(3,false);
+			if (haxhax_haxhax1&&ability_containers.Count > 2 && Input.GetAxis ("RT_" + controllerNumber) > 0) {
+				useAbilityHAX(3);
+				haxhax_haxhax1=false;
+			}
+			
+			if (haxhax_haxhax2&&ability_containers.Count > 3 && Input.GetAxis ("LT_" + controllerNumber) > 0) {
+				useAbilityHAX(0);
+				haxhax_haxhax2=false;
+			}
+			
+			//firing
+			
+				if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)||Input.GetKey(KeyCode.V)){//DEV.KEY
+					useAbility(2,false);
+				}
 				
-			}
+				if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)||Input.GetKey(KeyCode.B)){//DEV.KEY
+					useAbility(1,true);
+				}
+				haxhax_haxhax1=true;
+				haxhax_haxhax2=true;
+				if (ability_containers.Count > 2 && Input.GetAxis ("RT_" + controllerNumber) > 0||Input.GetKey(KeyCode.N)) {//DEV.KEY
+					useAbility(3,false);
+					haxhax_haxhax1=false;
+				}
+				
+				if (ability_containers.Count > 3 && Input.GetAxis ("LT_" + controllerNumber) > 0||Input.GetKey(KeyCode.M)) {//DEV.KEY
+					useAbility(0,true);
+					haxhax_haxhax2=false;
+				}
 			
-			if (ability_containers.Count > 3 && Input.GetAxis ("LT_" + controllerNumber) > 0||Input.GetKey(KeyCode.M)) {//DEV.KEY
-				useAbility(0,true);
-			}
 		}
 		//mp regen
 		if (mp_regen_on){
@@ -303,8 +327,6 @@ public class PlayerMain : MonoBehaviour
 		}
 	}
 
-	
-	
 	void OnLegit()
 	{
 		on_legit_ground=true;
@@ -447,8 +469,25 @@ public class PlayerMain : MonoBehaviour
 		if (public_invulnerability<0)
 			public_invulnerability=0;
 	}
+	
+	bool haxhax_haxhax1=false,haxhax_haxhax2=false;
+	
+	void useAbilityHAX(int index){
 		
+		var ps=ability_containers [index].Ability.Ability.GetComponent<ProjectileStats>();
+		
+		
+		if (ability_containers [index].Ability.Ability.name=="ProCharge"){
+			if (animations.dashing){
+				animations.dashEnd();
+				return;
+			}
+		}
+	}
+	
 	void useAbility(int index,bool left_arm){
+		
+		if (freeze_weapons) return;
 		
 		var ps=ability_containers [index].Ability.Ability.GetComponent<ProjectileStats>();
 		var ss=ability_containers [index].Ability.Ability.GetComponent<StoreSounds>();
@@ -456,7 +495,6 @@ public class PlayerMain : MonoBehaviour
 		if (animations.jumped&&!ps.use_in_air){
 			return;
 		}
-		
 		//set pos
 		var pos=graphics.getShootPosition(left_arm);
 		if (ps.DoubleBarreledFunTime)
@@ -512,6 +550,10 @@ public class PlayerMain : MonoBehaviour
 	
 	public bool ReallyDashing{get{return animations.dash_move;}}
 
+	public bool isDashingHAX ()
+	{
+		return animations.dashing;
+	}
 }
 #region temp
 /*DEV. mouse 

@@ -31,7 +31,7 @@ Fog{
 
 
 		CGPROGRAM
-#pragma surface surf BlinnPhongEditor  vertex:vert Lambert alpha
+#pragma surface surf BlinnPhongEditor  vertex:vert alpha
 #pragma target 2.0
 
 
