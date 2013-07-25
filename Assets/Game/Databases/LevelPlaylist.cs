@@ -16,6 +16,7 @@ public class LevelPlaylist : MonoBehaviour {
 	
 	void Start(){
 		CurrentRound=1;
+		current_map=1;
 	}
 	
 	/// <summary>
