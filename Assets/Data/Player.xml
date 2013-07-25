@@ -1,9 +1,9 @@
 <Stats>
   <HP>140</HP>
   <MP>115</MP>
-  <Acceleration>10000</Acceleration>
+  <Acceleration>1000</Acceleration>
   <Jump_speed>6.5</Jump_speed>
-  <Move_speed>1.1</Move_speed>
+  <Move_speed>2.1</Move_speed>
   <Upper_torso_rotation_multi>2.05</Upper_torso_rotation_multi>
   <Lower_torso_rotation_multi>2.6</Lower_torso_rotation_multi>
   <MP_regen_multi>8.5</MP_regen_multi>
