@@ -7,12 +7,17 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 	bool activated = false;
 	public Vector3 extraVector;
 	GameObject boxCollider;
+	
 	// Use this for initialization
 	void Start ()
 	{
 		var exp_pre = Resources.Load ("BoxCollider") as GameObject;
 		boxCollider = Instantiate (exp_pre, transform.position, Quaternion.identity) as GameObject;
 		boxCollider.transform.parent = transform;
+		boxCollider.transform.localScale= new Vector3(0.8f,0.3f,0.8f);
+		
+		
+		
 		var expl_dest = GetComponent<ExplodesOnDestroy>() as ExplodesOnDestroy;
 		expl_dest.extraVector= extraVector;
 		time = new Timer (2000, activateMine);
