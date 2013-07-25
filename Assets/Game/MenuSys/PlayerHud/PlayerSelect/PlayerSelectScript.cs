@@ -50,16 +50,16 @@ public class PlayerSelectScript : MonoBehaviour
 		
 		if (state == PlayerState.notConnected) {
 			setButtonColor(startColor);
-			setActives (false, "Press start", false);
+			setActives (false, ("Press start").ToUpper(), false);
 		}
 		if (state == PlayerState.connected) {
 			setButtonColor(current_color);
-			setActives (true, "Choose color", false);
+			setActives (true, ("Choose color").ToUpper(), false);
 				
 		}
 		if (state == PlayerState.ready) {
 			player.color = current_color;
-			setActives (false, "", true);
+			setActives (false, ("").ToUpper(), true);
 		}
 	}
 	

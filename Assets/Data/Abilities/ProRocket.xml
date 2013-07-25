@@ -14,7 +14,7 @@
     <Lifetime>1500</Lifetime>
     <Energycost>35</Energycost>
     <Radius>3.5</Radius>
-    <Hp>0</Hp>
+    <Hp>12</Hp>
     <Cooldown>3347</Cooldown>
     <SpeedMulti>0.41</SpeedMulti>
     <PowerMulti>0.27</PowerMulti>

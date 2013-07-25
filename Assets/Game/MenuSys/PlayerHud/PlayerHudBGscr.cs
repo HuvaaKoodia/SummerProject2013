@@ -13,15 +13,15 @@ public class PlayerHudBGscr : MonoBehaviour {
 	}
 	
 	public void SetName(string name){
-		name_label.text=name;
+		name_label.text=(name).ToUpper();
 	}
 	
 	public void SetCost(int cost){
-		cost_label.text="Cost [FF4C61]"+cost;
+		cost_label.text=("Cost [FF4C61]"+cost).ToUpper();
 	}
 	
 	public void SetResources(int r){
-		resource_label.text="Resources [FFF242]"+r;
+		resource_label.text=("Resources [FFF242]"+r).ToUpper();
 	}
 	
 	public void NoMoniesWarning(){

@@ -54,6 +54,6 @@ public class UpgradeSliderScr : MonoBehaviour{
 		abilityStats=stats;
 		//update to current value
 		Slider.sliderValue=abilityStats.Data[stat]/10f;
-		NameLabel.text=UpgradeStats.getUpgradeName(stat);
+		NameLabel.text=(UpgradeStats.getUpgradeName(stat)).ToUpper();
 	}
 }
