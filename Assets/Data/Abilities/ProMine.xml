@@ -13,7 +13,7 @@
     <Knockback>6.2</Knockback>
     <Lifetime>-1</Lifetime>
     <Energycost>12</Energycost>
-    <Radius>6</Radius>
+    <Radius>2</Radius>
     <Hp>0</Hp>
     <Cooldown>2500</Cooldown>
     <SpeedMulti>1</SpeedMulti>

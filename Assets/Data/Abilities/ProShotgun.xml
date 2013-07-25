@@ -5,14 +5,14 @@
     <Cost>20</Cost>
   </Basic>
   <Values>
-    <Spread>45</Spread>
+    <Spread>50</Spread>
     <AimDistance>10</AimDistance>
-    <AmountOfShots>5</AmountOfShots>
-    <Speed>7.2</Speed>
-    <Power>7.1</Power>
+    <AmountOfShots>8</AmountOfShots>
+    <Speed>6</Speed>
+    <Power>5</Power>
     <Knockback>1</Knockback>
-    <Lifetime>125</Lifetime>
-    <Energycost>24</Energycost>
+    <Lifetime>250</Lifetime>
+    <Energycost>26</Energycost>
     <Radius>10</Radius>
     <Hp>2</Hp>
     <Cooldown>1235</Cooldown>

@@ -8,8 +8,8 @@ public class ExplosionScr1 : MonoBehaviour
 
 	// Use this for initialization
 	void Start (){
-		NotificationCenter.Instance.sendNotification (new Explosion_note (transform.position, force*10000, radius));
-		NotificationCenter.Instance.sendNotification (new Knockback_note (transform.position, force, radius,seconds,null));
+		NotificationCenter.Instance.sendNotification (new Explosion_note (transform.position+Vector3.down, force*10000, radius));
+		NotificationCenter.Instance.sendNotification (new Knockback_note (transform.position+Vector3.down, force, radius,seconds,null));
 	}
 	
 	

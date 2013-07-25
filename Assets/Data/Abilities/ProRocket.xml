@@ -1,6 +1,6 @@
 <Stats>
   <Basic>
-    <Name>Basic Missile</Name>
+    <Name>Rocket</Name>
     <Sprite>Missile</Sprite>
     <Cost>25</Cost>
   </Basic>
@@ -10,11 +10,11 @@
     <AmountOfShots>1</AmountOfShots>
     <Speed>4.9</Speed>
     <Power>32</Power>
-    <Knockback>2.5</Knockback>
+    <Knockback>4</Knockback>
     <Lifetime>1500</Lifetime>
     <Energycost>35</Energycost>
-    <Radius>3.5</Radius>
-    <Hp>12</Hp>
+    <Radius>2</Radius>
+    <Hp>0</Hp>
     <Cooldown>3347</Cooldown>
     <SpeedMulti>0.41</SpeedMulti>
     <PowerMulti>0.27</PowerMulti>

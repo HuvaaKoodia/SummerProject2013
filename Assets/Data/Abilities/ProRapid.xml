@@ -1,15 +1,15 @@
 <Stats>
   <Basic>
-    <Name>Rapidfire Pro</Name>
+    <Name>Penetrator</Name>
     <Sprite>Rapid</Sprite>
     <Cost>10</Cost>
   </Basic>
   <Values>
-    <Spread>35</Spread>
+    <Spread>38</Spread>
     <AimDistance>10</AimDistance>
     <AmountOfShots>1</AmountOfShots>
     <Speed>4.2</Speed>
-    <Power>7</Power>
+    <Power>6</Power>
     <Knockback>1.3</Knockback>
     <Lifetime>1566</Lifetime>
     <Energycost>6</Energycost>
