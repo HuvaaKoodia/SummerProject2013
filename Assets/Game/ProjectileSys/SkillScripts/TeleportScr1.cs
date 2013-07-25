@@ -75,7 +75,15 @@ public class TeleportScr1 :MonoBehaviour, SkillScript {
 			}
 			*/
 		}
-		if (jump)
+		if (jump){
+			var start=Resources.Load("TeleStart") as GameObject;
+			var end=Resources.Load("TeleEnd") as GameObject;
+			
+			Instantiate(start,player.transform.position,Quaternion.identity);
+				
 			player.transform.position=ray.GetPoint(current_warp_dis);
+			
+			Instantiate(end,player.transform.position,Quaternion.identity);
+		}
 	}
 }

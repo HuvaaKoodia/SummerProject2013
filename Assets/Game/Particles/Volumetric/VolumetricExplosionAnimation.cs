@@ -3,12 +3,23 @@ using System.Collections;
 
 public class VolumetricExplosionAnimation : MonoBehaviour {
 	
-	public float interference_multi=1f,color_fade_multi=0.000001f,graphic_fade_multi=2f,scale_multi=0.05f,speed_multi=2f;
+	public bool reverse_scale=false;
 	
-	float time=0;
+	public float 
+		max_scale=1,
+		interference_multi=1f,color_fade_multi=0.000001f,graphic_fade_multi=2f,scale_multi=0.05f,speed_multi=2f;
+	
+	public float scale_start=0,graphic_fade_start=1;
+	
+	float time=0,scale_temp;
+	
 	
 	void Start(){
-		transform.localScale=Vector3.one*0.01f;
+		scale_temp=scale_start;
+		if (reverse_scale)
+			scale_temp=max_scale-0.01f;
+		
+		transform.localScale=Vector3.one*scale_temp;
 	}
 	
 	void Update () {
@@ -31,12 +42,16 @@ public class VolumetricExplosionAnimation : MonoBehaviour {
 		
 		renderer.material.SetVector("_Range", new Vector4(min,max,0,0));
 		
-		float clip=Mathf.Max(0,1-time*graphic_fade_multi);
+		float clip=Mathf.Max(0,graphic_fade_start-time*graphic_fade_multi);
 		renderer.material.SetFloat("_ClipRange",clip);
-		
-		float scale=((time*scale_multi));
-		transform.localScale=(Vector3.one*scale);
-		
+			
+		if (reverse_scale)
+			scale_temp-=(scale_temp-scale_start)*scale_multi*speed_multi;
+		else
+			scale_temp+=(max_scale-scale_temp)*scale_multi*speed_multi;
+
+		transform.localScale=Vector3.one*scale_temp;
+			
 		if (clip==0||transform.localScale.magnitude<0)
 			Destroy(gameObject);
 	}

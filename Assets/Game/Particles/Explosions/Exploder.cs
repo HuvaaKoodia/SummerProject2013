@@ -23,14 +23,16 @@ public class Exploder : MonoBehaviour
 				) as GameObject;
 				var ve = p.GetComponent<VolumetricExplosionAnimation> ();
 				
-				ve.speed_multi = Random.Range (2f, 10f);
-				ve.color_fade_multi=0.1f;
-				ve.graphic_fade_multi=0.15f;
-				ve.interference_multi=0.15f;
-				ve.scale_multi=0.35f;
+				ve.speed_multi += Random.Range (0, 2f);
+				ve.max_scale=Random.Range (1f, 2f);
+				ve.color_fade_multi*=Random.Range (0.9f,1.1f);
+				ve.graphic_fade_multi*=Random.Range (0.9f,1.1f);
+				ve.interference_multi*=Random.Range (0.9f,1.1f);
+				ve.scale_multi*=Random.Range (0.9f,1.1f);
 				
 				yield return new WaitForSeconds(Random.Range(min_time,max_time));
 			}
 		}
+		Destroy(gameObject);
 	}
 }
