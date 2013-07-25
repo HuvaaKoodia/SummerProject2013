@@ -31,6 +31,10 @@ public class Charge : MonoBehaviour, ProjectileModifier {
 			Destroy(gameObject);
 			return;
 		}
+		if (!player.isDashingHAX()){
+			Destroy(gameObject);
+			return;
+		}
 		transform.position = player.transform.position;
 	}
 	
