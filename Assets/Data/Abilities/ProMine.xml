@@ -33,7 +33,7 @@
     <Knockback>true</Knockback>
     <Cooldown>true</Cooldown>
     <Radius>true</Radius>
-    <Lifetime>true</Lifetime>
+    <Lifetime>false</Lifetime>
     <EnergyCost>true</EnergyCost>
     <HP>false</HP>
   </Upgrade>

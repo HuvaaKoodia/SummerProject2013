@@ -206,7 +206,7 @@ public class GameController : MonoBehaviour {
 			int playerCount=0;
 			
 			foreach(var pata in playerManager.pDB.players){
-				if(pata.state!=PlayerState.notConnected){
+				if(pata.state==PlayerState.ready){
 					playerCount++;
 				}
 			}

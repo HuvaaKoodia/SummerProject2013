@@ -13,7 +13,7 @@
     <Knockback>0</Knockback>
     <Lifetime>5000</Lifetime>
     <Energycost>32</Energycost>
-    <Radius>0</Radius>
+    <Radius>1</Radius>
     <Hp>0</Hp>
     <Cooldown>12000</Cooldown>
     <SpeedMulti>1</SpeedMulti>
@@ -32,7 +32,7 @@
     <Power>false</Power>
     <Knockback>false</Knockback>
     <Cooldown>false</Cooldown>
-    <Radius>false</Radius>
+    <Radius>true</Radius>
     <Lifetime>true</Lifetime>
     <EnergyCost>true</EnergyCost>
     <HP>false</HP>

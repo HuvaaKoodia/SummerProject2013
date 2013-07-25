@@ -470,7 +470,8 @@ public class PlayerMain : MonoBehaviour
 				graphics.AnimationShoot(left_arm);
 			
 		//play awake sound
-		if (ss.onAwake)
+		if (ss&&ss.onAwake)
+				
 			sounds.PlayShoot(ss.onAwake);
 		}
 	
