@@ -17,11 +17,11 @@ public class StartgameCounter : MonoBehaviour {
 	}
 	
 	public void setRound(int round){
-		round_label.text="Round "+round;
+		round_label.text=("Round "+round).ToUpper();
 	}
 
 	public void setTime(float time)
 	{
-		time_label.text=""+time;
+		time_label.text=(""+time).ToUpper();
 	}
 }
