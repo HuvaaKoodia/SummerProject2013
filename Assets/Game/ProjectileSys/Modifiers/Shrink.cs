@@ -5,9 +5,7 @@ public class Shrink : MonoBehaviour,ProjectileModifier {
 	
 	public float speed_multi=0.1f;
 	// Use this for initialization
-	void Start () {
-		
-	}
+	
 	
 	// Update is called once per frame
 	void Update (){

@@ -162,21 +162,21 @@ public class PlayerMain : MonoBehaviour
 			
 			//firing
 			
-				if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)||Input.GetKey(KeyCode.V)){//DEV.KEY
+				if (ability_containers.Count > 0 && Input.GetButton ("RB_" + controllerNumber)){
 					useAbility(2,false);
 				}
 				
-				if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)||Input.GetKey(KeyCode.B)){//DEV.KEY
+				if (ability_containers.Count > 1 && Input.GetButton ("LB_" + controllerNumber)){
 					useAbility(1,true);
 				}
 				haxhax_haxhax1=true;
 				haxhax_haxhax2=true;
-				if (ability_containers.Count > 2 && Input.GetAxis ("RT_" + controllerNumber) > 0||Input.GetKey(KeyCode.N)) {//DEV.KEY
+				if (ability_containers.Count > 2 && Input.GetAxis ("RT_" + controllerNumber) > 0) {
 					useAbility(3,false);
 					haxhax_haxhax1=false;
 				}
 				
-				if (ability_containers.Count > 3 && Input.GetAxis ("LT_" + controllerNumber) > 0||Input.GetKey(KeyCode.M)) {//DEV.KEY
+				if (ability_containers.Count > 3 && Input.GetAxis ("LT_" + controllerNumber) > 0) {
 					useAbility(0,true);
 					haxhax_haxhax2=false;
 				}

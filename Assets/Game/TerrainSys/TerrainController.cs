@@ -170,10 +170,10 @@ public class TerrainController : MonoBehaviour {
 			tg.Update();
 		}
 		
-		//DEV!!!
+		/*//DEV!!!
 		if (Input.GetKeyDown(KeyCode.Space)){
 			Activate(!terrain_timer.Active);
-		}
+		}*/
 	}
 	
 	private int current_group_to_go=0;

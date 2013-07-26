@@ -38,8 +38,8 @@ public class AbilityContainer{
 		)return false;
 		
 		//DEV.DEBUG!
-		ProStats = ability_prefab.GetComponent<ProjectileStats>();;
-		sfx = ability_prefab.GetComponent<StoreSounds>();
+		//ProStats = ability_prefab.GetComponent<ProjectileStats>();;
+		//sfx = ability_prefab.GetComponent<StoreSounds>();
 		//DEV.END
 		
 		

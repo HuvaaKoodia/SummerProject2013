@@ -72,7 +72,7 @@ public class SoundMain : MonoBehaviour
 			}
 		}
 	}
-	int awake_time=0;
+	//int awake_time=0;
 	public void detach ()
 	{
 

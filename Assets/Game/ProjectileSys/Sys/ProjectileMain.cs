@@ -78,7 +78,7 @@ public class ProjectileMain : MonoBehaviour {
 	
 	float oldSpeedMulti=1f;
 
-	//DEV.
+	
 	public void changeMaterialColor(Color color){
 		graphics.renderer.material.SetColor("_Color",color);
 		

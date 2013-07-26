@@ -9,10 +9,7 @@ public class MenuScaler : MonoBehaviour {
 		scaleTrix(base_w, base_h);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	
 	
 	void scaleTrix(float x, float y){
 		float radnom_tar=(y/x)*Camera.main.aspect;

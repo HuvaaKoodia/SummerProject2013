@@ -5,10 +5,6 @@ public class Enlarge : MonoBehaviour,ProjectileModifier {
 
 	public float speed_multi=0.25f;
 	
-	// Use this for initialization
-	void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update (){
