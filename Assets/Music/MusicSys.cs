@@ -39,7 +39,7 @@ public class MusicSys : MonoBehaviour {
 		StartCoroutine(volumeChange(0.1f,1f,music_volume));
 	}
 	public void VolumeDec(){
-		source.volume=music_volume;
+		//source.volume=music_volume;
 		StartCoroutine(volumeChange(-0.1f,0.2f,0f));
 	}
 	
