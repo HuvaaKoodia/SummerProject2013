@@ -194,10 +194,6 @@ public class PlayerMain : MonoBehaviour
 				graphics.setOverheat(false,false);
 			}
 		}
-		
-		if (Input.GetKey(KeyCode.C)){//DEV.KEY
-			Data.ResourceAmount+=1000;
-		}
 	}
 	
 	// Update is called once per frame
