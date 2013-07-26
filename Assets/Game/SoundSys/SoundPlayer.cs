@@ -11,10 +11,6 @@ public class SoundPlayer : MonoBehaviour {
 	sfx = gameObject.AddComponent<AudioSource>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 	public void playCancel(){
 		sfx.clip=menuCancel;
 		sfx.Play();

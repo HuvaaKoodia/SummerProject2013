@@ -6,15 +6,7 @@ public class PlayerParticles : MonoBehaviour {
 	public ParticleSystem[] overheat_particles;
 	public GameObject exploder,stomp_smoke;
 	
-	// Use this for initialization
-	void Start () {
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 	
 	public void setOverheat(bool on,bool clear){
 		foreach (var p in overheat_particles){

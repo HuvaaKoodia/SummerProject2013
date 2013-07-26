@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour {
 		}
 		
 		if (State==GameState.GameOn){
-			//check players
+			//check	 players
 			int playing=0,alive=0;
 			
 			foreach (var p in playerManager.pDB.players){
@@ -161,7 +161,7 @@ public class GameController : MonoBehaviour {
 		if (Input.GetButton("Start_"+controllerNumber)){
 			//next round or post game stats
 			var lvlDB=GameObject.FindGameObjectWithTag("LevelPlaylist");
-			if (lvlDB==null){//DEV.DEBUG
+			if (lvlDB==null){
 				Application.LoadLevel(Application.loadedLevel);
 			}
 			else{

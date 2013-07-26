@@ -32,12 +32,7 @@ public class PlayerDatabase : MonoBehaviour
 		players.Add(new PlayerData (abilitiesDB,3,Color.green));
 		players.Add(new PlayerData (abilitiesDB,4,Color.yellow));
 		
-		//DEV.temp
-		/*players [0].color = Color.blue;
-		players [1].color = Color.red;
-		players [2].color = Color.green;
-		players [3].color = Color.yellow;
-		*/
+		
 	}
 }
 

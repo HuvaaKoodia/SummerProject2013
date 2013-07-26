@@ -20,9 +20,5 @@ public class AoePush : MonoBehaviour,ProjectileModifier {
 		NotificationCenter.Instance.sendNotification (new Knockback_note (plr.transform.position, force, radius,1f,null));
 	} 
 	
-	// Update is called once per frame
-	void Update () {
-
-		//Destroy(gameObject);
-	}
+	
 }
