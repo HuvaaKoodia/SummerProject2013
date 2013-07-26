@@ -85,7 +85,7 @@ public class PlayerSelectScript : MonoBehaviour
 	
 	void Update ()
 	{
-		if (Input.GetButtonDown ("Start_" + (controller))||Input.GetButtonDown ("A_" + (controller))||Input.GetKey(KeyCode.K)) {//DEV.key
+		if (Input.GetButtonDown ("Start_" + (controller))||Input.GetButtonDown ("A_" + (controller))) {
 			if (player.state != PlayerState.ready){
 				stateUpdate (1);
 				sfxr.playSelect();

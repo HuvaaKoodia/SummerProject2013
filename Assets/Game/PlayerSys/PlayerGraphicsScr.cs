@@ -5,6 +5,8 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	
 	public Transform Mecha,LowerTorso,UpperTorso,LowerPelvis,ExplosionDummy,Fullbody,left_cannon,right_cannon;
 	
+	public GameObject dash_flames;
+	
 	public PlayerParticles particles;
 	
 	// Use this for initialization
@@ -144,5 +146,9 @@ public class PlayerGraphicsScr : MonoBehaviour {
 	
 	public void setOverheat(bool on,bool clear){
 		particles.setOverheat(on,clear);
+	}
+	
+	public void SetFlames(bool on){
+		dash_flames.SetActive(on);
 	}
 }

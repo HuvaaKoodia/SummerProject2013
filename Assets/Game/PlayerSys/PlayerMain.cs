@@ -531,11 +531,13 @@ public class PlayerMain : MonoBehaviour
 	public void DashStart(Vector3 velocity)
 	{
 		animations.dashStart(velocity);
+		graphics.SetFlames(true);
 	}
 	
 	public void DashEnd()
 	{
 		animations.dashEnd();
+		graphics.SetFlames(false);
 	}
 	
 	public void KNOCKBACKHAX(Vector3 force){
