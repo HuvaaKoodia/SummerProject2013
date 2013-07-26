@@ -6,15 +6,15 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 	Timer time;
 	bool activated = false;
 	public Vector3 extraVector;
-	GameObject boxCollider;
+	//GameObject boxCollider;
 	
 	// Use this for initialization
 	void Start ()
 	{
-		var exp_pre = Resources.Load ("BoxCollider") as GameObject;
-		boxCollider = Instantiate (exp_pre, transform.position, Quaternion.identity) as GameObject;
-		boxCollider.transform.parent = transform;
-		boxCollider.transform.localScale= new Vector3(0.8f,0.3f,0.8f);
+	//	var exp_pre = Resources.Load ("BoxCollider") as GameObject;
+	//	boxCollider = Instantiate (exp_pre, transform.position, Quaternion.identity) as GameObject;
+	//	boxCollider.transform.parent = transform;
+	//	boxCollider.transform.localScale= new Vector3(0.8f,0.3f,0.8f);
 		
 		
 		
@@ -33,19 +33,19 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 			rigidbody.collisionDetectionMode = CollisionDetectionMode.Discrete;
 	}
 	
-	void OnTriggerStay (Collider other)
+	/*void OnTriggerStay (Collider other)
 	{
 		if (activated){
 			if (other.gameObject.tag == "Player") {
 				Destroy (gameObject);
 			}
 		}
-	}
+	}*/
 	
 	void OnCollisionEnter (Collision other)
 	{
 		if (activated){
-			if (other.gameObject.tag == "Projectile") {
+			if (other.gameObject.tag == "Projectile"||other.gameObject.tag=="Player") {
 				Destroy (gameObject);
 			}
 		}
@@ -53,6 +53,7 @@ public class ProximityExplosive : MonoBehaviour,ProjectileModifier
 
 	void activateMine ()
 	{
+		gameObject.layer=LayerMask.NameToLayer("Projectile");
 		activated = true;
 	}
 	
