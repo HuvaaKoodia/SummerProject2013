@@ -1,6 +1,6 @@
 <Stats>
   <Basic>
-    <Name>IR-grenade</Name>
+    <Name>Bouncy grenade</Name>
     <Sprite>Bouncy</Sprite>
     <Cost>8</Cost>
   </Basic>
@@ -9,10 +9,10 @@
     <AimDistance>0</AimDistance>
     <AmountOfShots>1</AmountOfShots>
     <Speed>3.3</Speed>
-    <Power>18</Power>
+    <Power>16</Power>
     <Knockback>3</Knockback>
     <Lifetime>3500</Lifetime>
-    <Energycost>20</Energycost>
+    <Energycost>40</Energycost>
     <Radius>3</Radius>
     <Hp>100</Hp>
     <Cooldown>1000</Cooldown>

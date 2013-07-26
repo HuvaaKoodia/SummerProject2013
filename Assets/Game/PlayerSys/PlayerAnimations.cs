@@ -73,6 +73,7 @@ public class PlayerAnimations{
 			//lil aoe
 			NotificationCenter.Instance.sendNotification(new Explosion_note(player.transform.position+player.transform.TransformDirection(Vector3.down),10000f,3f));
 			player.graphics.particles.STOMP();
+			player.sounds.StompSound();
 			
 			yield return new WaitForSeconds(player.graphics.Fullbody.animation["JumpEnd"].length);
 		}

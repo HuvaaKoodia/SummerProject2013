@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour {
 	public PlayerManager playerManager;
 	public TerrainController terrainController;
 	
+	MusicSys music_sys;
 	
 	LevelPlaylist level_stats;
 	GameplayStats stats;
@@ -31,6 +32,10 @@ public class GameController : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start (){
+		var mus=GameObject.FindGameObjectWithTag("MusicSys");
+		if (mus)
+			music_sys=mus.GetComponent<MusicSys>();
+		
 		level_stats=GameObject.FindGameObjectWithTag("LevelPlaylist").GetComponent<LevelPlaylist>();
 		
 		gameoverPanel.gameObject.SetActive(false);
@@ -47,6 +52,8 @@ public class GameController : MonoBehaviour {
 		scores.Add(stats.Score_third);
 		scores.Add(stats.Score_fourth);
 		
+		if (music_sys)
+			music_sys.StopCurrent();
 	}
 	PlayerData winner=null;
 	// Update is called once per frame
@@ -199,6 +206,9 @@ public class GameController : MonoBehaviour {
 					p.Hud.gameObject.SetActive(false);
 			}
 		}
+		
+		if (music_sys)
+			music_sys.StartGameTrack();
 	}
 	
 	public void startCounter(bool start){

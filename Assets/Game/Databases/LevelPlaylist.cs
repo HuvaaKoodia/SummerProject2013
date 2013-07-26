@@ -35,6 +35,10 @@ public class LevelPlaylist : MonoBehaviour {
 		Application.LoadLevel(getScene());
 	}
 	
+	public void gotoCurrentMap(){
+		Application.LoadLevel(getScene());
+	}
+	
 	public string getCurrentSceneName()
 	{
 		return Scene_list[current_map];

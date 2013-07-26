@@ -509,7 +509,6 @@ public class PlayerMain : MonoBehaviour
 			
 		//play awake sound
 		if (ss&&ss.onAwake)
-				
 			sounds.PlayShoot(ss.onAwake);
 		}
 	

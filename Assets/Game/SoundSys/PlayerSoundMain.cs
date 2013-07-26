@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerSoundMain : MonoBehaviour {
 	
-	public AudioSource walk_source,shoot_source;
+	public AudioSource walk_source,shoot_source,stomp_source;
 
 	public void PlayShoot(AudioClip audio){
 		shoot_source.PlayOneShot(audio);
@@ -15,5 +15,9 @@ public class PlayerSoundMain : MonoBehaviour {
 	}
 	public void StopWalk(){
 		walk_source.Stop();
+	}
+	
+	public void StompSound(){
+		stomp_source.Play();
 	}
 }
