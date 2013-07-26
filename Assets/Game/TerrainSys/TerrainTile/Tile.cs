@@ -6,10 +6,15 @@ public class Tile : MonoBehaviour {
 	Vector3 coor;
 	public TileData Tile_Group{get;private set;}
 	public TileData Tile_Data{get;private set;}
-
+	bool turnColor = false;
+	Color startColor;
+	public GameObject gfx;
+	float colorTimer=0f;
+	
 	// Use this for initialization
 	void Awake () {
 		Tile_Data=new TileData(transform.position,0);
+		startColor = gfx.transform.renderer.material.color;
 	}
 
 	// Update is called once per frame
@@ -23,8 +28,21 @@ public class Tile : MonoBehaviour {
 		if (Tile_Data!=null){
 			pos_y+=Tile_Data.Position.y;
 		}
+		if(turnColor){
+			colorTimer+=Time.deltaTime;
+			Debug.Log(gfx.transform.renderer.material.color);
+			gfx.transform.renderer.material.color =new Color(Mathf.Max(Mathf.Abs(Mathf.Sin(colorTimer*1.1f)),startColor.r), Mathf.Max(Mathf.Abs(Mathf.Sin(colorTimer*1.1f)),startColor.g),Mathf.Max(Mathf.Abs(Mathf.Sin(colorTimer*1.1f)),startColor.b));
+		}
 		
-		transform.position=new Vector3(transform.position.x,pos_y,transform.position.z);
+			transform.position=new Vector3(transform.position.x,pos_y,transform.position.z);
+	}
+	public void startWarningRoutine(){
+		turnColor=true;
+		colorTimer=0f;
+	}
+	public void stopWarningRoutine(){
+		turnColor=false;
+		gfx.renderer.material.color=startColor;
 	}
 	
 	//subs
@@ -173,6 +191,7 @@ public class TileData{
 		
 		randomizeDelay();
 	}
+	
 	
 	public void OnTimerRandomDown(){
 		MoveDown(200f);

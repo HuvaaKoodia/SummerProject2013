@@ -182,6 +182,16 @@ public class TerrainController : MonoBehaviour {
 			//jitter
 			if (current_group_to_go+1<tile_groups.Count){
 				tile_groups[current_group_to_go+1].Activate(true);
+				
+				foreach (var t in tiles){
+					if (!t.gameObject.activeSelf) continue;
+					if (t.Tile_Group==null) continue;
+					//DEV. list in group? Too static? Could make a cascade!
+					if (t.Tile_Group.tile_group==tile_groups[current_group_to_go+1].tile_group){
+						
+						t.startWarningRoutine();
+					}
+				}
 			}
 			
 			
@@ -195,6 +205,7 @@ public class TerrainController : MonoBehaviour {
 					//DEV. list in group? Too static? Could make a cascade!
 					if (t.Tile_Group.tile_group==tile_groups[current_group_to_go].tile_group){
 						t.Tile_Data.SetOnTimerRandomDown();
+						t.stopWarningRoutine();
 					}
 				}
 			}
