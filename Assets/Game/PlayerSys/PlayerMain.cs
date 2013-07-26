@@ -86,7 +86,6 @@ public class PlayerMain : MonoBehaviour
 	float MP_regen_multi=5f,Lower_torso_rotation_deadzone=0.3f;
 	float l_axis_x, l_axis_y, r_axis_x, r_axis_y;
 
-	
 	float regen_multi=-1;
 	
 	int public_invulnerability=0;
@@ -103,7 +102,6 @@ public class PlayerMain : MonoBehaviour
 		legit_timer = new Timer(888, OnLegit);
 		onGround_timer= new Timer(200, OnGroundTimer);
 		mp_regen_timer= new Timer(stats.MP_regen_delay, OnMPregenTimer);
-		
 		
 		hp=stats.HP;
 		mp=stats.MP;

@@ -15,13 +15,7 @@ public class EngineController : MonoBehaviour {
 		Timer.UpdateTimers();
 		
 		if (Input.GetKey(KeyCode.T)){
-			int level=0;
-			for (int i=(int)KeyCode.Alpha0;i<=(int)KeyCode.Alpha9;i++){
-				if (Input.GetKeyDown((KeyCode)i)){
-					Application.LoadLevel(level);
-				}
-				level++;
-			}
+			Application.LoadLevel("TitleScene");
 		}
 		if (Input.GetKeyDown(KeyCode.R)){
 			Application.LoadLevel(Application.loadedLevel);
