@@ -30,7 +30,6 @@ public class Tile : MonoBehaviour {
 		}
 		if(turnColor){
 			colorTimer+=Time.deltaTime;
-			Debug.Log(gfx.transform.renderer.material.color);
 			gfx.transform.renderer.material.color =new Color(Mathf.Max(Mathf.Abs(Mathf.Sin(colorTimer*1.1f)),startColor.r), Mathf.Max(Mathf.Abs(Mathf.Sin(colorTimer*1.1f)),startColor.g),Mathf.Max(Mathf.Abs(Mathf.Sin(colorTimer*1.1f)),startColor.b));
 		}
 		
