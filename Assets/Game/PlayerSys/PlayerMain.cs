@@ -554,6 +554,11 @@ public class PlayerMain : MonoBehaviour
 	{
 		return animations.dashing;
 	}
+
+	public bool isJumping ()
+	{
+		return animations.jumped;
+	}
 }
 #region temp
 /*DEV. mouse 

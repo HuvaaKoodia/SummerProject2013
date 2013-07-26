@@ -23,6 +23,9 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 			Destroy(gameObject);
 			return;
 		}
+		if(plr_main.isJumping()){
+			Destroy(gameObject);
+		}
 		plr_main.MPregenReset();
 		
 		//ignore projectiles
@@ -30,7 +33,9 @@ public class ImShootingMahLazer : MonoBehaviour,ProjectileModifier {
 		mask=~mask;
 		Physics.Raycast(new Ray(plr_main.transform.position,plr_main.UpperTorsoDir),out hitInfo , lenght,mask);
 		
+		
 		line_rend.SetPosition(0, plr_main.transform.position+new Vector3(0f,0.5f,0f));
+		transform.position = plr_main.transform.position+new Vector3(0f,0.5f,0f);
 		if(hitInfo.collider!=null&&hitInfo.collider.gameObject.tag!="Gib"){
 			line_rend.SetPosition(1, hitInfo.point);
 			if (hitInfo.collider.gameObject.tag=="Player"){
