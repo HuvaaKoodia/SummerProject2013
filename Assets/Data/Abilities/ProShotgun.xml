@@ -1,7 +1,7 @@
 <Stats>
   <Basic>
     <Name>Shotgun</Name>
-    <Sprite>Flare</Sprite>
+    <Sprite>Shotgun</Sprite>
     <Cost>20</Cost>
   </Basic>
   <Values>
