@@ -16,5 +16,16 @@ public class PressStartToGOTO : MonoBehaviour {
 				Application.LoadLevel(Level);
 			}
 		}
+		
+		if (Input.GetKeyDown(KeyCode.Escape)){
+			Application.Quit();
+		}
+		
+		if (Input.GetKeyDown(KeyCode.Return)){
+			Application.LoadLevel(Level);
+		}
+		
+		
+		
 	}
 }
