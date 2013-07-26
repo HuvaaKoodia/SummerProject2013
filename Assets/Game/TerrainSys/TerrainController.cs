@@ -40,6 +40,8 @@ public class TerrainController : MonoBehaviour {
 		
 		mesh_bounds=tile_mesh.renderer.bounds;
 		main_camera=GameObject.Find("Main Camera").GetComponent<CameraScript>();
+		main_camera.DetachPlane();
+		
 		
 		var hexa_size=mesh_bounds.size;
 		
@@ -95,6 +97,8 @@ public class TerrainController : MonoBehaviour {
 		center_point=terrain[xx,yy].getCoordinate();
 		var radius=xx-1;
 		
+		
+		
 		for (int i=0;i<terrain.GetLength(0);i++)
 		{
 			for (int j=0;j<terrain.GetLength(1);j++)
@@ -123,7 +127,9 @@ public class TerrainController : MonoBehaviour {
 		}
 		terrain[xx,yy].setTileGroup(null);//center not moving
 		terrain[xx,yy].Tile_Data.Activate(false);
-
+		
+		main_camera.setMiddlePos(terrain[xx,yy].transform.position);
+		
 		terrain_timer=new Timer(stats.Terrain_deterioration_time,OnTerrainTrigger);
 		
 		//main_camera.transform.position=new Vector3(terrain[xx,yy].transform.position.x,main_camera.transform.position.y,main_camera.transform.position.z);

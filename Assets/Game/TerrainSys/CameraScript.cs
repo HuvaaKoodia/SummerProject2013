@@ -55,7 +55,10 @@ public class CameraScript : MonoBehaviour {
 		
 	public void OnZoomNote(Notification note){
 		var n=(CameraZoom_note)note;
-		if (n.Target==null){
+		if (n.haxhax_middlezoom_haxhax){
+			move_to_pos+=transform.rotation*Vector3.forward*Vector3.Distance(look_at_pos,middle_pos)*n.Amount;
+		}
+		else if (n.Target==null){
 			LookAt(Vector3.up*0.3f);
 			move_to_pos+=transform.rotation*Vector3.forward*Vector3.Distance(look_at_pos,transform.position)*n.Amount;
 		}else{
@@ -70,5 +73,13 @@ public class CameraScript : MonoBehaviour {
 		var plane=transform.Find("Plane");
 		if (plane==null) return;
 		plane.transform.parent=null;
+	}
+	
+	
+	Vector3 middle_pos;
+	
+	public void setMiddlePos (Vector3 position)
+	{
+		middle_pos=position;
 	}
 }

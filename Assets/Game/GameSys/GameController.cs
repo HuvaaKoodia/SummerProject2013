@@ -127,6 +127,8 @@ public class GameController : MonoBehaviour {
 					terrainController.Activate(false);
 					terrainController.LowerTerrain();
 					//NotificationCenter.Instance.sendNotification(new CameraZoom_note(5f,winner.Player.transform));
+					
+					NotificationCenter.Instance.sendNotification(new CameraZoom_note(0.95f,true));
 				}
 			}
 			
@@ -139,7 +141,6 @@ public class GameController : MonoBehaviour {
 				gameoverPanel.setTie();
 				
 				terrainController.Activate(false);
-				//NotificationCenter.Instance.sendNotification(new CameraZoom_note(5f,winner.Player.transform));
 			}
 		}
 		if (State==GameState.Gameover){

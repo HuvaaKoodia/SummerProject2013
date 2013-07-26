@@ -48,6 +48,7 @@ namespace NotificationSys{
 	{
 	    public float Amount;
 		public Transform Target;
+		public bool haxhax_middlezoom_haxhax=false;
 		
 	    public CameraZoom_note(float amount):base(NotificationType.CameraZoom)
 	    {
@@ -57,6 +58,12 @@ namespace NotificationSys{
 	    {
 			Amount=amount;
 			Target=target;
+	    }
+		
+		public CameraZoom_note(float amount,bool middlehax):base(NotificationType.CameraZoom)
+	    {
+			Amount=amount;
+			haxhax_middlezoom_haxhax=middlehax;
 	    }
 	}
 }
